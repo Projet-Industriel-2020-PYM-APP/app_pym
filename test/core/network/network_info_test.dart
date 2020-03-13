@@ -1,7 +1,7 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:flutter_architecture_template/core/network/network_info.dart';
+import 'package:app_pym/core/network/network_info.dart';
 
 void main() {
   NetworkInfoImpl networkInfo;

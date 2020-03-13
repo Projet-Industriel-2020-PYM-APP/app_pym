@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_architecture_template/domain/entities/gitlab_user.dart';
-import 'package:flutter_architecture_template/domain/usecases/get_gitlab_user.dart';
+import 'package:app_pym/domain/entities/gitlab_user.dart';
+import 'package:app_pym/domain/usecases/get_gitlab_user.dart';
 import 'package:injectable/injectable.dart';
 
 part 'gitlab_user_event.dart';

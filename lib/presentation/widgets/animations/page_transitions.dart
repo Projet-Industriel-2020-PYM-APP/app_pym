@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture_template/core/routes/routes.dart';
+import 'package:app_pym/core/routes/routes.dart';
 
 class FadeRoute<T> extends MaterialPageRoute<T> {
   FadeRoute({WidgetBuilder builder, RouteSettings settings})

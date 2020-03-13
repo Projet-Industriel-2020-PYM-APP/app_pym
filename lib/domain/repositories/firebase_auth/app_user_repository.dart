@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_architecture_template/domain/entities/firebase_auth/app_user.dart';
+import 'package:app_pym/domain/entities/firebase_auth/app_user.dart';
 
 abstract class AppUserRepository {
   AppUser get profile;

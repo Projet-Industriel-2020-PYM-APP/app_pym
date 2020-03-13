@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_architecture_template/presentation/blocs/github_releases/github_releases_bloc.dart';
-import 'package:flutter_architecture_template/injection_container.dart';
-import 'package:flutter_architecture_template/presentation/widgets/github_releases/github_releases_controls.dart';
-import 'package:flutter_architecture_template/presentation/widgets/github_releases/github_releases_display.dart';
+import 'package:app_pym/presentation/blocs/github_releases/github_releases_bloc.dart';
+import 'package:app_pym/injection_container.dart';
+import 'package:app_pym/presentation/widgets/github_releases/github_releases_controls.dart';
+import 'package:app_pym/presentation/widgets/github_releases/github_releases_display.dart';
 
 class GithubReleasesPage extends StatelessWidget {
   const GithubReleasesPage({

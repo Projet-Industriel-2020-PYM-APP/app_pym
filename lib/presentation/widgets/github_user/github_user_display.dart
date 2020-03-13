@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture_template/domain/entities/github/user.dart';
+import 'package:app_pym/domain/entities/github/user.dart';
 
 class GithubUserDisplay extends StatelessWidget {
   final GithubUser user;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture_template/presentation/blocs/gitlab_user/gitlab_user_bloc.dart';
+import 'package:app_pym/presentation/blocs/gitlab_user/gitlab_user_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GitlabUserControls extends StatefulWidget {

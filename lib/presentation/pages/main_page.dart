@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture_template/injection_container.dart';
-import 'package:flutter_architecture_template/presentation/blocs/main/main_page_bloc.dart';
-import 'package:flutter_architecture_template/presentation/pages/firebase_page.dart';
-import 'package:flutter_architecture_template/presentation/pages/github_releases_page.dart';
-import 'package:flutter_architecture_template/presentation/pages/github_user_page.dart';
-import 'package:flutter_architecture_template/presentation/pages/gitlab_user_page.dart';
+import 'package:app_pym/injection_container.dart';
+import 'package:app_pym/presentation/blocs/main/main_page_bloc.dart';
+import 'package:app_pym/presentation/pages/firebase_page.dart';
+import 'package:app_pym/presentation/pages/github_releases_page.dart';
+import 'package:app_pym/presentation/pages/github_user_page.dart';
+import 'package:app_pym/presentation/pages/gitlab_user_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainPage extends StatelessWidget {

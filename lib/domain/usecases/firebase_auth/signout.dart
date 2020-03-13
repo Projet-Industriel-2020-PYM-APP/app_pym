@@ -1,5 +1,5 @@
-import 'package:flutter_architecture_template/core/usecases/usecase.dart';
-import 'package:flutter_architecture_template/domain/repositories/firebase_auth/app_user_repository.dart';
+import 'package:app_pym/core/usecases/usecase.dart';
+import 'package:app_pym/domain/repositories/firebase_auth/app_user_repository.dart';
 import 'package:injectable/injectable.dart';
 
 @prod

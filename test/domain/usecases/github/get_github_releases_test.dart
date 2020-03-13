@@ -1,9 +1,9 @@
-import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
-import 'package:flutter_architecture_template/domain/entities/github/release.dart';
-import 'package:flutter_architecture_template/domain/entities/github/user.dart';
-import 'package:flutter_architecture_template/domain/repositories/github/releases_repository.dart';
-import 'package:flutter_architecture_template/domain/usecases/github/get_releases.dart';
-import 'package:flutter_architecture_template/injection_container.dart';
+import 'package:app_pym/domain/entities/github/asset.dart';
+import 'package:app_pym/domain/entities/github/release.dart';
+import 'package:app_pym/domain/entities/github/user.dart';
+import 'package:app_pym/domain/repositories/github/releases_repository.dart';
+import 'package:app_pym/domain/usecases/github/get_releases.dart';
+import 'package:app_pym/injection_container.dart';
 import 'package:injectable/injectable.dart' show Environment;
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';

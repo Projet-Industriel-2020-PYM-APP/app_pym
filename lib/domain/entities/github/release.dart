@@ -10,8 +10,8 @@
 /// [GithubRelease] représente une release d'après la documentation de
 /// Github API.
 import 'package:equatable/equatable.dart';
-import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
-import 'package:flutter_architecture_template/domain/entities/github/user.dart';
+import 'package:app_pym/domain/entities/github/asset.dart';
+import 'package:app_pym/domain/entities/github/user.dart';
 
 class GithubRelease extends Equatable {
   final String url;

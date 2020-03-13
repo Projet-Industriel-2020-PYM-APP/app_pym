@@ -5,9 +5,9 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_architecture_template/data/models/gitlab_user_model.dart';
+import 'package:app_pym/data/models/gitlab_user_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_architecture_template/core/error/exceptions.dart';
+import 'package:app_pym/core/error/exceptions.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class GitlabRemoteDataSource {

@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_architecture_template/domain/entities/github/user.dart';
-import 'package:flutter_architecture_template/domain/usecases/github/get_user.dart';
+import 'package:app_pym/domain/entities/github/user.dart';
+import 'package:app_pym/domain/usecases/github/get_user.dart';
 import 'package:injectable/injectable.dart';
 
 part 'github_user_event.dart';

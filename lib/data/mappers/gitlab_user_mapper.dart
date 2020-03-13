@@ -1,6 +1,6 @@
-import 'package:flutter_architecture_template/core/mappers/mapper.dart';
-import 'package:flutter_architecture_template/data/models/gitlab_user_model.dart';
-import 'package:flutter_architecture_template/domain/entities/gitlab_user.dart';
+import 'package:app_pym/core/mappers/mapper.dart';
+import 'package:app_pym/data/models/gitlab_user_model.dart';
+import 'package:app_pym/domain/entities/gitlab_user.dart';
 import 'package:injectable/injectable.dart';
 
 @prod

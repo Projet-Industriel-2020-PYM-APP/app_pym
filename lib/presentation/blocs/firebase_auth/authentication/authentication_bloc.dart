@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_architecture_template/core/usecases/usecase.dart';
-import 'package:flutter_architecture_template/domain/entities/firebase_auth/app_user.dart';
-import 'package:flutter_architecture_template/domain/usecases/firebase_auth/get_user.dart';
-import 'package:flutter_architecture_template/domain/usecases/firebase_auth/is_signed_in.dart';
-import 'package:flutter_architecture_template/domain/usecases/firebase_auth/signout.dart';
+import 'package:app_pym/core/usecases/usecase.dart';
+import 'package:app_pym/domain/entities/firebase_auth/app_user.dart';
+import 'package:app_pym/domain/usecases/firebase_auth/get_user.dart';
+import 'package:app_pym/domain/usecases/firebase_auth/is_signed_in.dart';
+import 'package:app_pym/domain/usecases/firebase_auth/signout.dart';
 import 'package:injectable/injectable.dart';
 
 part 'authentication_event.dart';

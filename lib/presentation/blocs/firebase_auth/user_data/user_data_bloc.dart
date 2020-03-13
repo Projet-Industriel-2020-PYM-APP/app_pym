@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_architecture_template/domain/entities/firebase_auth/app_user.dart';
-import 'package:flutter_architecture_template/domain/usecases/firebase_auth/set_user_data.dart';
+import 'package:app_pym/domain/entities/firebase_auth/app_user.dart';
+import 'package:app_pym/domain/usecases/firebase_auth/set_user_data.dart';
 import 'package:injectable/injectable.dart';
 
 part 'user_data_event.dart';

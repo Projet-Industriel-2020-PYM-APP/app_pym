@@ -1,11 +1,11 @@
-import 'package:flutter_architecture_template/data/mappers/github/asset_mapper.dart';
-import 'package:flutter_architecture_template/data/mappers/github/user_mapper.dart';
-import 'package:flutter_architecture_template/data/models/github/asset_model.dart';
-import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
-import 'package:flutter_architecture_template/domain/entities/github/user.dart';
-import 'package:flutter_architecture_template/injection_container.dart';
+import 'package:app_pym/data/mappers/github/asset_mapper.dart';
+import 'package:app_pym/data/mappers/github/user_mapper.dart';
+import 'package:app_pym/data/models/github/asset_model.dart';
+import 'package:app_pym/domain/entities/github/asset.dart';
+import 'package:app_pym/domain/entities/github/user.dart';
+import 'package:app_pym/injection_container.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_architecture_template/data/models/github/user_model.dart';
+import 'package:app_pym/data/models/github/user_model.dart';
 import 'package:injectable/injectable.dart' show Environment;
 import 'package:mockito/mockito.dart';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture_template/presentation/blocs/gitlab_user/gitlab_user_bloc.dart';
-import 'package:flutter_architecture_template/presentation/widgets/gitlab_user/gitlab_user_controls.dart';
-import 'package:flutter_architecture_template/presentation/widgets/gitlab_user/gitlab_user_display.dart';
+import 'package:app_pym/presentation/blocs/gitlab_user/gitlab_user_bloc.dart';
+import 'package:app_pym/presentation/widgets/gitlab_user/gitlab_user_controls.dart';
+import 'package:app_pym/presentation/widgets/gitlab_user/gitlab_user_display.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_architecture_template/injection_container.dart';
+import 'package:app_pym/injection_container.dart';
 
 class GitlabUserPage extends StatelessWidget {
   const GitlabUserPage({

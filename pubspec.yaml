@@ -1,5 +1,5 @@
-name: flutter_architecture_template
-description: Flutter Clean Architecture Template
+name: app_pym
+description: Application PYM
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -30,6 +30,7 @@ dependencies:
   json_annotation: any # dart.dev
   firebase_core: ^0.4.4+2
   firebase_auth: ^0.15.5+2
+  firebase_analytics: ^5.0.11
   cloud_firestore: ^0.13.4+1
   rxdart: ^0.23.1
   injectable: ^0.3.0

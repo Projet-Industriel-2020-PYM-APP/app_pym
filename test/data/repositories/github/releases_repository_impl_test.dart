@@ -1,20 +1,20 @@
 import 'dart:convert';
 
 import 'package:connectivity/connectivity.dart';
-import 'package:flutter_architecture_template/data/mappers/github/release_mapper.dart';
-import 'package:flutter_architecture_template/data/repositories/github/releases_repository_impl.dart';
-import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
-import 'package:flutter_architecture_template/domain/entities/github/user.dart';
-import 'package:flutter_architecture_template/injection_container.dart';
+import 'package:app_pym/data/mappers/github/release_mapper.dart';
+import 'package:app_pym/data/repositories/github/releases_repository_impl.dart';
+import 'package:app_pym/domain/entities/github/asset.dart';
+import 'package:app_pym/domain/entities/github/user.dart';
+import 'package:app_pym/injection_container.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:injectable/injectable.dart' show Environment;
 import 'package:mockito/mockito.dart';
-import 'package:flutter_architecture_template/core/error/exceptions.dart';
-import 'package:flutter_architecture_template/core/network/network_info.dart';
-import 'package:flutter_architecture_template/data/datasources/github_local_data_source.dart';
-import 'package:flutter_architecture_template/data/datasources/github_remote_data_source.dart';
-import 'package:flutter_architecture_template/data/models/github/release_model.dart';
-import 'package:flutter_architecture_template/domain/entities/github/release.dart';
+import 'package:app_pym/core/error/exceptions.dart';
+import 'package:app_pym/core/network/network_info.dart';
+import 'package:app_pym/data/datasources/github_local_data_source.dart';
+import 'package:app_pym/data/datasources/github_remote_data_source.dart';
+import 'package:app_pym/data/models/github/release_model.dart';
+import 'package:app_pym/domain/entities/github/release.dart';
 
 import '../../../fixtures/fixture_reader.dart';
 

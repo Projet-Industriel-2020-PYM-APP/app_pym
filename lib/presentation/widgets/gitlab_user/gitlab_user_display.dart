@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture_template/domain/entities/gitlab_user.dart';
+import 'package:app_pym/domain/entities/gitlab_user.dart';
 
 class GitlabUserDisplay extends StatelessWidget {
   final GitlabUser user;

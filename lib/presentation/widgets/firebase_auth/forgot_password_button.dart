@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture_template/presentation/pages/firebase_auth/forgot_screen.dart';
+import 'package:app_pym/presentation/pages/firebase_auth/forgot_screen.dart';
 
 class ForgotPasswordButton extends StatelessWidget {
   ForgotPasswordButton({Key key}) : super(key: key);

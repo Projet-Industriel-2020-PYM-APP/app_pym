@@ -11,7 +11,7 @@
 /// Github API.
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter_architecture_template/domain/entities/github/user.dart';
+import 'package:app_pym/domain/entities/github/user.dart';
 
 class GithubAsset extends Equatable {
   final String url;

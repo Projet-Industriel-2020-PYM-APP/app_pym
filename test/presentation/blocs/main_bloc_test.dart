@@ -1,5 +1,5 @@
-import 'package:flutter_architecture_template/domain/usecases/github/get_user.dart';
-import 'package:flutter_architecture_template/presentation/blocs/main/main_page_bloc.dart';
+import 'package:app_pym/domain/usecases/github/get_user.dart';
+import 'package:app_pym/presentation/blocs/main/main_page_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 

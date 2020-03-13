@@ -1,4 +1,4 @@
-package com.example.flutter_architecture_template
+package com.semag.app_pym
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

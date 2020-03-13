@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture_template/core/routes/routes.dart';
-import 'package:flutter_architecture_template/presentation/pages/main_page.dart';
-import 'package:flutter_architecture_template/presentation/widgets/animations/page_transitions.dart';
+import 'package:app_pym/core/routes/routes.dart';
+import 'package:app_pym/presentation/pages/main_page.dart';
+import 'package:app_pym/presentation/widgets/animations/page_transitions.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {

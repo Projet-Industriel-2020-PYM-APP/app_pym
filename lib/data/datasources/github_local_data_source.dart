@@ -8,11 +8,11 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_architecture_template/data/models/github/user_model.dart';
+import 'package:app_pym/data/models/github/user_model.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
-import 'package:flutter_architecture_template/core/error/exceptions.dart';
-import 'package:flutter_architecture_template/data/models/github/release_model.dart';
+import 'package:app_pym/core/error/exceptions.dart';
+import 'package:app_pym/data/models/github/release_model.dart';
 
 abstract class GithubLocalDataSource {
   Future<void> cacheReleases(

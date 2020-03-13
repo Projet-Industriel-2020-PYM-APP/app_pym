@@ -47,6 +47,8 @@ jobs:
       with:
         channel: 'dev'
     - run: echo ${{ secrets.RELEASE_KEYSTORE_BASE64 }} | base64 -d > android/app/keystore.jks
+    - run: echo ${{ secrets.GOOGLE_SERVICES_BASE64 }} | base64 -d > android/app/google-services.json
+    - run: echo ${{ secrets.GOOGLE_SERVICES_INFO_BASE64 }} | base64 -d > android/ios/Runner/GoogleService-Info.plist
     - run: echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
     - run: echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
     - run: echo "keyAlias=${{ secrets.ALIAS }}" >> android/key.properties
@@ -72,6 +74,8 @@ jobs:
       with:
         channel: 'dev'
     - run: echo ${{ secrets.RELEASE_KEYSTORE_BASE64 }} | base64 -d > android/app/keystore.jks
+    - run: echo ${{ secrets.GOOGLE_SERVICES_BASE64 }} | base64 -d > android/app/google-services.json
+    - run: echo ${{ secrets.GOOGLE_SERVICES_INFO_BASE64 }} | base64 -d > android/ios/Runner/GoogleService-Info.plist
     - run: echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
     - run: echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
     - run: echo "keyAlias=${{ secrets.ALIAS }}" >> android/key.properties

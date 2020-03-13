@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_architecture_template/core/mappers/mapper.dart';
-import 'package:flutter_architecture_template/data/mappers/github/user_mapper.dart';
-import 'package:flutter_architecture_template/data/models/github/asset_model.dart';
-import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
+import 'package:app_pym/core/mappers/mapper.dart';
+import 'package:app_pym/data/mappers/github/user_mapper.dart';
+import 'package:app_pym/data/models/github/asset_model.dart';
+import 'package:app_pym/domain/entities/github/asset.dart';
 import 'package:injectable/injectable.dart';
 
 @prod

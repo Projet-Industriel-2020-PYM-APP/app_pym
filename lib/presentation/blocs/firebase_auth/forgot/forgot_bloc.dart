@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_architecture_template/core/validators.dart';
-import 'package:flutter_architecture_template/data/datasources/firebase_auth_data_source.dart';
+import 'package:app_pym/core/validators.dart';
+import 'package:app_pym/data/datasources/firebase_auth_data_source.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart' show DebounceExtensions, MergeExtension;
 

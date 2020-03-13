@@ -13,9 +13,9 @@
 /// [GetGithubUser] doit remplir le use case suivant:
 ///
 /// - Obtenir les releases d'un dépôt particulier.
-import 'package:flutter_architecture_template/core/usecases/usecase.dart';
-import 'package:flutter_architecture_template/domain/entities/github/user.dart';
-import 'package:flutter_architecture_template/domain/repositories/github/user_repository.dart';
+import 'package:app_pym/core/usecases/usecase.dart';
+import 'package:app_pym/domain/entities/github/user.dart';
+import 'package:app_pym/domain/repositories/github/user_repository.dart';
 import 'package:injectable/injectable.dart';
 
 @prod

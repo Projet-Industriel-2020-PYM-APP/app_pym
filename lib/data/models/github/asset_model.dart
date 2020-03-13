@@ -6,8 +6,8 @@
 /// [GithubAssetModel] alimente [GithubAsset] qui représente un asset d'après
 /// la documentation de Github API.
 import 'package:equatable/equatable.dart';
-import 'package:flutter_architecture_template/data/models/github/user_model.dart';
-import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
+import 'package:app_pym/data/models/github/user_model.dart';
+import 'package:app_pym/domain/entities/github/asset.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'asset_model.g.dart';

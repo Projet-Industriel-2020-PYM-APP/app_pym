@@ -1,13 +1,13 @@
-import 'package:flutter_architecture_template/domain/usecases/github/get_releases.dart';
-import 'package:flutter_architecture_template/injection_container.dart';
+import 'package:app_pym/domain/usecases/github/get_releases.dart';
+import 'package:app_pym/injection_container.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:injectable/injectable.dart' show Environment;
 import 'package:mockito/mockito.dart';
-import 'package:flutter_architecture_template/core/error/exceptions.dart';
-import 'package:flutter_architecture_template/domain/entities/github/asset.dart';
-import 'package:flutter_architecture_template/domain/entities/github/release.dart';
-import 'package:flutter_architecture_template/domain/entities/github/user.dart';
-import 'package:flutter_architecture_template/presentation/blocs/github_releases/github_releases_bloc.dart';
+import 'package:app_pym/core/error/exceptions.dart';
+import 'package:app_pym/domain/entities/github/asset.dart';
+import 'package:app_pym/domain/entities/github/release.dart';
+import 'package:app_pym/domain/entities/github/user.dart';
+import 'package:app_pym/presentation/blocs/github_releases/github_releases_bloc.dart';
 
 void main() {
   GithubReleasesBloc bloc;

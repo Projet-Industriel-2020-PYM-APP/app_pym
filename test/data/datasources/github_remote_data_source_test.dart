@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:flutter_architecture_template/injection_container.dart';
+import 'package:app_pym/injection_container.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
-import 'package:flutter_architecture_template/core/error/exceptions.dart';
-import 'package:flutter_architecture_template/data/datasources/github_remote_data_source.dart';
-import 'package:flutter_architecture_template/data/models/github/release_model.dart';
-import 'package:flutter_architecture_template/data/models/github/user_model.dart';
+import 'package:app_pym/core/error/exceptions.dart';
+import 'package:app_pym/data/datasources/github_remote_data_source.dart';
+import 'package:app_pym/data/models/github/release_model.dart';
+import 'package:app_pym/data/models/github/user_model.dart';
 import 'package:injectable/injectable.dart' show Environment;
 
 import '../../fixtures/fixture_reader.dart';

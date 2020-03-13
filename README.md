@@ -1,4 +1,4 @@
-# flutter_architecture_template
+# app_pym
 
 A new Flutter project.
 

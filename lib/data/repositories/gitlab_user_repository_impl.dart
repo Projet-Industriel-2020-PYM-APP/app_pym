@@ -1,7 +1,7 @@
-import 'package:flutter_architecture_template/data/datasources/gitlab_remote_data_source.dart';
-import 'package:flutter_architecture_template/data/mappers/gitlab_user_mapper.dart';
-import 'package:flutter_architecture_template/domain/entities/gitlab_user.dart';
-import 'package:flutter_architecture_template/domain/repositories/gitlab_user_repository.dart';
+import 'package:app_pym/data/datasources/gitlab_remote_data_source.dart';
+import 'package:app_pym/data/mappers/gitlab_user_mapper.dart';
+import 'package:app_pym/domain/entities/gitlab_user.dart';
+import 'package:app_pym/domain/repositories/gitlab_user_repository.dart';
 import 'package:injectable/injectable.dart';
 
 @prod

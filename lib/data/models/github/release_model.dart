@@ -6,9 +6,9 @@
 /// [GithubReleaseModel] alimente [GithubRelease] et représente une release
 /// d'après la documentation de Github API.
 import 'package:equatable/equatable.dart';
-import 'package:flutter_architecture_template/data/models/github/asset_model.dart';
-import 'package:flutter_architecture_template/data/models/github/user_model.dart';
-import 'package:flutter_architecture_template/domain/entities/github/release.dart';
+import 'package:app_pym/data/models/github/asset_model.dart';
+import 'package:app_pym/data/models/github/user_model.dart';
+import 'package:app_pym/domain/entities/github/release.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'release_model.g.dart';

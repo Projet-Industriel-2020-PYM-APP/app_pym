@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_architecture_template/data/models/github/asset_model.dart';
-import 'package:flutter_architecture_template/data/models/github/release_model.dart';
-import 'package:flutter_architecture_template/data/models/github/user_model.dart';
+import 'package:app_pym/data/models/github/asset_model.dart';
+import 'package:app_pym/data/models/github/release_model.dart';
+import 'package:app_pym/data/models/github/user_model.dart';
 
 import '../../../fixtures/fixture_reader.dart';
 

@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_architecture_template/data/datasources/firebase_auth_data_source.dart';
-import 'package:flutter_architecture_template/data/mappers/firebase_auth/app_user_mapper.dart';
-import 'package:flutter_architecture_template/domain/entities/firebase_auth/app_user.dart';
-import 'package:flutter_architecture_template/domain/repositories/firebase_auth/app_user_repository.dart';
+import 'package:app_pym/data/datasources/firebase_auth_data_source.dart';
+import 'package:app_pym/data/mappers/firebase_auth/app_user_mapper.dart';
+import 'package:app_pym/domain/entities/firebase_auth/app_user.dart';
+import 'package:app_pym/domain/repositories/firebase_auth/app_user_repository.dart';
 import 'package:injectable/injectable.dart';
 
 @prod

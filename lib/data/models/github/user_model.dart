@@ -6,7 +6,7 @@
 /// [GithubUserModel] alimente [GithubUser] et représente un user d'après la
 /// documentation de Github API.
 import 'package:equatable/equatable.dart';
-import 'package:flutter_architecture_template/domain/entities/github/user.dart';
+import 'package:app_pym/domain/entities/github/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_model.g.dart';

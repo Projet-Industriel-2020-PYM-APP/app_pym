@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture_template/domain/entities/github/release.dart';
+import 'package:app_pym/domain/entities/github/release.dart';
 
 class GithubReleasesDisplay extends StatelessWidget {
   final List<GithubRelease> releases;
