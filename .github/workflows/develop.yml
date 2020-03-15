@@ -84,7 +84,7 @@ jobs:
         name: release-aab
         path: build/app/outputs/bundle/release
   web-build:
-    name: Build and Deploy Web
+    name: Build Web
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -99,9 +99,3 @@ jobs:
     - run: flutter pub get
     - run: flutter config --enable-web
     - run: flutter build web --release
-    - name: Deploy to Firebase
-      uses: w9jds/firebase-action@master
-      with:
-        args: deploy --only hosting
-      env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
