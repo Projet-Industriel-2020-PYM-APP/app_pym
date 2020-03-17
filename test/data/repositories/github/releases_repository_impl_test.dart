@@ -68,7 +68,7 @@ void main() {
     final tGithubReleaseModel = GithubReleaseModel.fromJson(
         json.decode(fixture('release.json')) as Map<String, dynamic>);
 
-    final tUploader = const GithubUser(
+    const tUploader = GithubUser(
       login: 'login',
       id: 0,
       node_id: 'node_id',
@@ -88,7 +88,7 @@ void main() {
       type: 'type',
       site_admin: false,
     );
-    final tAuthor = tUploader;
+    const tAuthor = tUploader;
     final tAsset = GithubAsset(
       url: 'url',
       browser_download_url: 'browser_download_url',

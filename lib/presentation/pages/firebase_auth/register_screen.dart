@@ -5,12 +5,12 @@ import 'package:app_pym/presentation/widgets/firebase_auth/register_form.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterScreen extends StatelessWidget {
-  RegisterScreen({Key key}) : super(key: key);
+  const RegisterScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Register')),
+      appBar: AppBar(title: const Text('Register')),
       body: Center(
         child: BlocProvider<RegisterBloc>(
           create: (_) => sl<RegisterBloc>(),

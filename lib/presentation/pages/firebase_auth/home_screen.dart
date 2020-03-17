@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class HomeScreen extends StatelessWidget {
   final AppUser user;
 
-  HomeScreen({Key key, @required this.user}) : super(key: key);
+  const HomeScreen({Key key, @required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
           create: (_) => sl<UserDataBloc>(),
           child: BlocBuilder<UserDataBloc, UserDataState>(
             builder: (BuildContext context, UserDataState state) {
-              if (state is UpdatedState || state is NotUpdatedState)
+              if (state is UpdatedState || state is NotUpdatedState) {
                 return Switch(
                   value: user.isAdmin,
                   onChanged: (value) {
@@ -28,16 +28,17 @@ class HomeScreen extends StatelessWidget {
                     sl<UserDataBloc>().add(UpdatedUserData(newUser));
                   },
                 );
-              else
+              } else {
                 return const CircularProgressIndicator();
+              }
             },
           ),
         ),
         RaisedButton(
-          child: Text("SignOut"),
           onPressed: () {
-            context.bloc<AuthenticationBloc>().add(LoggedOut());
+            context.bloc<AuthenticationBloc>().add(const LoggedOut());
           },
+          child: const Text("SignOut"),
         ),
       ],
     );

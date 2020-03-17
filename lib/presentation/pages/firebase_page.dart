@@ -16,14 +16,14 @@ class FirebasePage extends StatelessWidget {
 
   BlocProvider<AuthenticationBloc> buildBody(BuildContext context) {
     return BlocProvider<AuthenticationBloc>(
-      create: (_) => sl<AuthenticationBloc>()..add(AppStarted()),
+      create: (_) => sl<AuthenticationBloc>()..add(const AppStarted()),
       child: Center(
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (BuildContext context, AuthenticationState state) {
             if (state is Uninitialized) {
               return SplashScreen();
             } else if (state is Unauthenticated) {
-              return LoginScreen();
+              return const LoginScreen();
             } else if (state is Authenticated) {
               return HomeScreen(user: state.user);
             }

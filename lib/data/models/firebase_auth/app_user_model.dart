@@ -20,17 +20,17 @@ class AppUserModel extends Equatable {
 
   factory AppUserModel.fromMap(Map<String, dynamic> map) {
     return AppUserModel(
-      uid: map['uid'],
-      email: map['email'],
-      photoUrl: map['photoURL'],
-      displayName: map['displayName'],
+      uid: map['uid'] as String,
+      email: map['email'] as String,
+      photoUrl: map['photoURL'] as String,
+      displayName: map['displayName'] as String,
       lastSeen: (map['lastSeen'] as Timestamp)?.toDate(),
-      isAdmin: map['isAdmin'],
+      isAdmin: map['isAdmin'] as bool,
     );
   }
 
   Map<String, dynamic> toMap() {
-    return {
+    return <String, dynamic>{
       'uid': uid,
       'email': email,
       'photoUrl': photoUrl,

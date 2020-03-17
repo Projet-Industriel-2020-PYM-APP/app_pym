@@ -26,11 +26,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     Stream<RegisterState> Function(RegisterEvent event) next,
   ) {
     final nonDebounceStream = events.where((event) {
-      return (event is! EmailChanged && event is! PasswordChanged);
+      return event is! EmailChanged && event is! PasswordChanged;
     });
     final debounceStream = events.where((event) {
-      return (event is EmailChanged || event is PasswordChanged);
-    }).debounceTime(Duration(milliseconds: 300));
+      return event is EmailChanged || event is PasswordChanged;
+    }).debounceTime(const Duration(milliseconds: 300));
     return super
         .transformEvents(nonDebounceStream.mergeWith([debounceStream]), next);
   }

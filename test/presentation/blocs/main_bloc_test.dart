@@ -27,8 +27,8 @@ void main() {
         ];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(GoToPageEvent(1));
-        bloc.add(GoToPageEvent(0));
+        bloc.add(const GoToPageEvent(1));
+        bloc.add(const GoToPageEvent(0));
         await future;
       },
     );
@@ -42,7 +42,7 @@ void main() {
         final expected = [MainPageState(0), MainPageState(1)];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(GoToPageEvent(1));
+        bloc.add(const GoToPageEvent(1));
         await future;
       },
     );

@@ -19,7 +19,7 @@ class RegisterState extends Equatable {
   });
 
   factory RegisterState.empty() {
-    return RegisterState(
+    return const RegisterState(
       isEmailValid: true,
       isPasswordValid: true,
       isSubmitting: false,
@@ -29,7 +29,7 @@ class RegisterState extends Equatable {
   }
 
   factory RegisterState.loading() {
-    return RegisterState(
+    return const RegisterState(
       isEmailValid: true,
       isPasswordValid: true,
       isSubmitting: true,
@@ -39,7 +39,7 @@ class RegisterState extends Equatable {
   }
 
   factory RegisterState.failure() {
-    return RegisterState(
+    return const RegisterState(
       isEmailValid: true,
       isPasswordValid: true,
       isSubmitting: false,
@@ -49,7 +49,7 @@ class RegisterState extends Equatable {
   }
 
   factory RegisterState.success() {
-    return RegisterState(
+    return const RegisterState(
       isEmailValid: true,
       isPasswordValid: true,
       isSubmitting: false,

@@ -7,8 +7,9 @@ import 'package:app_pym/presentation/widgets/firebase_auth/login_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginForm extends StatefulWidget {
-  LoginForm({Key key}) : super(key: key);
+  const LoginForm({Key key}) : super(key: key);
 
+  @override
   State<LoginForm> createState() => _LoginFormState();
 }
 
@@ -44,7 +45,7 @@ class _LoginFormState extends State<LoginForm> {
               SnackBar(
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text('Login Failure'), Icon(Icons.error)],
+                  children: [const Text('Login Failure'), Icon(Icons.error)],
                 ),
                 backgroundColor: Colors.red,
               ),
@@ -58,26 +59,26 @@ class _LoginFormState extends State<LoginForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Logging In...'),
-                    CircularProgressIndicator(),
+                    const Text('Logging In...'),
+                    const CircularProgressIndicator(),
                   ],
                 ),
               ),
             );
         }
         if (state.isSuccess) {
-          context.bloc<AuthenticationBloc>().add(LoggedIn());
+          context.bloc<AuthenticationBloc>().add(const LoggedIn());
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
           return Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(20.0),
             child: Form(
               child: ListView(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 30),
+                    padding: const EdgeInsets.symmetric(vertical: 30),
                     child: Icon(Icons.android),
                   ),
                   TextFormField(
@@ -106,7 +107,7 @@ class _LoginFormState extends State<LoginForm> {
                     },
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 30),
+                    padding: const EdgeInsets.symmetric(vertical: 30),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
@@ -115,8 +116,8 @@ class _LoginFormState extends State<LoginForm> {
                               ? _onFormSubmitted
                               : null,
                         ),
-                        CreateAccountButton(),
-                        ForgotPasswordButton(),
+                        const CreateAccountButton(),
+                        const ForgotPasswordButton(),
                       ],
                     ),
                   ),

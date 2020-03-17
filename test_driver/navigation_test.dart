@@ -1,10 +1,11 @@
 // Imports the Flutter Driver API.
 import 'dart:io';
 
+import 'package:app_pym/core/keys/keys.dart';
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 
-import 'constants.dart' as pym;
+import 'constants.dart';
 
 void main() {
   group('PYM Navigation Testing', () {
@@ -13,6 +14,8 @@ void main() {
     // Connect to the Flutter driver before running any tests.
     setUpAll(() async {
       driver = await FlutterDriver.connect();
+
+      await sleep(Duration(seconds: 10));
     });
 
     // Close the connection to the driver after the tests have completed.
@@ -26,14 +29,52 @@ void main() {
       expect(health.status, equals(HealthStatus.ok));
     });
 
-    group('Automated screenshot', () {
-      test('Screenshot login', () async {
-        await takeScreenshot(driver, pym.ScreenshotsPaths.login);
+    group('Navigation', () {
+      test('Move to Actualite', () async {
+        await driver.tap(find.byValueKey(KeysStringNavigation.mobilite));
+        await driver.tap(find.byValueKey(KeysStringNavigation.actualite));
+        await takeScreenshot(driver, ScreenshotsPaths.actualite);
       });
 
-      test('Screenshot apps', () async {
-        await driver.tap(find.byTooltip(pym.Tooltips.drawer));
-        await driver.tap(find.byValueKey(pym.Keys.authentication));
+      test('Move to Mobilite', () async {
+        await driver.tap(find.byValueKey(KeysStringNavigation.mobilite));
+        await takeScreenshot(driver, ScreenshotsPaths.mobilite);
+      });
+      test('Move to Cartographie', () async {
+        await driver.tap(find.byValueKey(KeysStringNavigation.cartographie));
+        await takeScreenshot(driver, ScreenshotsPaths.cartographie);
+      });
+
+      test('Move to AR', () async {
+        await driver.tap(find.byValueKey(KeysStringNavigation.ar));
+        await takeScreenshot(driver, ScreenshotsPaths.ar);
+        await driver.tap(find.pageBack());
+      });
+
+      test('Move to Services', () async {
+        await driver.tap(find.byValueKey(KeysStringNavigation.services));
+        await takeScreenshot(driver, ScreenshotsPaths.services);
+      });
+      test('Open More', () async {
+        await driver.tap(find.byValueKey(KeysStringNavigation.more));
+      });
+
+      test('Close More', () async {
+        await driver.tap(find.byType('ModalBarrier'));
+      });
+
+      test('Move to Parameters', () async {
+        await driver.tap(find.byValueKey(KeysStringNavigation.more));
+        await driver.tap(find.byValueKey(KeysStringNavigation.parameters));
+        await takeScreenshot(driver, ScreenshotsPaths.parameters);
+        await driver.tap(find.pageBack());
+      });
+
+      test('Move to Contact', () async {
+        await driver.tap(find.byValueKey(KeysStringNavigation.more));
+        await driver.tap(find.byValueKey(KeysStringNavigation.contacts));
+        await takeScreenshot(driver, ScreenshotsPaths.contacts);
+        await driver.tap(find.pageBack());
       });
     });
   });
@@ -43,6 +84,7 @@ Future<void> takeScreenshot(FlutterDriver driver, String path) async {
   await driver.waitUntilNoTransientCallbacks();
   final List<int> pixels = await driver.screenshot();
   final File file = File(path);
-  await file.writeAsBytes(pixels);
+  file.createSync(recursive: true);
+  file.writeAsBytesSync(pixels);
   print(path);
 }

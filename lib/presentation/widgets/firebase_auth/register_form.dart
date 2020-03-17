@@ -5,6 +5,7 @@ import 'package:app_pym/presentation/widgets/firebase_auth/register_button.dart'
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterForm extends StatefulWidget {
+  @override
   State<RegisterForm> createState() => _RegisterFormState();
 }
 
@@ -41,15 +42,15 @@ class _RegisterFormState extends State<RegisterForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Registering...'),
-                    CircularProgressIndicator(),
+                    const Text('Registering...'),
+                    const CircularProgressIndicator(),
                   ],
                 ),
               ),
             );
         }
         if (state.isSuccess) {
-          context.bloc<AuthenticationBloc>().add(LoggedIn());
+          context.bloc<AuthenticationBloc>().add(const LoggedIn());
           Navigator.of(context).pop();
         }
         if (state.isFailure) {
@@ -60,7 +61,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Registration Failure'),
+                    const Text('Registration Failure'),
                     Icon(Icons.error),
                   ],
                 ),
@@ -72,7 +73,7 @@ class _RegisterFormState extends State<RegisterForm> {
       child: BlocBuilder<RegisterBloc, RegisterState>(
         builder: (context, state) {
           return Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Form(
               child: ListView(
                 children: <Widget>[

@@ -17,7 +17,7 @@ class ForgotState extends Equatable {
   });
 
   factory ForgotState.empty() {
-    return ForgotState(
+    return const ForgotState(
       isEmailValid: true,
       isSubmitting: false,
       isSuccess: false,
@@ -26,7 +26,7 @@ class ForgotState extends Equatable {
   }
 
   factory ForgotState.loading() {
-    return ForgotState(
+    return const ForgotState(
       isEmailValid: true,
       isSubmitting: true,
       isSuccess: false,
@@ -35,7 +35,7 @@ class ForgotState extends Equatable {
   }
 
   factory ForgotState.failure() {
-    return ForgotState(
+    return const ForgotState(
       isEmailValid: true,
       isSubmitting: false,
       isSuccess: false,
@@ -44,7 +44,7 @@ class ForgotState extends Equatable {
   }
 
   factory ForgotState.success() {
-    return ForgotState(
+    return const ForgotState(
       isEmailValid: true,
       isSubmitting: false,
       isSuccess: true,

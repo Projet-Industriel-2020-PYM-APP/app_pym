@@ -27,7 +27,7 @@ class GithubUserBloc extends Bloc<GithubUserEvent, GithubUserState> {
     GithubUserEvent event,
   ) async* {
     if (event is GetUserEvent) {
-      yield GithubUserStateLoading();
+      yield const GithubUserStateLoading();
       try {
         final user = await getGithubUser(event.username);
         yield GithubUserStateLoaded(user: user);

@@ -4,6 +4,7 @@ import 'package:app_pym/presentation/widgets/firebase_auth/forgot_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ForgotForm extends StatefulWidget {
+  @override
   State<ForgotForm> createState() => _ForgotFormState();
 }
 
@@ -38,8 +39,8 @@ class _ForgotFormState extends State<ForgotForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Forgoting...'),
-                    CircularProgressIndicator(),
+                    const Text('Forgoting...'),
+                    const CircularProgressIndicator(),
                   ],
                 ),
               ),
@@ -57,7 +58,7 @@ class _ForgotFormState extends State<ForgotForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Forgot Failure'),
+                    const Text('Forgot Failure'),
                     Icon(Icons.error),
                   ],
                 ),
@@ -69,7 +70,7 @@ class _ForgotFormState extends State<ForgotForm> {
       child: BlocBuilder<ForgotBloc, ForgotState>(
         builder: (context, state) {
           return Padding(
-            padding: EdgeInsets.all(30),
+            padding: const EdgeInsets.all(30),
             child: Form(
               child: ListView(
                 children: <Widget>[

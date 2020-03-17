@@ -7,7 +7,7 @@ void main() {
   GithubUserMapper mapper;
 
   setUp(() {
-    mapper = GithubUserMapper();
+    mapper = const GithubUserMapper();
   });
 
   final DateTime tDateTime = DateTime.parse("1970-01-01T00:00:00Z");
@@ -82,7 +82,7 @@ void main() {
     'mapFrom',
     () async {
       // act
-      final result = await mapper.mapFrom(tGithubUser);
+      final result = mapper.mapFrom(tGithubUser);
       // assert
       expect(result, equals(tGithubUserModel));
     },
@@ -92,7 +92,7 @@ void main() {
     'mapTo',
     () async {
       // act
-      final result = await mapper.mapTo(tGithubUserModel);
+      final result = mapper.mapTo(tGithubUserModel);
       // assert
       expect(result, equals(tGithubUser));
     },

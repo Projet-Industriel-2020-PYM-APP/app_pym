@@ -11,7 +11,7 @@ class FirebaseAuthSignOut extends Usecase<void, NoParams> {
   const FirebaseAuthSignOut(this.repository);
 
   @override
-  Future<void> call(NoParams) {
+  Future<void> call(NoParams noParams) {
     // No error handling, error will be displayed through BLoC
     return repository.signOut();
   }
