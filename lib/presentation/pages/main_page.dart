@@ -10,8 +10,15 @@ import 'package:app_pym/presentation/blocs/main/main_page_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class MainPage extends StatelessWidget {
-  final PageController pageController = PageController();
+class MainPage extends StatefulWidget {
+  MainPage({Key key}) : super(key: key);
+
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  PageController pageController;
 
   static const List<String> titles = [
     "Actualité",
@@ -21,18 +28,24 @@ class MainPage extends StatelessWidget {
     "More",
   ];
 
-  MainPage({Key key}) : super(key: key);
+  @override
+  void initState() {
+    pageController = PageController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<MainPageBloc>(
       create: (_) => sl<MainPageBloc>(),
-      child: BlocConsumer<MainPageBloc, MainPageState>(
-        listener: onNewState,
+      child: BlocBuilder<MainPageBloc, MainPageState>(
         builder: (context, state) => Scaffold(
-          appBar: AppBar(
-            title: Text(titles[state.currentIndex]),
-          ),
           body: buildBody(context),
           bottomNavigationBar: buildBottomNavBar(context, state),
           floatingActionButton: buildFloatingActionButton(context, state),
@@ -42,14 +55,19 @@ class MainPage extends StatelessWidget {
   }
 
   Widget buildBody(BuildContext context) {
-    return PageView(
-      controller: pageController,
-      children: const <Widget>[
-        ActualitePage(),
-        MobilitePage(),
-        CartographiePage(),
-        ServicesPage(),
-      ],
+    return SafeArea(
+      child: PageView(
+        onPageChanged: (int newIndex) {
+          context.bloc<MainPageBloc>().add(GoToPageEvent(newIndex));
+        },
+        controller: pageController,
+        children: const <Widget>[
+          ActualitePage(),
+          MobilitePage(),
+          CartographiePage(),
+          ServicesPage(),
+        ],
+      ),
     );
   }
 
@@ -99,14 +117,6 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  void onNewState(BuildContext context, MainPageState state) {
-    pageController.animateToPage(
-      state.currentIndex,
-      curve: Curves.easeInOut,
-      duration: const Duration(milliseconds: 300),
-    );
-  }
-
   Future<void> onTabTapped(BuildContext context, int newIndex) async {
     if (newIndex == 4) {
       final position = buttonMenuPosition(context);
@@ -130,7 +140,11 @@ class MainPage extends StatelessWidget {
         await Navigator.of(context).pushNamed(result);
       }
     } else if (newIndex != pageController.page.round()) {
-      context.bloc<MainPageBloc>().add(GoToPageEvent(newIndex));
+      pageController.animateToPage(
+        newIndex,
+        curve: Curves.easeInOut,
+        duration: const Duration(milliseconds: 300),
+      );
     }
   }
 
