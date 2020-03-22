@@ -9,7 +9,7 @@ class ContactPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Contacts"),
+        title: const Text("Contacts"),
       ),
       body: Container(),
     ); // TODO: Implements

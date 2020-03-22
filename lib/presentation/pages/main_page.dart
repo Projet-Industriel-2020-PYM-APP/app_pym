@@ -11,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MainPage extends StatefulWidget {
-  MainPage({Key key}) : super(key: key);
+  const MainPage({Key key}) : super(key: key);
 
   @override
   _MainPageState createState() => _MainPageState();
@@ -140,7 +140,7 @@ class _MainPageState extends State<MainPage> {
         await Navigator.of(context).pushNamed(result);
       }
     } else if (newIndex != pageController.page.round()) {
-      pageController.animateToPage(
+      await pageController.animateToPage(
         newIndex,
         curve: Curves.easeInOut,
         duration: const Duration(milliseconds: 300),
@@ -168,14 +168,14 @@ class _MainPageState extends State<MainPage> {
       return FloatingActionButton(
         key: const Key(KeysStringNavigation.ar),
         tooltip: "Ouvrir la réalité augmentée",
-        child: Text(
-          "AR",
-          style: TextStyle().copyWith(
-              fontSize: Theme.of(context).textTheme.headline6.fontSize),
-        ),
         onPressed: () {
           Navigator.pushNamed(context, RoutePaths.ar);
         },
+        child: Text(
+          "AR",
+          style: const TextStyle().copyWith(
+              fontSize: Theme.of(context).textTheme.headline6.fontSize),
+        ),
       );
     } else {
       return null;

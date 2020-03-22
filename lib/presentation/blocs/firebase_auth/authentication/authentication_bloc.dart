@@ -61,6 +61,6 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapLoggedOutToState() async* {
     yield const Unauthenticated();
-    signOut(const NoParams());
+    await signOut(const NoParams());
   }
 }

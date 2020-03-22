@@ -11,7 +11,7 @@ class Router {
     switch (settings.name) {
       case RoutePaths.root:
         return FadeRoute<void>(
-          builder: (BuildContext context) => MainPage(),
+          builder: (BuildContext context) => const MainPage(),
           settings: settings,
         );
       case RoutePaths.parameters:
