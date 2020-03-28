@@ -26,11 +26,11 @@ class ForgotBloc extends Bloc<ForgotEvent, ForgotState> {
     Stream<ForgotState> Function(ForgotEvent event) next,
   ) {
     final nonDebounceStream = events.where((event) {
-      return (event is! EmailChanged);
+      return event is! EmailChanged;
     });
     final debounceStream = events.where((event) {
-      return (event is EmailChanged);
-    }).debounceTime(Duration(milliseconds: 300));
+      return event is EmailChanged;
+    }).debounceTime(const Duration(milliseconds: 300));
     return super
         .transformEvents(nonDebounceStream.mergeWith([debounceStream]), next);
   }

@@ -27,7 +27,7 @@ class AuthenticationBloc
   });
 
   @override
-  AuthenticationState get initialState => Uninitialized();
+  AuthenticationState get initialState => const Uninitialized();
 
   @override
   Stream<AuthenticationState> mapEventToState(
@@ -44,23 +44,23 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapAppStartedToState() async* {
     try {
-      final status = await isSignedIn(NoParams());
+      final status = await isSignedIn(const NoParams());
       if (status) {
-        add(LoggedIn());
+        add(const LoggedIn());
       } else {
-        yield Unauthenticated();
+        yield const Unauthenticated();
       }
     } catch (_) {
-      yield Unauthenticated();
+      yield const Unauthenticated();
     }
   }
 
   Stream<AuthenticationState> _mapLoggedInToState() async* {
-    yield Authenticated(getAppUser(NoParams()));
+    yield Authenticated(getAppUser(const NoParams()));
   }
 
   Stream<AuthenticationState> _mapLoggedOutToState() async* {
-    yield Unauthenticated();
-    signOut(NoParams());
+    yield const Unauthenticated();
+    await signOut(const NoParams());
   }
 }

@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import 'injection_container.iconfig.dart';
 
-final sl = GetIt.instance;
+final GetIt sl = GetIt.instance;
 
 @injectableInit
 Future<void> init({String env = Environment.prod}) async {

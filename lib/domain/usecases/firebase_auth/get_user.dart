@@ -12,7 +12,7 @@ class GetAppUser extends Usecase<AppUser, NoParams> {
   const GetAppUser(this.repository);
 
   @override
-  AppUser call(NoParams) {
+  AppUser call(NoParams noParams) {
     return repository.profile;
   }
 }

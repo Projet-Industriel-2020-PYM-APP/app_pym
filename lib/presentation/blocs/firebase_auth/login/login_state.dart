@@ -19,7 +19,7 @@ class LoginState extends Equatable {
   });
 
   factory LoginState.empty() {
-    return LoginState(
+    return const LoginState(
       isEmailValid: true,
       isPasswordValid: true,
       isSubmitting: false,
@@ -29,7 +29,7 @@ class LoginState extends Equatable {
   }
 
   factory LoginState.loading() {
-    return LoginState(
+    return const LoginState(
       isEmailValid: true,
       isPasswordValid: true,
       isSubmitting: true,
@@ -39,7 +39,7 @@ class LoginState extends Equatable {
   }
 
   factory LoginState.failure() {
-    return LoginState(
+    return const LoginState(
       isEmailValid: true,
       isPasswordValid: true,
       isSubmitting: false,
@@ -49,7 +49,7 @@ class LoginState extends Equatable {
   }
 
   factory LoginState.success() {
-    return LoginState(
+    return const LoginState(
       isEmailValid: true,
       isPasswordValid: true,
       isSubmitting: false,

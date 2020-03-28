@@ -35,7 +35,7 @@ class FirebaseAuthDataSourceImpl implements FirebaseAuthDataSource {
     @required this.auth,
     @required this.db,
   }) {
-    Stream<AppUserModel> stream =
+    final Stream<AppUserModel> stream =
         auth.onAuthStateChanged.switchMap((FirebaseUser user) {
       if (user != null) {
         return db
@@ -44,7 +44,7 @@ class FirebaseAuthDataSourceImpl implements FirebaseAuthDataSource {
             .snapshots()
             .map((snap) => AppUserModel.fromMap(snap.data));
       } else {
-        return Stream<AppUserModel>.value(AppUserModel());
+        return Stream<AppUserModel>.value(const AppUserModel());
       }
     });
     stream.listen(profileController.add);
@@ -53,6 +53,7 @@ class FirebaseAuthDataSourceImpl implements FirebaseAuthDataSource {
   @override
   AppUserModel get profile => profileController.value;
 
+  @override
   Future<bool> isSignedIn() async {
     final currentUser = await auth.currentUser();
     return currentUser != null;
@@ -71,7 +72,7 @@ class FirebaseAuthDataSourceImpl implements FirebaseAuthDataSource {
   Future<void> _updateUserData(FirebaseUser user) async {
     final DocumentReference ref = db.collection('users').document(user.uid);
 
-    return ref.setData({
+    return ref.setData(<String, dynamic>{
       'uid': user.uid,
       'email': user.email,
       'photoUrl': user.photoUrl,

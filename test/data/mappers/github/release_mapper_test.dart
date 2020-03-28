@@ -29,7 +29,7 @@ void main() {
   });
 
   final DateTime tDateTime = DateTime.parse("1970-01-01T00:00:00Z");
-  final tUploaderModel = const GithubUserModel(
+  const tUploaderModel = GithubUserModel(
     login: 'login',
     id: 0,
     node_id: 'node_id',
@@ -49,7 +49,7 @@ void main() {
     type: 'type',
     site_admin: false,
   );
-  final tAuthorModel = const GithubUserModel(
+  const tAuthorModel = GithubUserModel(
     login: 'login',
     id: 0,
     node_id: 'node_id',
@@ -107,7 +107,7 @@ void main() {
     ],
   );
 
-  final tUploader = const GithubUser(
+  const tUploader = GithubUser(
     login: 'login',
     id: 0,
     node_id: 'node_id',
@@ -127,7 +127,7 @@ void main() {
     type: 'type',
     site_admin: false,
   );
-  final tAuthor = const GithubUser(
+  const tAuthor = GithubUser(
     login: 'login',
     id: 0,
     node_id: 'node_id',
@@ -192,7 +192,7 @@ void main() {
       when(mockAssetMapper.mapFrom(any)).thenReturn(tAssetModel);
       when(mockUserMapper.mapFrom(any)).thenReturn(tAuthorModel);
       // act
-      final result = await mapper.mapFrom(tGithubRelease);
+      final result = mapper.mapFrom(tGithubRelease);
       // assert
       expect(result, equals(tGithubReleaseModel));
     },
@@ -205,7 +205,7 @@ void main() {
       when(mockAssetMapper.mapTo(any)).thenReturn(tAsset);
       when(mockUserMapper.mapTo(any)).thenReturn(tAuthor);
       // act
-      final result = await mapper.mapTo(tGithubReleaseModel);
+      final result = mapper.mapTo(tGithubReleaseModel);
       // assert
       expect(result, equals(tGithubRelease));
     },

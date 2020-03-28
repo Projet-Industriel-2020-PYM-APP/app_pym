@@ -16,7 +16,7 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
   UserDataBloc({this.setUserData});
 
   @override
-  UserDataState get initialState => NotUpdatedState();
+  UserDataState get initialState => const NotUpdatedState();
 
   @override
   Stream<UserDataState> mapEventToState(
@@ -24,11 +24,11 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
   ) async* {
     if (event is UpdatedUserData) {
       try {
-        yield LoadingState();
+        yield const LoadingState();
         await setUserData(event.user);
-        yield UpdatedState();
+        yield const UpdatedState();
       } catch (e) {
-        yield ErrorState();
+        yield const ErrorState();
       }
     }
   }

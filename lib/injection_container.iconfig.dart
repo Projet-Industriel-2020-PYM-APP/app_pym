@@ -18,6 +18,9 @@ import 'package:app_pym/data/mappers/github/release_mapper.dart';
 import 'package:app_pym/data/mappers/github/mock_user_mapper.dart';
 import 'package:app_pym/data/mappers/github/user_mapper.dart';
 import 'package:app_pym/data/mappers/gitlab_user_mapper.dart';
+import 'package:app_pym/data/mappers/mobility/mock_route_mapper.dart';
+import 'package:app_pym/data/mappers/mobility/route_mapper.dart';
+import 'package:app_pym/data/mappers/mobility/trip_mapper.dart';
 import 'package:app_pym/data/repositories/github/releases_repository_impl.dart';
 import 'package:app_pym/domain/repositories/github/releases_repository.dart';
 import 'package:app_pym/data/repositories/github/user_repository_impl.dart';
@@ -37,12 +40,16 @@ import 'package:http/src/client.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive/hive.dart';
+import 'package:app_pym/data/datasources/app_pym_local_data_source.dart';
+import 'package:app_pym/data/datasources/app_pym_remote_data_source.dart';
 import 'package:app_pym/data/datasources/firebase_auth_data_source.dart';
 import 'package:app_pym/data/datasources/gitlab_remote_data_source.dart';
 import 'package:app_pym/data/repositories/firebase_auth/app_user_repository_impl.dart';
 import 'package:app_pym/domain/repositories/firebase_auth/app_user_repository.dart';
 import 'package:app_pym/data/repositories/gitlab_user_repository_impl.dart';
 import 'package:app_pym/domain/repositories/gitlab_user_repository.dart';
+import 'package:app_pym/data/repositories/mobility/route_repository_impl.dart';
+import 'package:app_pym/domain/repositories/mobility/route_repository.dart';
 import 'package:app_pym/domain/usecases/firebase_auth/get_user.dart';
 import 'package:app_pym/domain/usecases/firebase_auth/is_signed_in.dart';
 import 'package:app_pym/domain/usecases/firebase_auth/set_user_data.dart';
@@ -50,6 +57,7 @@ import 'package:app_pym/domain/usecases/firebase_auth/signin.dart';
 import 'package:app_pym/domain/usecases/firebase_auth/signout.dart';
 import 'package:app_pym/domain/usecases/firebase_auth/signup.dart';
 import 'package:app_pym/domain/usecases/get_gitlab_user.dart';
+import 'package:app_pym/domain/usecases/mobility/fetch_bus.dart';
 import 'package:app_pym/presentation/blocs/firebase_auth/authentication/authentication_bloc.dart';
 import 'package:app_pym/presentation/blocs/firebase_auth/forgot/forgot_bloc.dart';
 import 'package:app_pym/presentation/blocs/firebase_auth/login/login_bloc.dart';
@@ -58,7 +66,7 @@ import 'package:app_pym/presentation/blocs/firebase_auth/user_data/user_data_blo
 import 'package:app_pym/presentation/blocs/gitlab_user/gitlab_user_bloc.dart';
 import 'package:get_it/get_it.dart';
 
-void $initGetIt(GetIt g, {String environment}) {
+Future<void> $initGetIt(GetIt g, {String environment}) async {
   final registerModule = _$RegisterModule();
 
   //Register test Dependencies --------
@@ -70,6 +78,7 @@ void $initGetIt(GetIt g, {String environment}) {
     g.registerFactory<GithubAssetMapper>(() => MockGithubAssetMapper());
     g.registerFactory<GithubReleaseMapper>(() => MockGithubReleaseMapper());
     g.registerFactory<GithubUserMapper>(() => MockGithubUserMapper());
+    g.registerFactory<RouteMapper>(() => MockRouteMapper());
     g.registerFactory<ReleasesRepository>(() => MockReleasesRepository());
     g.registerFactory<UserRepository>(() => MockUserRepository());
     g.registerFactory<GetGithubReleases>(() => MockGetGithubReleases());
@@ -87,6 +96,7 @@ void $initGetIt(GetIt g, {String environment}) {
         assetMapper: g<GithubAssetMapper>()));
     g.registerLazySingleton<GithubUserMapper>(() => GithubUserMapper());
     g.registerLazySingleton<GitlabUserMapper>(() => GitlabUserMapper());
+    g.registerLazySingleton<TripMapper>(() => TripMapper());
     g.registerLazySingleton<ReleasesRepository>(() => ReleasesRepositoryImpl(
           localDataSource: g<GithubLocalDataSource>(),
           remoteDataSource: g<GithubRemoteDataSource>(),
@@ -113,8 +123,14 @@ void $initGetIt(GetIt g, {String environment}) {
     g.registerFactory<FirebaseAuth>(() => registerModule.firebaseAuth);
     g.registerFactory<Firestore>(() => registerModule.firestore);
     g.registerFactory<Box<String>>(() => registerModule.githubBox);
+    final directory = await registerModule.directory;
+    g.registerFactory<Directory>(() => directory);
     g.registerLazySingleton<NetworkInfo>(
         () => NetworkInfoImpl(g<Connectivity>()));
+    g.registerLazySingleton<AppPYMLocalDataSource>(
+        () => AppPYMLocalDataSourceImpl(directory: g<Directory>()));
+    g.registerLazySingleton<AppPYMRemoteDataSource>(
+        () => AppPYMRemoteDataSourceImpl(client: g<Client>()));
     g.registerLazySingleton<FirebaseAuthDataSource>(() =>
         FirebaseAuthDataSourceImpl(
             auth: g<FirebaseAuth>(), db: g<Firestore>()));
@@ -126,12 +142,21 @@ void $initGetIt(GetIt g, {String environment}) {
         () => GitlabRemoteDataSourceImpl(client: g<Client>()));
     g.registerLazySingleton<GithubAssetMapper>(
         () => GithubAssetMapper(userMapper: g<GithubUserMapper>()));
+    g.registerLazySingleton<RouteMapper>(
+        () => RouteMapper(tripMapper: g<TripMapper>()));
     g.registerLazySingleton<AppUserRepository>(() => AppUserRepositoryImpl(
         dataSource: g<FirebaseAuthDataSource>(),
         userMapper: g<AppUserMapper>()));
     g.registerLazySingleton<GitlabUserRepository>(() =>
         GitlabUserRepositoryImpl(
             g<GitlabRemoteDataSource>(), g<GitlabUserMapper>()));
+    g.registerLazySingleton<RouteRepository>(() => RouteRepositoryImpl(
+          localDataSource: g<AppPYMLocalDataSource>(),
+          remoteDataSource: g<AppPYMRemoteDataSource>(),
+          networkInfo: g<NetworkInfo>(),
+          routeMapper: g<RouteMapper>(),
+          tripMapper: g<TripMapper>(),
+        ));
     g.registerLazySingleton<GetAppUser>(
         () => GetAppUser(g<AppUserRepository>()));
     g.registerLazySingleton<IsSignedIn>(
@@ -146,6 +171,7 @@ void $initGetIt(GetIt g, {String environment}) {
         () => FirebaseAuthSignUp(g<AppUserRepository>()));
     g.registerLazySingleton<GetGitlabUser>(
         () => GetGitlabUser(g<GitlabUserRepository>()));
+    g.registerLazySingleton<FetchRoute>(() => FetchRoute(g<RouteRepository>()));
     g.registerFactory<AuthenticationBloc>(() => AuthenticationBloc(
           getAppUser: g<GetAppUser>(),
           isSignedIn: g<IsSignedIn>(),

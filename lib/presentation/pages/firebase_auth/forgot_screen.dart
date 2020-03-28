@@ -5,12 +5,12 @@ import 'package:app_pym/presentation/widgets/firebase_auth/forgot_form.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ForgotScreen extends StatelessWidget {
-  ForgotScreen({Key key}) : super(key: key);
+  const ForgotScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Forgot Password')),
+      appBar: AppBar(title: const Text('Forgot Password')),
       body: Center(
         child: BlocProvider<ForgotBloc>(
           create: (_) => sl<ForgotBloc>(),

@@ -10,7 +10,7 @@ abstract class UserDataEvent extends Equatable {
 class UpdatedUserData extends UserDataEvent {
   final AppUser user;
 
-  UpdatedUserData(this.user);
+  const UpdatedUserData(this.user);
 
   @override
   List<Object> get props => [user];

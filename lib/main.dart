@@ -8,7 +8,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await Hive.openBox<String>('prefs');
@@ -27,12 +27,32 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Github Releases Watcher',
+      title: 'Application Pôle Yvon Morandat',
       initialRoute: RoutePaths.root,
       onGenerateRoute: Router.generateRoute,
       navigatorObservers: [
         FirebaseAnalyticsObserver(analytics: analytics),
       ],
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: Colors.red[900],
+        accentColor: Colors.redAccent[700],
+        appBarTheme: AppBarTheme(
+          color: Colors.white,
+          textTheme: Theme.of(context).textTheme.apply(bodyColor: Colors.black),
+          iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.black),
+          actionsIconTheme:
+              Theme.of(context).iconTheme.copyWith(color: Colors.black),
+        ),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.red[900],
+        accentColor: Colors.redAccent[700],
+        appBarTheme: AppBarTheme(
+          color: Colors.black,
+        ),
+      ),
     );
   }
 

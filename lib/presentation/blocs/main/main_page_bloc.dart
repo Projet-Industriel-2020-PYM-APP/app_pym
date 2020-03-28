@@ -10,7 +10,7 @@ part 'main_page_state.dart';
 @injectable
 class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
   @override
-  MainPageState get initialState => MainPageState(0);
+  MainPageState get initialState => const MainPageState(0);
 
   @override
   Stream<MainPageState> mapEventToState(

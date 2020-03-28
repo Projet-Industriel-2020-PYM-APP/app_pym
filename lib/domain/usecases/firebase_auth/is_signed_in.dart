@@ -11,7 +11,7 @@ class IsSignedIn extends Usecase<Future<bool>, NoParams> {
   const IsSignedIn(this.repository);
 
   @override
-  Future<bool> call(NoParams) {
+  Future<bool> call(NoParams noParams) {
     return repository.isSignedIn();
   }
 }

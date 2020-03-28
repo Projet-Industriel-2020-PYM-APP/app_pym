@@ -67,7 +67,7 @@ void main() {
         // arrange
         when(mockGetGithubUser(any)).thenAnswer((_) async => tGithubUser);
         // act
-        bloc.add(GetUserEvent(tUser));
+        bloc.add(const GetUserEvent(tUser));
         await untilCalled(mockGetGithubUser(any));
         // assert
         verify(mockGetGithubUser(tUser));
@@ -82,12 +82,12 @@ void main() {
         // assert later
         final expected = [
           GithubUserStateInitial(),
-          GithubUserStateLoading(),
+          const GithubUserStateLoading(),
           GithubUserStateLoaded(user: tGithubUser),
         ];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(GetUserEvent(tUser));
+        bloc.add(const GetUserEvent(tUser));
         await future;
       },
     );
@@ -100,12 +100,12 @@ void main() {
         // assert later
         final expected = [
           GithubUserStateInitial(),
-          GithubUserStateLoading(),
-          GithubUserStateError(message: 'ServerException'),
+          const GithubUserStateLoading(),
+          const GithubUserStateError(message: 'ServerException'),
         ];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(GetUserEvent(tUser));
+        bloc.add(const GetUserEvent(tUser));
         await future;
       },
     );
@@ -118,12 +118,12 @@ void main() {
         // assert later
         final expected = [
           GithubUserStateInitial(),
-          GithubUserStateLoading(),
-          GithubUserStateError(message: 'CacheException'),
+          const GithubUserStateLoading(),
+          const GithubUserStateError(message: 'CacheException'),
         ];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(GetUserEvent(tUser));
+        bloc.add(const GetUserEvent(tUser));
         await future;
       },
     );

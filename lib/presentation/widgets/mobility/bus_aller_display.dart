@@ -1,14 +1,6 @@
 import 'package:app_pym/domain/entities/mobility/bus.dart';
 import 'package:flutter/material.dart';
 
-List<String> busAllerStopList = [
-  "Parking Savine",
-  "Notre Dame",
-  "Centre Charpak",
-  "Gare SNCF",
-  "Puits Morandat",
-];
-
 class BusAllerDisplay extends StatelessWidget {
   final List<Bus> bus;
 
