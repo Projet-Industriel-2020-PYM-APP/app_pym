@@ -6,13 +6,27 @@ import 'package:injectable/injectable.dart';
 @prod
 @lazySingleton
 @injectable
-class FetchBus extends Usecase<Future<List<Bus>>, String> {
+class FetchBusAller extends Usecase<Future<List<Bus>>, String> {
   final BusRepository repository;
 
-  FetchBus(this.repository);
+  FetchBusAller(this.repository);
 
   @override
   Future<List<Bus>> call(String repo) {
-    return repository.getBus(repo);
+    return repository.fetchBus(repo, 0);
+  }
+}
+
+@prod
+@lazySingleton
+@injectable
+class FetchBusRetour extends Usecase<Future<List<Bus>>, String> {
+  final BusRepository repository;
+
+  FetchBusRetour(this.repository);
+
+  @override
+  Future<List<Bus>> call(String repo) {
+    return repository.fetchBus(repo, 1);
   }
 }
