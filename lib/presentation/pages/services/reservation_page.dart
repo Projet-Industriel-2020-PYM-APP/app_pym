@@ -7,7 +7,14 @@ class ServicesReservationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(); // TODO: Implements
+    return Container(
+        child: Column(
+      children: <Widget>[
+        AppBar(
+          title: const Text("Réservation"),
+        )
+      ],
+    )); // TODO: Implements
     // return buildBody(context);
   }
 
