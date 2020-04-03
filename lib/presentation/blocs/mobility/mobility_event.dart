@@ -6,19 +6,50 @@ abstract class MobilityEvent extends Equatable {
 }
 
 class FetchBusAllerEvent extends MobilityEvent {
-  final String repo;
-
-  const FetchBusAllerEvent(this.repo);
+  const FetchBusAllerEvent();
 
   @override
-  List<Object> get props => [repo];
+  List<Object> get props => null;
+}
+
+class HideBusEvent extends MobilityEvent {
+  const HideBusEvent();
+
+  @override
+  List<Object> get props => null;
 }
 
 class FetchBusRetourEvent extends MobilityEvent {
-  final String repo;
-
-  const FetchBusRetourEvent(this.repo);
+  const FetchBusRetourEvent();
 
   @override
-  List<Object> get props => [repo];
+  List<Object> get props => null;
+}
+
+class FirstFetchTrainEvent extends MobilityEvent {
+  const FirstFetchTrainEvent();
+
+  @override
+  List<Object> get props => null;
+}
+
+class FetchTrainAllerEvent extends MobilityEvent {
+  const FetchTrainAllerEvent();
+
+  @override
+  List<Object> get props => null;
+}
+
+class HideTrainEvent extends MobilityEvent {
+  const HideTrainEvent();
+
+  @override
+  List<Object> get props => null;
+}
+
+class FetchTrainRetourEvent extends MobilityEvent {
+  const FetchTrainRetourEvent();
+
+  @override
+  List<Object> get props => null;
 }

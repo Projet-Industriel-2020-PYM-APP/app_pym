@@ -1,7 +1,6 @@
 import 'package:app_pym/injection_container.dart';
 import 'package:app_pym/presentation/blocs/mobility/mobility_bloc.dart';
 import 'package:app_pym/presentation/widgets/mobility/bus_aller_display.dart';
-import 'package:app_pym/presentation/widgets/mobility/bus_retour_display.dart';
 import 'package:app_pym/presentation/widgets/mobility/mobility_bus_controls.dart';
 import 'package:app_pym/presentation/widgets/mobility/mobility_controls.dart';
 import 'package:flutter/material.dart';
@@ -45,23 +44,7 @@ class MobilityPage extends StatelessWidget {
                   BusAllerDisplay(),
                 ],
               );
-            } else if (state is MobilityStateBusRetourLoading) {
-              return Column(
-                children: <Widget>[
-                  MobilityControls(),
-                  MobilityBusControls(),
-                  CircularProgressIndicator(),
-                ],
-              );
-            } else if (state is MobilityStateBusRetourLoaded) {
-              return Column(
-                children: <Widget>[
-                  MobilityControls(),
-                  MobilityBusControls(),
-                  BusRetourDisplay(),
-                ],
-              );
-            } else if (state is MobilityStateBusError) {
+            } else if (state is MobilityStateError) {
               return Column(
                 children: <Widget>[
                   MobilityControls(),

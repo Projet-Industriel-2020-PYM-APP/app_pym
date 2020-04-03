@@ -2,12 +2,14 @@ import 'package:app_pym/core/constants/mobility.dart';
 import 'package:equatable/equatable.dart';
 
 class TripModel extends Equatable {
+  final String service_id;
   final String route_id;
   final String trip_id;
   final String trip_headsign;
   final Direction direction_id;
 
   const TripModel({
+    this.service_id,
     this.route_id,
     this.trip_id,
     this.trip_headsign,
@@ -16,6 +18,7 @@ class TripModel extends Equatable {
 
   @override
   List<Object> get props => <Object>[
+        service_id,
         route_id,
         trip_id,
         trip_headsign,

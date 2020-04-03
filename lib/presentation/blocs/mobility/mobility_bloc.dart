@@ -1,5 +1,6 @@
-import 'package:app_pym/domain/entities/mobility/bus.dart';
-import 'package:app_pym/domain/usecases/mobility/fetch_bus.dart';
+import 'package:app_pym/core/constants/mobility.dart';
+import 'package:app_pym/domain/entities/mobility/trip.dart';
+import 'package:app_pym/domain/usecases/mobility/fetch_trips.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,13 +12,11 @@ part 'mobility_state.dart';
 @prod
 @injectable
 class MobilityBloc extends Bloc<MobilityEvent, MobilityState> {
-  final FetchBusAller fetchBusAller;
-  final FetchBusRetour fetchBusRetour;
+  final FetchTrip fetchTrip;
 
   MobilityBloc({
-    @required this.fetchBusAller,
-    @required this.fetchBusRetour,
-  }) : assert(fetchBusAller != null && fetchBusRetour != null);
+    @required this.fetchTrip,
+  }) : assert(fetchTrip != null);
 
   @override
   MobilityState get initialState => const MobilityStateInitial();
@@ -29,19 +28,39 @@ class MobilityBloc extends Bloc<MobilityEvent, MobilityState> {
     if (event is FetchBusAllerEvent) {
       yield const MobilityStateBusAllerLoading();
       try {
-        final bus = await fetchBusAller(event.repo);
-        yield MobilityStateBusAllerLoaded(bus: bus);
+        final busTrips = await fetchTrip(TransportType.Bus);
+        yield MobilityStateBusAllerLoaded(busAllerTrips: busTrips);
       } catch (e) {
-        yield MobilityStateBusError(message: e.toString());
+        yield MobilityStateError(message: e.toString());
       }
     } else if (event is FetchBusRetourEvent) {
       yield const MobilityStateBusRetourLoading();
       try {
-        final bus = await fetchBusRetour(event.repo);
-        yield MobilityStateBusRetourLoaded(bus: bus);
+        final busTrips = await fetchTrip(TransportType.Bus);
+        yield MobilityStateBusRetourLoaded(busRetourTrips: busTrips);
       } catch (e) {
-        yield MobilityStateBusError(message: e.toString());
+        yield MobilityStateError(message: e.toString());
       }
+    } else if (event is HideBusEvent) {
+      yield const MobilityStateInitial();
+    } else if (event is FetchTrainAllerEvent) {
+      yield const MobilityStateTrainAllerLoading();
+      try {
+        final trainTrips = await fetchTrip(TransportType.Train);
+        yield MobilityStateTrainAllerLoaded(trainAllerTrips: trainTrips);
+      } catch (e) {
+        yield MobilityStateError(message: e.toString());
+      }
+    } else if (event is FetchTrainRetourEvent) {
+      yield const MobilityStateTrainRetourLoading();
+      try {
+        final trainTrips = await fetchTrip(TransportType.Train);
+        yield MobilityStateTrainRetourLoaded(trainRetourTrips: trainTrips);
+      } catch (e) {
+        yield MobilityStateError(message: e.toString());
+      }
+    } else if (event is HideTrainEvent) {
+      yield const MobilityStateInitial();
     }
   }
 }
