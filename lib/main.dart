@@ -12,7 +12,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await Hive.openBox<String>('prefs');
-  await di.init(env: Environment.prod);
+  di.init(env: Environment.prod);
   runApp(MyApp());
 }
 

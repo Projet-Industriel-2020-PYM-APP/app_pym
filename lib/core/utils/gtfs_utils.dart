@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:app_pym/core/constants/mobility.dart';
+import 'package:app_pym/core/utils/string_utils.dart';
 import 'package:app_pym/data/models/mobility/calendar_model.dart';
 import 'package:app_pym/data/models/mobility/route_model.dart';
 import 'package:app_pym/data/models/mobility/stop_model.dart';
@@ -93,6 +94,7 @@ extension GTFSUtils on File {
         stop_name: fields[data['stop_name']],
         stop_lat: fields[data['stop_lat']],
         stop_long: fields[data['stop_long']],
+        location_type: int.parse(fields[data['location_type']]),
       ));
     }
     return stops;
@@ -118,16 +120,5 @@ extension GTFSUtils on File {
       ));
     }
     return stopTimes;
-  }
-}
-
-extension on String {
-  Map<String, int> parseFields() {
-    final Map<String, int> data = <String, int>{};
-    final List<String> fields = this.split(',');
-    for (var i = 0; i < fields.length; i++) {
-      data.putIfAbsent(fields[i], () => i);
-    }
-    return data;
   }
 }
