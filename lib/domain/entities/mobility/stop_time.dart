@@ -7,7 +7,7 @@ class StopTime extends Equatable {
   final String departure_time;
   final String stop_id;
   final String stop_sequence;
-  final List<Stop> stops;
+  final Stop stop;
 
   const StopTime({
     this.trip_id,
@@ -15,7 +15,7 @@ class StopTime extends Equatable {
     this.departure_time,
     this.stop_id,
     this.stop_sequence,
-    this.stops,
+    this.stop,
   });
 
   @override
@@ -25,6 +25,30 @@ class StopTime extends Equatable {
         this.departure_time,
         this.stop_id,
         this.stop_sequence,
-        this.stops,
+        this.stop,
       ];
+
+  // ignore: avoid_returning_this
+  StopTime union(List<Stop> stops) {
+    final stop = stops.where((stop) => this.stop_id == stop.stop_id).first;
+    return this.copyWith(stop: stop);
+  }
+
+  StopTime copyWith({
+    String trip_id,
+    String arrival_time,
+    String departure_time,
+    String stop_id,
+    String stop_sequence,
+    Stop stop,
+  }) {
+    return StopTime(
+      trip_id: trip_id ?? this.trip_id,
+      arrival_time: arrival_time ?? this.arrival_time,
+      departure_time: departure_time ?? this.departure_time,
+      stop_id: stop_id ?? this.stop_id,
+      stop_sequence: stop_sequence ?? this.stop_sequence,
+      stop: stop ?? this.stop,
+    );
+  }
 }

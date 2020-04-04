@@ -1,0 +1,28 @@
+{
+  "nhits": 1,
+  "parameters": {
+    "dataset": "sncf-ter-gtfs",
+    "timezone": "UTC",
+    "rows": 10,
+    "format": "json"
+  },
+  "records": [
+    {
+      "datasetid": "sncf-ter-gtfs",
+      "recordid": "8102673e70697e2d782fa440e0f0f7be0b39880b",
+      "fields": {
+        "download": {
+          "format": "zip",
+          "filename": "export-ter-gtfs-last.zip",
+          "width": 300,
+          "id": "24e02fa969496e2caa5863a365c66ec2",
+          "height": 300,
+          "thumbnail": false
+        },
+        "donn_es": "Horaires des lignes TER",
+        "format": "GTFS"
+      },
+      "record_timestamp": "2020-04-03T08:38:30.405000+00:00"
+    }
+  ]
+}

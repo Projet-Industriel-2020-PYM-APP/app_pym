@@ -21,4 +21,10 @@ class Route extends Equatable {
         this.route_long_name,
         this.trips,
       ];
+
+  // ignore: avoid_returning_this
+  Route union(List<Trip> trips) {
+    this.trips.addAll(trips.where((trip) => this.route_id == trip.route_id));
+    return this;
+  }
 }

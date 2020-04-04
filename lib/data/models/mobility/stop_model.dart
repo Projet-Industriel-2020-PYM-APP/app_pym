@@ -6,6 +6,7 @@ class StopModel extends Equatable {
   final String stop_name;
   final String stop_lat;
   final String stop_long;
+  final int location_type;
 
   const StopModel({
     this.stop_id,
@@ -13,6 +14,7 @@ class StopModel extends Equatable {
     this.stop_name,
     this.stop_lat,
     this.stop_long,
+    this.location_type,
   });
 
   @override
@@ -22,5 +24,6 @@ class StopModel extends Equatable {
         stop_name,
         stop_lat,
         stop_long,
+        location_type,
       ];
 }

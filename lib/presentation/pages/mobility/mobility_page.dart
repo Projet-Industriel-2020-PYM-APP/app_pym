@@ -1,5 +1,6 @@
 import 'package:app_pym/injection_container.dart';
-import 'package:app_pym/presentation/blocs/mobility/mobility_bloc.dart';
+import 'package:app_pym/presentation/blocs/mobility/bus_trips/bus_trips_bloc.dart';
+import 'package:app_pym/presentation/blocs/mobility/train_trips/train_trips_bloc.dart';
 import 'package:app_pym/presentation/widgets/mobility/bus_aller_display.dart';
 import 'package:app_pym/presentation/widgets/mobility/mobility_bus_controls.dart';
 import 'package:app_pym/presentation/widgets/mobility/mobility_controls.dart';
@@ -16,38 +17,45 @@ class MobilityPage extends StatelessWidget {
     return buildBody(context);
   }
 
-  BlocProvider<MobilityBloc> buildBody(BuildContext context) {
-    return BlocProvider<MobilityBloc>(
-      create: (_) => sl<MobilityBloc>(),
+  Widget buildBody(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<BusTripsBloc>(
+          create: (_) => sl<BusTripsBloc>(),
+        ),
+        BlocProvider<TrainTripsBloc>(
+          create: (_) => sl<TrainTripsBloc>(),
+        ),
+      ],
       child: Center(
-        child: BlocBuilder<MobilityBloc, MobilityState>(
-          builder: (BuildContext context, MobilityState state) {
-            if (state is MobilityStateInitial) {
+        child: BlocBuilder<BusTripsBloc, BusTripsState>(
+          builder: (BuildContext context, BusTripsState state) {
+            if (state is BusTripsInitial) {
               return Column(
                 children: <Widget>[
-                  MobilityControls(),
+                  const MobilityControls(),
                 ],
               );
-            } else if (state is MobilityStateBusAllerLoading) {
+            } else if (state is BusTripsLoading) {
               return Column(
                 children: <Widget>[
-                  MobilityControls(),
-                  MobilityBusControls(),
-                  CircularProgressIndicator(),
+                  const MobilityControls(),
+                  const MobilityBusControls(),
+                  const CircularProgressIndicator(),
                 ],
               );
-            } else if (state is MobilityStateBusAllerLoaded) {
+            } else if (state is BusTripsLoaded) {
               return Column(
                 children: <Widget>[
-                  MobilityControls(),
-                  MobilityBusControls(),
-                  BusAllerDisplay(),
+                  const MobilityControls(),
+                  const MobilityBusControls(),
+                  const BusAllerDisplay(),
                 ],
               );
-            } else if (state is MobilityStateError) {
+            } else if (state is BusTripsError) {
               return Column(
                 children: <Widget>[
-                  MobilityControls(),
+                  const MobilityControls(),
                   Text(state.message),
                 ],
               );
