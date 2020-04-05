@@ -60,6 +60,7 @@ class _MainPageState extends State<MainPage> {
         onPageChanged: (int newIndex) {
           context.bloc<MainPageBloc>().add(GoToPageEvent(newIndex));
         },
+        physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
         children: const <Widget>[
           ActualitePage(),
@@ -169,7 +170,7 @@ class _MainPageState extends State<MainPage> {
         key: const Key(KeysStringNavigation.ar),
         tooltip: "Ouvrir la réalité augmentée",
         onPressed: () {
-          Navigator.pushNamed(context, RoutePaths.ar);
+          Navigator.pushReplacementNamed(context, RoutePaths.ar);
         },
         child: Text(
           "AR",
