@@ -45,11 +45,13 @@ void main() {
         await takeScreenshot(driver, ScreenshotsPaths.cartographie);
       });
 
-      test('Move to AR', () async {
-        await driver.tap(find.byValueKey(KeysStringNavigation.ar));
-        await takeScreenshot(driver, ScreenshotsPaths.ar);
-        await driver.tap(find.pageBack());
-      });
+      // Note: AR is unstable. Do not use it for screen shots.
+      // test('Move to AR', () async {
+      //   await driver.tap(find.byValueKey(KeysStringNavigation.ar));
+      //   await takeScreenshot(driver, ScreenshotsPaths.ar);
+      //   await driver
+      //       .tap(find.byValueKey(KeysStringNavigation.goBackAlternative));
+      // });
 
       test('Move to Services', () async {
         await driver.tap(find.byValueKey(KeysStringNavigation.services));

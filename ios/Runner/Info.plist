@@ -41,5 +41,13 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>io.flutter.embedded_views_preview</key>
+	<string>YES</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Utilise l'AR pour se localiser.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>To get location and direction</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>To get location and direction</string>
 </dict>
 </plist>

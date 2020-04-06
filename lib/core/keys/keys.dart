@@ -9,4 +9,5 @@ class KeysStringNavigation {
   static const parameters = "/bottom_nav_bar/more/parameters";
   static const contacts = "/bottom_nav_bar/more/contacts";
   static const ar = "/fab/ar";
+  static const goBackAlternative = "goBackAlternative";
 }

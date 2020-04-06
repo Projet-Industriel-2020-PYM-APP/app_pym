@@ -1,0 +1,9 @@
+-keep class com.rexraphael.flutterunitywidget.** {*;}
+-keep interface com.rexraphael.flutterunitywidget.** {*;}
+-keep class bitter.jnibridge.* { *; }
+-keep class com.unity3d.player.* { *; }
+-keep class com.unity3d.plugin.* { *; }
+-keep interface com.unity3d.player.IUnityPlayerLifecycleEvents { *; }
+-keep class org.fmod.* { *; }
+-keep class com.google.androidgamesdk.ChoreographerCallback { *; }
+-keep class com.google.androidgamesdk.SwappyDisplayManager { *; }
