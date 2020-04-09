@@ -4,15 +4,15 @@ abstract class ServicesEvent extends Equatable {
   const ServicesEvent();
 
   @override
-  List<Object> get props => null;
+  List<Object> get props => [];
 }
 
 class FetchCategoriesEvent extends ServicesEvent {
   const FetchCategoriesEvent();
 }
 
-class FetchServiceOfCategorieEvent extends ServicesEvent {
-  const FetchServiceOfCategorieEvent();
+class FetchServicesOfCategorieEvent extends ServicesEvent {
+  const FetchServicesOfCategorieEvent();
 }
 
 class FetchServiceEvent extends ServicesEvent {

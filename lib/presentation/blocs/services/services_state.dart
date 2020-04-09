@@ -12,34 +12,34 @@ class ServicesStateInitial extends ServicesState {
   const ServicesStateInitial();
 }
 
-class CategoriesStateError extends ServicesState {
+class CategoriesError extends ServicesState {
   final String message;
 
-  const CategoriesStateError({@required this.message});
+  const CategoriesError({@required this.message});
 
   @override
   List<Object> get props => [message];
 }
 
-class CategoriesStateLoading extends ServicesState {
-  const CategoriesStateLoading();
+class CategoriesLoading extends ServicesState {
+  const CategoriesLoading();
 }
 
-class CategoriesStateLoaded extends ServicesState {
+class CategoriesLoaded extends ServicesState {
   final List<Categorie> categoriesList;
-  const CategoriesStateLoaded({@required this.categoriesList});
+  const CategoriesLoaded({@required this.categoriesList});
 
   @override
   List<Object> get props => [categoriesList];
 }
 
-class ServiceOfCategorieStateLoading extends ServicesState {
-  const ServiceOfCategorieStateLoading();
+class ServiceOfCategorieLoading extends ServicesState {
+  const ServiceOfCategorieLoading();
 }
 
-class ServiceOfCategorieStateLoaded extends ServicesState {
+class ServiceOfCategorieLoaded extends ServicesState {
   final List<Service> servicesList;
-  const ServiceOfCategorieStateLoaded({@required this.servicesList});
+  const ServiceOfCategorieLoaded({@required this.servicesList});
 
   @override
   List<Object> get props => [servicesList];
