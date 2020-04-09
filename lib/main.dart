@@ -1,3 +1,5 @@
+import 'package:app_pym/data/models/map_pym/batiment_model.dart';
+import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +10,19 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
 
+import 'data/models/map_pym/entreprise_model.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  Hive.registerAdapter<BatimentPositionModel>(BatimentPositionModelAdapter());
+  Hive.registerAdapter<BatimentModel>(BatimentModelAdapter());
+  Hive.registerAdapter<EntrepriseModel>(EntrepriseModelAdapter());
   await Hive.openBox<String>('prefs');
-  await di.init(env: Environment.prod);
+  await Hive.openBox<List<BatimentPositionModel>>('/batiments_position');
+  await Hive.openBox<BatimentModel>('/batiments');
+  await Hive.openBox<EntrepriseModel>('/entreprises');
+  di.init(env: Environment.prod);
   runApp(MyApp());
 }
 
@@ -45,14 +55,14 @@ class _MyAppState extends State<MyApp> {
               Theme.of(context).iconTheme.copyWith(color: Colors.black),
         ),
       ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        primaryColor: Colors.red[900],
-        accentColor: Colors.redAccent[700],
-        appBarTheme: AppBarTheme(
-          color: Colors.black,
-        ),
-      ),
+      // darkTheme: ThemeData(
+      //   brightness: Brightness.dark,
+      //   primaryColor: Colors.red[900],
+      //   accentColor: Colors.redAccent[700],
+      //   appBarTheme: AppBarTheme(
+      //     color: Colors.black,
+      //   ),
+      // ),
     );
   }
 

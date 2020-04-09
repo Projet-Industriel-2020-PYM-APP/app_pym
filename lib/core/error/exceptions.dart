@@ -21,3 +21,15 @@ class ServerException implements Exception {
     return "ServerException: $message";
   }
 }
+
+class PermissionException implements Exception {
+  final dynamic message;
+
+  PermissionException([this.message]);
+
+  @override
+  String toString() {
+    if (message == null) return "PermissionException";
+    return "PermissionException: $message";
+  }
+}

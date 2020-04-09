@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "accesHandicape": false,
+  "adresse": "Rue",
+  "description": "Description",
+  "nbEtage": 2,
+  "nom": "Entreprise",
+  "url": "Super"
+}

@@ -6,6 +6,4 @@ import 'injection_container.iconfig.dart';
 final GetIt sl = GetIt.instance;
 
 @injectableInit
-Future<void> init({String env = Environment.prod}) async {
-  $initGetIt(sl, environment: env);
-}
+void init({String env = Environment.prod}) => $initGetIt(sl, environment: env);

@@ -1,0 +1,13 @@
+<linker>
+
+    <assembly fullname="Unity.XR.ARFoundation" preserve="all" ignoreIfMissing="1"/>
+
+    <assembly fullname="Unity.XR.ARExtensions" preserve="all" ignoreIfMissing="1"/>
+
+    <assembly fullname="Unity.XR.ARCore" ignoreIfMissing="1" preserve="all"/>
+
+    <assembly fullname="Unity.XR.ARKit" ignoreIfMissing="1" preserve="all"/>
+
+    <assembly fullname="Unity.XR.ARKit.FaceTracking" ignoreIfMissing="1" preserve="all"/>
+
+</linker>

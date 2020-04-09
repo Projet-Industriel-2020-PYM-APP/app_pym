@@ -6,10 +6,20 @@
 
 import 'package:app_pym/core/network/mock_network_info.dart';
 import 'package:app_pym/core/network/network_info.dart';
+import 'package:app_pym/core/permission_handler/mock_permission_handler.dart';
+import 'package:app_pym/core/permission_handler/permission_handler.dart';
+import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
 import 'package:app_pym/data/datasources/mock_github_local_data_source.dart';
 import 'package:app_pym/data/datasources/github_local_data_source.dart';
 import 'package:app_pym/data/datasources/mock_github_remote_data_source.dart';
 import 'package:app_pym/data/datasources/github_remote_data_source.dart';
+import 'package:app_pym/data/datasources/mock_map_pym_local_data_source.dart';
+import 'package:app_pym/data/datasources/map_pym_local_data_source.dart';
+import 'package:app_pym/data/datasources/mock_map_pym_remote_data_source.dart';
+import 'package:app_pym/data/devices/compass_device.dart';
+import 'package:app_pym/data/devices/compass_device_mock.dart';
+import 'package:app_pym/data/devices/geolocator_device_mock.dart';
+import 'package:app_pym/data/devices/geolocator_device.dart';
 import 'package:app_pym/data/mappers/firebase_auth/app_user_mapper.dart';
 import 'package:app_pym/data/mappers/github/mock_asset_mapper.dart';
 import 'package:app_pym/data/mappers/github/asset_mapper.dart';
@@ -18,25 +28,61 @@ import 'package:app_pym/data/mappers/github/release_mapper.dart';
 import 'package:app_pym/data/mappers/github/mock_user_mapper.dart';
 import 'package:app_pym/data/mappers/github/user_mapper.dart';
 import 'package:app_pym/data/mappers/gitlab_user_mapper.dart';
+import 'package:app_pym/data/mappers/map_pym/batiment_mapper.dart';
+import 'package:app_pym/data/mappers/map_pym/batiment_position_mapper.dart';
+import 'package:app_pym/data/mappers/map_pym/entreprise_mapper.dart';
+import 'package:app_pym/data/mappers/map_pym/mock_batiment_mapper.dart';
+import 'package:app_pym/data/mappers/map_pym/mock_batiment_position_mapper.dart';
+import 'package:app_pym/data/mappers/map_pym/mock_entreprise_mapper.dart';
 import 'package:app_pym/data/repositories/github/releases_repository_impl.dart';
 import 'package:app_pym/domain/repositories/github/releases_repository.dart';
 import 'package:app_pym/data/repositories/github/user_repository_impl.dart';
 import 'package:app_pym/domain/repositories/github/user_repository.dart';
+import 'package:app_pym/data/repositories/map_pym/batiment_position_repository_impl.dart';
+import 'package:app_pym/domain/repositories/map_pym/batiment_position_repository.dart';
+import 'package:app_pym/data/repositories/map_pym/batiment_repository_impl.dart';
+import 'package:app_pym/domain/repositories/map_pym/batiment_repository.dart';
+import 'package:app_pym/data/repositories/map_pym/entreprise_repository_impl.dart';
+import 'package:app_pym/domain/repositories/map_pym/entreprise_repository.dart';
 import 'package:app_pym/domain/repositories/github/mock_releases_repository.dart';
 import 'package:app_pym/domain/repositories/github/mock_user_repository.dart';
+import 'package:app_pym/domain/repositories/map_pym/mock_batiment_position_repository.dart';
+import 'package:app_pym/domain/repositories/map_pym/mock_batiment_repository.dart';
+import 'package:app_pym/domain/repositories/map_pym/mock_entreprise_repository.dart';
+import 'package:app_pym/domain/usecases/cartographie/get_batiment_detail.dart';
+import 'package:app_pym/domain/usecases/cartographie/get_entreprises_of_batiment.dart';
+import 'package:app_pym/domain/usecases/cartographie/load_page_and_place_batiments.dart';
+import 'package:app_pym/domain/usecases/cartographie/mock_get_batiment_detail.dart';
+import 'package:app_pym/domain/usecases/cartographie/mock_get_entreprises_of_batiment.dart';
+import 'package:app_pym/domain/usecases/cartographie/mock_load_page_and_place_batiments.dart';
 import 'package:app_pym/domain/usecases/github/get_releases.dart';
 import 'package:app_pym/domain/usecases/github/get_user.dart';
 import 'package:app_pym/domain/usecases/github/mock_get_releases.dart';
 import 'package:app_pym/domain/usecases/github/mock_get_user.dart';
+import 'package:app_pym/domain/usecases/services/fetch_categories.dart';
+import 'package:app_pym/domain/repositories/services/categories_repository.dart';
+import 'package:app_pym/domain/usecases/services/fetch_service.dart';
+import 'package:app_pym/domain/repositories/services/services_repository.dart';
+import 'package:app_pym/domain/usecases/services/fetch_services_of_categorie.dart';
+import 'package:app_pym/domain/entities/services/categorie.dart';
+import 'package:app_pym/presentation/blocs/cartographie/ar_view/ar_view_bloc.dart';
+import 'package:app_pym/presentation/blocs/cartographie/batiment/batiment_bloc.dart';
+import 'package:app_pym/presentation/blocs/cartographie/compass/compass_bloc.dart';
+import 'package:app_pym/presentation/blocs/cartographie/entreprise/entreprise_bloc.dart';
 import 'package:app_pym/presentation/blocs/github_releases/github_releases_bloc.dart';
 import 'package:app_pym/presentation/blocs/github_user/github_user_bloc.dart';
 import 'package:app_pym/presentation/blocs/main/main_page_bloc.dart';
-import 'package:connectivity/connectivity.dart';
+import 'package:app_pym/presentation/blocs/services/services_bloc.dart';
 import 'package:app_pym/register_module.dart';
+import 'package:hive/hive.dart';
+import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
+import 'package:app_pym/data/models/map_pym/batiment_model.dart';
+import 'package:connectivity/connectivity.dart';
+import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/src/client.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hive/hive.dart';
 import 'package:app_pym/data/datasources/firebase_auth_data_source.dart';
 import 'package:app_pym/data/datasources/gitlab_remote_data_source.dart';
 import 'package:app_pym/data/repositories/firebase_auth/app_user_repository_impl.dart';
@@ -64,29 +110,61 @@ void $initGetIt(GetIt g, {String environment}) {
   //Register test Dependencies --------
   if (environment == 'test') {
     g.registerFactory<NetworkInfo>(() => MockNetworkInfo());
+    g.registerFactory<PermissionHandler>(() => MockPermissionHandler());
     g.registerFactory<GithubLocalDataSource>(() => MockGithubLocalDataSource());
     g.registerFactory<GithubRemoteDataSource>(
         () => MockGithubRemoteDataSource());
+    g.registerFactory<MapPymLocalDataSource>(() => MockMapPymLocalDataSource());
+    g.registerFactory<MapPymRemoteDataSource>(
+        () => MockMapPymRemoteDataSource());
+    g.registerFactory<CompassDevice>(() => MockCompassDevice());
+    g.registerFactory<GeolocatorDevice>(() => MockGeolocatorDevice());
     g.registerFactory<GithubAssetMapper>(() => MockGithubAssetMapper());
     g.registerFactory<GithubReleaseMapper>(() => MockGithubReleaseMapper());
     g.registerFactory<GithubUserMapper>(() => MockGithubUserMapper());
+    g.registerFactory<BatimentMapper>(() => MockBatimentMapper());
+    g.registerFactory<BatimentPositionMapper>(
+        () => MockBatimentPositionMapper());
+    g.registerFactory<EntrepriseMapper>(() => MockEntrepriseMapper());
     g.registerFactory<ReleasesRepository>(() => MockReleasesRepository());
     g.registerFactory<UserRepository>(() => MockUserRepository());
+    g.registerFactory<BatimentPositionRepository>(
+        () => MockBatimentPositionRepository());
+    g.registerFactory<BatimentRepository>(() => MockBatimentRepository());
+    g.registerFactory<EntrepriseRepository>(() => MockEntrepriseRepository());
+    g.registerFactory<GetBatimentDetail>(() => MockGetBatimentDetail());
+    g.registerFactory<GetEntreprisesOfBatiment>(
+        () => MockGetEntreprisesOfBatiment());
+    g.registerFactory<LoadPageAndPlaceBatiment>(
+        () => MockLoadPageAndPlaceBatiment());
     g.registerFactory<GetGithubReleases>(() => MockGetGithubReleases());
     g.registerFactory<GetGithubUser>(() => MockGetGithubUser());
-    g.registerFactory<Connectivity>(() => MockDataConnectionChecker());
-    g.registerFactory<Client>(() => MockHttpClient());
+    g.registerFactory<Box<List<BatimentPositionModel>>>(
+        () => MockBatimentPositionBox());
+    g.registerFactory<Box<BatimentModel>>(() => MockBatimentsBox());
     g.registerFactory<Box<String>>(() => MockBox());
+    g.registerFactory<Connectivity>(() => MockDataConnectionChecker());
+    g.registerFactory<Box<EntrepriseModel>>(() => MockEntreprisesBox());
+    g.registerFactory<Geolocator>(() => MockGeolocator());
+    g.registerFactory<Client>(() => MockHttpClient());
   }
 
   //Register prod Dependencies --------
   if (environment == 'prod') {
+    g.registerLazySingleton<PermissionHandler>(() => PermissionHandlerImpl());
+    g.registerLazySingleton<MapPymRemoteDataSource>(
+        () => MapPymRemoteDataSourceDevImpl());
+    g.registerLazySingleton<CompassDevice>(() => CompassDeviceImpl());
     g.registerLazySingleton<AppUserMapper>(() => AppUserMapper());
     g.registerLazySingleton<GithubReleaseMapper>(() => GithubReleaseMapper(
         userMapper: g<GithubUserMapper>(),
         assetMapper: g<GithubAssetMapper>()));
     g.registerLazySingleton<GithubUserMapper>(() => GithubUserMapper());
     g.registerLazySingleton<GitlabUserMapper>(() => GitlabUserMapper());
+    g.registerLazySingleton<BatimentMapper>(() => BatimentMapper());
+    g.registerLazySingleton<BatimentPositionMapper>(
+        () => BatimentPositionMapper());
+    g.registerLazySingleton<EntrepriseMapper>(() => EntrepriseMapper());
     g.registerLazySingleton<ReleasesRepository>(() => ReleasesRepositoryImpl(
           localDataSource: g<GithubLocalDataSource>(),
           remoteDataSource: g<GithubRemoteDataSource>(),
@@ -99,20 +177,73 @@ void $initGetIt(GetIt g, {String environment}) {
           networkInfo: g<NetworkInfo>(),
           mapper: g<GithubUserMapper>(),
         ));
+    g.registerLazySingleton<BatimentPositionRepository>(
+        () => BatimentPositionRepositoryImpl(
+              localDataSource: g<MapPymLocalDataSource>(),
+              remoteDataSource: g<MapPymRemoteDataSource>(),
+              networkInfo: g<NetworkInfo>(),
+              mapper: g<BatimentPositionMapper>(),
+            ));
+    g.registerLazySingleton<BatimentRepository>(() => BatimentRepositoryImpl(
+          localDataSource: g<MapPymLocalDataSource>(),
+          remoteDataSource: g<MapPymRemoteDataSource>(),
+          networkInfo: g<NetworkInfo>(),
+          mapper: g<BatimentMapper>(),
+        ));
+    g.registerLazySingleton<EntrepriseRepository>(
+        () => EntrepriseRepositoryImpl(
+              localDataSource: g<MapPymLocalDataSource>(),
+              remoteDataSource: g<MapPymRemoteDataSource>(),
+              networkInfo: g<NetworkInfo>(),
+              mapper: g<EntrepriseMapper>(),
+            ));
+    g.registerLazySingleton<GetBatimentDetail>(
+        () => GetBatimentDetail(batimentRepository: g<BatimentRepository>()));
+    g.registerLazySingleton<GetEntreprisesOfBatiment>(() =>
+        GetEntreprisesOfBatiment(
+            entrepriseRepository: g<EntrepriseRepository>()));
+    g.registerLazySingleton<LoadPageAndPlaceBatiment>(
+        () => LoadPageAndPlaceBatiment(
+              geolocatorDevice: g<GeolocatorDevice>(),
+              batimentPositionRepository: g<BatimentPositionRepository>(),
+              batimentRepository: g<BatimentRepository>(),
+            ));
     g.registerLazySingleton<GetGithubReleases>(
         () => GetGithubReleases(g<ReleasesRepository>()));
     g.registerLazySingleton<GetGithubUser>(
         () => GetGithubUser(g<UserRepository>()));
+    g.registerLazySingleton<FetchCategories>(
+        () => FetchCategories(g<CategoriesRepository>()));
+    g.registerLazySingleton<FetchServices>(
+        () => FetchServices(g<ServicesRepository>()));
+    g.registerLazySingleton<FetchServicesOfCategorie>(() =>
+        FetchServicesOfCategorie(g<ServicesRepository>(), g<Categorie>()));
+    g.registerFactory<ArViewBloc>(
+        () => ArViewBloc(g<LoadPageAndPlaceBatiment>()));
+    g.registerFactory<BatimentBloc>(() => BatimentBloc(g<GetBatimentDetail>()));
+    g.registerFactory<CompassBloc>(() => CompassBloc(
+        permissionHandler: g<PermissionHandler>(),
+        compassDevice: g<CompassDevice>()));
+    g.registerFactory<EntrepriseBloc>(
+        () => EntrepriseBloc(g<GetEntreprisesOfBatiment>()));
     g.registerFactory<GithubReleasesBloc>(
         () => GithubReleasesBloc(getGithubReleases: g<GetGithubReleases>()));
     g.registerFactory<GithubUserBloc>(
         () => GithubUserBloc(getGithubUser: g<GetGithubUser>()));
     g.registerFactory<MainPageBloc>(() => MainPageBloc());
+    g.registerFactory<ServicesBloc>(
+        () => ServicesBloc(fetchCategories: g<FetchCategories>()));
+    g.registerFactory<Box<List<BatimentPositionModel>>>(
+        () => registerModule.batimentPositionBox);
+    g.registerFactory<Box<BatimentModel>>(() => registerModule.batimentsBox);
     g.registerLazySingleton<Connectivity>(() => registerModule.connectivity);
-    g.registerLazySingleton<Client>(() => registerModule.httpClient);
+    g.registerFactory<Box<EntrepriseModel>>(
+        () => registerModule.entreprisesBox);
     g.registerFactory<FirebaseAuth>(() => registerModule.firebaseAuth);
     g.registerFactory<Firestore>(() => registerModule.firestore);
+    g.registerLazySingleton<Geolocator>(() => registerModule.geolocator);
     g.registerFactory<Box<String>>(() => registerModule.githubBox);
+    g.registerLazySingleton<Client>(() => registerModule.httpClient);
     g.registerLazySingleton<NetworkInfo>(
         () => NetworkInfoImpl(g<Connectivity>()));
     g.registerLazySingleton<FirebaseAuthDataSource>(() =>
@@ -124,6 +255,14 @@ void $initGetIt(GetIt g, {String environment}) {
         () => GithubRemoteDataSourceImpl(client: g<Client>()));
     g.registerLazySingleton<GitlabRemoteDataSource>(
         () => GitlabRemoteDataSourceImpl(client: g<Client>()));
+    g.registerLazySingleton<MapPymLocalDataSource>(
+        () => MapPymLocalDataSourceImpl(
+              batimentsBox: g<Box<BatimentModel>>(),
+              batimentsPositionBox: g<Box<List<BatimentPositionModel>>>(),
+              entreprisesBox: g<Box<EntrepriseModel>>(),
+            ));
+    g.registerLazySingleton<GeolocatorDevice>(
+        () => GeolocatorDeviceImpl(geolocator: g<Geolocator>()));
     g.registerLazySingleton<GithubAssetMapper>(
         () => GithubAssetMapper(userMapper: g<GithubUserMapper>()));
     g.registerLazySingleton<AppUserRepository>(() => AppUserRepositoryImpl(
@@ -161,6 +300,12 @@ void $initGetIt(GetIt g, {String environment}) {
         () => UserDataBloc(setUserData: g<SetUserData>()));
     g.registerFactory<GitlabUserBloc>(
         () => GitlabUserBloc(getGitlabUser: g<GetGitlabUser>()));
+  }
+
+  //Register dev Dependencies --------
+  if (environment == 'dev') {
+    g.registerLazySingleton<MapPymRemoteDataSource>(
+        () => MapPymRemoteDataSourceImpl(client: g<Client>()));
   }
 }
 
