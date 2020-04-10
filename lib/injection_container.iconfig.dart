@@ -59,12 +59,6 @@ import 'package:app_pym/domain/usecases/github/get_releases.dart';
 import 'package:app_pym/domain/usecases/github/get_user.dart';
 import 'package:app_pym/domain/usecases/github/mock_get_releases.dart';
 import 'package:app_pym/domain/usecases/github/mock_get_user.dart';
-import 'package:app_pym/domain/usecases/services/fetch_categories.dart';
-import 'package:app_pym/domain/repositories/services/categories_repository.dart';
-import 'package:app_pym/domain/usecases/services/fetch_service.dart';
-import 'package:app_pym/domain/repositories/services/services_repository.dart';
-import 'package:app_pym/domain/usecases/services/fetch_services_of_categorie.dart';
-import 'package:app_pym/domain/entities/services/categorie.dart';
 import 'package:app_pym/presentation/blocs/cartographie/ar_view/ar_view_bloc.dart';
 import 'package:app_pym/presentation/blocs/cartographie/batiment/batiment_bloc.dart';
 import 'package:app_pym/presentation/blocs/cartographie/compass/compass_bloc.dart';
@@ -72,17 +66,32 @@ import 'package:app_pym/presentation/blocs/cartographie/entreprise/entreprise_bl
 import 'package:app_pym/presentation/blocs/github_releases/github_releases_bloc.dart';
 import 'package:app_pym/presentation/blocs/github_user/github_user_bloc.dart';
 import 'package:app_pym/presentation/blocs/main/main_page_bloc.dart';
-import 'package:app_pym/presentation/blocs/services/services_bloc.dart';
 import 'package:app_pym/register_module.dart';
 import 'package:hive/hive.dart';
 import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
 import 'package:app_pym/data/models/map_pym/batiment_model.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/src/client.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:app_pym/data/mappers/app_pym/action_mapper.dart';
+import 'package:app_pym/data/mappers/app_pym/service_mapper.dart';
+import 'package:app_pym/data/mappers/app_pym/categorie_mapper.dart';
+import 'package:app_pym/data/mappers/app_pym/mock_action_mapper.dart';
+import 'package:app_pym/data/mappers/app_pym/mock_categorie_mapper.dart';
+import 'package:app_pym/data/mappers/app_pym/mock_service_mapper.dart';
+import 'package:app_pym/domain/repositories/app_pym/mock_categorie_repository.dart';
+import 'package:app_pym/domain/repositories/app_pym/categorie_repository.dart';
+import 'package:app_pym/domain/repositories/app_pym/mock_service_repository.dart';
+import 'package:app_pym/domain/repositories/app_pym/service_repository.dart';
+import 'package:app_pym/domain/usecases/services/mock_fetch_categories.dart';
+import 'package:app_pym/domain/usecases/services/fetch_categories.dart';
+import 'package:app_pym/domain/usecases/services/mock_fetch_services_of_categorie.dart';
+import 'package:app_pym/domain/usecases/services/fetch_services_of_categorie.dart';
+import 'package:app_pym/data/datasources/firestore_data_source.dart';
+import 'package:app_pym/data/datasources/mock_firestore_data_source.dart';
 import 'package:app_pym/data/datasources/firebase_auth_data_source.dart';
 import 'package:app_pym/data/datasources/gitlab_remote_data_source.dart';
 import 'package:app_pym/data/repositories/firebase_auth/app_user_repository_impl.dart';
@@ -102,6 +111,10 @@ import 'package:app_pym/presentation/blocs/firebase_auth/login/login_bloc.dart';
 import 'package:app_pym/presentation/blocs/firebase_auth/register/register_bloc.dart';
 import 'package:app_pym/presentation/blocs/firebase_auth/user_data/user_data_bloc.dart';
 import 'package:app_pym/presentation/blocs/gitlab_user/gitlab_user_bloc.dart';
+import 'package:app_pym/presentation/blocs/services/categories/categories_bloc.dart';
+import 'package:app_pym/presentation/blocs/services/services_of_categorie/services_of_categorie_bloc.dart';
+import 'package:app_pym/data/repositories/app_pym/categorie_repository_impl.dart';
+import 'package:app_pym/data/repositories/app_pym/service_repository_impl.dart';
 import 'package:get_it/get_it.dart';
 
 void $initGetIt(GetIt g, {String environment}) {
@@ -145,8 +158,18 @@ void $initGetIt(GetIt g, {String environment}) {
     g.registerFactory<Box<String>>(() => MockBox());
     g.registerFactory<Connectivity>(() => MockDataConnectionChecker());
     g.registerFactory<Box<EntrepriseModel>>(() => MockEntreprisesBox());
+    g.registerFactory<Firestore>(() => MockFirestore());
     g.registerFactory<Geolocator>(() => MockGeolocator());
     g.registerFactory<Client>(() => MockHttpClient());
+    g.registerFactory<ActionMapper>(() => MockActionMapper());
+    g.registerFactory<CategorieMapper>(() => MockCategorieMapper());
+    g.registerFactory<ServiceMapper>(() => MockServiceMapper());
+    g.registerFactory<CategorieRepository>(() => MockCategorieRepository());
+    g.registerFactory<ServiceRepository>(() => MockServiceRepository());
+    g.registerFactory<FetchCategories>(() => MockFetchCategories());
+    g.registerFactory<FetchServicesOfCategorie>(
+        () => MockFetchServicesOfCategorie());
+    g.registerFactory<FirestoreDataSource>(() => MockFirestoreDataSource());
   }
 
   //Register prod Dependencies --------
@@ -212,12 +235,6 @@ void $initGetIt(GetIt g, {String environment}) {
         () => GetGithubReleases(g<ReleasesRepository>()));
     g.registerLazySingleton<GetGithubUser>(
         () => GetGithubUser(g<UserRepository>()));
-    g.registerLazySingleton<FetchCategories>(
-        () => FetchCategories(g<CategoriesRepository>()));
-    g.registerLazySingleton<FetchServices>(
-        () => FetchServices(g<ServicesRepository>()));
-    g.registerLazySingleton<FetchServicesOfCategorie>(() =>
-        FetchServicesOfCategorie(g<ServicesRepository>(), g<Categorie>()));
     g.registerFactory<ArViewBloc>(
         () => ArViewBloc(g<LoadPageAndPlaceBatiment>()));
     g.registerFactory<BatimentBloc>(() => BatimentBloc(g<GetBatimentDetail>()));
@@ -231,8 +248,6 @@ void $initGetIt(GetIt g, {String environment}) {
     g.registerFactory<GithubUserBloc>(
         () => GithubUserBloc(getGithubUser: g<GetGithubUser>()));
     g.registerFactory<MainPageBloc>(() => MainPageBloc());
-    g.registerFactory<ServicesBloc>(
-        () => ServicesBloc(fetchCategories: g<FetchCategories>()));
     g.registerFactory<Box<List<BatimentPositionModel>>>(
         () => registerModule.batimentPositionBox);
     g.registerFactory<Box<BatimentModel>>(() => registerModule.batimentsBox);
@@ -244,6 +259,13 @@ void $initGetIt(GetIt g, {String environment}) {
     g.registerLazySingleton<Geolocator>(() => registerModule.geolocator);
     g.registerFactory<Box<String>>(() => registerModule.githubBox);
     g.registerLazySingleton<Client>(() => registerModule.httpClient);
+    g.registerLazySingleton<ActionMapper>(() => ActionMapper());
+    g.registerLazySingleton<ServiceMapper>(
+        () => ServiceMapper(actionMapper: g<ActionMapper>()));
+    g.registerLazySingleton<CategorieMapper>(
+        () => CategorieMapper(actionMapper: g<ActionMapper>()));
+    g.registerLazySingleton<FirestoreDataSource>(
+        () => FirestoreDataSourceImpl(firestore: g<Firestore>()));
     g.registerLazySingleton<NetworkInfo>(
         () => NetworkInfoImpl(g<Connectivity>()));
     g.registerLazySingleton<FirebaseAuthDataSource>(() =>
@@ -285,6 +307,10 @@ void $initGetIt(GetIt g, {String environment}) {
         () => FirebaseAuthSignUp(g<AppUserRepository>()));
     g.registerLazySingleton<GetGitlabUser>(
         () => GetGitlabUser(g<GitlabUserRepository>()));
+    g.registerLazySingleton<FetchCategories>(
+        () => FetchCategories(g<CategorieRepository>()));
+    g.registerLazySingleton<FetchServicesOfCategorie>(
+        () => FetchServicesOfCategorie(g<ServiceRepository>()));
     g.registerFactory<AuthenticationBloc>(() => AuthenticationBloc(
           getAppUser: g<GetAppUser>(),
           isSignedIn: g<IsSignedIn>(),
@@ -300,6 +326,14 @@ void $initGetIt(GetIt g, {String environment}) {
         () => UserDataBloc(setUserData: g<SetUserData>()));
     g.registerFactory<GitlabUserBloc>(
         () => GitlabUserBloc(getGitlabUser: g<GetGitlabUser>()));
+    g.registerFactory<CategoriesBloc>(
+        () => CategoriesBloc(g<FetchCategories>()));
+    g.registerFactory<ServicesOfCategorieBloc>(
+        () => ServicesOfCategorieBloc(g<FetchServicesOfCategorie>()));
+    g.registerLazySingleton<CategorieRepository>(() => CategorieRepositoryImpl(
+        dataSource: g<FirestoreDataSource>(), mapper: g<CategorieMapper>()));
+    g.registerLazySingleton<ServiceRepository>(() => ServiceRepositoryImpl(
+        dataSource: g<FirestoreDataSource>(), mapper: g<ServiceMapper>()));
   }
 
   //Register dev Dependencies --------

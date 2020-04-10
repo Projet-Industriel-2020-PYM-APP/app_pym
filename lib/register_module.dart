@@ -37,6 +37,11 @@ class MockDataConnectionChecker extends Mock implements Connectivity {}
 class MockEntreprisesBox extends Mock implements Box<EntrepriseModel> {}
 
 @test
+@RegisterAs(Firestore)
+@injectable
+class MockFirestore extends Mock implements Firestore {}
+
+@test
 @RegisterAs(Geolocator)
 @injectable
 class MockGeolocator extends Mock implements Geolocator {}
