@@ -7,13 +7,13 @@ import 'package:injectable/injectable.dart';
 @lazySingleton
 @injectable
 class FetchTrainStops extends Usecase<Future<List<Stop>>, NoParams> {
-  final FetchTrainNextTrip fetchTrainNextTrip;
+  final FetchTrainTrips fetchTrainTrips;
 
-  const FetchTrainStops(this.fetchTrainNextTrip);
+  const FetchTrainStops(this.fetchTrainTrips);
 
   @override
   Future<List<Stop>> call(NoParams params) async {
-    final trip = await fetchTrainNextTrip(const NoParams());
+    final trip = (await fetchTrainTrips(const NoParams())).first;
     return trip.stop_time.map((e) => e.stop).toList();
   }
 }

@@ -1,7 +1,6 @@
 import 'package:app_pym/data/models/map_pym/batiment_model.dart';
 import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
 import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
-import 'dart:io';
 
 import 'package:archive/archive.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,6 +11,7 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mockito/mockito.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @test
 @RegisterAs(Box)
@@ -43,21 +43,6 @@ class MockEntreprisesBox extends Mock implements Box<EntrepriseModel> {}
 @RegisterAs(Geolocator)
 @injectable
 class MockGeolocator extends Mock implements Geolocator {}
-
-@test
-@RegisterAs(Client)
-@injectable
-class MockHttpClient extends Mock implements Client {}
-
-@test
-@RegisterAs(Box)
-@injectable
-class MockBox extends Mock implements Box<String> {}
-
-@test
-@RegisterAs(Connectivity)
-@injectable
-class MockDataConnectionChecker extends Mock implements Connectivity {}
 
 @test
 @RegisterAs(Client)
@@ -105,4 +90,7 @@ abstract class RegisterModule {
 
   @prod
   ZipDecoder get zipDecoder;
+
+  @prod
+  SharedPreferences get sharedPreferences;
 }

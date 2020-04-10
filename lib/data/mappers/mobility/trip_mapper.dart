@@ -1,6 +1,5 @@
 import 'package:app_pym/core/mappers/mapper.dart';
 import 'package:app_pym/data/models/mobility/trip_model.dart';
-import 'package:app_pym/domain/entities/mobility/calendar.dart';
 import 'package:app_pym/domain/entities/mobility/stop_time.dart';
 import 'package:app_pym/domain/entities/mobility/trip.dart';
 import 'package:injectable/injectable.dart';

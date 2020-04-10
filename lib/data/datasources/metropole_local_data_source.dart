@@ -12,8 +12,12 @@ import 'package:app_pym/data/models/mobility/trip_model.dart';
 import 'package:archive/archive.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class MetropoleLocalDataSource extends GTFSTypeLocalDataSource {}
+abstract class MetropoleLocalDataSource extends GTFSTypeLocalDataSource {
+  DateTime get timestamp;
+  Future<bool> setTimestamp(DateTime timestamp);
+}
 
 @RegisterAs(MetropoleLocalDataSource)
 @prod
@@ -22,11 +26,21 @@ abstract class MetropoleLocalDataSource extends GTFSTypeLocalDataSource {}
 class MetropoleLocalDataSourceImpl implements MetropoleLocalDataSource {
   final DirectoryManager directoryManager;
   final ZipDecoder zipDecoder;
+  final SharedPreferences prefs;
 
   const MetropoleLocalDataSourceImpl({
     @required this.directoryManager,
     @required this.zipDecoder,
+    @required this.prefs,
   });
+
+  @override
+  DateTime get timestamp =>
+      DateTime.parse(prefs.getString('metropole_timestamp'));
+
+  @override
+  Future<bool> setTimestamp(DateTime timestamp) =>
+      prefs.setString('metropole_timestamp', timestamp.toIso8601String());
 
   @override
   Future<List<CalendarModel>> fetchCalendars() async {

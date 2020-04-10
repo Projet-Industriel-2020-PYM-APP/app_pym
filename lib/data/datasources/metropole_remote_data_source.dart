@@ -4,6 +4,8 @@ import 'package:injectable/injectable.dart';
 
 abstract class MetropoleRemoteDataSource {
   Stream<List<int>> download();
+
+  Future<DateTime> get timestamp;
 }
 
 @RegisterAs(MetropoleRemoteDataSource)
@@ -23,5 +25,11 @@ class MetropoleRemoteDataSourceImpl implements MetropoleRemoteDataSource {
     final http.StreamedResponse response = await client.send(request);
 
     yield* response.stream;
+  }
+
+  @override
+  Future<DateTime> get timestamp async {
+    //TODO implement
+    return DateTime.parse("2020-04-03T08:38:30.405000+00:00");
   }
 }

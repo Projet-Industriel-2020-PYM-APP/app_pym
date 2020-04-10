@@ -1,4 +1,3 @@
-import 'package:app_pym/core/constants/mobility.dart';
 import 'package:app_pym/core/network/network_info.dart';
 import 'package:app_pym/data/datasources/metropole_local_data_source.dart';
 import 'package:app_pym/data/datasources/metropole_remote_data_source.dart';
