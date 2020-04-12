@@ -1,7 +1,7 @@
 import 'package:app_pym/core/network/network_info.dart';
 import 'package:app_pym/data/datasources/map_pym_local_data_source.dart';
 import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
-import 'package:app_pym/data/mappers/map_pym/batiment_mapper.dart';
+import 'package:app_pym/data/models/map_pym/batiment_model.dart';
 import 'package:app_pym/domain/entities/map_pym/batiment.dart';
 import 'package:app_pym/domain/repositories/map_pym/batiment_repository.dart';
 import 'package:connectivity/connectivity.dart';
@@ -16,13 +16,11 @@ class BatimentRepositoryImpl implements BatimentRepository {
   final MapPymLocalDataSource localDataSource;
   final MapPymRemoteDataSource remoteDataSource;
   final NetworkInfo networkInfo;
-  final BatimentMapper mapper;
 
   const BatimentRepositoryImpl({
     @required this.localDataSource,
     @required this.remoteDataSource,
     @required this.networkInfo,
-    @required this.mapper,
   });
 
   @override
@@ -30,10 +28,10 @@ class BatimentRepositoryImpl implements BatimentRepository {
     if (await networkInfo.result != ConnectivityResult.none) {
       final data = await remoteDataSource.fetchBatiment(id);
       await localDataSource.cacheBatiment(data);
-      return mapper.mapTo(data);
+      return data.toEntity();
     } else {
       final data = await localDataSource.fetchBatiment(id);
-      return mapper.mapTo(data);
+      return data.toEntity();
     }
   }
 }

@@ -22,11 +22,6 @@ class MockBatimentPositionBox extends Mock
 class MockBatimentsBox extends Mock implements Box<BatimentModel> {}
 
 @test
-@RegisterAs(Box)
-@injectable
-class MockBox extends Mock implements Box<String> {}
-
-@test
 @RegisterAs(Connectivity)
 @injectable
 class MockDataConnectionChecker extends Mock implements Connectivity {}
@@ -72,9 +67,6 @@ abstract class RegisterModule {
   @prod
   @lazySingleton
   Geolocator get geolocator => Geolocator();
-
-  @prod
-  Box<String> get githubBox => Hive.box<String>('prefs');
 
   @prod
   @lazySingleton

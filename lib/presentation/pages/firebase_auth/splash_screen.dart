@@ -8,8 +8,9 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: RaisedButton(
-          onPressed: () =>
-              context.bloc<AuthenticationBloc>().add(const AppStarted()),
+          onPressed: () => context
+              .bloc<AuthenticationBloc>()
+              .add(const AuthenticationEvent.appStated()),
           child: const Text("Refresh"),
         ),
       ),

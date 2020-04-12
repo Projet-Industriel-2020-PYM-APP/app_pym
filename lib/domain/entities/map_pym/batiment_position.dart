@@ -1,20 +1,12 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class BatimentPosition extends Equatable {
-  final num latitude;
-  final num longitude;
-  final int idBatiment;
+part 'batiment_position.freezed.dart';
 
-  const BatimentPosition({
-    this.latitude,
-    this.longitude,
-    this.idBatiment,
-  });
-
-  @override
-  List<Object> get props => <Object>[
-        this.latitude,
-        this.longitude,
-        this.idBatiment,
-      ];
+@freezed
+abstract class BatimentPosition with _$BatimentPosition {
+  const factory BatimentPosition({
+    @required num latitude,
+    @required num longitude,
+    @required int idBatiment,
+  }) = _BatimentPosition;
 }

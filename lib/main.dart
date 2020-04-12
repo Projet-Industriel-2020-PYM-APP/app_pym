@@ -18,7 +18,6 @@ Future<void> main() async {
   Hive.registerAdapter<BatimentPositionModel>(BatimentPositionModelAdapter());
   Hive.registerAdapter<BatimentModel>(BatimentModelAdapter());
   Hive.registerAdapter<EntrepriseModel>(EntrepriseModelAdapter());
-  await Hive.openBox<String>('prefs');
   await Hive.openBox<List<BatimentPositionModel>>('/batiments_position');
   await Hive.openBox<BatimentModel>('/batiments');
   await Hive.openBox<EntrepriseModel>('/entreprises');

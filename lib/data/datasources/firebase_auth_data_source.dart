@@ -42,9 +42,9 @@ class FirebaseAuthDataSourceImpl implements FirebaseAuthDataSource {
             .collection('users')
             .document(user.uid)
             .snapshots()
-            .map((snap) => AppUserModel.fromMap(snap.data));
+            .map((snap) => AppUserModel.fromJson(snap.data));
       } else {
-        return Stream<AppUserModel>.value(const AppUserModel());
+        return Stream<AppUserModel>.value(null);
       }
     });
     stream.listen(profileController.add);
@@ -85,7 +85,7 @@ class FirebaseAuthDataSourceImpl implements FirebaseAuthDataSource {
   Future<void> setUserData(AppUserModel appUser) {
     final DocumentReference ref = db.collection('users').document(appUser.uid);
 
-    return ref.setData(appUser.toMap(), merge: true);
+    return ref.setData(appUser.toJson(), merge: true);
   }
 
   @override

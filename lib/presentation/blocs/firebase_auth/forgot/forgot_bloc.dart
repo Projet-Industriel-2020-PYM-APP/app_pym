@@ -1,12 +1,14 @@
 import 'dart:async';
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:app_pym/core/validators.dart';
 import 'package:app_pym/data/datasources/firebase_auth_data_source.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart' show DebounceExtensions, MergeExtension;
 
+part 'forgot_bloc.freezed.dart';
 part 'forgot_event.dart';
 part 'forgot_state.dart';
 
@@ -15,10 +17,20 @@ part 'forgot_state.dart';
 class ForgotBloc extends Bloc<ForgotEvent, ForgotState> {
   final FirebaseAuthDataSource firebaseAuthDataSource;
 
-  ForgotBloc({@required this.firebaseAuthDataSource});
+  ForgotBloc(this.firebaseAuthDataSource);
 
   @override
   ForgotState get initialState => ForgotState.empty();
+
+  @override
+  Stream<ForgotState> mapEventToState(
+    ForgotEvent event,
+  ) async* {
+    yield* event.when(
+      emailChanged: _mapEmailChangedToState,
+      submitted: _mapFormSubmittedToState,
+    );
+  }
 
   @override
   Stream<ForgotState> transformEvents(
@@ -33,17 +45,6 @@ class ForgotBloc extends Bloc<ForgotEvent, ForgotState> {
     }).debounceTime(const Duration(milliseconds: 300));
     return super
         .transformEvents(nonDebounceStream.mergeWith([debounceStream]), next);
-  }
-
-  @override
-  Stream<ForgotState> mapEventToState(
-    ForgotEvent event,
-  ) async* {
-    if (event is EmailChanged) {
-      yield* _mapEmailChangedToState(event.email);
-    } else if (event is Submitted) {
-      yield* _mapFormSubmittedToState(event.email);
-    }
   }
 
   Stream<ForgotState> _mapEmailChangedToState(String email) async* {

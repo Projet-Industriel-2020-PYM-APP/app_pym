@@ -7,36 +7,32 @@ import 'package:app_pym/domain/entities/map_pym/batiment.dart';
 import 'package:app_pym/domain/entities/map_pym/batiment_position.dart';
 import 'package:app_pym/domain/repositories/map_pym/batiment_position_repository.dart';
 import 'package:app_pym/domain/repositories/map_pym/batiment_repository.dart';
-import 'package:equatable/equatable.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:rxdart/rxdart.dart';
 
-class Params extends Equatable {
-  /// Degrees
-  final num bearingBetweenCameraAndNorth;
-  final UnityWidgetController controller;
+part 'load_page_and_place_batiments.freezed.dart';
 
-  const Params({
-    @required this.bearingBetweenCameraAndNorth,
-    @required this.controller,
-  });
-
-  @override
-  List<Object> get props => [
-        bearingBetweenCameraAndNorth,
-        controller,
-      ];
+@freezed
+abstract class LoadPageAndPlaceBatimentParams
+    with _$LoadPageAndPlaceBatimentParams {
+  const factory LoadPageAndPlaceBatimentParams({
+    @required num bearingBetweenCameraAndNorth,
+    @required UnityWidgetController controller,
+  }) = _LoadPageAndPlaceBatimentParams;
 }
 
 @prod
 @lazySingleton
 @injectable
-class LoadPageAndPlaceBatiment extends Usecase<Future<Position>, Params> {
+class LoadPageAndPlaceBatiment
+    extends Usecase<Future<Position>, LoadPageAndPlaceBatimentParams> {
   final GeolocatorDevice geolocatorDevice;
   final BatimentPositionRepository batimentPositionRepository;
   final BatimentRepository batimentRepository;
@@ -48,7 +44,7 @@ class LoadPageAndPlaceBatiment extends Usecase<Future<Position>, Params> {
   });
 
   @override
-  Future<Position> call(Params params) async {
+  Future<Position> call(LoadPageAndPlaceBatimentParams params) async {
     final num bearingBetweenCameraAndNorth =
         params.bearingBetweenCameraAndNorth * math.pi / 180;
     final Future<List<BatimentPosition>> batimentPositions =

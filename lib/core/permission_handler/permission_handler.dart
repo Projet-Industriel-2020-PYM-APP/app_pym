@@ -2,8 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 abstract class PermissionHandler {
-  Future<bool> get cameraIsGranted;
-  Future<bool> get locationWhenInUseIsGranted;
+  Future<Map<Permission, PermissionStatus>> get requestPermissions;
   Future<bool> get locationIsEnabled;
 }
 
@@ -13,11 +12,10 @@ abstract class PermissionHandler {
 @injectable
 class PermissionHandlerImpl implements PermissionHandler {
   @override
-  Future<bool> get cameraIsGranted => Permission.camera.request().isGranted;
-
-  @override
-  Future<bool> get locationWhenInUseIsGranted =>
-      Permission.locationWhenInUse.request().isGranted;
+  Future<Map<Permission, PermissionStatus>> get requestPermissions => [
+        Permission.camera,
+        Permission.locationWhenInUse,
+      ].request();
 
   @override
   Future<bool> get locationIsEnabled =>

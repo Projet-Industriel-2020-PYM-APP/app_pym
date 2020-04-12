@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:app_pym/core/validators.dart';
 import 'package:app_pym/domain/usecases/firebase_auth/signup.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart' show DebounceExtensions, MergeExtension;
 
+part 'register_bloc.freezed.dart';
 part 'register_event.dart';
 part 'register_state.dart';
 
@@ -15,7 +17,7 @@ part 'register_state.dart';
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final FirebaseAuthSignUp firebaseAuthSignUp;
 
-  RegisterBloc({@required this.firebaseAuthSignUp});
+  RegisterBloc(this.firebaseAuthSignUp);
 
   @override
   RegisterState get initialState => RegisterState.empty();
@@ -39,13 +41,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   Stream<RegisterState> mapEventToState(
     RegisterEvent event,
   ) async* {
-    if (event is EmailChanged) {
-      yield* _mapEmailChangedToState(event.email);
-    } else if (event is PasswordChanged) {
-      yield* _mapPasswordChangedToState(event.password);
-    } else if (event is Submitted) {
-      yield* _mapFormSubmittedToState(event.email, event.password);
-    }
+    event.when(
+      emailChanged: _mapEmailChangedToState,
+      passwordChanged: _mapPasswordChangedToState,
+      submitted: _mapFormSubmittedToState,
+    );
   }
 
   Stream<RegisterState> _mapEmailChangedToState(String email) async* {

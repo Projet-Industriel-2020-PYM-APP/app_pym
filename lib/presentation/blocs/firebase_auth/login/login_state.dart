@@ -1,22 +1,14 @@
 part of 'login_bloc.dart';
 
-@immutable
-class LoginState extends Equatable {
-  final bool isEmailValid;
-  final bool isPasswordValid;
-  final bool isSubmitting;
-  final bool isSuccess;
-  final bool isFailure;
-
-  bool get isFormValid => isEmailValid && isPasswordValid;
-
-  const LoginState({
-    @required this.isEmailValid,
-    @required this.isPasswordValid,
-    @required this.isSubmitting,
-    @required this.isSuccess,
-    @required this.isFailure,
-  });
+@freezed
+abstract class LoginState with _$LoginState {
+  const factory LoginState({
+    @required bool isEmailValid,
+    @required bool isPasswordValid,
+    @required bool isSubmitting,
+    @required bool isSuccess,
+    @required bool isFailure,
+  }) = _LoginState;
 
   factory LoginState.empty() {
     return const LoginState(
@@ -57,12 +49,16 @@ class LoginState extends Equatable {
       isFailure: false,
     );
   }
+}
+
+extension LoginStateX on LoginState {
+  bool get isFormValid => isEmailValid && isPasswordValid;
 
   LoginState update({
     bool isEmailValid,
     bool isPasswordValid,
   }) {
-    return copyWith(
+    return this.copyWith(
       isEmailValid: isEmailValid,
       isPasswordValid: isPasswordValid,
       isSubmitting: false,
@@ -70,41 +66,4 @@ class LoginState extends Equatable {
       isFailure: false,
     );
   }
-
-  LoginState copyWith({
-    bool isEmailValid,
-    bool isPasswordValid,
-    bool isSubmitEnabled,
-    bool isSubmitting,
-    bool isSuccess,
-    bool isFailure,
-  }) {
-    return LoginState(
-      isEmailValid: isEmailValid ?? this.isEmailValid,
-      isPasswordValid: isPasswordValid ?? this.isPasswordValid,
-      isSubmitting: isSubmitting ?? this.isSubmitting,
-      isSuccess: isSuccess ?? this.isSuccess,
-      isFailure: isFailure ?? this.isFailure,
-    );
-  }
-
-  @override
-  String toString() {
-    return '''LoginState {
-      isEmailValid: $isEmailValid,
-      isPasswordValid: $isPasswordValid,
-      isSubmitting: $isSubmitting,
-      isSuccess: $isSuccess,
-      isFailure: $isFailure,
-    }''';
-  }
-
-  @override
-  List<Object> get props => [
-        this.isEmailValid,
-        this.isPasswordValid,
-        this.isSubmitting,
-        this.isSuccess,
-        this.isFailure,
-      ];
 }

@@ -54,66 +54,89 @@ class ArScreen extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          if (state is CompassLoaded) {
-            return const ArMainScreen();
-          } else if (state is CompassNotPermitted) {
-            return ArNotPermittedScreen(state);
-          } else if (state is CompassLoading || state is CompassInitial) {
-            return const LinearProgressIndicator(
+          return state.map(
+            initial: (_) => const LinearProgressIndicator(
               semanticsLabel: "AR is loading",
-            );
-          } else if (state is CompassMovingLoading) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                ValueListenableBuilder<double>(
-                  valueListenable: context.bloc<CompassBloc>().progress,
-                  builder: (context, value, _) => LinearProgressIndicator(
-                    semanticsLabel: "AR is loading",
-                    value: value,
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "Veuillez agiter l'appareil.",
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      Image.asset('assets/images/cartographie/move.gif'),
-                    ],
-                  ),
-                ),
-              ],
-            );
-          } else if (state is CompassStopMovingLoading) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                const LinearProgressIndicator(
-                  semanticsLabel: "AR is loading",
-                ),
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.center,
-                    color: Colors.white,
-                    child: Text(
-                      "Veuillez arrêter d'agiter l'appareil.",
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                  ),
-                ),
-              ],
-            );
-          } else {
-            return Container();
-          }
+            ),
+            loading: (_) => const LinearProgressIndicator(
+              semanticsLabel: "AR is loading",
+            ),
+            movingLoading: (_) {
+              return const MovingLoadingWidget();
+            },
+            stopMovingLoading: (_) {
+              return const StopMovingLoadingWidget();
+            },
+            loaded: (_) => const ArMainScreen(),
+            notPermitted: (s) => ArNotPermittedScreen(s),
+          );
         },
       ),
+    );
+  }
+}
+
+class StopMovingLoadingWidget extends StatelessWidget {
+  const StopMovingLoadingWidget({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        const LinearProgressIndicator(
+          semanticsLabel: "AR is loading",
+        ),
+        Expanded(
+          child: Container(
+            alignment: Alignment.center,
+            color: Colors.white,
+            child: Text(
+              "Veuillez arrêter d'agiter l'appareil.",
+              style: Theme.of(context).textTheme.headline6,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class MovingLoadingWidget extends StatelessWidget {
+  const MovingLoadingWidget({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        ValueListenableBuilder<double>(
+          valueListenable: context.bloc<CompassBloc>().progress,
+          builder: (context, value, _) => LinearProgressIndicator(
+            semanticsLabel: "AR is loading",
+            value: value,
+          ),
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                "Veuillez agiter l'appareil.",
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              Image.asset('assets/images/cartographie/move.gif'),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -163,15 +186,16 @@ class ArMainScreen extends StatelessWidget {
         const ArView(),
         BlocBuilder<ArViewBloc, ArViewState>(
           builder: (context, state) {
-            if (state is ArViewLoading || state is ArViewUnloaded) {
-              return const LinearProgressIndicator(
+            return state.when(
+              initial: () => const LinearProgressIndicator(
                 semanticsLabel: "AR is loading",
-              );
-            } else if (state is ArViewError) {
-              return Text(state.error.toString());
-            } else {
-              return Container();
-            }
+              ),
+              loaded: () => Container(),
+              loading: () => const LinearProgressIndicator(
+                semanticsLabel: "AR is loading",
+              ),
+              error: (e) => Text(e.toString()),
+            );
           },
         )
       ],

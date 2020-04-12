@@ -1,31 +1,16 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Batiment extends Equatable {
-  final int id;
-  final String nom;
-  final int nbEtage;
-  final String description;
-  final bool accesHandicape;
-  final String url;
-  final String adresse;
+part 'batiment.freezed.dart';
 
-  const Batiment({
-    this.id,
-    this.nom,
-    this.nbEtage,
-    this.description,
-    this.accesHandicape,
-    this.url,
-    this.adresse,
-  });
-  @override
-  List<Object> get props => <Object>[
-        this.id,
-        this.nom,
-        this.nbEtage,
-        this.description,
-        this.accesHandicape,
-        this.url,
-        this.adresse,
-      ];
+@freezed
+abstract class Batiment with _$Batiment {
+  const factory Batiment({
+    @required int id,
+    @required String nom,
+    @required int nbEtage,
+    @required String description,
+    @required bool accesHandicape,
+    @required String url,
+    @required String adresse,
+  }) = _Batiment;
 }

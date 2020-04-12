@@ -1,14 +1,7 @@
 part of 'batiment_bloc.dart';
 
-abstract class BatimentEvent extends Equatable {
-  const BatimentEvent();
-}
-
-class GetBatimentDetailEvent extends BatimentEvent {
-  final int id;
-
-  const GetBatimentDetailEvent(this.id);
-
-  @override
-  List<Object> get props => [];
+@freezed
+abstract class BatimentEvent with _$BatimentEvent {
+  const factory BatimentEvent.getBatimentDetail(int id) =
+      GetBatimentDetailEvent;
 }

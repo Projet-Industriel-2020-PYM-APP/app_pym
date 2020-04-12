@@ -1,12 +1,6 @@
 part of 'compass_bloc.dart';
 
-abstract class CompassEvent extends Equatable {
-  const CompassEvent();
-}
-
-class LoadHeadingEvent extends CompassEvent {
-  const LoadHeadingEvent();
-
-  @override
-  List<Object> get props => [];
+@freezed
+abstract class CompassEvent with _$CompassEvent {
+  const factory CompassEvent.loadHeading() = LoadHeadingEvent;
 }

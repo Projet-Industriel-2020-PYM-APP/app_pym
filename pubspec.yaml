@@ -20,7 +20,6 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^3.2.0 # bloclibrary.dev
-  equatable: ^1.1.1 # felangelov@gmail.com
   http: ^0.12.0+4 # dart.dev
   hive: ^1.4.1+1
   hive_flutter: ^0.3.0+2
@@ -45,6 +44,7 @@ dependencies:
   geolocator: ^5.3.1
   flutter_compass: ^0.4.1
   url_launcher: ^5.4.2
+  freezed_annotation: ^0.7.1
 
 dependency_overrides:
   dartx: ^0.3.0
@@ -57,8 +57,9 @@ dev_dependencies:
   test: any
   hive_generator: ^0.7.0+2
   build_runner: any
-  injectable_generator: ^0.3.3
+  injectable_generator: ^0.3.4
   extra_pedantic: 1.2.0
+  freezed: ^0.10.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -71,7 +72,7 @@ flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
-  - assets/images/cartographie/
+    - assets/images/cartographie/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

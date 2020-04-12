@@ -1,35 +1,17 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Entreprise extends Equatable {
-  final int id;
-  final String nom;
-  final String site_internet;
-  final int nb_salaries;
-  final String telephone;
-  final String mail;
-  final String logo;
-  final int idBatiment;
+part 'entreprise.freezed.dart';
 
-  const Entreprise({
-    this.id,
-    this.nom,
-    this.site_internet,
-    this.nb_salaries,
-    this.telephone,
-    this.mail,
-    this.logo,
-    this.idBatiment,
-  });
-
-  @override
-  List<Object> get props => <Object>[
-        this.id,
-        this.nom,
-        this.site_internet,
-        this.nb_salaries,
-        this.telephone,
-        this.mail,
-        this.logo,
-        this.idBatiment,
-      ];
+@freezed
+abstract class Entreprise with _$Entreprise {
+  const factory Entreprise({
+    @required int id,
+    @required String nom,
+    @required String site_internet,
+    @required int nb_salaries,
+    @required String telephone,
+    @required String mail,
+    @required String logo,
+    @required int idBatiment,
+  }) = _Entreprise;
 }

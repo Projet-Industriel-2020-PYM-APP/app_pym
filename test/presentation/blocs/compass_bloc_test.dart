@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:injectable/injectable.dart' show Environment;
 import 'package:mockito/mockito.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() {
   CompassBloc bloc;
@@ -39,10 +40,10 @@ void main() {
           yield* Stream.fromIterable(List.generate(600, (index) => 1.0));
           yield await Future.delayed(const Duration(seconds: 5), () => 0.0);
         });
-        when(mockPermissionHandler.cameraIsGranted)
-            .thenAnswer((_) async => true);
-        when(mockPermissionHandler.locationWhenInUseIsGranted)
-            .thenAnswer((_) async => true);
+        when(mockPermissionHandler.requestPermissions).thenAnswer((_) async => {
+              Permission.locationWhenInUse: PermissionStatus.granted,
+              Permission.camera: PermissionStatus.granted,
+            });
         when(mockPermissionHandler.locationIsEnabled)
             .thenAnswer((_) async => true);
         // assert later
@@ -64,10 +65,10 @@ void main() {
       'should emit [CompassInitial, CompassLoading, CompassNotPermitted] when cameraIsGranted false',
       () async {
         // arrange
-        when(mockPermissionHandler.cameraIsGranted)
-            .thenAnswer((_) async => false);
-        when(mockPermissionHandler.locationWhenInUseIsGranted)
-            .thenAnswer((_) async => true);
+        when(mockPermissionHandler.requestPermissions).thenAnswer((_) async => {
+              Permission.locationWhenInUse: PermissionStatus.granted,
+              Permission.camera: PermissionStatus.denied,
+            });
         when(mockPermissionHandler.locationIsEnabled)
             .thenAnswer((_) async => true);
         // assert later
@@ -94,10 +95,10 @@ void main() {
         // arrange
         when(mockCompassDevice.heading).thenAnswer(
             (_) => Stream.fromIterable(List.generate(600, (index) => 1.0)));
-        when(mockPermissionHandler.cameraIsGranted)
-            .thenAnswer((_) async => true);
-        when(mockPermissionHandler.locationWhenInUseIsGranted)
-            .thenAnswer((_) async => false);
+        when(mockPermissionHandler.requestPermissions).thenAnswer((_) async => {
+              Permission.locationWhenInUse: PermissionStatus.denied,
+              Permission.camera: PermissionStatus.granted,
+            });
         when(mockPermissionHandler.locationIsEnabled)
             .thenAnswer((_) async => true);
         // assert later

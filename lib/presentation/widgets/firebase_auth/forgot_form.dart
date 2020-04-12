@@ -108,15 +108,11 @@ class _ForgotFormState extends State<ForgotForm> {
 
   void _onEmailChanged() {
     _forgotBloc.add(
-      EmailChanged(email: _emailController.text),
+      ForgotEvent.emailChanged(_emailController.text),
     );
   }
 
   void _onFormSubmitted() {
-    _forgotBloc.add(
-      Submitted(
-        email: _emailController.text,
-      ),
-    );
+    _forgotBloc.add(ForgotEvent.submitted(_emailController.text));
   }
 }
