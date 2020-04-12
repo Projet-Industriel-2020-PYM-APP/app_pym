@@ -26,10 +26,11 @@ void main() {
   });
 
   group('fetchLastReleases', () {
-    final tListGithubReleaseModel = List<Map<String, dynamic>>.from(
-            json.decode(fixture('releases.json')) as List<dynamic>)
-        .map((Map<String, dynamic> data) => GithubReleaseModel.fromJson(data))
-        .toList();
+    final tListGithubReleaseModel =
+        (json.decode(fixture('releases.json')) as List)
+            .map((dynamic data) =>
+                GithubReleaseModel.fromJson(data as Map<String, dynamic>))
+            .toList();
     test(
       'should return ListGithubRelease from Github when there is one in the cache',
       () async {
@@ -57,10 +58,11 @@ void main() {
   });
 
   group('cacheReleases', () {
-    final tListGithubReleaseModel = List<Map<String, dynamic>>.from(
-            json.decode(fixture('releases.json')) as List<dynamic>)
-        .map((Map<String, dynamic> data) => GithubReleaseModel.fromJson(data))
-        .toList();
+    final tListGithubReleaseModel =
+        (json.decode(fixture('releases.json')) as List)
+            .map((dynamic data) =>
+                GithubReleaseModel.fromJson(data as Map<String, dynamic>))
+            .toList();
 
     test(
       'should call Github to cache the data',

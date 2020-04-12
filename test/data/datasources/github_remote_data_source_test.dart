@@ -41,10 +41,11 @@ void main() {
   }
 
   group('fetchReleases', () {
-    final tListGithubReleaseModel = List<Map<String, dynamic>>.from(
-            json.decode(fixture('releases.json')) as List<dynamic>)
-        .map((Map<String, dynamic> data) => GithubReleaseModel.fromJson(data))
-        .toList();
+    final tListGithubReleaseModel =
+        (json.decode(fixture('releases.json')) as List)
+            .map((dynamic data) =>
+                GithubReleaseModel.fromJson(data as Map<String, dynamic>))
+            .toList();
 
     test(
       "should perform a GET request on a URL with tRepo being the endpoint",

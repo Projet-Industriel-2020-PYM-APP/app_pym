@@ -33,9 +33,9 @@ class GithubRemoteDataSourceImpl implements GithubRemoteDataSource {
         await client.get('https://api.github.com/repos/$repo/releases');
 
     if (response.statusCode == 200) {
-      return List<Map<String, dynamic>>.from(
-              json.decode(response.body) as List<dynamic>)
-          .map((Map<String, dynamic> data) => GithubReleaseModel.fromJson(data))
+      return (json.decode(response.body) as List)
+          .map((dynamic data) =>
+              GithubReleaseModel.fromJson(data as Map<String, dynamic>))
           .toList();
     } else {
       throw ServerException('Failed to load releases : ${response.statusCode}');

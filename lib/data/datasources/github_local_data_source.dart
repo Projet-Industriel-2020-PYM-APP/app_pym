@@ -49,9 +49,9 @@ class GithubLocalDataSourceImpl implements GithubLocalDataSource {
   Future<List<GithubReleaseModel>> fetchLastReleases(String repo) async {
     final jsonString = box.get(repo);
     if (jsonString != null) {
-      return List<Map<String, dynamic>>.from(
-              json.decode(jsonString) as List<dynamic>)
-          .map((Map<String, dynamic> data) => GithubReleaseModel.fromJson(data))
+      return (json.decode(jsonString) as List)
+          .map((dynamic data) =>
+              GithubReleaseModel.fromJson(data as Map<String, dynamic>))
           .toList();
     } else {
       throw CacheException();
