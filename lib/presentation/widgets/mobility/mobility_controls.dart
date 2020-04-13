@@ -22,29 +22,20 @@ class _MobilityControlsState extends State<MobilityControls> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             RaisedButton(
-              onPressed: () => {
-                //Est-ce nécessaire de cacher avant d'afficher le nouveau ?
-                context.bloc<TrainTripsBloc>().add(const HideTrainEvent()),
-                context
-                    .bloc<BusTripsBloc>()
-                    .add(const FetchBusEvent(Direction.Aller)),
-              },
+              onPressed: () => context
+                  .bloc<BusTripsBloc>()
+                  .add(const FetchBusEvent(Direction.Aller)),
               child: const Text(" Bus "),
             ),
             RaisedButton(
-              onPressed: () => {
-                context.bloc<BusTripsBloc>().add(const HideBusEvent()),
-                context
-                    .bloc<TrainTripsBloc>()
-                    .add(const FetchTrainEvent(Direction.Aller)),
-              },
+              onPressed: () => context
+                  .bloc<TrainTripsBloc>()
+                  .add(const FetchTrainEvent(Direction.Aller)),
               child: const Text("Train"),
             ),
             RaisedButton(
-              onPressed: () => {
-                context.bloc<BusTripsBloc>().add(const HideBusEvent()),
-                context.bloc<TrainTripsBloc>().add(const HideTrainEvent()),
-              },
+              onPressed: () =>
+                  context.bloc<BusTripsBloc>().add(const HideBusEvent()),
               child: const Text("Cacher"),
             ),
           ],

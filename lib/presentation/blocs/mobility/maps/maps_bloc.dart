@@ -23,6 +23,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
     if (event is FetchMapsEvent) {
       yield const MapsLoading();
       try {
+        //TODO use lastKnownPosition
         final position = await Geolocator()
             .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
         yield MapsLoaded(LatLng(position.latitude, position.longitude));
