@@ -18,26 +18,27 @@ class EntrepriseListDisplay extends StatelessWidget {
           sl<EntrepriseBloc>()..add(GetEntreprisesOfBatimentEvent(idBatiment)),
       child: BlocBuilder<EntrepriseBloc, EntrepriseState>(
         builder: (context, state) {
-          if (state is EntrepriseUnloaded || state is EntrepriseLoading) {
-            return const Center(
+          return state.when(
+            initial: () => const Center(
               child: CircularProgressIndicator(),
-            );
-          } else if (state is EntreprisesOfBatimentLoaded) {
-            final children =
-                state.entreprises.map((e) => EntrepriseTile(e)).toList();
-            return Column(children: children);
-          } else if (state is EntrepriseError) {
-            return ListTile(
+            ),
+            entreprisesOfBatimentLoaded: (entreprises) {
+              final children =
+                  entreprises.map((e) => EntrepriseTile(e)).toList();
+              return Column(children: children);
+            },
+            loading: () => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            error: (e) => ListTile(
               title: Text(
-                state.error.toString(),
+                e.toString(),
                 style: Theme.of(context).textTheme.bodyText1.apply(
                       color: Theme.of(context).errorColor,
                     ),
               ),
-            );
-          } else {
-            return null;
-          }
+            ),
+          );
         },
       ),
     );

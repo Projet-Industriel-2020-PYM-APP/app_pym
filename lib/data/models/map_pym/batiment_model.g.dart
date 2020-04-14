@@ -6,17 +6,17 @@ part of 'batiment_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class BatimentModelAdapter extends TypeAdapter<BatimentModel> {
+class _$_BatimentModelAdapter extends TypeAdapter<_$_BatimentModel> {
   @override
   final typeId = 1;
 
   @override
-  BatimentModel read(BinaryReader reader) {
+  _$_BatimentModel read(BinaryReader reader) {
     var numOfFields = reader.readByte();
     var fields = <int, dynamic>{
       for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return BatimentModel(
+    return _$_BatimentModel(
       id: fields[0] as int,
       nom: fields[1] as String,
       nbEtage: fields[2] as int,
@@ -28,7 +28,7 @@ class BatimentModelAdapter extends TypeAdapter<BatimentModel> {
   }
 
   @override
-  void write(BinaryWriter writer, BatimentModel obj) {
+  void write(BinaryWriter writer, _$_BatimentModel obj) {
     writer
       ..writeByte(7)
       ..writeByte(0)
@@ -52,8 +52,8 @@ class BatimentModelAdapter extends TypeAdapter<BatimentModel> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-BatimentModel _$BatimentModelFromJson(Map<String, dynamic> json) {
-  return BatimentModel(
+_$_BatimentModel _$_$_BatimentModelFromJson(Map<String, dynamic> json) {
+  return _$_BatimentModel(
     id: json['id'] as int,
     nom: json['nom'] as String,
     nbEtage: json['nbEtage'] as int,
@@ -64,7 +64,7 @@ BatimentModel _$BatimentModelFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$BatimentModelToJson(BatimentModel instance) =>
+Map<String, dynamic> _$_$_BatimentModelToJson(_$_BatimentModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'nom': instance.nom,

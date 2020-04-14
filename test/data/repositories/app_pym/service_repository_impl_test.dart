@@ -1,5 +1,4 @@
 import 'package:app_pym/data/datasources/firestore_data_source.dart';
-import 'package:app_pym/data/mappers/app_pym/service_mapper.dart';
 import 'package:app_pym/data/models/app_pym/action_model.dart';
 import 'package:app_pym/data/models/app_pym/service_model.dart';
 import 'package:app_pym/data/repositories/app_pym/service_repository_impl.dart';
@@ -14,16 +13,13 @@ import 'package:mockito/mockito.dart';
 void main() {
   ServiceRepositoryImpl repository;
   FirestoreDataSource mockDataSource;
-  ServiceMapper mockServiceMapper;
 
   init(env: Environment.test);
 
   setUp(() {
     mockDataSource = sl<FirestoreDataSource>();
-    mockServiceMapper = sl<ServiceMapper>();
     repository = ServiceRepositoryImpl(
       dataSource: mockDataSource,
-      mapper: mockServiceMapper,
     );
   });
 
@@ -71,7 +67,6 @@ void main() {
         // arrange
         when(mockDataSource.fetchServicesOf(any))
             .thenAnswer((_) => Stream.fromIterable([tListServiceModel]));
-        when(mockServiceMapper.mapTo(tServiceModel)).thenReturn(tService);
         // act
         final result = await repository.fetchServicesOf(tCategorie).toList();
         // assert

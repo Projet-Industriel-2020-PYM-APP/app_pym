@@ -1,20 +1,12 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Action extends Equatable {
-  final String id;
-  final String name;
-  final String html_url;
+part 'action.freezed.dart';
 
-  const Action({
-    this.id,
-    this.name,
-    this.html_url,
-  });
-
-  @override
-  List<Object> get props => <Object>[
-        id,
-        name,
-        html_url,
-      ];
+@freezed
+abstract class Action with _$Action {
+  const factory Action({
+    String id,
+    String name,
+    String html_url,
+  }) = _Action;
 }

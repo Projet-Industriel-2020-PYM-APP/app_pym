@@ -6,17 +6,18 @@ part of 'batiment_position_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class BatimentPositionModelAdapter extends TypeAdapter<BatimentPositionModel> {
+class _$_BatimentPositionModelAdapter
+    extends TypeAdapter<_$_BatimentPositionModel> {
   @override
   final typeId = 0;
 
   @override
-  BatimentPositionModel read(BinaryReader reader) {
+  _$_BatimentPositionModel read(BinaryReader reader) {
     var numOfFields = reader.readByte();
     var fields = <int, dynamic>{
       for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return BatimentPositionModel(
+    return _$_BatimentPositionModel(
       latitude: fields[0] as num,
       longitude: fields[1] as num,
       idBatiment: fields[2] as int,
@@ -24,7 +25,7 @@ class BatimentPositionModelAdapter extends TypeAdapter<BatimentPositionModel> {
   }
 
   @override
-  void write(BinaryWriter writer, BatimentPositionModel obj) {
+  void write(BinaryWriter writer, _$_BatimentPositionModel obj) {
     writer
       ..writeByte(3)
       ..writeByte(0)
@@ -40,17 +41,17 @@ class BatimentPositionModelAdapter extends TypeAdapter<BatimentPositionModel> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-BatimentPositionModel _$BatimentPositionModelFromJson(
+_$_BatimentPositionModel _$_$_BatimentPositionModelFromJson(
     Map<String, dynamic> json) {
-  return BatimentPositionModel(
+  return _$_BatimentPositionModel(
     latitude: json['latitude'] as num,
     longitude: json['longitude'] as num,
     idBatiment: json['idBatiment'] as int,
   );
 }
 
-Map<String, dynamic> _$BatimentPositionModelToJson(
-        BatimentPositionModel instance) =>
+Map<String, dynamic> _$_$_BatimentPositionModelToJson(
+        _$_BatimentPositionModel instance) =>
     <String, dynamic>{
       'latitude': instance.latitude,
       'longitude': instance.longitude,

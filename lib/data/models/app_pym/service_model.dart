@@ -1,35 +1,21 @@
 import 'package:app_pym/data/models/app_pym/action_model.dart';
+import 'package:app_pym/domain/entities/app_pym/service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class ServiceModel extends Equatable {
-  final String id;
-  final String title;
-  final String categorie_id;
-  final String subtitle;
-  final String address;
-  final String img_url;
-  final List<ActionModel> actions;
+part 'service_model.freezed.dart';
 
-  const ServiceModel({
-    this.id,
-    this.title,
-    this.categorie_id,
-    this.subtitle,
-    this.address,
-    this.img_url,
-    this.actions,
-  });
-  @override
-  List<Object> get props => <Object>[
-        id,
-        title,
-        categorie_id,
-        subtitle,
-        address,
-        img_url,
-        actions,
-      ];
+@freezed
+abstract class ServiceModel with _$ServiceModel {
+  const factory ServiceModel({
+    String id,
+    String title,
+    String categorie_id,
+    String subtitle,
+    String address,
+    String img_url,
+    List<ActionModel> actions,
+  }) = _ServiceModel;
 
   factory ServiceModel.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data;
@@ -46,7 +32,18 @@ class ServiceModel extends Equatable {
           ?.toList(),
     );
   }
+}
 
-  @override
-  bool get stringify => true;
+extension ServiceModelX on ServiceModel {
+  Service toEntity() {
+    return Service(
+      id: this.id,
+      title: this.title,
+      categorie_id: this.categorie_id,
+      subtitle: this.subtitle,
+      address: this.address,
+      img_url: this.img_url,
+      actions: this.actions.map((e) => e.toEntity()).toList(),
+    );
+  }
 }

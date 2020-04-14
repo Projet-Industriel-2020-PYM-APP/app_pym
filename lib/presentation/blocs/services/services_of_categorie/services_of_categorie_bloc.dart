@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:app_pym/domain/entities/app_pym/categorie.dart';
 import 'package:app_pym/domain/entities/app_pym/service.dart';
 import 'package:app_pym/domain/usecases/services/fetch_services_of_categorie.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+part 'services_of_categorie_bloc.freezed.dart';
 part 'services_of_categorie_event.dart';
 part 'services_of_categorie_state.dart';
 
@@ -25,26 +26,29 @@ class ServicesOfCategorieBloc
       const ServicesOfCategorieInitial();
 
   @override
-  Stream<ServicesOfCategorieState> mapEventToState(
-      ServicesOfCategorieEvent event) async* {
-    if (event is FetchServicesOfCategorieEvent) {
-      yield const ServicesOfCategorieLoading();
-      try {
-        await subscription?.cancel();
-
-        subscription = fetchServicesOfCategorie(event.categorie)
-            .listen((data) => add(RefreshServicesOfCategorieEvent(data)));
-      } catch (e) {
-        yield ServicesOfCategorieError(message: e.toString());
-      }
-    } else if (event is RefreshServicesOfCategorieEvent) {
-      yield ServicesOfCategorieLoaded(event.services);
-    }
-  }
-
-  @override
   Future<void> close() async {
     await subscription?.cancel();
     return super.close();
+  }
+
+  @override
+  Stream<ServicesOfCategorieState> mapEventToState(
+      ServicesOfCategorieEvent event) async* {
+    yield* event.when(
+      fetch: (categorie) async* {
+        yield const ServicesOfCategorieLoading();
+        try {
+          await subscription?.cancel();
+
+          subscription = fetchServicesOfCategorie(categorie)
+              .listen((data) => add(RefreshServicesOfCategorieEvent(data)));
+        } catch (e) {
+          yield ServicesOfCategorieError(e.toString());
+        }
+      },
+      refresh: (services) async* {
+        yield ServicesOfCategorieLoaded(services);
+      },
+    );
   }
 }

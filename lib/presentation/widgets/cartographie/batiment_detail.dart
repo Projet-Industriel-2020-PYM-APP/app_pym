@@ -18,24 +18,23 @@ class BatimentDetailDisplay extends StatelessWidget {
           sl<BatimentBloc>()..add(GetBatimentDetailEvent(idBatiment)),
       child: BlocBuilder<BatimentBloc, BatimentState>(
         builder: (context, state) {
-          if (state is BatimentUnloaded || state is BatimentLoading) {
-            return const Center(
+          return state.when(
+            initial: () => const Center(
               child: CircularProgressIndicator(),
-            );
-          } else if (state is BatimentLoaded) {
-            return BatimentDetailContent(state.batiment);
-          } else if (state is BatimentError) {
-            return ListTile(
+            ),
+            loaded: (batiment) => BatimentDetailContent(batiment),
+            loading: () => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            error: (e) => ListTile(
               title: Text(
-                state.error.toString(),
+                e.toString(),
                 style: Theme.of(context).textTheme.bodyText1.apply(
                       color: Theme.of(context).errorColor,
                     ),
               ),
-            );
-          } else {
-            return null;
-          }
+            ),
+          );
         },
       ),
     );

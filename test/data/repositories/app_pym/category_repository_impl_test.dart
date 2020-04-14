@@ -1,5 +1,4 @@
 import 'package:app_pym/data/datasources/firestore_data_source.dart';
-import 'package:app_pym/data/mappers/app_pym/categorie_mapper.dart';
 import 'package:app_pym/data/models/app_pym/action_model.dart';
 import 'package:app_pym/data/models/app_pym/categorie_model.dart';
 import 'package:app_pym/data/repositories/app_pym/categorie_repository_impl.dart';
@@ -13,16 +12,13 @@ import 'package:mockito/mockito.dart';
 void main() {
   CategorieRepositoryImpl repository;
   FirestoreDataSource mockDataSource;
-  CategorieMapper mockCategorieMapper;
 
   init(env: Environment.test);
 
   setUp(() {
     mockDataSource = sl<FirestoreDataSource>();
-    mockCategorieMapper = sl<CategorieMapper>();
     repository = CategorieRepositoryImpl(
       dataSource: mockDataSource,
-      mapper: mockCategorieMapper,
     );
   });
   group('fetchCategories', () {
@@ -56,7 +52,6 @@ void main() {
         // arrange
         when(mockDataSource.fetchCategories())
             .thenAnswer((_) => Stream.fromIterable([tListCategorieModel]));
-        when(mockCategorieMapper.mapTo(tCategorieModel)).thenReturn(tCategorie);
         // act
         final result = await repository.fetchCategories().toList();
         // assert

@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:app_pym/core/usecases/usecase.dart';
 import 'package:app_pym/domain/entities/app_pym/categorie.dart';
 import 'package:app_pym/domain/usecases/services/fetch_categories.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+part 'categories_bloc.freezed.dart';
 part 'categories_event.dart';
 part 'categories_state.dart';
 
@@ -20,28 +21,31 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   CategoriesBloc(this.fetchCategories);
 
   @override
-  CategoriesState get initialState => const CategoriesInitial();
-
-  @override
-  Stream<CategoriesState> mapEventToState(CategoriesEvent event) async* {
-    if (event is FetchCategoriesEvent) {
-      yield const CategoriesLoading();
-      try {
-        await subscription?.cancel();
-
-        subscription = fetchCategories(const NoParams())
-            .listen((data) => add(RefreshCategoriesEvent(data)));
-      } catch (e) {
-        yield CategoriesError(message: e.toString());
-      }
-    } else if (event is RefreshCategoriesEvent) {
-      yield CategoriesLoaded(event.categories);
-    }
-  }
+  CategoriesState get initialState => const CategoriesState.initial();
 
   @override
   Future<void> close() async {
     await subscription?.cancel();
     return super.close();
+  }
+
+  @override
+  Stream<CategoriesState> mapEventToState(CategoriesEvent event) async* {
+    yield* event.when(
+      fetch: () async* {
+        yield const CategoriesState.loading();
+        try {
+          await subscription?.cancel();
+
+          subscription = fetchCategories(const NoParams())
+              .listen((data) => add(CategoriesEvent.refresh(data)));
+        } catch (e) {
+          yield CategoriesState.error(e.toString());
+        }
+      },
+      refresh: (categories) async* {
+        yield CategoriesState.loaded(categories);
+      },
+    );
   }
 }

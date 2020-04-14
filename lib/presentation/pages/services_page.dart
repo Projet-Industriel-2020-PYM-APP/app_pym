@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:app_pym/injection_container.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ServicesPage extends StatelessWidget {
   const ServicesPage({Key key}) : super(key: key);

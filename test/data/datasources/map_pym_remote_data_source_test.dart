@@ -46,12 +46,11 @@ void main() {
   }
 
   group('fetchBatimentPosition', () {
-    final tListBatimentPositionModel = List<Map<String, dynamic>>.from(
-            json.decode(fixture('map_pym/batiments_position.json'))
-                as List<dynamic>)
-        .map(
-            (Map<String, dynamic> data) => BatimentPositionModel.fromJson(data))
-        .toList();
+    final tListBatimentPositionModel =
+        (json.decode(fixture('map_pym/batiments_position.json')) as List)
+            .map((dynamic data) =>
+                BatimentPositionModel.fromJson(data as Map<String, dynamic>))
+            .toList();
 
     test(
       "should perform a GET request on a URL",

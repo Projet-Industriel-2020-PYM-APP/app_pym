@@ -1,34 +1,11 @@
 part of 'services_of_categorie_bloc.dart';
 
-abstract class ServicesOfCategorieState extends Equatable {
-  const ServicesOfCategorieState();
-
-  @override
-  List<Object> get props => [];
-}
-
-class ServicesOfCategorieInitial extends ServicesOfCategorieState {
-  const ServicesOfCategorieInitial();
-}
-
-class ServicesOfCategorieError extends ServicesOfCategorieState {
-  final String message;
-
-  const ServicesOfCategorieError({@required this.message});
-
-  @override
-  List<Object> get props => [message];
-}
-
-class ServicesOfCategorieLoading extends ServicesOfCategorieState {
-  const ServicesOfCategorieLoading();
-}
-
-class ServicesOfCategorieLoaded extends ServicesOfCategorieState {
-  final List<Service> services;
-
-  const ServicesOfCategorieLoaded(this.services);
-
-  @override
-  List<Object> get props => services;
+@freezed
+abstract class ServicesOfCategorieState with _$ServicesOfCategorieState {
+  const factory ServicesOfCategorieState.initial() = ServicesOfCategorieInitial;
+  const factory ServicesOfCategorieState.loading() = ServicesOfCategorieLoading;
+  const factory ServicesOfCategorieState.loaded(List<Service> services) =
+      ServicesOfCategorieLoaded;
+  const factory ServicesOfCategorieState.error(String message) =
+      ServicesOfCategorieError;
 }

@@ -125,19 +125,19 @@ class _RegisterFormState extends State<RegisterForm> {
 
   void _onEmailChanged() {
     _registerBloc.add(
-      EmailChanged(email: _emailController.text),
+      RegisterEvent.emailChanged(_emailController.text),
     );
   }
 
   void _onPasswordChanged() {
     _registerBloc.add(
-      PasswordChanged(password: _passwordController.text),
+      RegisterEvent.passwordChanged(_passwordController.text),
     );
   }
 
   void _onFormSubmitted() {
     _registerBloc.add(
-      Submitted(
+      RegisterEvent.submitted(
         email: _emailController.text,
         password: _passwordController.text,
       ),

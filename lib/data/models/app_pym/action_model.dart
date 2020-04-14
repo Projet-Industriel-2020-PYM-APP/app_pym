@@ -1,22 +1,15 @@
-import 'package:equatable/equatable.dart';
+import 'package:app_pym/domain/entities/app_pym/action.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class ActionModel extends Equatable {
-  final String id;
-  final String name;
-  final String html_url;
+part 'action_model.freezed.dart';
 
-  const ActionModel({
-    this.id,
-    this.name,
-    this.html_url,
-  });
-
-  @override
-  List<Object> get props => <Object>[
-        id,
-        name,
-        html_url,
-      ];
+@freezed
+abstract class ActionModel with _$ActionModel {
+  const factory ActionModel({
+    String id,
+    String name,
+    String html_url,
+  }) = _ActionModel;
 
   factory ActionModel.fromMap(Map<String, dynamic> data) {
     return ActionModel(
@@ -25,7 +18,14 @@ class ActionModel extends Equatable {
       html_url: data['html_url'] as String ?? '',
     );
   }
+}
 
-  @override
-  bool get stringify => true;
+extension ActionModelX on ActionModel {
+  Action toEntity() {
+    return Action(
+      html_url: this.html_url,
+      id: this.id,
+      name: this.name,
+    );
+  }
 }

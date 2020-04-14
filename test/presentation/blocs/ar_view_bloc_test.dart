@@ -23,7 +23,7 @@ void main() {
 
   test('initialState should be ArViewUnloaded', () {
     // assert
-    expect(bloc.initialState, equals(const ArViewUnloaded()));
+    expect(bloc.initialState, equals(const ArViewState.initial()));
   });
 
   group('FetchFromUnityEvent', () {
@@ -52,7 +52,7 @@ void main() {
         ));
         await untilCalled(mockLoadPageAndPlaceBatiment(any));
         // assert
-        verify(mockLoadPageAndPlaceBatiment(Params(
+        verify(mockLoadPageAndPlaceBatiment(LoadPageAndPlaceBatimentParams(
           controller: mockController,
           bearingBetweenCameraAndNorth: 0.0,
         )));
@@ -60,7 +60,7 @@ void main() {
     );
 
     test(
-      'should emit [ArViewUnloaded, ArViewLoading, ArViewLoaded] when data is gotten successfully',
+      'should emit [ArViewUnloaded, ArViewLoading] when data is gotten successfully',
       () async {
         // arrange
         final tDateTime = DateTime.now();
@@ -79,9 +79,8 @@ void main() {
             .thenAnswer((_) async => tPosition);
         // assert later
         const expected = [
-          ArViewUnloaded(),
-          ArViewLoading(),
-          ArViewLoaded(),
+          ArViewState.initial(),
+          ArViewState.loading(),
         ];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act
@@ -101,9 +100,9 @@ void main() {
         when(mockLoadPageAndPlaceBatiment(any)).thenThrow(tException);
         // assert later
         final expected = [
-          const ArViewUnloaded(),
-          const ArViewLoading(),
-          ArViewError(tException),
+          const ArViewState.initial(),
+          const ArViewState.loading(),
+          ArViewState.error(tException),
         ];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act
@@ -123,9 +122,9 @@ void main() {
         when(mockLoadPageAndPlaceBatiment(any)).thenThrow(tException);
         // assert later
         final expected = [
-          const ArViewUnloaded(),
-          const ArViewLoading(),
-          ArViewError(tException),
+          const ArViewState.initial(),
+          const ArViewState.loading(),
+          ArViewState.error(tException),
         ];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act
@@ -144,8 +143,8 @@ void main() {
       () async {
         // assert later
         const expected = [
-          ArViewUnloaded(),
-          ArViewLoaded(),
+          ArViewState.initial(),
+          ArViewState.loaded(),
         ];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act

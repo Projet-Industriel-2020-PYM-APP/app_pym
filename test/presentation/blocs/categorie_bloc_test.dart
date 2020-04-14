@@ -82,7 +82,7 @@ void main() {
         final expected = [
           const CategoriesInitial(),
           const CategoriesLoading(),
-          CategoriesError(message: tException.toString()),
+          CategoriesError(tException.toString()),
         ];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act

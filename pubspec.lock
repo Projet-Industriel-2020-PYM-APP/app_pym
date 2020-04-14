@@ -226,7 +226,7 @@ packages:
     source: hosted
     version: "0.3.0"
   equatable:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: equatable
       url: "https://pub.dartlang.org"
@@ -359,6 +359,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "8.8.1"
+  freezed:
+    dependency: "direct dev"
+    description:
+      name: freezed
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.10.5"
+  freezed_annotation:
+    dependency: "direct main"
+    description:
+      name: freezed_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.1"
   fuchsia_remote_debug_protocol:
     dependency: transitive
     description: flutter
@@ -448,6 +462,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.4"
+  image:
+    dependency: transitive
+    description:
+      name: image
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.12"
   injectable:
     dependency: "direct main"
     description:
@@ -461,7 +482,7 @@ packages:
       name: injectable_generator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.3"
+    version: "0.3.4"
   intl:
     dependency: transitive
     description:
@@ -637,6 +658,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  petitparser:
+    dependency: transitive
+    description:
+      name: petitparser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.2"
   platform:
     dependency: transitive
     description:
@@ -671,7 +699,7 @@ packages:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.4"
+    version: "4.0.5"
   pub_semver:
     dependency: transitive
     description:
@@ -929,6 +957,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.19+9"
+  xml:
+    dependency: transitive
+    description:
+      name: xml
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.7.0"
   yaml:
     dependency: transitive
     description:

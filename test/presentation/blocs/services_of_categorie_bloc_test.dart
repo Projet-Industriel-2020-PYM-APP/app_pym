@@ -94,7 +94,7 @@ void main() {
         final expected = [
           const ServicesOfCategorieInitial(),
           const ServicesOfCategorieLoading(),
-          ServicesOfCategorieError(message: tException.toString()),
+          ServicesOfCategorieError(tException.toString()),
         ];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act
@@ -113,7 +113,7 @@ void main() {
         final expected = [
           const ServicesOfCategorieInitial(),
           const ServicesOfCategorieLoading(),
-          ServicesOfCategorieError(message: tException.toString()),
+          ServicesOfCategorieError(tException.toString()),
         ];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act

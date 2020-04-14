@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:app_pym/data/datasources/map_pym_local_data_source.dart';
 import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
-import 'package:app_pym/data/mappers/map_pym/batiment_mapper.dart';
 import 'package:app_pym/data/models/map_pym/batiment_model.dart';
 import 'package:app_pym/data/repositories/map_pym/batiment_repository_impl.dart';
 import 'package:app_pym/domain/entities/map_pym/batiment.dart';
@@ -19,7 +18,6 @@ import '../../../fixtures/fixture_reader.dart';
 void main() {
   BatimentRepositoryImpl repository;
   MapPymRemoteDataSource mockRemoteDataSource;
-  BatimentMapper mockBatimentMapper;
   NetworkInfo mockNetworkInfo;
   MapPymLocalDataSource mockLocalDataSource;
 
@@ -27,14 +25,12 @@ void main() {
 
   setUp(() {
     mockRemoteDataSource = sl<MapPymRemoteDataSource>();
-    mockBatimentMapper = sl<BatimentMapper>();
     mockLocalDataSource = sl<MapPymLocalDataSource>();
     mockNetworkInfo = sl<NetworkInfo>();
     repository = BatimentRepositoryImpl(
       remoteDataSource: mockRemoteDataSource,
       localDataSource: mockLocalDataSource,
       networkInfo: mockNetworkInfo,
-      mapper: mockBatimentMapper,
     );
   });
 
@@ -80,7 +76,6 @@ void main() {
             .thenAnswer((_) async => ConnectivityResult.wifi);
         when(mockRemoteDataSource.fetchBatiment(any))
             .thenAnswer((_) async => tBatimentModel);
-        when(mockBatimentMapper.mapTo(any)).thenReturn(null);
         // act
         await repository.fetchBatiment(1);
         // assert
@@ -95,7 +90,6 @@ void main() {
           // arrange
           when(mockRemoteDataSource.fetchBatiment(any))
               .thenAnswer((_) async => tBatimentModel);
-          when(mockBatimentMapper.mapTo(tBatimentModel)).thenReturn(tBatiment);
           // act
           final result = await repository.fetchBatiment(1);
           // assert
@@ -143,7 +137,6 @@ void main() {
           // arrange
           when(mockLocalDataSource.fetchBatiment(any))
               .thenAnswer((_) async => tBatimentModel);
-          when(mockBatimentMapper.mapTo(tBatimentModel)).thenReturn(tBatiment);
           // act
           final result = await repository.fetchBatiment(1);
           // assert
