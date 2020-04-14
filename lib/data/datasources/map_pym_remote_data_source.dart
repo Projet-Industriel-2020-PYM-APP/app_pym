@@ -29,10 +29,10 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
         await client.get('https://admin.map-pym.com/api/batiments_position');
 
     if (response.statusCode == 200) {
-      return List<Map<String, dynamic>>.from(
-              json.decode(response.body) as List<dynamic>)
-          .map((data) => BatimentPositionModel.fromJson(data))
-          .toList();
+      return (json.decode(response.body) as List)
+          ?.map((dynamic data) =>
+              BatimentPositionModel.fromJson(data as Map<String, dynamic>))
+          ?.toList();
     } else {
       throw ServerException(
           'Failed to load batiment positions : ${response.statusCode}');
@@ -45,11 +45,11 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
         await client.get('https://admin.map-pym.com/api/batiments');
 
     if (response.statusCode == 200) {
-      return List<Map<String, dynamic>>.from(
-              json.decode(response.body) as List<dynamic>)
-          .map((data) => BatimentModel.fromJson(data))
-          .where((element) => element.id == id)
-          .first;
+      return (json.decode(response.body) as List)
+          ?.map((dynamic data) =>
+              BatimentModel.fromJson(data as Map<String, dynamic>))
+          ?.where((element) => element.id == id)
+          ?.first;
     } else {
       throw ServerException(
           'Failed to load batiments : ${response.statusCode}');
@@ -63,11 +63,11 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
         await client.get('https://admin.map-pym.com/api/entreprises');
 
     if (response.statusCode == 200) {
-      return List<Map<String, dynamic>>.from(
-              json.decode(response.body) as List<dynamic>)
-          .map((data) => EntrepriseModel.fromJson(data))
-          .where((element) => element.idBatiment == idBatiment)
-          .toList();
+      return (json.decode(response.body) as List)
+          ?.map((dynamic data) =>
+              EntrepriseModel.fromJson(data as Map<String, dynamic>))
+          ?.where((element) => element.idBatiment == idBatiment)
+          ?.toList();
     } else {
       throw ServerException(
           'Failed to load entreprises : ${response.statusCode}');

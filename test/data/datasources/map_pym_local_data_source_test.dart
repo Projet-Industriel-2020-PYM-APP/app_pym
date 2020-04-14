@@ -15,16 +15,18 @@ import 'package:mockito/mockito.dart';
 import '../../fixtures/fixture_reader.dart';
 
 void main() {
-  final tListBatimentPositionModel = List<Map<String, dynamic>>.from(json
-          .decode(fixture('map_pym/batiments_position.json')) as List<dynamic>)
-      .map((Map<String, dynamic> data) => BatimentPositionModel.fromJson(data))
-      .toList();
+  final tListBatimentPositionModel =
+      (json.decode(fixture('map_pym/batiments_position.json')) as List)
+          .map((dynamic data) =>
+              BatimentPositionModel.fromJson(data as Map<String, dynamic>))
+          .toList();
   final tBatimentModel = BatimentModel.fromJson(
       json.decode(fixture('map_pym/batiment.json')) as Map<String, dynamic>);
-  final tListEntrepriseModel = List<Map<String, dynamic>>.from(
-          json.decode(fixture('map_pym/entreprises.json')) as List<dynamic>)
-      .map((Map<String, dynamic> data) => EntrepriseModel.fromJson(data))
-      .toList();
+  final tListEntrepriseModel =
+      (json.decode(fixture('map_pym/entreprises.json')) as List)
+          .map((dynamic data) =>
+              EntrepriseModel.fromJson(data as Map<String, dynamic>))
+          .toList();
   MapPymLocalDataSourceImpl dataSource;
   Box<List<BatimentPositionModel>> mockBatimentsPositionBox;
   Box<BatimentModel> mockBatimentsBox;

@@ -6,17 +6,17 @@ part of 'entreprise_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class EntrepriseModelAdapter extends TypeAdapter<EntrepriseModel> {
+class _$_EntrepriseModelAdapter extends TypeAdapter<_$_EntrepriseModel> {
   @override
   final typeId = 2;
 
   @override
-  EntrepriseModel read(BinaryReader reader) {
+  _$_EntrepriseModel read(BinaryReader reader) {
     var numOfFields = reader.readByte();
     var fields = <int, dynamic>{
       for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return EntrepriseModel(
+    return _$_EntrepriseModel(
       id: fields[0] as int,
       nom: fields[1] as String,
       site_internet: fields[2] as String,
@@ -29,7 +29,7 @@ class EntrepriseModelAdapter extends TypeAdapter<EntrepriseModel> {
   }
 
   @override
-  void write(BinaryWriter writer, EntrepriseModel obj) {
+  void write(BinaryWriter writer, _$_EntrepriseModel obj) {
     writer
       ..writeByte(8)
       ..writeByte(0)
@@ -55,8 +55,8 @@ class EntrepriseModelAdapter extends TypeAdapter<EntrepriseModel> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-EntrepriseModel _$EntrepriseModelFromJson(Map<String, dynamic> json) {
-  return EntrepriseModel(
+_$_EntrepriseModel _$_$_EntrepriseModelFromJson(Map<String, dynamic> json) {
+  return _$_EntrepriseModel(
     id: json['id'] as int,
     nom: json['nom'] as String,
     site_internet: json['site_internet'] as String,
@@ -68,7 +68,7 @@ EntrepriseModel _$EntrepriseModelFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$EntrepriseModelToJson(EntrepriseModel instance) =>
+Map<String, dynamic> _$_$_EntrepriseModelToJson(_$_EntrepriseModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'nom': instance.nom,

@@ -1,30 +1,14 @@
 import 'package:app_pym/domain/entities/mobility/trip.dart';
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Route extends Equatable {
-  final String route_id;
-  final String route_short_name;
-  final String route_long_name;
-  final List<Trip> trips;
+part 'route.freezed.dart';
 
-  const Route({
-    this.route_id,
-    this.route_short_name,
-    this.route_long_name,
-    this.trips,
-  });
-
-  @override
-  List<Object> get props => <Object>[
-        this.route_id,
-        this.route_short_name,
-        this.route_long_name,
-        this.trips,
-      ];
-
-  // ignore: avoid_returning_this
-  Route union(List<Trip> trips) {
-    this.trips.addAll(trips.where((trip) => this.route_id == trip.route_id));
-    return this;
-  }
+@freezed
+abstract class Route with _$Route {
+  const factory Route({
+    String route_id,
+    String route_short_name,
+    String route_long_name,
+    List<Trip> trips,
+  }) = _Route;
 }

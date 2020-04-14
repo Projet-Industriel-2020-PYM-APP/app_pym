@@ -1,29 +1,29 @@
-import 'package:equatable/equatable.dart';
+import 'package:app_pym/domain/entities/mobility/stop.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class StopModel extends Equatable {
-  final String stop_id;
-  final String stop_code;
-  final String stop_name;
-  final String stop_lat;
-  final String stop_long;
-  final int location_type;
+part 'stop_model.freezed.dart';
 
-  const StopModel({
-    this.stop_id,
-    this.stop_code,
-    this.stop_name,
-    this.stop_lat,
-    this.stop_long,
-    this.location_type,
-  });
+@freezed
+abstract class StopModel with _$StopModel {
+  const factory StopModel({
+    String stop_id,
+    String stop_code,
+    String stop_name,
+    String stop_lat,
+    String stop_long,
+    int location_type,
+  }) = _StopModel;
+}
 
-  @override
-  List<Object> get props => <Object>[
-        stop_id,
-        stop_code,
-        stop_name,
-        stop_lat,
-        stop_long,
-        location_type,
-      ];
+extension StopModelX on StopModel {
+  Stop toEntity() {
+    return Stop(
+      stop_id: this.stop_id,
+      stop_code: this.stop_code,
+      stop_name: this.stop_name,
+      stop_lat: this.stop_lat,
+      stop_long: this.stop_long,
+      location_type: this.location_type,
+    );
+  }
 }

@@ -1,7 +1,5 @@
-import 'package:app_pym/domain/usecases/github/get_user.dart';
 import 'package:app_pym/presentation/blocs/main/main_page_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 
 void main() {
   MainPageBloc bloc;
@@ -10,7 +8,7 @@ void main() {
     bloc = MainPageBloc();
   });
 
-  test('initialState should be GithubUserStateInitial', () {
+  test('initialState should be MainPageState(0)', () {
     // assert
     expect(bloc.initialState, equals(const MainPageState(0)));
   });
@@ -48,5 +46,3 @@ void main() {
     );
   });
 }
-
-class MockGetGithubUser extends Mock implements GetGithubUser {}

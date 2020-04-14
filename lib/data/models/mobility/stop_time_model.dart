@@ -1,26 +1,31 @@
-import 'package:equatable/equatable.dart';
+import 'package:app_pym/data/models/mobility/stop_model.dart';
+import 'package:app_pym/domain/entities/mobility/stop_time.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class StopTimeModel extends Equatable {
-  final String trip_id;
-  final String arrival_time;
-  final String departure_time;
-  final String stop_id;
-  final String stop_sequence;
+part 'stop_time_model.freezed.dart';
 
-  const StopTimeModel({
-    this.trip_id,
-    this.arrival_time,
-    this.departure_time,
-    this.stop_id,
-    this.stop_sequence,
-  });
+@freezed
+abstract class StopTimeModel with _$StopTimeModel {
+  const factory StopTimeModel({
+    String trip_id,
+    String arrival_time,
+    String departure_time,
+    String stop_id,
+    String stop_sequence,
+  }) = _StopTimeModel;
+}
 
-  @override
-  List<Object> get props => <Object>[
-        trip_id,
-        arrival_time,
-        departure_time,
-        stop_id,
-        stop_sequence,
-      ];
+extension StopTimeModelX on StopTimeModel {
+  StopTime toEntity({@required List<StopModel> stopModels}) {
+    return StopTime(
+      trip_id: this.trip_id,
+      arrival_time: this.arrival_time,
+      departure_time: this.departure_time,
+      stop_id: this.stop_id,
+      stop_sequence: this.stop_sequence,
+      stop: stopModels
+          .firstWhere((stopModel) => this.stop_id == stopModel.stop_id)
+          .toEntity(),
+    );
+  }
 }

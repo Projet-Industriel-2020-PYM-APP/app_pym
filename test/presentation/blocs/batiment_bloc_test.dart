@@ -19,9 +19,9 @@ void main() {
     bloc = BatimentBloc(mockGetBatimentDetail);
   });
 
-  test('initialState should be BatimentUnloaded', () {
+  test('initialState should be BatimentInitial', () {
     // assert
-    expect(bloc.initialState, equals(const BatimentUnloaded()));
+    expect(bloc.initialState, equals(const BatimentInitial()));
   });
 
   group('GetBatimentDetailEvent', () {
@@ -49,13 +49,13 @@ void main() {
     );
 
     test(
-      'should emit [BatimentUnloaded, BatimentLoading, BatimentLoaded] when data is gotten successfully',
+      'should emit [BatimentInitial, BatimentLoading, BatimentLoaded] when data is gotten successfully',
       () async {
         // arrange
         when(mockGetBatimentDetail(any)).thenAnswer((_) async => tBatiment);
         // assert later
         const expected = [
-          BatimentUnloaded(),
+          BatimentInitial(),
           BatimentLoading(),
           BatimentLoaded(tBatiment),
         ];
@@ -67,14 +67,14 @@ void main() {
     );
 
     test(
-      'should emit [BatimentUnloaded, BatimentLoading, BatimentError] when getting data fails',
+      'should emit [BatimentInitial, BatimentLoading, BatimentError] when getting data fails',
       () async {
         // arrange
         final tError = ServerException('ServerException');
         when(mockGetBatimentDetail(any)).thenThrow(tError);
         // assert later
         final expected = [
-          const BatimentUnloaded(),
+          const BatimentInitial(),
           const BatimentLoading(),
           BatimentError(tError),
         ];
@@ -86,14 +86,14 @@ void main() {
     );
 
     test(
-      'should emit [BatimentUnloaded, BatimentLoading, BatimentError] with a proper message for the error when getting data fails',
+      'should emit [BatimentInitial, BatimentLoading, BatimentError] with a proper message for the error when getting data fails',
       () async {
         // arrange
         final tError = CacheException('CacheException');
         when(mockGetBatimentDetail(any)).thenThrow(tError);
         // assert later
         final expected = [
-          const BatimentUnloaded(),
+          const BatimentInitial(),
           const BatimentLoading(),
           BatimentError(tError),
         ];

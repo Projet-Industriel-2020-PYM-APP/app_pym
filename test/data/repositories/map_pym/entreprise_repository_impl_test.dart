@@ -4,7 +4,6 @@ import 'package:app_pym/core/error/exceptions.dart';
 import 'package:app_pym/core/network/network_info.dart';
 import 'package:app_pym/data/datasources/map_pym_local_data_source.dart';
 import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
-import 'package:app_pym/data/mappers/map_pym/entreprise_mapper.dart';
 import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
 import 'package:app_pym/data/repositories/map_pym/entreprise_repository_impl.dart';
 import 'package:app_pym/domain/entities/map_pym/entreprise.dart';
@@ -19,7 +18,6 @@ import '../../../fixtures/fixture_reader.dart';
 void main() {
   EntrepriseRepositoryImpl repository;
   MapPymRemoteDataSource mockRemoteDataSource;
-  EntrepriseMapper mockEntrepriseMapper;
   NetworkInfo mockNetworkInfo;
   MapPymLocalDataSource mockLocalDataSource;
 
@@ -27,14 +25,12 @@ void main() {
 
   setUp(() {
     mockRemoteDataSource = sl<MapPymRemoteDataSource>();
-    mockEntrepriseMapper = sl<EntrepriseMapper>();
     mockLocalDataSource = sl<MapPymLocalDataSource>();
     mockNetworkInfo = sl<NetworkInfo>();
     repository = EntrepriseRepositoryImpl(
       remoteDataSource: mockRemoteDataSource,
       localDataSource: mockLocalDataSource,
       networkInfo: mockNetworkInfo,
-      mapper: mockEntrepriseMapper,
     );
   });
 
@@ -84,7 +80,6 @@ void main() {
             .thenAnswer((_) async => ConnectivityResult.wifi);
         when(mockRemoteDataSource.fetchEntreprisesOfBatiment(any))
             .thenAnswer((_) async => tListEntrepriseModel);
-        when(mockEntrepriseMapper.mapTo(any)).thenReturn(null);
         // act
         await repository.fetchEntreprisesOfBatiment(38);
         // assert
@@ -99,8 +94,6 @@ void main() {
           // arrange
           when(mockRemoteDataSource.fetchEntreprisesOfBatiment(any))
               .thenAnswer((_) async => tListEntrepriseModel);
-          when(mockEntrepriseMapper.mapTo(tEntrepriseModel))
-              .thenReturn(tEntreprise);
           // act
           final result = await repository.fetchEntreprisesOfBatiment(38);
           // assert
@@ -148,8 +141,6 @@ void main() {
           // arrange
           when(mockLocalDataSource.fetchEntreprisesOfBatiment(any))
               .thenAnswer((_) async => tListEntrepriseModel);
-          when(mockEntrepriseMapper.mapTo(tEntrepriseModel))
-              .thenReturn(tEntreprise);
           // act
           final result = await repository.fetchEntreprisesOfBatiment(1);
           // assert

@@ -4,7 +4,6 @@ import 'package:app_pym/core/error/exceptions.dart';
 import 'package:app_pym/core/network/network_info.dart';
 import 'package:app_pym/data/datasources/map_pym_local_data_source.dart';
 import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
-import 'package:app_pym/data/mappers/map_pym/batiment_position_mapper.dart';
 import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
 import 'package:app_pym/data/repositories/map_pym/batiment_position_repository_impl.dart';
 import 'package:app_pym/domain/entities/map_pym/batiment_position.dart';
@@ -19,7 +18,6 @@ import '../../../fixtures/fixture_reader.dart';
 void main() {
   BatimentPositionRepositoryImpl repository;
   MapPymRemoteDataSource mockRemoteDataSource;
-  BatimentPositionMapper mockBatimentPositionMapper;
   NetworkInfo mockNetworkInfo;
   MapPymLocalDataSource mockLocalDataSource;
 
@@ -27,14 +25,12 @@ void main() {
 
   setUp(() {
     mockRemoteDataSource = sl<MapPymRemoteDataSource>();
-    mockBatimentPositionMapper = sl<BatimentPositionMapper>();
     mockLocalDataSource = sl<MapPymLocalDataSource>();
     mockNetworkInfo = sl<NetworkInfo>();
     repository = BatimentPositionRepositoryImpl(
       remoteDataSource: mockRemoteDataSource,
       localDataSource: mockLocalDataSource,
       networkInfo: mockNetworkInfo,
-      mapper: mockBatimentPositionMapper,
     );
   });
 
@@ -80,7 +76,6 @@ void main() {
             .thenAnswer((_) async => ConnectivityResult.wifi);
         when(mockRemoteDataSource.fetchBatimentsPosition())
             .thenAnswer((_) async => tListBatimentPositionModel);
-        when(mockBatimentPositionMapper.mapTo(any)).thenReturn(null);
         // act
         await repository.fetchBatimentsPosition();
         // assert
@@ -95,8 +90,6 @@ void main() {
           // arrange
           when(mockRemoteDataSource.fetchBatimentsPosition())
               .thenAnswer((_) async => tListBatimentPositionModel);
-          when(mockBatimentPositionMapper.mapTo(tBatimentPositionModel))
-              .thenReturn(tBatimentPosition);
           // act
           final result = await repository.fetchBatimentsPosition();
           // assert
@@ -145,8 +138,6 @@ void main() {
           // arrange
           when(mockLocalDataSource.fetchBatimentsPosition())
               .thenAnswer((_) async => tListBatimentPositionModel);
-          when(mockBatimentPositionMapper.mapTo(tBatimentPositionModel))
-              .thenReturn(tBatimentPosition);
           // act
           final result = await repository.fetchBatimentsPosition();
           // assert

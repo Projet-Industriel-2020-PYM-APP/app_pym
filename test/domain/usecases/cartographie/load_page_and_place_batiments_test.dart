@@ -75,7 +75,7 @@ void main() {
           .thenAnswer((_) async => tBatiment);
 
       // act
-      final Future<Position> result = usecase(Params(
+      final Future<Position> result = usecase(LoadPageAndPlaceBatimentParams(
         bearingBetweenCameraAndNorth: 0.0,
         controller: mockUnityWidgetController,
       ));

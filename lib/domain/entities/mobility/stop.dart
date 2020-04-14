@@ -1,29 +1,15 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Stop extends Equatable {
-  final String stop_id;
-  final String stop_code;
-  final String stop_name;
-  final String stop_lat;
-  final String stop_long;
-  final int location_type;
+part 'stop.freezed.dart';
 
-  const Stop({
-    this.stop_id,
-    this.stop_code,
-    this.stop_name,
-    this.stop_lat,
-    this.stop_long,
-    this.location_type,
-  });
-
-  @override
-  List<Object> get props => <Object>[
-        this.stop_id,
-        this.stop_code,
-        this.stop_name,
-        this.stop_lat,
-        this.stop_long,
-        this.location_type
-      ];
+@freezed
+abstract class Stop with _$Stop {
+  const factory Stop({
+    String stop_id,
+    String stop_code,
+    String stop_name,
+    String stop_lat,
+    String stop_long,
+    int location_type,
+  }) = _Stop;
 }

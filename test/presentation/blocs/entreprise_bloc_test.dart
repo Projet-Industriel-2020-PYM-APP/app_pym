@@ -19,9 +19,9 @@ void main() {
     bloc = EntrepriseBloc(mockGetEntreprisesOfBatiment);
   });
 
-  test('initialState should be EntrepriseUnloaded', () {
+  test('initialState should be EntrepriseInitial', () {
     // assert
-    expect(bloc.initialState, equals(const EntrepriseUnloaded()));
+    expect(bloc.initialState, equals(const EntrepriseInitial()));
   });
 
   group('GetEntreprisesOfBatimentEvent', () {
@@ -52,14 +52,14 @@ void main() {
     );
 
     test(
-      'should emit [EntrepriseUnloaded, EntrepriseLoading, EntreprisesOfBatimentLoaded] when data is gotten successfully',
+      'should emit [EntrepriseInitial, EntrepriseLoading, EntreprisesOfBatimentLoaded] when data is gotten successfully',
       () async {
         // arrange
         when(mockGetEntreprisesOfBatiment(any))
             .thenAnswer((_) async => [tEntreprise]);
         // assert later
         const expected = <EntrepriseState>[
-          EntrepriseUnloaded(),
+          EntrepriseInitial(),
           EntrepriseLoading(),
           EntreprisesOfBatimentLoaded([tEntreprise]),
         ];
@@ -72,14 +72,14 @@ void main() {
     );
 
     test(
-      'should emit [EntrepriseUnloaded, EntrepriseLoading, EntrepriseError] when getting data fails',
+      'should emit [EntrepriseInitial, EntrepriseLoading, EntrepriseError] when getting data fails',
       () async {
         // arrange
         final tError = ServerException('ServerException');
         when(mockGetEntreprisesOfBatiment(any)).thenThrow(tError);
         // assert later
         final expected = [
-          const EntrepriseUnloaded(),
+          const EntrepriseInitial(),
           const EntrepriseLoading(),
           EntrepriseError(tError),
         ];

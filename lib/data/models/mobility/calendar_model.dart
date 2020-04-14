@@ -1,40 +1,39 @@
-import 'package:equatable/equatable.dart';
+import 'package:app_pym/domain/entities/mobility/calendar.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class CalendarModel extends Equatable {
-  final String service_id;
-  final bool monday;
-  final bool tuesday;
-  final bool wednesday;
-  final bool thursday;
-  final bool friday;
-  final bool saturday;
-  final bool sunday;
-  final String start_date;
-  final String end_date;
+part 'calendar_model.freezed.dart';
 
-  const CalendarModel({
-    this.service_id,
-    this.monday,
-    this.tuesday,
-    this.wednesday,
-    this.thursday,
-    this.friday,
-    this.saturday,
-    this.sunday,
-    this.start_date,
-    this.end_date,
-  });
-  @override
-  List<Object> get props => <Object>[
-        service_id,
-        monday,
-        tuesday,
-        wednesday,
-        thursday,
-        friday,
-        saturday,
-        sunday,
-        start_date,
-        end_date,
-      ];
+@freezed
+abstract class CalendarModel with _$CalendarModel {
+  const factory CalendarModel({
+    String service_id,
+    bool monday,
+    bool tuesday,
+    bool wednesday,
+    bool thursday,
+    bool friday,
+    bool saturday,
+    bool sunday,
+    String start_date,
+    String end_date,
+  }) = _CalendarModel;
+}
+
+extension CalendarModelX on CalendarModel {
+  Calendar toEntity() {
+    return Calendar(
+      service_id: this.service_id,
+      weekdays: [
+        this.monday,
+        this.tuesday,
+        this.wednesday,
+        this.thursday,
+        this.friday,
+        this.saturday,
+        this.sunday
+      ],
+      start_date: this.start_date,
+      end_date: this.end_date,
+    );
+  }
 }

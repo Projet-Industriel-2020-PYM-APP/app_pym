@@ -1,5 +1,14 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using UnityEngine;
+
+#if UNITY_IOS || UNITY_TVOS
+public class NativeAPI
+{
+    [DllImport("__Internal")]
+    public static extern void onUnityMessage(string message);
+}
+#endif
 
 public class UnityMessageManager : MonoBehaviour
 {

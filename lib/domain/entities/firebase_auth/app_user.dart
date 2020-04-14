@@ -1,40 +1,29 @@
-import 'package:equatable/equatable.dart';
+import 'package:app_pym/data/models/firebase_auth/app_user_model.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class AppUser extends Equatable {
-  final String uid;
-  final String email;
-  final String photoUrl;
-  final String displayName;
-  final DateTime lastSeen;
-  final bool isAdmin;
+part 'app_user.freezed.dart';
 
-  const AppUser({
-    this.uid,
-    this.email,
-    this.photoUrl,
-    this.displayName,
-    this.lastSeen,
-    this.isAdmin,
-  });
+@freezed
+abstract class AppUser with _$AppUser {
+  const factory AppUser({
+    @required String uid,
+    @required String email,
+    @required String photoUrl,
+    @required String displayName,
+    @required DateTime lastSeen,
+    @required bool isAdmin,
+  }) = _AppUser;
+}
 
-  factory AppUser.setAdmin(AppUser user, bool value) {
-    return AppUser(
-      displayName: user.displayName,
-      email: user.email,
-      lastSeen: user.lastSeen,
-      photoUrl: user.photoUrl,
-      uid: user.uid,
-      isAdmin: value,
+extension AppUserX on AppUser {
+  AppUserModel toModel() {
+    return AppUserModel(
+      uid: this.uid,
+      email: this.email,
+      photoUrl: this.photoUrl,
+      displayName: this.displayName,
+      lastSeen: this.lastSeen,
+      isAdmin: this.isAdmin,
     );
   }
-
-  @override
-  List<Object> get props => <Object>[
-        this.uid,
-        this.email,
-        this.photoUrl,
-        this.displayName,
-        this.lastSeen,
-        this.isAdmin,
-      ];
 }
