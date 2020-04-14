@@ -21,7 +21,7 @@ Future<void> main() async {
   await Hive.openBox<List<BatimentPositionModel>>('/batiments_position');
   await Hive.openBox<BatimentModel>('/batiments');
   await Hive.openBox<EntrepriseModel>('/entreprises');
-  di.init(env: Environment.prod);
+  await di.init(env: Environment.prod);
   runApp(MyApp());
 }
 

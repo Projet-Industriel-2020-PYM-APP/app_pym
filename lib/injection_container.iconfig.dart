@@ -81,7 +81,7 @@ import 'package:app_pym/presentation/blocs/firebase_auth/authentication/authenti
 import 'package:app_pym/domain/usecases/mobility/fetch_train_stops.dart';
 import 'package:get_it/get_it.dart';
 
-void $initGetIt(GetIt g, {String environment}) {
+Future<void> $initGetIt(GetIt g, {String environment}) async {
   final registerModule = _$RegisterModule();
 
   //Register test Dependencies --------
@@ -158,8 +158,8 @@ void $initGetIt(GetIt g, {String environment}) {
     g.registerLazySingleton<PermissionHandler>(() => PermissionHandlerImpl());
     g.registerLazySingleton<SNCFRemoteDataSource>(
         () => SNCFRemoteDataSourceImpl(client: g<Client>()));
-    g.registerFactoryAsync<SharedPreferences>(
-        () => registerModule.sharedPreferences);
+    final sharedPreferences = await registerModule.sharedPreferences;
+    g.registerFactory<SharedPreferences>(() => sharedPreferences);
     g.registerFactory<StopDetailsBloc>(() => StopDetailsBloc());
     g.registerFactory<ZipDecoder>(() => registerModule.zipDecoder);
     g.registerFactory<ArViewBloc>(

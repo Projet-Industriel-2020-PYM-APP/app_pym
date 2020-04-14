@@ -84,5 +84,7 @@ abstract class RegisterModule {
   ZipDecoder get zipDecoder;
 
   @prod
-  Future<SharedPreferences> get sharedPreferences => SharedPreferences.getInstance();
+  @preResolve
+  Future<SharedPreferences> get sharedPreferences =>
+      SharedPreferences.getInstance();
 }
