@@ -33,15 +33,14 @@ mixin _$ArViewEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required
-        Result fetchFromUnity(
-            @required UnityWidgetController unityWidgetController,
-            @required num bearingBetweenCameraAndNorth),
+        Result fetchFromUnity(UnityWidgetController unityWidgetController,
+            num bearingBetweenCameraAndNorth),
     @required Result loaded(),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result fetchFromUnity(@required UnityWidgetController unityWidgetController,
-        @required num bearingBetweenCameraAndNorth),
+    Result fetchFromUnity(UnityWidgetController unityWidgetController,
+        num bearingBetweenCameraAndNorth),
     Result loaded(),
     @required Result orElse(),
   });
@@ -164,9 +163,8 @@ class _$FetchFromUnityEvent
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required
-        Result fetchFromUnity(
-            @required UnityWidgetController unityWidgetController,
-            @required num bearingBetweenCameraAndNorth),
+        Result fetchFromUnity(UnityWidgetController unityWidgetController,
+            num bearingBetweenCameraAndNorth),
     @required Result loaded(),
   }) {
     assert(fetchFromUnity != null);
@@ -177,8 +175,8 @@ class _$FetchFromUnityEvent
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result fetchFromUnity(@required UnityWidgetController unityWidgetController,
-        @required num bearingBetweenCameraAndNorth),
+    Result fetchFromUnity(UnityWidgetController unityWidgetController,
+        num bearingBetweenCameraAndNorth),
     Result loaded(),
     @required Result orElse(),
   }) {
@@ -268,9 +266,8 @@ class _$ArLoadedEvent with DiagnosticableTreeMixin implements ArLoadedEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required
-        Result fetchFromUnity(
-            @required UnityWidgetController unityWidgetController,
-            @required num bearingBetweenCameraAndNorth),
+        Result fetchFromUnity(UnityWidgetController unityWidgetController,
+            num bearingBetweenCameraAndNorth),
     @required Result loaded(),
   }) {
     assert(fetchFromUnity != null);
@@ -281,8 +278,8 @@ class _$ArLoadedEvent with DiagnosticableTreeMixin implements ArLoadedEvent {
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result fetchFromUnity(@required UnityWidgetController unityWidgetController,
-        @required num bearingBetweenCameraAndNorth),
+    Result fetchFromUnity(UnityWidgetController unityWidgetController,
+        num bearingBetweenCameraAndNorth),
     Result loaded(),
     @required Result orElse(),
   }) {

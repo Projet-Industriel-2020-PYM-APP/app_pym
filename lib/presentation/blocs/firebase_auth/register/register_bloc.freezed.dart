@@ -40,14 +40,13 @@ mixin _$RegisterEvent {
   Result when<Result extends Object>({
     @required Result emailChanged(String email),
     @required Result passwordChanged(String password),
-    @required
-        Result submitted(@required String email, @required String password),
+    @required Result submitted(String email, String password),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result emailChanged(String email),
     Result passwordChanged(String password),
-    Result submitted(@required String email, @required String password),
+    Result submitted(String email, String password),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -146,8 +145,7 @@ class _$EmailChanged with DiagnosticableTreeMixin implements EmailChanged {
   Result when<Result extends Object>({
     @required Result emailChanged(String email),
     @required Result passwordChanged(String password),
-    @required
-        Result submitted(@required String email, @required String password),
+    @required Result submitted(String email, String password),
   }) {
     assert(emailChanged != null);
     assert(passwordChanged != null);
@@ -160,7 +158,7 @@ class _$EmailChanged with DiagnosticableTreeMixin implements EmailChanged {
   Result maybeWhen<Result extends Object>({
     Result emailChanged(String email),
     Result passwordChanged(String password),
-    Result submitted(@required String email, @required String password),
+    Result submitted(String email, String password),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -276,8 +274,7 @@ class _$PasswordChanged
   Result when<Result extends Object>({
     @required Result emailChanged(String email),
     @required Result passwordChanged(String password),
-    @required
-        Result submitted(@required String email, @required String password),
+    @required Result submitted(String email, String password),
   }) {
     assert(emailChanged != null);
     assert(passwordChanged != null);
@@ -290,7 +287,7 @@ class _$PasswordChanged
   Result maybeWhen<Result extends Object>({
     Result emailChanged(String email),
     Result passwordChanged(String password),
-    Result submitted(@required String email, @required String password),
+    Result submitted(String email, String password),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -412,8 +409,7 @@ class _$Submitted with DiagnosticableTreeMixin implements Submitted {
   Result when<Result extends Object>({
     @required Result emailChanged(String email),
     @required Result passwordChanged(String password),
-    @required
-        Result submitted(@required String email, @required String password),
+    @required Result submitted(String email, String password),
   }) {
     assert(emailChanged != null);
     assert(passwordChanged != null);
@@ -426,7 +422,7 @@ class _$Submitted with DiagnosticableTreeMixin implements Submitted {
   Result maybeWhen<Result extends Object>({
     Result emailChanged(String email),
     Result passwordChanged(String password),
-    Result submitted(@required String email, @required String password),
+    Result submitted(String email, String password),
     @required Result orElse(),
   }) {
     assert(orElse != null);
