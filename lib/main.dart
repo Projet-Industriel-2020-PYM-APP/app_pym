@@ -22,9 +22,9 @@ Future<void> main() async {
   Hive.registerAdapter<BatimentPositionModel>(BatimentPositionModelAdapter());
   Hive.registerAdapter<BatimentModel>(BatimentModelAdapter());
   Hive.registerAdapter<EntrepriseModel>(EntrepriseModelAdapter());
-  await Hive.openBox<List<PostModel>>('/posts');
-  await Hive.openBox<List<BatimentPositionModel>>('/batiments_position');
+  await Hive.openBox<BatimentPositionModel>('/batiment_position');
   await Hive.openBox<BatimentModel>('/batiments');
+  await Hive.openBox<List<PostModel>>('/posts');
   await Hive.openBox<EntrepriseModel>('/entreprises');
   await di.init(env: Environment.prod);
   runApp(const MyApp());

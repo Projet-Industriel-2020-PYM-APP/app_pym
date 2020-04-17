@@ -30,10 +30,10 @@ class BatimentPositionRepositoryImpl implements BatimentPositionRepository {
   Future<List<BatimentPosition>> _fetchBatimentsPosition() async {
     if (await networkInfo.result != ConnectivityResult.none) {
       final data = await remoteDataSource.fetchBatimentsPosition();
-      await localDataSource.cacheBatimentsPosition(data);
+      await localDataSource.cacheAllBatimentPosition(data);
       return data.map((e) => e.toEntity()).toList();
     } else {
-      final data = await localDataSource.fetchBatimentsPosition();
+      final data = localDataSource.fetchBatimentsPosition();
       return data.map((e) => e.toEntity()).toList();
     }
   }

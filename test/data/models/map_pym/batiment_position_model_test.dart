@@ -1,9 +1,5 @@
-import 'dart:convert';
-
 import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import '../../../fixtures/fixture_reader.dart';
 
 void main() {
   const tBatimentPosition = BatimentPositionModel(
@@ -17,9 +13,12 @@ void main() {
       'should return a valid model',
       () async {
         // arrange
-        final Map<String, dynamic> jsonMap =
-            json.decode(fixture('map_pym/batiment_position.json'))
-                as Map<String, dynamic>;
+        final jsonMap = <String, dynamic>{
+          "latitude": 44,
+          "longitude": 3,
+          "idBatiment": 1
+        };
+
         // act
         final result = BatimentPositionModel.fromJson(jsonMap);
         // assert

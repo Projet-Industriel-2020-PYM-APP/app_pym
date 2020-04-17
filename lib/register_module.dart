@@ -20,7 +20,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 @RegisterAs(Box)
 @injectable
 class MockBatimentPositionBox extends Mock
-    implements Box<List<BatimentPositionModel>> {}
+    implements Box<BatimentPositionModel> {}
 
 @test
 @RegisterAs(Box)
@@ -70,8 +70,8 @@ class MockZipDecoder extends Mock implements ZipDecoder {}
 @registerModule
 abstract class RegisterModule {
   @prod
-  Box<List<BatimentPositionModel>> get batimentPositionBox =>
-      Hive.box<List<BatimentPositionModel>>('/batiments_position');
+  Box<BatimentPositionModel> get batimentPositionBox =>
+      Hive.box<BatimentPositionModel>('/batiment_position');
 
   @prod
   Box<BatimentModel> get batimentsBox => Hive.box<BatimentModel>('/batiments');

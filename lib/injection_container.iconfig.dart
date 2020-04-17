@@ -17,8 +17,8 @@ import 'package:app_pym/data/datasources/blogger_remote_data_source.dart';
 import 'package:app_pym/register_module.dart';
 import 'package:hive/hive.dart';
 import 'package:app_pym/data/models/map_pym/batiment_model.dart';
-import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
 import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
+import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
 import 'package:app_pym/data/models/blogger/post_model.dart';
 import 'package:app_pym/domain/repositories/app_pym/mock_categorie_repository.dart';
 import 'package:app_pym/domain/repositories/app_pym/categorie_repository.dart';
@@ -125,9 +125,9 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerFactory<BloggerRemoteDataSource>(
         () => MockBloggerRemoteDataSource());
     g.registerFactory<Box<BatimentModel>>(() => MockBatimentsBox());
-    g.registerFactory<Box<EntrepriseModel>>(() => MockEntreprisesBox());
-    g.registerFactory<Box<List<BatimentPositionModel>>>(
+    g.registerFactory<Box<BatimentPositionModel>>(
         () => MockBatimentPositionBox());
+    g.registerFactory<Box<EntrepriseModel>>(() => MockEntreprisesBox());
     g.registerFactory<Box<List<PostModel>>>(() => MockPostsBox());
     g.registerFactory<CategorieRepository>(() => MockCategorieRepository());
     g.registerFactory<Client>(() => MockHttpClient());
@@ -171,10 +171,10 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   //Register prod Dependencies --------
   if (environment == 'prod') {
     g.registerFactory<Box<BatimentModel>>(() => registerModule.batimentsBox);
+    g.registerFactory<Box<BatimentPositionModel>>(
+        () => registerModule.batimentPositionBox);
     g.registerFactory<Box<EntrepriseModel>>(
         () => registerModule.entreprisesBox);
-    g.registerFactory<Box<List<BatimentPositionModel>>>(
-        () => registerModule.batimentPositionBox);
     g.registerFactory<Box<List<PostModel>>>(() => registerModule.postsBox);
     g.registerLazySingleton<Client>(() => registerModule.httpClient);
     g.registerLazySingleton<CompassDevice>(() => CompassDeviceImpl());
@@ -220,7 +220,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerLazySingleton<MapPymLocalDataSource>(
         () => MapPymLocalDataSourceImpl(
               batimentsBox: g<Box<BatimentModel>>(),
-              batimentsPositionBox: g<Box<List<BatimentPositionModel>>>(),
+              batimentPositionBox: g<Box<BatimentPositionModel>>(),
               entreprisesBox: g<Box<EntrepriseModel>>(),
             ));
     g.registerLazySingleton<MapPymRemoteDataSource>(

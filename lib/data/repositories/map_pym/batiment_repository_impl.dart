@@ -30,7 +30,7 @@ class BatimentRepositoryImpl implements BatimentRepository {
       await localDataSource.cacheBatiment(data);
       return data.toEntity();
     } else {
-      final data = await localDataSource.fetchBatiment(id);
+      final data = localDataSource.fetchBatiment(id);
       return data.toEntity();
     }
   }

@@ -26,7 +26,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
   @override
   Future<List<BatimentPositionModel>> fetchBatimentsPosition() async {
     final response =
-        await client.get('https://admin.map-pym.com/api/batiments_position');
+        await client.get('https://admin.map-pym.com/api/batiment_position');
 
     if (response.statusCode == 200) {
       return (json.decode(response.body) as List)

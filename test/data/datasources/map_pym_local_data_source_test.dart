@@ -16,7 +16,7 @@ import '../../fixtures/fixture_reader.dart';
 
 void main() {
   final tListBatimentPositionModel =
-      (json.decode(fixture('map_pym/batiments_position.json')) as List)
+      (json.decode(fixture('map_pym/batiment_position.json')) as List)
           .map((dynamic data) =>
               BatimentPositionModel.fromJson(data as Map<String, dynamic>))
           .toList();
@@ -28,18 +28,18 @@ void main() {
               EntrepriseModel.fromJson(data as Map<String, dynamic>))
           .toList();
   MapPymLocalDataSourceImpl dataSource;
-  Box<List<BatimentPositionModel>> mockBatimentsPositionBox;
+  Box<BatimentPositionModel> mockBatimentPositionBox;
   Box<BatimentModel> mockBatimentsBox;
   Box<EntrepriseModel> mockEntreprisesBox;
   init(env: Environment.test);
 
   setUp(() {
-    mockBatimentsPositionBox = sl<Box<List<BatimentPositionModel>>>();
+    mockBatimentPositionBox = sl<Box<BatimentPositionModel>>();
     mockBatimentsBox = sl<Box<BatimentModel>>();
     mockEntreprisesBox = sl<Box<EntrepriseModel>>();
 
     dataSource = MapPymLocalDataSourceImpl(
-      batimentsPositionBox: mockBatimentsPositionBox,
+      batimentPositionBox: mockBatimentPositionBox,
       batimentsBox: mockBatimentsBox,
       entreprisesBox: mockEntreprisesBox,
     );
@@ -50,12 +50,12 @@ void main() {
       'should return ListBatimentPositionModel from Cache when there is one in the cache',
       () async {
         // arrange
-        when(mockBatimentsPositionBox.get(any))
+        when(mockBatimentPositionBox.values)
             .thenReturn(tListBatimentPositionModel);
         // act
-        final result = await dataSource.fetchBatimentsPosition();
+        final result = dataSource.fetchBatimentsPosition();
         // assert
-        verify(mockBatimentsPositionBox.get('/batiments_position'));
+        verify(mockBatimentPositionBox.values);
         expect(result, equals(tListBatimentPositionModel));
       },
     );
@@ -64,7 +64,7 @@ void main() {
       'should throw a CacheException when there is not a cached value',
       () async {
         // arrange
-        when(mockBatimentsPositionBox.get(any)).thenReturn(null);
+        when(mockBatimentPositionBox.values).thenReturn([]);
         // act
         final call = dataSource.fetchBatimentsPosition;
         // assert
@@ -73,17 +73,19 @@ void main() {
     );
   });
 
-  group('cacheBatimentPosition', () {
+  group('cacheAllBatimentPosition', () {
     test(
       'should call Box.put to cache the data',
       () async {
         // act
-        await dataSource.cacheBatimentsPosition(tListBatimentPositionModel);
+        await dataSource.cacheAllBatimentPosition(tListBatimentPositionModel);
         // assert
-        verify(mockBatimentsPositionBox.put(
-          '/batiments_position',
-          tListBatimentPositionModel,
-        ));
+        tListBatimentPositionModel.forEach((element) {
+          verify(mockBatimentPositionBox.put(
+            '/batiment_position/${element.idBatiment}',
+            element,
+          ));
+        });
       },
     );
   });
@@ -95,7 +97,7 @@ void main() {
         // arrange
         when(mockBatimentsBox.get(any)).thenReturn(tBatimentModel);
         // act
-        final result = await dataSource.fetchBatiment(1);
+        final result = dataSource.fetchBatiment(1);
         // assert
         verify(mockBatimentsBox.get('/batiments/1'));
         expect(result, equals(tBatimentModel));
@@ -115,7 +117,7 @@ void main() {
     );
   });
 
-  group('cacheBatimentPosition', () {
+  group('cacheBatiment', () {
     test(
       'should call Box.put to cache the data',
       () async {
@@ -137,7 +139,7 @@ void main() {
         // arrange
         when(mockEntreprisesBox.values).thenReturn(tListEntrepriseModel);
         // act
-        final result = await dataSource.fetchEntreprisesOfBatiment(38);
+        final result = dataSource.fetchEntreprisesOfBatiment(38);
         // assert
         verify(mockEntreprisesBox.values);
         expect(result.first, equals(tListEntrepriseModel.first));
@@ -148,26 +150,11 @@ void main() {
       'should throw a CacheException when there is not a cached value',
       () async {
         // arrange
-        when(mockEntreprisesBox.get(any)).thenReturn(null);
+        when(mockEntreprisesBox.values).thenReturn([]);
         // act
         final call = dataSource.fetchBatiment;
         // assert
         expect(() => call(1), throwsA(const TypeMatcher<CacheException>()));
-      },
-    );
-  });
-
-  group('cacheEntreprise', () {
-    test(
-      'should call Box.put to cache the data',
-      () async {
-        // act
-        await dataSource.cacheEntreprise(tListEntrepriseModel.first);
-        // assert
-        verify(mockEntreprisesBox.put(
-          '/entreprises/${tListEntrepriseModel.first.id}',
-          tListEntrepriseModel.first,
-        ));
       },
     );
   });
@@ -179,10 +166,10 @@ void main() {
         // act
         await dataSource.cacheAllEntreprise(tListEntrepriseModel);
         // assert
-        verify(mockEntreprisesBox.put(
-          '/entreprises/${tListEntrepriseModel.first.id}',
-          tListEntrepriseModel.first,
-        ));
+        tListEntrepriseModel.forEach((e) => verify(mockEntreprisesBox.put(
+              '/entreprises/${e.id}',
+              e,
+            )));
       },
     );
   });
