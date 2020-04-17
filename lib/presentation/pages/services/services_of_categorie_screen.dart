@@ -37,7 +37,9 @@ class ServiceCard extends StatelessWidget {
                 itemCount: service.actions.length,
                 itemBuilder: (context, actionId) {
                   return FlatButton(
-                    onPressed: null, //go to action
+                    onPressed: () {
+                      //go to action
+                    },
                     child: Text(service.actions[actionId].name),
                   );
                 })

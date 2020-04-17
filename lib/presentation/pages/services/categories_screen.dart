@@ -1,4 +1,5 @@
 import 'package:app_pym/domain/entities/app_pym/categorie.dart';
+import 'package:app_pym/presentation/pages/services/services_of_categorie_screen.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesSreen extends StatelessWidget {
@@ -30,7 +31,9 @@ class CategorieCard extends StatelessWidget {
           children: <Widget>[
             Text(categorie.name),
             FlatButton(
-              onPressed: null, //go to services of category
+              onPressed: () {
+                //go to services of category
+              },
               child: Text(categorie.action.name),
             ),
           ],
