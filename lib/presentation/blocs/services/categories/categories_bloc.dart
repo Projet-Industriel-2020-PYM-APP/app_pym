@@ -15,10 +15,10 @@ part 'categories_state.dart';
 @prod
 @injectable
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
-  final FetchCategories fetchCategories;
+  final FetchServiceCategories fetchServiceCategories;
   StreamSubscription<List<Categorie>> subscription;
 
-  CategoriesBloc(this.fetchCategories);
+  CategoriesBloc(this.fetchServiceCategories);
 
   @override
   CategoriesState get initialState => const CategoriesState.initial();
@@ -37,7 +37,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
         try {
           await subscription?.cancel();
 
-          subscription = fetchCategories(const NoParams())
+          subscription = fetchServiceCategories(const NoParams())
               .listen((data) => add(CategoriesEvent.refresh(data)));
         } catch (e) {
           yield CategoriesState.error(e.toString());

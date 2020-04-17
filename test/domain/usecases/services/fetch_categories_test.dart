@@ -9,14 +9,14 @@ import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  FetchCategories usecase;
+  FetchServiceCategories usecase;
   CategorieRepository mockCategorieRepository;
 
   init(env: Environment.test);
 
   setUp(() {
     mockCategorieRepository = sl<CategorieRepository>();
-    usecase = FetchCategories(mockCategorieRepository);
+    usecase = FetchServiceCategories(mockCategorieRepository);
   });
 
   const tAction = Action(
@@ -34,7 +34,7 @@ void main() {
     'should get category from the repository',
     () async {
       // arrange
-      when(mockCategorieRepository.fetchCategories())
+      when(mockCategorieRepository.fetchServiceCategories())
           .thenAnswer((_) => Stream.fromIterable([
                 [tCategorie]
               ]));
@@ -44,7 +44,7 @@ void main() {
       expect(result, [
         [tCategorie]
       ]);
-      verify(mockCategorieRepository.fetchCategories());
+      verify(mockCategorieRepository.fetchServiceCategories());
       verifyNoMoreInteractions(mockCategorieRepository);
     },
   );

@@ -17,9 +17,9 @@ class CategorieRepositoryImpl implements CategorieRepository {
   });
 
   @override
-  Stream<List<Categorie>> fetchCategories() async* {
+  Stream<List<Categorie>> fetchServiceCategories() async* {
     yield* dataSource
-        .fetchCategories()
+        .fetchServiceCategories()
         .map((list) => list.map((e) => e.toEntity()).toList());
   }
 }

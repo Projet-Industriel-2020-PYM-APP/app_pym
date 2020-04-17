@@ -11,7 +11,7 @@ import 'package:mockito/mockito.dart';
 
 void main() {
   CategoriesBloc bloc;
-  FetchCategories mockFetchCategories;
+  FetchServiceCategories mockFetchServiceCategories;
 
   init(env: Environment.test);
 
@@ -27,8 +27,8 @@ void main() {
   );
 
   setUp(() {
-    mockFetchCategories = sl<FetchCategories>();
-    bloc = CategoriesBloc(mockFetchCategories);
+    mockFetchServiceCategories = sl<FetchServiceCategories>();
+    bloc = CategoriesBloc(mockFetchServiceCategories);
   });
 
   test('initialState should be CategoriesInitial', () {
@@ -41,14 +41,15 @@ void main() {
       'should get data from the concrete use case',
       () async {
         // arrange
-        when(mockFetchCategories(any)).thenAnswer((_) => Stream.fromIterable([
-              [tCategorie]
-            ]));
+        when(mockFetchServiceCategories(any))
+            .thenAnswer((_) => Stream.fromIterable([
+                  [tCategorie]
+                ]));
         // act
         bloc.add(const FetchCategoriesEvent());
-        await untilCalled(mockFetchCategories(any));
+        await untilCalled(mockFetchServiceCategories(any));
         // assert
-        verify(mockFetchCategories(const NoParams()));
+        verify(mockFetchServiceCategories(const NoParams()));
       },
     );
 
@@ -56,9 +57,10 @@ void main() {
       'should emit [CategoriesInitial, CategoriesLoading, CategoriesLoaded] when data is gotten successfully',
       () async {
         // arrange
-        when(mockFetchCategories(any)).thenAnswer((_) => Stream.fromIterable([
-              [tCategorie]
-            ]));
+        when(mockFetchServiceCategories(any))
+            .thenAnswer((_) => Stream.fromIterable([
+                  [tCategorie]
+                ]));
         // assert later
         const expected = [
           CategoriesInitial(),
@@ -77,7 +79,7 @@ void main() {
       () async {
         // arrange
         final tException = ServerException('ServerException');
-        when(mockFetchCategories(any)).thenThrow(tException);
+        when(mockFetchServiceCategories(any)).thenThrow(tException);
         // assert later
         final expected = [
           const CategoriesInitial(),

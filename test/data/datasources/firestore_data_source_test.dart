@@ -108,14 +108,14 @@ void main() {
     when(mockDocumentSnapshot.documentID).thenReturn("1");
   }
 
-  group('fetchCategories', () {
+  group('fetchServiceCategories', () {
     test(
       "should get documents from service_categories collection",
       () async {
         // arrange
         setUpCategoriesFirestore();
         // act
-        await dataSource.fetchCategories().drain<List<CategorieModel>>();
+        await dataSource.fetchServiceCategories().drain<List<CategorieModel>>();
         // assert
         verify(mockFirestore.collection('service_categories'));
         verify(mockCollectionReference.snapshots());
@@ -129,7 +129,7 @@ void main() {
         // arrange
         setUpCategoriesFirestore();
         // act
-        final result = await dataSource.fetchCategories().toList();
+        final result = await dataSource.fetchServiceCategories().toList();
         // assert
         expect(result, equals([tListCategoriesModel]));
       },

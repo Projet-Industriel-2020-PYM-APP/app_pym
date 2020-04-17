@@ -9,7 +9,7 @@ abstract class FirestoreDataSource {
   Stream<List<ServiceModel>> fetchServicesOf(String categorie_id);
 
   /// Retourne un observable/stream affichant les catégories
-  Stream<List<CategorieModel>> fetchCategories();
+  Stream<List<CategorieModel>> fetchServiceCategories();
 }
 
 @RegisterAs(FirestoreDataSource)
@@ -22,7 +22,7 @@ class FirestoreDataSourceImpl implements FirestoreDataSource {
   const FirestoreDataSourceImpl({@required this.firestore});
 
   @override
-  Stream<List<CategorieModel>> fetchCategories() async* {
+  Stream<List<CategorieModel>> fetchServiceCategories() async* {
     final snaps = firestore.collection('service_categories').snapshots();
 
     yield* snaps.map((snap) => snap.documents

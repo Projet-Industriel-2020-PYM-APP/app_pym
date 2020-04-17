@@ -6,13 +6,14 @@ import 'package:injectable/injectable.dart';
 @prod
 @lazySingleton
 @injectable
-class FetchCategories extends Usecase<Stream<List<Categorie>>, NoParams> {
+class FetchServiceCategories
+    extends Usecase<Stream<List<Categorie>>, NoParams> {
   final CategorieRepository repository;
 
-  const FetchCategories(this.repository);
+  const FetchServiceCategories(this.repository);
 
   @override
   Stream<List<Categorie>> call(NoParams _) {
-    return repository.fetchCategories();
+    return repository.fetchServiceCategories();
   }
 }

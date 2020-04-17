@@ -21,7 +21,7 @@ void main() {
       dataSource: mockDataSource,
     );
   });
-  group('fetchCategories', () {
+  group('FetchServiceCategories', () {
     const tActionModel = ActionModel(
       id: "1",
       html_url: "html_url",
@@ -50,12 +50,12 @@ void main() {
       'should return data when the call to data source is successful',
       () async {
         // arrange
-        when(mockDataSource.fetchCategories())
+        when(mockDataSource.fetchServiceCategories())
             .thenAnswer((_) => Stream.fromIterable([tListCategorieModel]));
         // act
-        final result = await repository.fetchCategories().toList();
+        final result = await repository.fetchServiceCategories().toList();
         // assert
-        verify(mockDataSource.fetchCategories());
+        verify(mockDataSource.fetchServiceCategories());
         expect(result, equals([tListCategorie]));
       },
     );
