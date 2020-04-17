@@ -14,20 +14,20 @@ import 'package:app_pym/register_module.dart';
 import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
 import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
 import 'package:http/src/client.dart';
-import 'package:app_pym/data/devices/compass_device.dart';
 import 'package:app_pym/data/devices/compass_device_mock.dart';
+import 'package:app_pym/data/devices/compass_device.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:app_pym/domain/repositories/map_pym/mock_entreprise_repository.dart';
 import 'package:app_pym/domain/repositories/map_pym/entreprise_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:app_pym/data/devices/geolocator_device.dart';
 import 'package:app_pym/data/devices/geolocator_device_mock.dart';
-import 'package:app_pym/domain/usecases/cartographie/get_batiment_detail.dart';
+import 'package:app_pym/data/devices/geolocator_device.dart';
 import 'package:app_pym/domain/usecases/cartographie/mock_get_batiment_detail.dart';
-import 'package:app_pym/domain/usecases/cartographie/get_entreprises_of_batiment.dart';
+import 'package:app_pym/domain/usecases/cartographie/get_batiment_detail.dart';
 import 'package:app_pym/domain/usecases/cartographie/mock_get_entreprises_of_batiment.dart';
+import 'package:app_pym/domain/usecases/cartographie/get_entreprises_of_batiment.dart';
 import 'package:app_pym/domain/usecases/cartographie/mock_load_page_and_place_batiments.dart';
 import 'package:app_pym/domain/usecases/cartographie/load_page_and_place_batiments.dart';
 import 'package:app_pym/presentation/blocs/main/main_page_bloc.dart';
@@ -126,7 +126,7 @@ void $initGetIt(GetIt g, {String environment}) {
               entreprisesBox: g<Box<EntrepriseModel>>(),
             ));
     g.registerLazySingleton<MapPymRemoteDataSource>(
-        () => MapPymRemoteDataSourceDevImpl());
+        () => MapPymRemoteDataSourceImpl(client: g<Client>()));
     g.registerLazySingleton<NetworkInfo>(
         () => NetworkInfoImpl(g<Connectivity>()));
     g.registerLazySingleton<PermissionHandler>(() => PermissionHandlerImpl());
@@ -183,12 +183,6 @@ void $initGetIt(GetIt g, {String environment}) {
           isSignedIn: g<IsSignedIn>(),
           signOut: g<FirebaseAuthSignOut>(),
         ));
-  }
-
-  //Register dev Dependencies --------
-  if (environment == 'dev') {
-    g.registerLazySingleton<MapPymRemoteDataSource>(
-        () => MapPymRemoteDataSourceImpl(client: g<Client>()));
   }
 }
 
