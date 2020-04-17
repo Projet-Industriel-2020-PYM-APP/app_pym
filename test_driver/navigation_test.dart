@@ -15,7 +15,15 @@ void main() {
     setUpAll(() async {
       driver = await FlutterDriver.connect();
 
-      sleep(const Duration(seconds: 30));
+      var connected = false;
+      while (!connected) {
+        try {
+          await driver.waitUntilFirstFrameRasterized();
+          connected = true;
+        } catch (error) {
+          continue;
+        }
+      }
     });
 
     // Close the connection to the driver after the tests have completed.

@@ -1,11 +1,11 @@
+import 'package:app_pym/core/routes/routes.dart';
 import 'package:app_pym/data/models/map_pym/batiment_model.dart';
 import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
+import 'package:app_pym/injection_container.dart' as di;
+import 'package:app_pym/presentation/router.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
-import 'package:app_pym/core/routes/routes.dart';
-import 'package:app_pym/injection_container.dart' as di;
-import 'package:app_pym/presentation/router.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
@@ -26,12 +26,14 @@ Future<void> main() async {
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key key}) : super(key: key);
+
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  final FirebaseAnalytics analytics = FirebaseAnalytics();
+  FirebaseAnalytics _firebaseAnalytics;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class _MyAppState extends State<MyApp> {
       initialRoute: RoutePaths.root,
       onGenerateRoute: Router.generateRoute,
       navigatorObservers: [
-        FirebaseAnalyticsObserver(analytics: analytics),
+        FirebaseAnalyticsObserver(analytics: _firebaseAnalytics),
       ],
       theme: ThemeData(
         brightness: Brightness.light,
@@ -69,5 +71,11 @@ class _MyAppState extends State<MyApp> {
   void dispose() {
     Hive.close();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    _firebaseAnalytics = di.sl<FirebaseAnalytics>();
+    super.initState();
   }
 }

@@ -41,16 +41,13 @@ mixin _$LoginEvent {
   Result when<Result extends Object>({
     @required Result emailChanged(String email),
     @required Result passwordChanged(String password),
-    @required
-        Result withCredentialsPressed(
-            @required String email, @required String password),
+    @required Result withCredentialsPressed(String email, String password),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result emailChanged(String email),
     Result passwordChanged(String password),
-    Result withCredentialsPressed(
-        @required String email, @required String password),
+    Result withCredentialsPressed(String email, String password),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -148,9 +145,7 @@ class _$EmailChanged with DiagnosticableTreeMixin implements EmailChanged {
   Result when<Result extends Object>({
     @required Result emailChanged(String email),
     @required Result passwordChanged(String password),
-    @required
-        Result withCredentialsPressed(
-            @required String email, @required String password),
+    @required Result withCredentialsPressed(String email, String password),
   }) {
     assert(emailChanged != null);
     assert(passwordChanged != null);
@@ -163,8 +158,7 @@ class _$EmailChanged with DiagnosticableTreeMixin implements EmailChanged {
   Result maybeWhen<Result extends Object>({
     Result emailChanged(String email),
     Result passwordChanged(String password),
-    Result withCredentialsPressed(
-        @required String email, @required String password),
+    Result withCredentialsPressed(String email, String password),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -279,9 +273,7 @@ class _$PasswordChanged
   Result when<Result extends Object>({
     @required Result emailChanged(String email),
     @required Result passwordChanged(String password),
-    @required
-        Result withCredentialsPressed(
-            @required String email, @required String password),
+    @required Result withCredentialsPressed(String email, String password),
   }) {
     assert(emailChanged != null);
     assert(passwordChanged != null);
@@ -294,8 +286,7 @@ class _$PasswordChanged
   Result maybeWhen<Result extends Object>({
     Result emailChanged(String email),
     Result passwordChanged(String password),
-    Result withCredentialsPressed(
-        @required String email, @required String password),
+    Result withCredentialsPressed(String email, String password),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -426,9 +417,7 @@ class _$LoginWithCredentialsPressed
   Result when<Result extends Object>({
     @required Result emailChanged(String email),
     @required Result passwordChanged(String password),
-    @required
-        Result withCredentialsPressed(
-            @required String email, @required String password),
+    @required Result withCredentialsPressed(String email, String password),
   }) {
     assert(emailChanged != null);
     assert(passwordChanged != null);
@@ -441,8 +430,7 @@ class _$LoginWithCredentialsPressed
   Result maybeWhen<Result extends Object>({
     Result emailChanged(String email),
     Result passwordChanged(String password),
-    Result withCredentialsPressed(
-        @required String email, @required String password),
+    Result withCredentialsPressed(String email, String password),
     @required Result orElse(),
   }) {
     assert(orElse != null);

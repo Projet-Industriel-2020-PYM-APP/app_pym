@@ -21,15 +21,17 @@ import 'package:app_pym/core/directory_manager/directory_manager.dart';
 import 'package:app_pym/core/directory_manager/mock_directory_manager.dart';
 import 'package:app_pym/domain/repositories/map_pym/mock_entreprise_repository.dart';
 import 'package:app_pym/domain/repositories/map_pym/entreprise_repository.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:app_pym/data/devices/geolocator_device.dart';
 import 'package:app_pym/data/devices/geolocator_device_mock.dart';
-import 'package:app_pym/domain/usecases/cartographie/get_batiment_detail.dart';
+import 'package:app_pym/data/devices/geolocator_device.dart';
 import 'package:app_pym/domain/usecases/cartographie/mock_get_batiment_detail.dart';
-import 'package:app_pym/domain/usecases/cartographie/get_entreprises_of_batiment.dart';
+import 'package:app_pym/domain/usecases/cartographie/get_batiment_detail.dart';
 import 'package:app_pym/domain/usecases/cartographie/mock_get_entreprises_of_batiment.dart';
+import 'package:app_pym/domain/usecases/cartographie/get_entreprises_of_batiment.dart';
 import 'package:app_pym/domain/usecases/cartographie/load_page_and_place_batiments.dart';
 import 'package:app_pym/domain/usecases/cartographie/mock_load_page_and_place_batiments.dart';
 import 'package:app_pym/presentation/blocs/main/main_page_bloc.dart';
@@ -123,8 +125,12 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerLazySingleton<Client>(() => registerModule.httpClient);
     g.registerLazySingleton<CompassDevice>(() => CompassDeviceImpl());
     g.registerLazySingleton<Connectivity>(() => registerModule.connectivity);
+    g.registerFactory<FirebaseAnalytics>(
+        () => registerModule.firebaseAnalytics);
     g.registerLazySingleton<DirectoryManager>(() => DirectoryManagerImpl());
     g.registerFactory<FirebaseAuth>(() => registerModule.firebaseAuth);
+    g.registerFactory<FirebaseMessaging>(
+        () => registerModule.firebaseMessaging);
     g.registerFactory<Firestore>(() => registerModule.firestore);
     g.registerLazySingleton<Geolocator>(() => registerModule.geolocator);
     g.registerLazySingleton<GeolocatorDevice>(
@@ -148,7 +154,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
               entreprisesBox: g<Box<EntrepriseModel>>(),
             ));
     g.registerLazySingleton<MapPymRemoteDataSource>(
-        () => MapPymRemoteDataSourceDevImpl());
+        () => MapPymRemoteDataSourceImpl(client: g<Client>()));
     g.registerFactory<MapsBloc>(
         () => MapsBloc(geolocatorDevice: g<GeolocatorDevice>()));
     g.registerLazySingleton<MetropoleRemoteDataSource>(
@@ -250,12 +256,6 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         ));
     g.registerLazySingleton<FetchTrainStops>(
         () => FetchTrainStops(g<FetchTrainTrips>()));
-  }
-
-  //Register dev Dependencies --------
-  if (environment == 'dev') {
-    g.registerLazySingleton<MapPymRemoteDataSource>(
-        () => MapPymRemoteDataSourceImpl(client: g<Client>()));
   }
 }
 
