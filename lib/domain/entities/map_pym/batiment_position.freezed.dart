@@ -97,7 +97,9 @@ class __$BatimentPositionCopyWithImpl<$Res>
   }
 }
 
-class _$_BatimentPosition implements _BatimentPosition {
+class _$_BatimentPosition
+    with DiagnosticableTreeMixin
+    implements _BatimentPosition {
   const _$_BatimentPosition(
       {@required this.latitude,
       @required this.longitude,
@@ -114,8 +116,18 @@ class _$_BatimentPosition implements _BatimentPosition {
   final int idBatiment;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'BatimentPosition(latitude: $latitude, longitude: $longitude, idBatiment: $idBatiment)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'BatimentPosition'))
+      ..add(DiagnosticsProperty('latitude', latitude))
+      ..add(DiagnosticsProperty('longitude', longitude))
+      ..add(DiagnosticsProperty('idBatiment', idBatiment));
   }
 
   @override

@@ -1,12 +1,13 @@
 import 'package:app_pym/core/keys/keys.dart';
 import 'package:app_pym/core/routes/routes.dart';
+import 'package:app_pym/injection_container.dart';
+import 'package:app_pym/notifier_widget.dart';
+import 'package:app_pym/presentation/blocs/main/main_page_bloc.dart';
 import 'package:app_pym/presentation/pages/actualite_page.dart';
 import 'package:app_pym/presentation/pages/cartographie_page.dart';
 import 'package:app_pym/presentation/pages/mobilite_page.dart';
 import 'package:app_pym/presentation/pages/services_page.dart';
 import 'package:flutter/material.dart';
-import 'package:app_pym/injection_container.dart';
-import 'package:app_pym/presentation/blocs/main/main_page_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -18,8 +19,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  PageController pageController;
-
   static const List<String> titles = [
     "Actualité",
     "Mobilité",
@@ -28,27 +27,19 @@ class _MainPageState extends State<MainPage> {
     "More",
   ];
 
-  @override
-  void initState() {
-    pageController = PageController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
-  }
+  PageController pageController;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<MainPageBloc>(
-      create: (_) => sl<MainPageBloc>(),
-      child: BlocBuilder<MainPageBloc, MainPageState>(
-        builder: (context, state) => Scaffold(
-          body: buildBody(context),
-          bottomNavigationBar: buildBottomNavBar(context, state),
-          floatingActionButton: buildFloatingActionButton(context, state),
+    return FcmWidget(
+      child: BlocProvider<MainPageBloc>(
+        create: (_) => sl<MainPageBloc>(),
+        child: BlocBuilder<MainPageBloc, MainPageState>(
+          builder: (context, state) => Scaffold(
+            body: buildBody(context),
+            bottomNavigationBar: buildBottomNavBar(context, state),
+            floatingActionButton: buildFloatingActionButton(context, state),
+          ),
         ),
       ),
     );
@@ -118,6 +109,52 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
+  FloatingActionButton buildFloatingActionButton(
+      BuildContext context, MainPageState state) {
+    if (state.currentIndex == 2) {
+      return FloatingActionButton(
+        key: const Key(KeysStringNavigation.ar),
+        tooltip: "Ouvrir la réalité augmentée",
+        onPressed: () {
+          Navigator.pushReplacementNamed(context, RoutePaths.ar);
+        },
+        child: Text(
+          "AR",
+          style: const TextStyle().copyWith(
+              fontSize: Theme.of(context).textTheme.headline6.fontSize),
+        ),
+      );
+    } else {
+      return null;
+    }
+  }
+
+  RelativeRect buttonMenuPosition(BuildContext context) {
+    final RenderBox bar = context.findRenderObject() as RenderBox;
+    final RenderBox overlay =
+        Overlay.of(context).context.findRenderObject() as RenderBox;
+    final RelativeRect position = RelativeRect.fromRect(
+      Rect.fromPoints(
+        bar.localToGlobal(bar.size.bottomRight(Offset.zero), ancestor: overlay),
+        bar.localToGlobal(bar.size.bottomRight(Offset.zero), ancestor: overlay),
+      ),
+      Offset.zero & overlay.size,
+    );
+    return position;
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    pageController = PageController();
+    super.initState();
+  }
+
   Future<void> onTabTapped(BuildContext context, int newIndex) async {
     if (newIndex == 4) {
       final position = buttonMenuPosition(context);
@@ -146,40 +183,6 @@ class _MainPageState extends State<MainPage> {
         curve: Curves.easeInOut,
         duration: const Duration(milliseconds: 300),
       );
-    }
-  }
-
-  RelativeRect buttonMenuPosition(BuildContext context) {
-    final RenderBox bar = context.findRenderObject() as RenderBox;
-    final RenderBox overlay =
-        Overlay.of(context).context.findRenderObject() as RenderBox;
-    final RelativeRect position = RelativeRect.fromRect(
-      Rect.fromPoints(
-        bar.localToGlobal(bar.size.bottomRight(Offset.zero), ancestor: overlay),
-        bar.localToGlobal(bar.size.bottomRight(Offset.zero), ancestor: overlay),
-      ),
-      Offset.zero & overlay.size,
-    );
-    return position;
-  }
-
-  FloatingActionButton buildFloatingActionButton(
-      BuildContext context, MainPageState state) {
-    if (state.currentIndex == 2) {
-      return FloatingActionButton(
-        key: const Key(KeysStringNavigation.ar),
-        tooltip: "Ouvrir la réalité augmentée",
-        onPressed: () {
-          Navigator.pushReplacementNamed(context, RoutePaths.ar);
-        },
-        child: Text(
-          "AR",
-          style: const TextStyle().copyWith(
-              fontSize: Theme.of(context).textTheme.headline6.fontSize),
-        ),
-      );
-    } else {
-      return null;
     }
   }
 }

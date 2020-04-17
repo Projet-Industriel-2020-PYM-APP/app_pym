@@ -1,6 +1,8 @@
 import 'package:app_pym/domain/entities/firebase_auth/app_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'app_user_model.g.dart';
 part 'app_user_model.freezed.dart';

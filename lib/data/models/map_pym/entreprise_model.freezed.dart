@@ -168,7 +168,9 @@ class __$EntrepriseModelCopyWithImpl<$Res>
 
 @HiveType(typeId: 2)
 @JsonSerializable(explicitToJson: true)
-class _$_EntrepriseModel implements _EntrepriseModel {
+class _$_EntrepriseModel
+    with DiagnosticableTreeMixin
+    implements _EntrepriseModel {
   const _$_EntrepriseModel(
       {@required @HiveField(0) this.id,
       @required @HiveField(1) this.nom,
@@ -216,8 +218,23 @@ class _$_EntrepriseModel implements _EntrepriseModel {
   final int idBatiment;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'EntrepriseModel(id: $id, nom: $nom, site_internet: $site_internet, nb_salaries: $nb_salaries, telephone: $telephone, mail: $mail, logo: $logo, idBatiment: $idBatiment)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'EntrepriseModel'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('nom', nom))
+      ..add(DiagnosticsProperty('site_internet', site_internet))
+      ..add(DiagnosticsProperty('nb_salaries', nb_salaries))
+      ..add(DiagnosticsProperty('telephone', telephone))
+      ..add(DiagnosticsProperty('mail', mail))
+      ..add(DiagnosticsProperty('logo', logo))
+      ..add(DiagnosticsProperty('idBatiment', idBatiment));
   }
 
   @override

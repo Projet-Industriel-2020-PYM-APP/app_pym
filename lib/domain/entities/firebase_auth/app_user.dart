@@ -1,4 +1,5 @@
 import 'package:app_pym/data/models/firebase_auth/app_user_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'app_user.freezed.dart';

@@ -1,4 +1,5 @@
 import 'package:app_pym/core/routes/routes.dart';
+import 'package:app_pym/data/models/blogger/post_model.dart';
 import 'package:app_pym/data/models/map_pym/batiment_model.dart';
 import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
 import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
@@ -17,23 +18,27 @@ import 'package:injectable/injectable.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  Hive.registerAdapter<PostModel>(PostModelAdapter());
   Hive.registerAdapter<BatimentPositionModel>(BatimentPositionModelAdapter());
   Hive.registerAdapter<BatimentModel>(BatimentModelAdapter());
   Hive.registerAdapter<EntrepriseModel>(EntrepriseModelAdapter());
+  await Hive.openBox<List<PostModel>>('/posts');
   await Hive.openBox<List<BatimentPositionModel>>('/batiments_position');
   await Hive.openBox<BatimentModel>('/batiments');
   await Hive.openBox<EntrepriseModel>('/entreprises');
-  di.init(env: Environment.prod);
-  runApp(MyApp());
+  await di.init(env: Environment.prod);
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key key}) : super(key: key);
+
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  final FirebaseAnalytics analytics = FirebaseAnalytics();
+  FirebaseAnalytics _firebaseAnalytics;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +53,7 @@ class _MyAppState extends State<MyApp> {
         initialRoute: RoutePaths.root,
         onGenerateRoute: Router.generateRoute,
         navigatorObservers: [
-          FirebaseAnalyticsObserver(analytics: analytics),
+          FirebaseAnalyticsObserver(analytics: _firebaseAnalytics),
         ],
         theme: ThemeData(
           brightness: Brightness.light,
@@ -80,5 +85,11 @@ class _MyAppState extends State<MyApp> {
   void dispose() {
     Hive.close();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    _firebaseAnalytics = di.sl<FirebaseAnalytics>();
+    super.initState();
   }
 }

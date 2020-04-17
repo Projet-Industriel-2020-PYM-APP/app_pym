@@ -27,9 +27,8 @@ class ArScreen extends StatelessWidget {
       onWillPop: () => goBack(context),
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(
+          leading: BackButton(
             key: const Key(KeysStringNavigation.goBackAlternative),
-            icon: const Icon(Icons.arrow_back),
             onPressed: () => goBack(context),
           ),
           title: const Text("Réalité Augmentée"),

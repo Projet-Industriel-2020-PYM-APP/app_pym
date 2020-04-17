@@ -1,0 +1,121 @@
+import 'dart:io';
+
+import 'package:app_pym/core/directory_manager/directory_manager.dart';
+import 'package:app_pym/core/error/exceptions.dart';
+import 'package:app_pym/core/utils/gtfs_utils.dart';
+import 'package:app_pym/data/datasources/gtfs_type_local_data_source.dart';
+import 'package:app_pym/data/models/mobility/calendar_model.dart';
+import 'package:app_pym/data/models/mobility/route_model.dart';
+import 'package:app_pym/data/models/mobility/stop_model.dart';
+import 'package:app_pym/data/models/mobility/stop_time_model.dart';
+import 'package:app_pym/data/models/mobility/trip_model.dart';
+import 'package:archive/archive.dart';
+import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+abstract class SNCFLocalDataSource extends GTFSTypeLocalDataSource {
+  DateTime get timestamp;
+  Future<bool> setTimestamp(DateTime timestamp);
+}
+
+@RegisterAs(SNCFLocalDataSource)
+@prod
+@lazySingleton
+@injectable
+class SNCFLocalDataSourceImpl implements SNCFLocalDataSource {
+  final DirectoryManager directoryManager;
+  final ZipDecoder zipDecoder;
+  final SharedPreferences prefs;
+
+  SNCFLocalDataSourceImpl({
+    @required this.directoryManager,
+    @required this.zipDecoder,
+    @required this.prefs,
+  });
+
+  @override
+  DateTime get timestamp => DateTime.parse(prefs.getString('sncf_timestamp'));
+
+  @override
+  Future<bool> setTimestamp(DateTime timestamp) =>
+      prefs.setString('sncf_timestamp', timestamp.toIso8601String());
+
+  @override
+  Future<List<CalendarModel>> fetchCalendars() async {
+    final file = File('${directoryManager.sncf}/calendars.txt');
+    if (file.existsSync()) {
+      return file.parseCalendars();
+    } else {
+      throw CacheException('Calendars not found.');
+    }
+  }
+
+  @override
+  Future<List<RouteModel>> fetchRoutes() async {
+    final file = File('${directoryManager.sncf}/routes.txt');
+    if (file.existsSync()) {
+      return file.parseRoutes();
+    } else {
+      throw CacheException('Routes not found.');
+    }
+  }
+
+  @override
+  Future<List<StopModel>> fetchStops() async {
+    final file = File('${directoryManager.sncf}/stops.txt');
+    if (file.existsSync()) {
+      return file.parseStops();
+    } else {
+      throw CacheException('Stops not found.');
+    }
+  }
+
+  @override
+  Future<List<StopTimeModel>> fetchStopTimes() async {
+    final file = File('${directoryManager.sncf}/stop_times.txt');
+    if (file.existsSync()) {
+      return file.parseStopTimes();
+    } else {
+      throw CacheException('StopTimes not found.');
+    }
+  }
+
+  @override
+  Future<List<TripModel>> fetchTrips() async {
+    final file = File('${directoryManager.sncf}/trips.txt');
+    if (file.existsSync()) {
+      return file.parseTrips();
+    } else {
+      throw CacheException('Trips not found.');
+    }
+  }
+
+  @override
+  Future<void> writeFile(Stream<List<int>> bytes) async {
+    final File file = File('${directoryManager.sncf}/export-ter-gtfs-last.zip');
+    final IOSink sink = file.openWrite();
+    await bytes.forEach(sink.add);
+    await sink.close();
+    return _unzip(file);
+  }
+
+  Future<void> _unzip(File file) {
+    // Decode the Zip file
+    final Archive archive = zipDecoder.decodeBytes(file.readAsBytesSync());
+
+    final List<Future<void>> futures = <Future<void>>[];
+
+    // Extract the contents of the Zip archive to disk.
+    for (final ArchiveFile file in archive) {
+      if (file.isFile) {
+        final List<int> data = file.content as List<int>;
+        final openFile = File('${directoryManager.sncf}/' + file.name)
+          ..createSync(recursive: true);
+        futures.add(openFile.writeAsBytes(data));
+      }
+    }
+
+    return Future.wait<void>(futures);
+  }
+}

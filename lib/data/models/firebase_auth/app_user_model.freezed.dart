@@ -179,7 +179,7 @@ class __$AppUserModelCopyWithImpl<$Res> extends _$AppUserModelCopyWithImpl<$Res>
 }
 
 @JsonSerializable()
-class _$_AppUserModel implements _AppUserModel {
+class _$_AppUserModel with DiagnosticableTreeMixin implements _AppUserModel {
   const _$_AppUserModel(
       {@required
           this.uid,
@@ -229,8 +229,22 @@ class _$_AppUserModel implements _AppUserModel {
   final bool isAdmin;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AppUserModel(uid: $uid, email: $email, photoUrl: $photoUrl, displayName: $displayName, lastSeen: $lastSeen, isEmailVerified: $isEmailVerified, isAdmin: $isAdmin)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'AppUserModel'))
+      ..add(DiagnosticsProperty('uid', uid))
+      ..add(DiagnosticsProperty('email', email))
+      ..add(DiagnosticsProperty('photoUrl', photoUrl))
+      ..add(DiagnosticsProperty('displayName', displayName))
+      ..add(DiagnosticsProperty('lastSeen', lastSeen))
+      ..add(DiagnosticsProperty('isEmailVerified', isEmailVerified))
+      ..add(DiagnosticsProperty('isAdmin', isAdmin));
   }
 
   @override

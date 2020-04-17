@@ -139,7 +139,7 @@ class __$BatimentCopyWithImpl<$Res> extends _$BatimentCopyWithImpl<$Res>
   }
 }
 
-class _$_Batiment implements _Batiment {
+class _$_Batiment with DiagnosticableTreeMixin implements _Batiment {
   const _$_Batiment(
       {@required this.id,
       @required this.nom,
@@ -172,8 +172,22 @@ class _$_Batiment implements _Batiment {
   final String adresse;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'Batiment(id: $id, nom: $nom, nbEtage: $nbEtage, description: $description, accesHandicape: $accesHandicape, url: $url, adresse: $adresse)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'Batiment'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('nom', nom))
+      ..add(DiagnosticsProperty('nbEtage', nbEtage))
+      ..add(DiagnosticsProperty('description', description))
+      ..add(DiagnosticsProperty('accesHandicape', accesHandicape))
+      ..add(DiagnosticsProperty('url', url))
+      ..add(DiagnosticsProperty('adresse', adresse));
   }
 
   @override
