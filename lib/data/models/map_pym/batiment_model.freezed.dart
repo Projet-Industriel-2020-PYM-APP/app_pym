@@ -158,7 +158,7 @@ class __$BatimentModelCopyWithImpl<$Res>
 
 @HiveType(typeId: 1)
 @JsonSerializable(explicitToJson: true)
-class _$_BatimentModel implements _BatimentModel {
+class _$_BatimentModel with DiagnosticableTreeMixin implements _BatimentModel {
   const _$_BatimentModel(
       {@required @HiveField(0) this.id,
       @required @HiveField(1) this.nom,
@@ -201,8 +201,22 @@ class _$_BatimentModel implements _BatimentModel {
   final String adresse;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'BatimentModel(id: $id, nom: $nom, nbEtage: $nbEtage, description: $description, accesHandicape: $accesHandicape, url: $url, adresse: $adresse)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'BatimentModel'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('nom', nom))
+      ..add(DiagnosticsProperty('nbEtage', nbEtage))
+      ..add(DiagnosticsProperty('description', description))
+      ..add(DiagnosticsProperty('accesHandicape', accesHandicape))
+      ..add(DiagnosticsProperty('url', url))
+      ..add(DiagnosticsProperty('adresse', adresse));
   }
 
   @override

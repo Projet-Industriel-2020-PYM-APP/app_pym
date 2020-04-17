@@ -1,6 +1,10 @@
+import 'package:app_pym/data/models/blogger/post_model.dart';
+
 import 'package:app_pym/core/routes/routes.dart';
+
 import 'package:app_pym/data/models/map_pym/batiment_model.dart';
 import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
+import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
 import 'package:app_pym/injection_container.dart' as di;
 import 'package:app_pym/presentation/router.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -10,14 +14,14 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
 
-import 'data/models/map_pym/entreprise_model.dart';
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  Hive.registerAdapter<PostModel>(PostModelAdapter());
   Hive.registerAdapter<BatimentPositionModel>(BatimentPositionModelAdapter());
   Hive.registerAdapter<BatimentModel>(BatimentModelAdapter());
   Hive.registerAdapter<EntrepriseModel>(EntrepriseModelAdapter());
+  await Hive.openBox<List<PostModel>>('/posts');
   await Hive.openBox<List<BatimentPositionModel>>('/batiments_position');
   await Hive.openBox<BatimentModel>('/batiments');
   await Hive.openBox<EntrepriseModel>('/entreprises');

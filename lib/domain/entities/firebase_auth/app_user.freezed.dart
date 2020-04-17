@@ -126,7 +126,7 @@ class __$AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
   }
 }
 
-class _$_AppUser implements _AppUser {
+class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
   const _$_AppUser(
       {@required this.uid,
       @required this.email,
@@ -155,8 +155,21 @@ class _$_AppUser implements _AppUser {
   final bool isAdmin;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AppUser(uid: $uid, email: $email, photoUrl: $photoUrl, displayName: $displayName, lastSeen: $lastSeen, isAdmin: $isAdmin)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'AppUser'))
+      ..add(DiagnosticsProperty('uid', uid))
+      ..add(DiagnosticsProperty('email', email))
+      ..add(DiagnosticsProperty('photoUrl', photoUrl))
+      ..add(DiagnosticsProperty('displayName', displayName))
+      ..add(DiagnosticsProperty('lastSeen', lastSeen))
+      ..add(DiagnosticsProperty('isAdmin', isAdmin));
   }
 
   @override

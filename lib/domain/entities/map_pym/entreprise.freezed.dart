@@ -151,7 +151,7 @@ class __$EntrepriseCopyWithImpl<$Res> extends _$EntrepriseCopyWithImpl<$Res>
   }
 }
 
-class _$_Entreprise implements _Entreprise {
+class _$_Entreprise with DiagnosticableTreeMixin implements _Entreprise {
   const _$_Entreprise(
       {@required this.id,
       @required this.nom,
@@ -188,8 +188,23 @@ class _$_Entreprise implements _Entreprise {
   final int idBatiment;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'Entreprise(id: $id, nom: $nom, site_internet: $site_internet, nb_salaries: $nb_salaries, telephone: $telephone, mail: $mail, logo: $logo, idBatiment: $idBatiment)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'Entreprise'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('nom', nom))
+      ..add(DiagnosticsProperty('site_internet', site_internet))
+      ..add(DiagnosticsProperty('nb_salaries', nb_salaries))
+      ..add(DiagnosticsProperty('telephone', telephone))
+      ..add(DiagnosticsProperty('mail', mail))
+      ..add(DiagnosticsProperty('logo', logo))
+      ..add(DiagnosticsProperty('idBatiment', idBatiment));
   }
 
   @override

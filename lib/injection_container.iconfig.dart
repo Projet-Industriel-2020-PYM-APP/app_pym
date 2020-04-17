@@ -8,11 +8,16 @@ import 'package:app_pym/domain/repositories/map_pym/mock_batiment_position_repos
 import 'package:app_pym/domain/repositories/map_pym/batiment_position_repository.dart';
 import 'package:app_pym/domain/repositories/map_pym/mock_batiment_repository.dart';
 import 'package:app_pym/domain/repositories/map_pym/batiment_repository.dart';
+import 'package:app_pym/data/datasources/mock_blogger_local_data_source.dart';
+import 'package:app_pym/data/datasources/blogger_local_data_source.dart';
+import 'package:app_pym/data/datasources/mock_blogger_remote_data_source.dart';
+import 'package:app_pym/data/datasources/blogger_remote_data_source.dart';
 import 'package:app_pym/data/models/map_pym/batiment_model.dart';
 import 'package:hive/hive.dart';
 import 'package:app_pym/register_module.dart';
 import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
 import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
+import 'package:app_pym/data/models/blogger/post_model.dart';
 import 'package:http/src/client.dart';
 import 'package:app_pym/data/devices/compass_device_mock.dart';
 import 'package:app_pym/data/devices/compass_device.dart';
@@ -32,19 +37,24 @@ import 'package:app_pym/domain/usecases/cartographie/mock_get_batiment_detail.da
 import 'package:app_pym/domain/usecases/cartographie/get_batiment_detail.dart';
 import 'package:app_pym/domain/usecases/cartographie/mock_get_entreprises_of_batiment.dart';
 import 'package:app_pym/domain/usecases/cartographie/get_entreprises_of_batiment.dart';
-import 'package:app_pym/domain/usecases/cartographie/load_page_and_place_batiments.dart';
+import 'package:app_pym/domain/usecases/fil_actualite/mock_get_posts.dart';
+import 'package:app_pym/domain/usecases/fil_actualite/get_posts.dart';
 import 'package:app_pym/domain/usecases/cartographie/mock_load_page_and_place_batiments.dart';
+import 'package:app_pym/domain/usecases/cartographie/load_page_and_place_batiments.dart';
 import 'package:app_pym/presentation/blocs/main/main_page_bloc.dart';
-import 'package:app_pym/data/datasources/map_pym_local_data_source.dart';
 import 'package:app_pym/data/datasources/mock_map_pym_local_data_source.dart';
-import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
+import 'package:app_pym/data/datasources/map_pym_local_data_source.dart';
 import 'package:app_pym/data/datasources/mock_map_pym_remote_data_source.dart';
+import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
 import 'package:app_pym/presentation/blocs/mobility/maps/maps_bloc.dart';
 import 'package:app_pym/data/datasources/metropole_remote_data_source.dart';
-import 'package:app_pym/core/network/mock_network_info.dart';
 import 'package:app_pym/core/network/network_info.dart';
-import 'package:app_pym/core/permission_handler/mock_permission_handler.dart';
+import 'package:app_pym/core/network/mock_network_info.dart';
 import 'package:app_pym/core/permission_handler/permission_handler.dart';
+import 'package:app_pym/core/permission_handler/mock_permission_handler.dart';
+import 'package:app_pym/domain/repositories/blogger/mock_post_repository.dart';
+import 'package:app_pym/domain/repositories/blogger/post_repository.dart';
+import 'package:app_pym/data/repositories/blogger/post_repository_impl.dart';
 import 'package:app_pym/data/datasources/sncf_remote_data_source.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app_pym/presentation/blocs/mobility/stop_details/stop_details_bloc.dart';
@@ -56,6 +66,7 @@ import 'package:app_pym/data/repositories/map_pym/batiment_repository_impl.dart'
 import 'package:app_pym/presentation/blocs/cartographie/compass/compass_bloc.dart';
 import 'package:app_pym/presentation/blocs/cartographie/entreprise/entreprise_bloc.dart';
 import 'package:app_pym/data/repositories/map_pym/entreprise_repository_impl.dart';
+import 'package:app_pym/presentation/blocs/fil_actualite/fil_actualite_bloc.dart';
 import 'package:app_pym/data/datasources/firebase_auth_data_source.dart';
 import 'package:app_pym/presentation/blocs/firebase_auth/forgot/forgot_bloc.dart';
 import 'package:app_pym/data/datasources/metropole_local_data_source.dart';
@@ -91,10 +102,15 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerFactory<BatimentPositionRepository>(
         () => MockBatimentPositionRepository());
     g.registerFactory<BatimentRepository>(() => MockBatimentRepository());
+    g.registerFactory<BloggerLocalDataSource>(
+        () => MockBloggerLocalDataSource());
+    g.registerFactory<BloggerRemoteDataSource>(
+        () => MockBloggerRemoteDataSource());
     g.registerFactory<Box<BatimentModel>>(() => MockBatimentsBox());
     g.registerFactory<Box<EntrepriseModel>>(() => MockEntreprisesBox());
     g.registerFactory<Box<List<BatimentPositionModel>>>(
         () => MockBatimentPositionBox());
+    g.registerFactory<Box<List<PostModel>>>(() => MockPostsBox());
     g.registerFactory<Client>(() => MockHttpClient());
     g.registerFactory<CompassDevice>(() => MockCompassDevice());
     g.registerFactory<Connectivity>(() => MockDataConnectionChecker());
@@ -105,6 +121,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerFactory<GetBatimentDetail>(() => MockGetBatimentDetail());
     g.registerFactory<GetEntreprisesOfBatiment>(
         () => MockGetEntreprisesOfBatiment());
+    g.registerFactory<GetPosts>(() => MockGetPosts());
     g.registerFactory<LoadPageAndPlaceBatiment>(
         () => MockLoadPageAndPlaceBatiment());
     g.registerFactory<MapPymLocalDataSource>(() => MockMapPymLocalDataSource());
@@ -112,6 +129,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         () => MockMapPymRemoteDataSource());
     g.registerFactory<NetworkInfo>(() => MockNetworkInfo());
     g.registerFactory<PermissionHandler>(() => MockPermissionHandler());
+    g.registerFactory<PostRepository>(() => MockPostRepository());
     g.registerFactory<ZipDecoder>(() => MockZipDecoder());
   }
 
@@ -122,12 +140,13 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         () => registerModule.entreprisesBox);
     g.registerFactory<Box<List<BatimentPositionModel>>>(
         () => registerModule.batimentPositionBox);
+    g.registerFactory<Box<List<PostModel>>>(() => registerModule.postsBox);
     g.registerLazySingleton<Client>(() => registerModule.httpClient);
     g.registerLazySingleton<CompassDevice>(() => CompassDeviceImpl());
     g.registerLazySingleton<Connectivity>(() => registerModule.connectivity);
+    g.registerLazySingleton<DirectoryManager>(() => DirectoryManagerImpl());
     g.registerFactory<FirebaseAnalytics>(
         () => registerModule.firebaseAnalytics);
-    g.registerLazySingleton<DirectoryManager>(() => DirectoryManagerImpl());
     g.registerFactory<FirebaseAuth>(() => registerModule.firebaseAuth);
     g.registerFactory<FirebaseMessaging>(
         () => registerModule.firebaseMessaging);
@@ -162,6 +181,11 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerLazySingleton<NetworkInfo>(
         () => NetworkInfoImpl(g<Connectivity>()));
     g.registerLazySingleton<PermissionHandler>(() => PermissionHandlerImpl());
+    g.registerLazySingleton<PostRepository>(() => PostRepositoryImpl(
+          remoteDataSource: g<BloggerRemoteDataSource>(),
+          localDataSource: g<BloggerLocalDataSource>(),
+          networkInfo: g<NetworkInfo>(),
+        ));
     g.registerLazySingleton<SNCFRemoteDataSource>(
         () => SNCFRemoteDataSourceImpl(client: g<Client>()));
     final sharedPreferences = await registerModule.sharedPreferences;
@@ -182,6 +206,10 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
           remoteDataSource: g<MapPymRemoteDataSource>(),
           networkInfo: g<NetworkInfo>(),
         ));
+    g.registerLazySingleton<BloggerLocalDataSource>(
+        () => BloggerLocalDataSourceImpl(box: g<Box<List<PostModel>>>()));
+    g.registerLazySingleton<BloggerRemoteDataSource>(
+        () => BloggerRemoteDataSourceImpl(client: g<Client>()));
     g.registerFactory<CompassBloc>(() => CompassBloc(
         permissionHandler: g<PermissionHandler>(),
         compassDevice: g<CompassDevice>()));
@@ -193,11 +221,13 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
               remoteDataSource: g<MapPymRemoteDataSource>(),
               networkInfo: g<NetworkInfo>(),
             ));
+    g.registerFactory<FilActualiteBloc>(() => FilActualiteBloc(g<GetPosts>()));
     g.registerLazySingleton<FirebaseAuthDataSource>(() =>
         FirebaseAuthDataSourceImpl(
             auth: g<FirebaseAuth>(), db: g<Firestore>()));
     g.registerFactory<ForgotBloc>(
         () => ForgotBloc(g<FirebaseAuthDataSource>()));
+    g.registerLazySingleton<GetPosts>(() => GetPosts(g<PostRepository>()));
     g.registerLazySingleton<MetropoleLocalDataSource>(
         () => MetropoleLocalDataSourceImpl(
               directoryManager: g<DirectoryManager>(),

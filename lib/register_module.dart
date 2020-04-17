@@ -1,3 +1,4 @@
+import 'package:app_pym/data/models/blogger/post_model.dart';
 import 'package:app_pym/data/models/map_pym/batiment_model.dart';
 import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
 import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
@@ -47,6 +48,11 @@ class MockGeolocator extends Mock implements Geolocator {}
 class MockHttpClient extends Mock implements Client {}
 
 @test
+@RegisterAs(Box)
+@injectable
+class MockPostsBox extends Mock implements Box<List<PostModel>> {}
+
+@test
 @RegisterAs(ZipDecoder)
 @injectable
 class MockZipDecoder extends Mock implements ZipDecoder {}
@@ -87,6 +93,9 @@ abstract class RegisterModule {
   @prod
   @lazySingleton
   Client get httpClient => Client();
+
+  @prod
+  Box<List<PostModel>> get postsBox => Hive.box<List<PostModel>>('/posts');
 
   @prod
   ZipDecoder get zipDecoder;
