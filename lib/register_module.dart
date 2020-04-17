@@ -2,12 +2,12 @@ import 'package:app_pym/data/models/blogger/post_model.dart';
 import 'package:app_pym/data/models/map_pym/batiment_model.dart';
 import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
 import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
-
 import 'package:archive/archive.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
@@ -36,6 +36,16 @@ class MockDataConnectionChecker extends Mock implements Connectivity {}
 @RegisterAs(Box)
 @injectable
 class MockEntreprisesBox extends Mock implements Box<EntrepriseModel> {}
+
+@test
+@RegisterAs(FirebaseAuth)
+@injectable
+class MockFirebaseAuth extends Mock implements FirebaseAuth {}
+
+@test
+@RegisterAs(Firestore)
+@injectable
+class MockFirestore extends Mock implements Firestore {}
 
 @test
 @RegisterAs(Geolocator)
@@ -75,16 +85,16 @@ abstract class RegisterModule {
       Hive.box<EntrepriseModel>('/entreprises');
 
   @prod
-  FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
+  FirebaseAnalytics get firebaseAnalytics => FirebaseAnalytics();
 
   @prod
-  Firestore get firestore => Firestore.instance;
+  FirebaseAuth get firebaseAuth => FirebaseAuth.fromApp(FirebaseApp.instance);
 
   @prod
   FirebaseMessaging get firebaseMessaging => FirebaseMessaging();
 
   @prod
-  FirebaseAnalytics get firebaseAnalytics => FirebaseAnalytics();
+  Firestore get firestore => Firestore(app: FirebaseApp.instance);
 
   @prod
   @lazySingleton
@@ -98,10 +108,10 @@ abstract class RegisterModule {
   Box<List<PostModel>> get postsBox => Hive.box<List<PostModel>>('/posts');
 
   @prod
-  ZipDecoder get zipDecoder;
-
-  @prod
   @preResolve
   Future<SharedPreferences> get sharedPreferences =>
       SharedPreferences.getInstance();
+
+  @prod
+  ZipDecoder get zipDecoder;
 }

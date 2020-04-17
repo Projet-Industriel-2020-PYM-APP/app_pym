@@ -14,10 +14,11 @@ class _$AppUserTearOff {
 
   _AppUser call(
       {@required String uid,
-      @required String email,
-      @required String photoUrl,
-      @required String displayName,
-      @required DateTime lastSeen,
+      @required @nullable String email,
+      @required @nullable String photoUrl,
+      @required @nullable String displayName,
+      @required @nullable DateTime lastSeen,
+      @required @nullable bool isEmailVerified,
       @required bool isAdmin}) {
     return _AppUser(
       uid: uid,
@@ -25,6 +26,7 @@ class _$AppUserTearOff {
       photoUrl: photoUrl,
       displayName: displayName,
       lastSeen: lastSeen,
+      isEmailVerified: isEmailVerified,
       isAdmin: isAdmin,
     );
   }
@@ -35,10 +37,16 @@ const $AppUser = _$AppUserTearOff();
 
 mixin _$AppUser {
   String get uid;
+  @nullable
   String get email;
+  @nullable
   String get photoUrl;
+  @nullable
   String get displayName;
+  @nullable
   DateTime get lastSeen;
+  @nullable
+  bool get isEmailVerified;
   bool get isAdmin;
 
   $AppUserCopyWith<AppUser> get copyWith;
@@ -49,10 +57,11 @@ abstract class $AppUserCopyWith<$Res> {
       _$AppUserCopyWithImpl<$Res>;
   $Res call(
       {String uid,
-      String email,
-      String photoUrl,
-      String displayName,
-      DateTime lastSeen,
+      @nullable String email,
+      @nullable String photoUrl,
+      @nullable String displayName,
+      @nullable DateTime lastSeen,
+      @nullable bool isEmailVerified,
       bool isAdmin});
 }
 
@@ -70,6 +79,7 @@ class _$AppUserCopyWithImpl<$Res> implements $AppUserCopyWith<$Res> {
     Object photoUrl = freezed,
     Object displayName = freezed,
     Object lastSeen = freezed,
+    Object isEmailVerified = freezed,
     Object isAdmin = freezed,
   }) {
     return _then(_value.copyWith(
@@ -79,6 +89,9 @@ class _$AppUserCopyWithImpl<$Res> implements $AppUserCopyWith<$Res> {
       displayName:
           displayName == freezed ? _value.displayName : displayName as String,
       lastSeen: lastSeen == freezed ? _value.lastSeen : lastSeen as DateTime,
+      isEmailVerified: isEmailVerified == freezed
+          ? _value.isEmailVerified
+          : isEmailVerified as bool,
       isAdmin: isAdmin == freezed ? _value.isAdmin : isAdmin as bool,
     ));
   }
@@ -90,10 +103,11 @@ abstract class _$AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
   @override
   $Res call(
       {String uid,
-      String email,
-      String photoUrl,
-      String displayName,
-      DateTime lastSeen,
+      @nullable String email,
+      @nullable String photoUrl,
+      @nullable String displayName,
+      @nullable DateTime lastSeen,
+      @nullable bool isEmailVerified,
       bool isAdmin});
 }
 
@@ -112,6 +126,7 @@ class __$AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
     Object photoUrl = freezed,
     Object displayName = freezed,
     Object lastSeen = freezed,
+    Object isEmailVerified = freezed,
     Object isAdmin = freezed,
   }) {
     return _then(_AppUser(
@@ -121,6 +136,9 @@ class __$AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
       displayName:
           displayName == freezed ? _value.displayName : displayName as String,
       lastSeen: lastSeen == freezed ? _value.lastSeen : lastSeen as DateTime,
+      isEmailVerified: isEmailVerified == freezed
+          ? _value.isEmailVerified
+          : isEmailVerified as bool,
       isAdmin: isAdmin == freezed ? _value.isAdmin : isAdmin as bool,
     ));
   }
@@ -129,34 +147,38 @@ class __$AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
 class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
   const _$_AppUser(
       {@required this.uid,
-      @required this.email,
-      @required this.photoUrl,
-      @required this.displayName,
-      @required this.lastSeen,
+      @required @nullable this.email,
+      @required @nullable this.photoUrl,
+      @required @nullable this.displayName,
+      @required @nullable this.lastSeen,
+      @required @nullable this.isEmailVerified,
       @required this.isAdmin})
       : assert(uid != null),
-        assert(email != null),
-        assert(photoUrl != null),
-        assert(displayName != null),
-        assert(lastSeen != null),
         assert(isAdmin != null);
 
   @override
   final String uid;
   @override
+  @nullable
   final String email;
   @override
+  @nullable
   final String photoUrl;
   @override
+  @nullable
   final String displayName;
   @override
+  @nullable
   final DateTime lastSeen;
+  @override
+  @nullable
+  final bool isEmailVerified;
   @override
   final bool isAdmin;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AppUser(uid: $uid, email: $email, photoUrl: $photoUrl, displayName: $displayName, lastSeen: $lastSeen, isAdmin: $isAdmin)';
+    return 'AppUser(uid: $uid, email: $email, photoUrl: $photoUrl, displayName: $displayName, lastSeen: $lastSeen, isEmailVerified: $isEmailVerified, isAdmin: $isAdmin)';
   }
 
   @override
@@ -169,6 +191,7 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
       ..add(DiagnosticsProperty('photoUrl', photoUrl))
       ..add(DiagnosticsProperty('displayName', displayName))
       ..add(DiagnosticsProperty('lastSeen', lastSeen))
+      ..add(DiagnosticsProperty('isEmailVerified', isEmailVerified))
       ..add(DiagnosticsProperty('isAdmin', isAdmin));
   }
 
@@ -189,6 +212,9 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
             (identical(other.lastSeen, lastSeen) ||
                 const DeepCollectionEquality()
                     .equals(other.lastSeen, lastSeen)) &&
+            (identical(other.isEmailVerified, isEmailVerified) ||
+                const DeepCollectionEquality()
+                    .equals(other.isEmailVerified, isEmailVerified)) &&
             (identical(other.isAdmin, isAdmin) ||
                 const DeepCollectionEquality().equals(other.isAdmin, isAdmin)));
   }
@@ -201,6 +227,7 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
       const DeepCollectionEquality().hash(photoUrl) ^
       const DeepCollectionEquality().hash(displayName) ^
       const DeepCollectionEquality().hash(lastSeen) ^
+      const DeepCollectionEquality().hash(isEmailVerified) ^
       const DeepCollectionEquality().hash(isAdmin);
 
   @override
@@ -211,22 +238,30 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
 abstract class _AppUser implements AppUser {
   const factory _AppUser(
       {@required String uid,
-      @required String email,
-      @required String photoUrl,
-      @required String displayName,
-      @required DateTime lastSeen,
+      @required @nullable String email,
+      @required @nullable String photoUrl,
+      @required @nullable String displayName,
+      @required @nullable DateTime lastSeen,
+      @required @nullable bool isEmailVerified,
       @required bool isAdmin}) = _$_AppUser;
 
   @override
   String get uid;
   @override
+  @nullable
   String get email;
   @override
+  @nullable
   String get photoUrl;
   @override
+  @nullable
   String get displayName;
   @override
+  @nullable
   DateTime get lastSeen;
+  @override
+  @nullable
+  bool get isEmailVerified;
   @override
   bool get isAdmin;
   @override

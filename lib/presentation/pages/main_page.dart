@@ -71,37 +71,37 @@ class _MainPageState extends State<MainPage> {
       currentIndex: state.currentIndex,
       items: [
         BottomNavigationBarItem(
-          icon: Icon(
+          icon: const Icon(
             FontAwesomeIcons.solidNewspaper,
-            key: const Key(KeysStringNavigation.actualite),
+            key: Key(KeysStringNavigation.actualite),
           ),
           title: Text(titles[0]),
         ),
         BottomNavigationBarItem(
-          icon: Icon(
+          icon: const Icon(
             Icons.train,
-            key: const Key(KeysStringNavigation.mobilite),
+            key: Key(KeysStringNavigation.mobilite),
           ),
           title: Text(titles[1]),
         ),
         BottomNavigationBarItem(
-          icon: Icon(
+          icon: const Icon(
             Icons.location_on,
-            key: const Key(KeysStringNavigation.cartographie),
+            key: Key(KeysStringNavigation.cartographie),
           ),
           title: Text(titles[2]),
         ),
         BottomNavigationBarItem(
-          icon: Icon(
+          icon: const Icon(
             Icons.room_service,
-            key: const Key(KeysStringNavigation.services),
+            key: Key(KeysStringNavigation.services),
           ),
           title: Text(titles[3]),
         ),
         BottomNavigationBarItem(
-          icon: Icon(
+          icon: const Icon(
             Icons.more_vert,
-            key: const Key(KeysStringNavigation.more),
+            key: Key(KeysStringNavigation.more),
           ),
           title: Text(titles[4]),
         ),

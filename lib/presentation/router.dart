@@ -1,6 +1,7 @@
 import 'package:app_pym/core/routes/routes.dart';
 import 'package:app_pym/presentation/pages/cartographie/ar_screen.dart';
 import 'package:app_pym/presentation/pages/contact_page.dart';
+import 'package:app_pym/presentation/pages/login_page.dart';
 import 'package:app_pym/presentation/pages/main_page.dart';
 import 'package:app_pym/presentation/pages/parameters_page.dart';
 import 'package:app_pym/presentation/widgets/animations/page_transitions.dart';
@@ -27,6 +28,11 @@ class Router {
       case RoutePaths.contacts:
         return MaterialPageRoute<void>(
           builder: (BuildContext context) => const ContactPage(),
+          settings: settings,
+        );
+      case RoutePaths.login:
+        return MaterialPageRoute<void>(
+          builder: (BuildContext context) => const LoginPage(),
           settings: settings,
         );
       default:

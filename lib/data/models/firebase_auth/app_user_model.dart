@@ -11,10 +11,14 @@ part 'app_user_model.freezed.dart';
 abstract class AppUserModel with _$AppUserModel {
   const factory AppUserModel({
     @required String uid,
-    @required String email,
-    @required String photoUrl,
-    @required String displayName,
-    @required @JsonKey(fromJson: _fromJson, toJson: _toJson) DateTime lastSeen,
+    @nullable @required String email,
+    @nullable @required String photoUrl,
+    @nullable @required String displayName,
+    @nullable
+    @required
+    @JsonKey(fromJson: _fromJson, toJson: _toJson)
+        DateTime lastSeen,
+    @nullable @required bool isEmailVerified,
     @required bool isAdmin,
   }) = _AppUserModel;
 
@@ -29,10 +33,11 @@ extension AppUserModelX on AppUserModel {
   AppUser toEntity() {
     return AppUser(
       uid: this.uid,
-      email: this.email,
-      photoUrl: this.photoUrl,
-      displayName: this.displayName,
-      lastSeen: this.lastSeen,
+      email: this?.email,
+      photoUrl: this?.photoUrl,
+      displayName: this?.displayName,
+      lastSeen: this?.lastSeen,
+      isEmailVerified: this?.isEmailVerified,
       isAdmin: this.isAdmin,
     );
   }

@@ -1,15 +1,16 @@
-import 'package:app_pym/data/models/blogger/post_model.dart';
-
 import 'package:app_pym/core/routes/routes.dart';
-
+import 'package:app_pym/data/models/blogger/post_model.dart';
 import 'package:app_pym/data/models/map_pym/batiment_model.dart';
 import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
 import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
+import 'package:app_pym/injection_container.dart';
 import 'package:app_pym/injection_container.dart' as di;
+import 'package:app_pym/presentation/blocs/firebase_auth/authentication/authentication_bloc.dart';
 import 'package:app_pym/presentation/router.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
@@ -26,7 +27,7 @@ Future<void> main() async {
   await Hive.openBox<BatimentModel>('/batiments');
   await Hive.openBox<EntrepriseModel>('/entreprises');
   await di.init(env: Environment.prod);
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -41,33 +42,42 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Application Pôle Yvon Morandat',
-      initialRoute: RoutePaths.root,
-      onGenerateRoute: Router.generateRoute,
-      navigatorObservers: [
-        FirebaseAnalyticsObserver(analytics: _firebaseAnalytics),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+            create: (_) => sl<AuthenticationBloc>()
+              ..add(const AuthenticationEvent.refresh())),
       ],
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: Colors.red[900],
-        accentColor: Colors.redAccent[700],
-        appBarTheme: AppBarTheme(
-          color: Colors.white,
-          textTheme: Theme.of(context).textTheme.apply(bodyColor: Colors.black),
-          iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.black),
-          actionsIconTheme:
-              Theme.of(context).iconTheme.copyWith(color: Colors.black),
+      child: MaterialApp(
+        title: 'Application Pôle Yvon Morandat',
+        initialRoute: RoutePaths.root,
+        onGenerateRoute: Router.generateRoute,
+        navigatorObservers: [
+          FirebaseAnalyticsObserver(analytics: _firebaseAnalytics),
+        ],
+        theme: ThemeData(
+          brightness: Brightness.light,
+          primaryColor: Colors.red[900],
+          accentColor: Colors.redAccent[700],
+          appBarTheme: AppBarTheme(
+            color: Colors.white,
+            textTheme:
+                Theme.of(context).textTheme.apply(bodyColor: Colors.black),
+            iconTheme:
+                Theme.of(context).iconTheme.copyWith(color: Colors.black),
+            actionsIconTheme:
+                Theme.of(context).iconTheme.copyWith(color: Colors.black),
+          ),
+        ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          primaryColor: Colors.red[900],
+          accentColor: Colors.redAccent[700],
+          appBarTheme: const AppBarTheme(
+            color: Colors.black,
+          ),
         ),
       ),
-      // darkTheme: ThemeData(
-      //   brightness: Brightness.dark,
-      //   primaryColor: Colors.red[900],
-      //   accentColor: Colors.redAccent[700],
-      //   appBarTheme: AppBarTheme(
-      //     color: Colors.black,
-      //   ),
-      // ),
     );
   }
 

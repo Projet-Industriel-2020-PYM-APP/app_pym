@@ -8,6 +8,7 @@ abstract class LoginState with _$LoginState {
     @required bool isSubmitting,
     @required bool isSuccess,
     @required bool isFailure,
+    String error,
   }) = _LoginState;
 
   factory LoginState.empty() {
@@ -30,13 +31,14 @@ abstract class LoginState with _$LoginState {
     );
   }
 
-  factory LoginState.failure() {
-    return const LoginState(
+  factory LoginState.failure(String error) {
+    return LoginState(
       isEmailValid: true,
       isPasswordValid: true,
       isSubmitting: false,
       isSuccess: false,
       isFailure: true,
+      error: error,
     );
   }
 
@@ -54,12 +56,19 @@ abstract class LoginState with _$LoginState {
 extension LoginStateX on LoginState {
   bool get isFormValid => isEmailValid && isPasswordValid;
 
-  LoginState update({
+  LoginState updateEmail({
     bool isEmailValid,
-    bool isPasswordValid,
   }) {
     return this.copyWith(
       isEmailValid: isEmailValid,
+      isSubmitting: false,
+      isSuccess: false,
+      isFailure: false,
+    );
+  }
+
+  LoginState updatePassword({bool isPasswordValid}) {
+    return this.copyWith(
       isPasswordValid: isPasswordValid,
       isSubmitting: false,
       isSuccess: false,

@@ -10,11 +10,12 @@ class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30.0),
-      ),
+      color: Theme.of(context).accentColor,
       onPressed: _onPressed,
-      child: const Text('Login'),
+      child: Text(
+        'SE CONNECTER',
+        style: Theme.of(context).textTheme.button.apply(color: Colors.white),
+      ),
     );
   }
 }
