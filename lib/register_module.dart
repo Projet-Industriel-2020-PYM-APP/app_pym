@@ -3,7 +3,9 @@ import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
 import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
@@ -63,6 +65,12 @@ abstract class RegisterModule {
 
   @prod
   Firestore get firestore => Firestore.instance;
+
+  @prod
+  FirebaseMessaging get firebaseMessaging => FirebaseMessaging();
+
+  @prod
+  FirebaseAnalytics get firebaseAnalytics => FirebaseAnalytics();
 
   @prod
   @lazySingleton

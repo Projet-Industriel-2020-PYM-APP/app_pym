@@ -14,12 +14,14 @@ import 'package:app_pym/register_module.dart';
 import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
 import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
 import 'package:http/src/client.dart';
-import 'package:app_pym/data/devices/compass_device_mock.dart';
 import 'package:app_pym/data/devices/compass_device.dart';
+import 'package:app_pym/data/devices/compass_device_mock.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:app_pym/domain/repositories/map_pym/mock_entreprise_repository.dart';
 import 'package:app_pym/domain/repositories/map_pym/entreprise_repository.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:app_pym/data/devices/geolocator_device_mock.dart';
@@ -102,7 +104,11 @@ void $initGetIt(GetIt g, {String environment}) {
     g.registerLazySingleton<Client>(() => registerModule.httpClient);
     g.registerLazySingleton<CompassDevice>(() => CompassDeviceImpl());
     g.registerLazySingleton<Connectivity>(() => registerModule.connectivity);
+    g.registerFactory<FirebaseAnalytics>(
+        () => registerModule.firebaseAnalytics);
     g.registerFactory<FirebaseAuth>(() => registerModule.firebaseAuth);
+    g.registerFactory<FirebaseMessaging>(
+        () => registerModule.firebaseMessaging);
     g.registerFactory<Firestore>(() => registerModule.firestore);
     g.registerLazySingleton<Geolocator>(() => registerModule.geolocator);
     g.registerLazySingleton<GeolocatorDevice>(
