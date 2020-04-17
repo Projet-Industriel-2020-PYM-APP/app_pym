@@ -54,6 +54,8 @@ abstract class $StopTimeCopyWith<$Res> {
       String stop_id,
       String stop_sequence,
       Stop stop});
+
+  $StopCopyWith<$Res> get stop;
 }
 
 class _$StopTimeCopyWithImpl<$Res> implements $StopTimeCopyWith<$Res> {
@@ -87,6 +89,16 @@ class _$StopTimeCopyWithImpl<$Res> implements $StopTimeCopyWith<$Res> {
       stop: stop == freezed ? _value.stop : stop as Stop,
     ));
   }
+
+  @override
+  $StopCopyWith<$Res> get stop {
+    if (_value.stop == null) {
+      return null;
+    }
+    return $StopCopyWith<$Res>(_value.stop, (value) {
+      return _then(_value.copyWith(stop: value));
+    });
+  }
 }
 
 abstract class _$StopTimeCopyWith<$Res> implements $StopTimeCopyWith<$Res> {
@@ -100,6 +112,9 @@ abstract class _$StopTimeCopyWith<$Res> implements $StopTimeCopyWith<$Res> {
       String stop_id,
       String stop_sequence,
       Stop stop});
+
+  @override
+  $StopCopyWith<$Res> get stop;
 }
 
 class __$StopTimeCopyWithImpl<$Res> extends _$StopTimeCopyWithImpl<$Res>

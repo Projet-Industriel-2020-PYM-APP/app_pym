@@ -12,14 +12,22 @@ T _$identity<T>(T value) => value;
 class _$MapsEventTearOff {
   const _$MapsEventTearOff();
 
-  FetchMapsEvent fetch(GoogleMapController controller) {
-    return FetchMapsEvent(
-      controller,
+  LoadMapsEvent load(List<Trip> busTrips, bool isBus, List<Trip> trainTrips,
+      bool isTrain, Direction direction) {
+    return LoadMapsEvent(
+      busTrips,
+      isBus,
+      trainTrips,
+      isTrain,
+      direction,
     );
   }
 
-  HideMapsEvent hide() {
-    return const HideMapsEvent();
+  HideMapsEvent hide(bool isBus, bool isTtrain) {
+    return HideMapsEvent(
+      isBus,
+      isTtrain,
+    );
   }
 }
 
@@ -27,33 +35,41 @@ class _$MapsEventTearOff {
 const $MapsEvent = _$MapsEventTearOff();
 
 mixin _$MapsEvent {
+  bool get isBus;
+
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result fetch(GoogleMapController controller),
-    @required Result hide(),
+    @required
+        Result load(List<Trip> busTrips, bool isBus, List<Trip> trainTrips,
+            bool isTrain, Direction direction),
+    @required Result hide(bool isBus, bool isTtrain),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result fetch(GoogleMapController controller),
-    Result hide(),
+    Result load(List<Trip> busTrips, bool isBus, List<Trip> trainTrips,
+        bool isTrain, Direction direction),
+    Result hide(bool isBus, bool isTtrain),
     @required Result orElse(),
   });
   @optionalTypeArgs
   Result map<Result extends Object>({
-    @required Result fetch(FetchMapsEvent value),
+    @required Result load(LoadMapsEvent value),
     @required Result hide(HideMapsEvent value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
-    Result fetch(FetchMapsEvent value),
+    Result load(LoadMapsEvent value),
     Result hide(HideMapsEvent value),
     @required Result orElse(),
   });
+
+  $MapsEventCopyWith<MapsEvent> get copyWith;
 }
 
 abstract class $MapsEventCopyWith<$Res> {
   factory $MapsEventCopyWith(MapsEvent value, $Res Function(MapsEvent) then) =
       _$MapsEventCopyWithImpl<$Res>;
+  $Res call({bool isBus});
 }
 
 class _$MapsEventCopyWithImpl<$Res> implements $MapsEventCopyWith<$Res> {
@@ -62,93 +78,152 @@ class _$MapsEventCopyWithImpl<$Res> implements $MapsEventCopyWith<$Res> {
   final MapsEvent _value;
   // ignore: unused_field
   final $Res Function(MapsEvent) _then;
-}
-
-abstract class $FetchMapsEventCopyWith<$Res> {
-  factory $FetchMapsEventCopyWith(
-          FetchMapsEvent value, $Res Function(FetchMapsEvent) then) =
-      _$FetchMapsEventCopyWithImpl<$Res>;
-  $Res call({GoogleMapController controller});
-}
-
-class _$FetchMapsEventCopyWithImpl<$Res> extends _$MapsEventCopyWithImpl<$Res>
-    implements $FetchMapsEventCopyWith<$Res> {
-  _$FetchMapsEventCopyWithImpl(
-      FetchMapsEvent _value, $Res Function(FetchMapsEvent) _then)
-      : super(_value, (v) => _then(v as FetchMapsEvent));
-
-  @override
-  FetchMapsEvent get _value => super._value as FetchMapsEvent;
 
   @override
   $Res call({
-    Object controller = freezed,
+    Object isBus = freezed,
   }) {
-    return _then(FetchMapsEvent(
-      controller == freezed
-          ? _value.controller
-          : controller as GoogleMapController,
+    return _then(_value.copyWith(
+      isBus: isBus == freezed ? _value.isBus : isBus as bool,
     ));
   }
 }
 
-class _$FetchMapsEvent with DiagnosticableTreeMixin implements FetchMapsEvent {
-  const _$FetchMapsEvent(this.controller) : assert(controller != null);
+abstract class $LoadMapsEventCopyWith<$Res>
+    implements $MapsEventCopyWith<$Res> {
+  factory $LoadMapsEventCopyWith(
+          LoadMapsEvent value, $Res Function(LoadMapsEvent) then) =
+      _$LoadMapsEventCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {List<Trip> busTrips,
+      bool isBus,
+      List<Trip> trainTrips,
+      bool isTrain,
+      Direction direction});
+}
+
+class _$LoadMapsEventCopyWithImpl<$Res> extends _$MapsEventCopyWithImpl<$Res>
+    implements $LoadMapsEventCopyWith<$Res> {
+  _$LoadMapsEventCopyWithImpl(
+      LoadMapsEvent _value, $Res Function(LoadMapsEvent) _then)
+      : super(_value, (v) => _then(v as LoadMapsEvent));
 
   @override
-  final GoogleMapController controller;
+  LoadMapsEvent get _value => super._value as LoadMapsEvent;
+
+  @override
+  $Res call({
+    Object busTrips = freezed,
+    Object isBus = freezed,
+    Object trainTrips = freezed,
+    Object isTrain = freezed,
+    Object direction = freezed,
+  }) {
+    return _then(LoadMapsEvent(
+      busTrips == freezed ? _value.busTrips : busTrips as List<Trip>,
+      isBus == freezed ? _value.isBus : isBus as bool,
+      trainTrips == freezed ? _value.trainTrips : trainTrips as List<Trip>,
+      isTrain == freezed ? _value.isTrain : isTrain as bool,
+      direction == freezed ? _value.direction : direction as Direction,
+    ));
+  }
+}
+
+class _$LoadMapsEvent with DiagnosticableTreeMixin implements LoadMapsEvent {
+  const _$LoadMapsEvent(
+      this.busTrips, this.isBus, this.trainTrips, this.isTrain, this.direction)
+      : assert(busTrips != null),
+        assert(isBus != null),
+        assert(trainTrips != null),
+        assert(isTrain != null),
+        assert(direction != null);
+
+  @override
+  final List<Trip> busTrips;
+  @override
+  final bool isBus;
+  @override
+  final List<Trip> trainTrips;
+  @override
+  final bool isTrain;
+  @override
+  final Direction direction;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MapsEvent.fetch(controller: $controller)';
+    return 'MapsEvent.load(busTrips: $busTrips, isBus: $isBus, trainTrips: $trainTrips, isTrain: $isTrain, direction: $direction)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'MapsEvent.fetch'))
-      ..add(DiagnosticsProperty('controller', controller));
+      ..add(DiagnosticsProperty('type', 'MapsEvent.load'))
+      ..add(DiagnosticsProperty('busTrips', busTrips))
+      ..add(DiagnosticsProperty('isBus', isBus))
+      ..add(DiagnosticsProperty('trainTrips', trainTrips))
+      ..add(DiagnosticsProperty('isTrain', isTrain))
+      ..add(DiagnosticsProperty('direction', direction));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is FetchMapsEvent &&
-            (identical(other.controller, controller) ||
+        (other is LoadMapsEvent &&
+            (identical(other.busTrips, busTrips) ||
                 const DeepCollectionEquality()
-                    .equals(other.controller, controller)));
+                    .equals(other.busTrips, busTrips)) &&
+            (identical(other.isBus, isBus) ||
+                const DeepCollectionEquality().equals(other.isBus, isBus)) &&
+            (identical(other.trainTrips, trainTrips) ||
+                const DeepCollectionEquality()
+                    .equals(other.trainTrips, trainTrips)) &&
+            (identical(other.isTrain, isTrain) ||
+                const DeepCollectionEquality()
+                    .equals(other.isTrain, isTrain)) &&
+            (identical(other.direction, direction) ||
+                const DeepCollectionEquality()
+                    .equals(other.direction, direction)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(controller);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(busTrips) ^
+      const DeepCollectionEquality().hash(isBus) ^
+      const DeepCollectionEquality().hash(trainTrips) ^
+      const DeepCollectionEquality().hash(isTrain) ^
+      const DeepCollectionEquality().hash(direction);
 
   @override
-  $FetchMapsEventCopyWith<FetchMapsEvent> get copyWith =>
-      _$FetchMapsEventCopyWithImpl<FetchMapsEvent>(this, _$identity);
+  $LoadMapsEventCopyWith<LoadMapsEvent> get copyWith =>
+      _$LoadMapsEventCopyWithImpl<LoadMapsEvent>(this, _$identity);
 
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result fetch(GoogleMapController controller),
-    @required Result hide(),
+    @required
+        Result load(List<Trip> busTrips, bool isBus, List<Trip> trainTrips,
+            bool isTrain, Direction direction),
+    @required Result hide(bool isBus, bool isTtrain),
   }) {
-    assert(fetch != null);
+    assert(load != null);
     assert(hide != null);
-    return fetch(controller);
+    return load(busTrips, isBus, trainTrips, isTrain, direction);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result fetch(GoogleMapController controller),
-    Result hide(),
+    Result load(List<Trip> busTrips, bool isBus, List<Trip> trainTrips,
+        bool isTrain, Direction direction),
+    Result hide(bool isBus, bool isTtrain),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (fetch != null) {
-      return fetch(controller);
+    if (load != null) {
+      return load(busTrips, isBus, trainTrips, isTrain, direction);
     }
     return orElse();
   }
@@ -156,41 +231,54 @@ class _$FetchMapsEvent with DiagnosticableTreeMixin implements FetchMapsEvent {
   @override
   @optionalTypeArgs
   Result map<Result extends Object>({
-    @required Result fetch(FetchMapsEvent value),
+    @required Result load(LoadMapsEvent value),
     @required Result hide(HideMapsEvent value),
   }) {
-    assert(fetch != null);
+    assert(load != null);
     assert(hide != null);
-    return fetch(this);
+    return load(this);
   }
 
   @override
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
-    Result fetch(FetchMapsEvent value),
+    Result load(LoadMapsEvent value),
     Result hide(HideMapsEvent value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (fetch != null) {
-      return fetch(this);
+    if (load != null) {
+      return load(this);
     }
     return orElse();
   }
 }
 
-abstract class FetchMapsEvent implements MapsEvent {
-  const factory FetchMapsEvent(GoogleMapController controller) =
-      _$FetchMapsEvent;
+abstract class LoadMapsEvent implements MapsEvent {
+  const factory LoadMapsEvent(
+      List<Trip> busTrips,
+      bool isBus,
+      List<Trip> trainTrips,
+      bool isTrain,
+      Direction direction) = _$LoadMapsEvent;
 
-  GoogleMapController get controller;
-  $FetchMapsEventCopyWith<FetchMapsEvent> get copyWith;
+  List<Trip> get busTrips;
+  @override
+  bool get isBus;
+  List<Trip> get trainTrips;
+  bool get isTrain;
+  Direction get direction;
+  @override
+  $LoadMapsEventCopyWith<LoadMapsEvent> get copyWith;
 }
 
-abstract class $HideMapsEventCopyWith<$Res> {
+abstract class $HideMapsEventCopyWith<$Res>
+    implements $MapsEventCopyWith<$Res> {
   factory $HideMapsEventCopyWith(
           HideMapsEvent value, $Res Function(HideMapsEvent) then) =
       _$HideMapsEventCopyWithImpl<$Res>;
+  @override
+  $Res call({bool isBus, bool isTtrain});
 }
 
 class _$HideMapsEventCopyWithImpl<$Res> extends _$MapsEventCopyWithImpl<$Res>
@@ -201,51 +289,88 @@ class _$HideMapsEventCopyWithImpl<$Res> extends _$MapsEventCopyWithImpl<$Res>
 
   @override
   HideMapsEvent get _value => super._value as HideMapsEvent;
+
+  @override
+  $Res call({
+    Object isBus = freezed,
+    Object isTtrain = freezed,
+  }) {
+    return _then(HideMapsEvent(
+      isBus == freezed ? _value.isBus : isBus as bool,
+      isTtrain == freezed ? _value.isTtrain : isTtrain as bool,
+    ));
+  }
 }
 
 class _$HideMapsEvent with DiagnosticableTreeMixin implements HideMapsEvent {
-  const _$HideMapsEvent();
+  const _$HideMapsEvent(this.isBus, this.isTtrain)
+      : assert(isBus != null),
+        assert(isTtrain != null);
+
+  @override
+  final bool isBus;
+  @override
+  final bool isTtrain;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MapsEvent.hide()';
+    return 'MapsEvent.hide(isBus: $isBus, isTtrain: $isTtrain)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties..add(DiagnosticsProperty('type', 'MapsEvent.hide'));
+    properties
+      ..add(DiagnosticsProperty('type', 'MapsEvent.hide'))
+      ..add(DiagnosticsProperty('isBus', isBus))
+      ..add(DiagnosticsProperty('isTtrain', isTtrain));
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is HideMapsEvent);
+    return identical(this, other) ||
+        (other is HideMapsEvent &&
+            (identical(other.isBus, isBus) ||
+                const DeepCollectionEquality().equals(other.isBus, isBus)) &&
+            (identical(other.isTtrain, isTtrain) ||
+                const DeepCollectionEquality()
+                    .equals(other.isTtrain, isTtrain)));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(isBus) ^
+      const DeepCollectionEquality().hash(isTtrain);
+
+  @override
+  $HideMapsEventCopyWith<HideMapsEvent> get copyWith =>
+      _$HideMapsEventCopyWithImpl<HideMapsEvent>(this, _$identity);
 
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result fetch(GoogleMapController controller),
-    @required Result hide(),
+    @required
+        Result load(List<Trip> busTrips, bool isBus, List<Trip> trainTrips,
+            bool isTrain, Direction direction),
+    @required Result hide(bool isBus, bool isTtrain),
   }) {
-    assert(fetch != null);
+    assert(load != null);
     assert(hide != null);
-    return hide();
+    return hide(isBus, isTtrain);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result fetch(GoogleMapController controller),
-    Result hide(),
+    Result load(List<Trip> busTrips, bool isBus, List<Trip> trainTrips,
+        bool isTrain, Direction direction),
+    Result hide(bool isBus, bool isTtrain),
     @required Result orElse(),
   }) {
     assert(orElse != null);
     if (hide != null) {
-      return hide();
+      return hide(isBus, isTtrain);
     }
     return orElse();
   }
@@ -253,10 +378,10 @@ class _$HideMapsEvent with DiagnosticableTreeMixin implements HideMapsEvent {
   @override
   @optionalTypeArgs
   Result map<Result extends Object>({
-    @required Result fetch(FetchMapsEvent value),
+    @required Result load(LoadMapsEvent value),
     @required Result hide(HideMapsEvent value),
   }) {
-    assert(fetch != null);
+    assert(load != null);
     assert(hide != null);
     return hide(this);
   }
@@ -264,7 +389,7 @@ class _$HideMapsEvent with DiagnosticableTreeMixin implements HideMapsEvent {
   @override
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
-    Result fetch(FetchMapsEvent value),
+    Result load(LoadMapsEvent value),
     Result hide(HideMapsEvent value),
     @required Result orElse(),
   }) {
@@ -277,29 +402,34 @@ class _$HideMapsEvent with DiagnosticableTreeMixin implements HideMapsEvent {
 }
 
 abstract class HideMapsEvent implements MapsEvent {
-  const factory HideMapsEvent() = _$HideMapsEvent;
+  const factory HideMapsEvent(bool isBus, bool isTtrain) = _$HideMapsEvent;
+
+  @override
+  bool get isBus;
+  bool get isTtrain;
+  @override
+  $HideMapsEventCopyWith<HideMapsEvent> get copyWith;
 }
 
 class _$MapsStateTearOff {
   const _$MapsStateTearOff();
 
-  MapsInitial initial() {
-    return const MapsInitial();
-  }
-
-  MapsLoading loading() {
-    return const MapsLoading();
-  }
-
-  MapsLoaded loaded(Stream<LatLng> positions) {
-    return MapsLoaded(
-      positions,
-    );
-  }
-
-  MapsError error(String message) {
-    return MapsError(
-      message,
+  _MapsState call(
+      {@required bool isLoading,
+      @required bool isError,
+      @required bool isBusLoaded,
+      @required bool isTrainLoaded,
+      Exception exception,
+      Set<Polyline> polylines,
+      Set<Marker> markers}) {
+    return _MapsState(
+      isLoading: isLoading,
+      isError: isError,
+      isBusLoaded: isBusLoaded,
+      isTrainLoaded: isTrainLoaded,
+      exception: exception,
+      polylines: polylines,
+      markers: markers,
     );
   }
 }
@@ -308,41 +438,28 @@ class _$MapsStateTearOff {
 const $MapsState = _$MapsStateTearOff();
 
 mixin _$MapsState {
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result loading(),
-    @required Result loaded(Stream<LatLng> positions),
-    @required Result error(String message),
-  });
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result loading(),
-    Result loaded(Stream<LatLng> positions),
-    Result error(String message),
-    @required Result orElse(),
-  });
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(MapsInitial value),
-    @required Result loading(MapsLoading value),
-    @required Result loaded(MapsLoaded value),
-    @required Result error(MapsError value),
-  });
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(MapsInitial value),
-    Result loading(MapsLoading value),
-    Result loaded(MapsLoaded value),
-    Result error(MapsError value),
-    @required Result orElse(),
-  });
+  bool get isLoading;
+  bool get isError;
+  bool get isBusLoaded;
+  bool get isTrainLoaded;
+  Exception get exception;
+  Set<Polyline> get polylines;
+  Set<Marker> get markers;
+
+  $MapsStateCopyWith<MapsState> get copyWith;
 }
 
 abstract class $MapsStateCopyWith<$Res> {
   factory $MapsStateCopyWith(MapsState value, $Res Function(MapsState) then) =
       _$MapsStateCopyWithImpl<$Res>;
+  $Res call(
+      {bool isLoading,
+      bool isError,
+      bool isBusLoaded,
+      bool isTrainLoaded,
+      Exception exception,
+      Set<Polyline> polylines,
+      Set<Marker> markers});
 }
 
 class _$MapsStateCopyWithImpl<$Res> implements $MapsStateCopyWith<$Res> {
@@ -351,474 +468,198 @@ class _$MapsStateCopyWithImpl<$Res> implements $MapsStateCopyWith<$Res> {
   final MapsState _value;
   // ignore: unused_field
   final $Res Function(MapsState) _then;
-}
-
-abstract class $MapsInitialCopyWith<$Res> {
-  factory $MapsInitialCopyWith(
-          MapsInitial value, $Res Function(MapsInitial) then) =
-      _$MapsInitialCopyWithImpl<$Res>;
-}
-
-class _$MapsInitialCopyWithImpl<$Res> extends _$MapsStateCopyWithImpl<$Res>
-    implements $MapsInitialCopyWith<$Res> {
-  _$MapsInitialCopyWithImpl(
-      MapsInitial _value, $Res Function(MapsInitial) _then)
-      : super(_value, (v) => _then(v as MapsInitial));
-
-  @override
-  MapsInitial get _value => super._value as MapsInitial;
-}
-
-class _$MapsInitial with DiagnosticableTreeMixin implements MapsInitial {
-  const _$MapsInitial();
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MapsState.initial()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties..add(DiagnosticsProperty('type', 'MapsState.initial'));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is MapsInitial);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result loading(),
-    @required Result loaded(Stream<LatLng> positions),
-    @required Result error(String message),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(loaded != null);
-    assert(error != null);
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result loading(),
-    Result loaded(Stream<LatLng> positions),
-    Result error(String message),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(MapsInitial value),
-    @required Result loading(MapsLoading value),
-    @required Result loaded(MapsLoaded value),
-    @required Result error(MapsError value),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(loaded != null);
-    assert(error != null);
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(MapsInitial value),
-    Result loading(MapsLoading value),
-    Result loaded(MapsLoaded value),
-    Result error(MapsError value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class MapsInitial implements MapsState {
-  const factory MapsInitial() = _$MapsInitial;
-}
-
-abstract class $MapsLoadingCopyWith<$Res> {
-  factory $MapsLoadingCopyWith(
-          MapsLoading value, $Res Function(MapsLoading) then) =
-      _$MapsLoadingCopyWithImpl<$Res>;
-}
-
-class _$MapsLoadingCopyWithImpl<$Res> extends _$MapsStateCopyWithImpl<$Res>
-    implements $MapsLoadingCopyWith<$Res> {
-  _$MapsLoadingCopyWithImpl(
-      MapsLoading _value, $Res Function(MapsLoading) _then)
-      : super(_value, (v) => _then(v as MapsLoading));
-
-  @override
-  MapsLoading get _value => super._value as MapsLoading;
-}
-
-class _$MapsLoading with DiagnosticableTreeMixin implements MapsLoading {
-  const _$MapsLoading();
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MapsState.loading()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties..add(DiagnosticsProperty('type', 'MapsState.loading'));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is MapsLoading);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result loading(),
-    @required Result loaded(Stream<LatLng> positions),
-    @required Result error(String message),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(loaded != null);
-    assert(error != null);
-    return loading();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result loading(),
-    Result loaded(Stream<LatLng> positions),
-    Result error(String message),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(MapsInitial value),
-    @required Result loading(MapsLoading value),
-    @required Result loaded(MapsLoaded value),
-    @required Result error(MapsError value),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(loaded != null);
-    assert(error != null);
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(MapsInitial value),
-    Result loading(MapsLoading value),
-    Result loaded(MapsLoaded value),
-    Result error(MapsError value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class MapsLoading implements MapsState {
-  const factory MapsLoading() = _$MapsLoading;
-}
-
-abstract class $MapsLoadedCopyWith<$Res> {
-  factory $MapsLoadedCopyWith(
-          MapsLoaded value, $Res Function(MapsLoaded) then) =
-      _$MapsLoadedCopyWithImpl<$Res>;
-  $Res call({Stream<LatLng> positions});
-}
-
-class _$MapsLoadedCopyWithImpl<$Res> extends _$MapsStateCopyWithImpl<$Res>
-    implements $MapsLoadedCopyWith<$Res> {
-  _$MapsLoadedCopyWithImpl(MapsLoaded _value, $Res Function(MapsLoaded) _then)
-      : super(_value, (v) => _then(v as MapsLoaded));
-
-  @override
-  MapsLoaded get _value => super._value as MapsLoaded;
 
   @override
   $Res call({
-    Object positions = freezed,
+    Object isLoading = freezed,
+    Object isError = freezed,
+    Object isBusLoaded = freezed,
+    Object isTrainLoaded = freezed,
+    Object exception = freezed,
+    Object polylines = freezed,
+    Object markers = freezed,
   }) {
-    return _then(MapsLoaded(
-      positions == freezed ? _value.positions : positions as Stream<LatLng>,
+    return _then(_value.copyWith(
+      isLoading: isLoading == freezed ? _value.isLoading : isLoading as bool,
+      isError: isError == freezed ? _value.isError : isError as bool,
+      isBusLoaded:
+          isBusLoaded == freezed ? _value.isBusLoaded : isBusLoaded as bool,
+      isTrainLoaded: isTrainLoaded == freezed
+          ? _value.isTrainLoaded
+          : isTrainLoaded as bool,
+      exception:
+          exception == freezed ? _value.exception : exception as Exception,
+      polylines:
+          polylines == freezed ? _value.polylines : polylines as Set<Polyline>,
+      markers: markers == freezed ? _value.markers : markers as Set<Marker>,
     ));
   }
 }
 
-class _$MapsLoaded with DiagnosticableTreeMixin implements MapsLoaded {
-  const _$MapsLoaded(this.positions) : assert(positions != null);
+abstract class _$MapsStateCopyWith<$Res> implements $MapsStateCopyWith<$Res> {
+  factory _$MapsStateCopyWith(
+          _MapsState value, $Res Function(_MapsState) then) =
+      __$MapsStateCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {bool isLoading,
+      bool isError,
+      bool isBusLoaded,
+      bool isTrainLoaded,
+      Exception exception,
+      Set<Polyline> polylines,
+      Set<Marker> markers});
+}
+
+class __$MapsStateCopyWithImpl<$Res> extends _$MapsStateCopyWithImpl<$Res>
+    implements _$MapsStateCopyWith<$Res> {
+  __$MapsStateCopyWithImpl(_MapsState _value, $Res Function(_MapsState) _then)
+      : super(_value, (v) => _then(v as _MapsState));
 
   @override
-  final Stream<LatLng> positions;
+  _MapsState get _value => super._value as _MapsState;
+
+  @override
+  $Res call({
+    Object isLoading = freezed,
+    Object isError = freezed,
+    Object isBusLoaded = freezed,
+    Object isTrainLoaded = freezed,
+    Object exception = freezed,
+    Object polylines = freezed,
+    Object markers = freezed,
+  }) {
+    return _then(_MapsState(
+      isLoading: isLoading == freezed ? _value.isLoading : isLoading as bool,
+      isError: isError == freezed ? _value.isError : isError as bool,
+      isBusLoaded:
+          isBusLoaded == freezed ? _value.isBusLoaded : isBusLoaded as bool,
+      isTrainLoaded: isTrainLoaded == freezed
+          ? _value.isTrainLoaded
+          : isTrainLoaded as bool,
+      exception:
+          exception == freezed ? _value.exception : exception as Exception,
+      polylines:
+          polylines == freezed ? _value.polylines : polylines as Set<Polyline>,
+      markers: markers == freezed ? _value.markers : markers as Set<Marker>,
+    ));
+  }
+}
+
+class _$_MapsState with DiagnosticableTreeMixin implements _MapsState {
+  const _$_MapsState(
+      {@required this.isLoading,
+      @required this.isError,
+      @required this.isBusLoaded,
+      @required this.isTrainLoaded,
+      this.exception,
+      this.polylines,
+      this.markers})
+      : assert(isLoading != null),
+        assert(isError != null),
+        assert(isBusLoaded != null),
+        assert(isTrainLoaded != null);
+
+  @override
+  final bool isLoading;
+  @override
+  final bool isError;
+  @override
+  final bool isBusLoaded;
+  @override
+  final bool isTrainLoaded;
+  @override
+  final Exception exception;
+  @override
+  final Set<Polyline> polylines;
+  @override
+  final Set<Marker> markers;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MapsState.loaded(positions: $positions)';
+    return 'MapsState(isLoading: $isLoading, isError: $isError, isBusLoaded: $isBusLoaded, isTrainLoaded: $isTrainLoaded, exception: $exception, polylines: $polylines, markers: $markers)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'MapsState.loaded'))
-      ..add(DiagnosticsProperty('positions', positions));
+      ..add(DiagnosticsProperty('type', 'MapsState'))
+      ..add(DiagnosticsProperty('isLoading', isLoading))
+      ..add(DiagnosticsProperty('isError', isError))
+      ..add(DiagnosticsProperty('isBusLoaded', isBusLoaded))
+      ..add(DiagnosticsProperty('isTrainLoaded', isTrainLoaded))
+      ..add(DiagnosticsProperty('exception', exception))
+      ..add(DiagnosticsProperty('polylines', polylines))
+      ..add(DiagnosticsProperty('markers', markers));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is MapsLoaded &&
-            (identical(other.positions, positions) ||
+        (other is _MapsState &&
+            (identical(other.isLoading, isLoading) ||
                 const DeepCollectionEquality()
-                    .equals(other.positions, positions)));
+                    .equals(other.isLoading, isLoading)) &&
+            (identical(other.isError, isError) ||
+                const DeepCollectionEquality()
+                    .equals(other.isError, isError)) &&
+            (identical(other.isBusLoaded, isBusLoaded) ||
+                const DeepCollectionEquality()
+                    .equals(other.isBusLoaded, isBusLoaded)) &&
+            (identical(other.isTrainLoaded, isTrainLoaded) ||
+                const DeepCollectionEquality()
+                    .equals(other.isTrainLoaded, isTrainLoaded)) &&
+            (identical(other.exception, exception) ||
+                const DeepCollectionEquality()
+                    .equals(other.exception, exception)) &&
+            (identical(other.polylines, polylines) ||
+                const DeepCollectionEquality()
+                    .equals(other.polylines, polylines)) &&
+            (identical(other.markers, markers) ||
+                const DeepCollectionEquality().equals(other.markers, markers)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(positions);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(isLoading) ^
+      const DeepCollectionEquality().hash(isError) ^
+      const DeepCollectionEquality().hash(isBusLoaded) ^
+      const DeepCollectionEquality().hash(isTrainLoaded) ^
+      const DeepCollectionEquality().hash(exception) ^
+      const DeepCollectionEquality().hash(polylines) ^
+      const DeepCollectionEquality().hash(markers);
 
   @override
-  $MapsLoadedCopyWith<MapsLoaded> get copyWith =>
-      _$MapsLoadedCopyWithImpl<MapsLoaded>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result loading(),
-    @required Result loaded(Stream<LatLng> positions),
-    @required Result error(String message),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(loaded != null);
-    assert(error != null);
-    return loaded(positions);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result loading(),
-    Result loaded(Stream<LatLng> positions),
-    Result error(String message),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (loaded != null) {
-      return loaded(positions);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(MapsInitial value),
-    @required Result loading(MapsLoading value),
-    @required Result loaded(MapsLoaded value),
-    @required Result error(MapsError value),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(loaded != null);
-    assert(error != null);
-    return loaded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(MapsInitial value),
-    Result loading(MapsLoading value),
-    Result loaded(MapsLoaded value),
-    Result error(MapsError value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (loaded != null) {
-      return loaded(this);
-    }
-    return orElse();
-  }
+  _$MapsStateCopyWith<_MapsState> get copyWith =>
+      __$MapsStateCopyWithImpl<_MapsState>(this, _$identity);
 }
 
-abstract class MapsLoaded implements MapsState {
-  const factory MapsLoaded(Stream<LatLng> positions) = _$MapsLoaded;
-
-  Stream<LatLng> get positions;
-  $MapsLoadedCopyWith<MapsLoaded> get copyWith;
-}
-
-abstract class $MapsErrorCopyWith<$Res> {
-  factory $MapsErrorCopyWith(MapsError value, $Res Function(MapsError) then) =
-      _$MapsErrorCopyWithImpl<$Res>;
-  $Res call({String message});
-}
-
-class _$MapsErrorCopyWithImpl<$Res> extends _$MapsStateCopyWithImpl<$Res>
-    implements $MapsErrorCopyWith<$Res> {
-  _$MapsErrorCopyWithImpl(MapsError _value, $Res Function(MapsError) _then)
-      : super(_value, (v) => _then(v as MapsError));
+abstract class _MapsState implements MapsState {
+  const factory _MapsState(
+      {@required bool isLoading,
+      @required bool isError,
+      @required bool isBusLoaded,
+      @required bool isTrainLoaded,
+      Exception exception,
+      Set<Polyline> polylines,
+      Set<Marker> markers}) = _$_MapsState;
 
   @override
-  MapsError get _value => super._value as MapsError;
-
+  bool get isLoading;
   @override
-  $Res call({
-    Object message = freezed,
-  }) {
-    return _then(MapsError(
-      message == freezed ? _value.message : message as String,
-    ));
-  }
-}
-
-class _$MapsError with DiagnosticableTreeMixin implements MapsError {
-  const _$MapsError(this.message) : assert(message != null);
-
+  bool get isError;
   @override
-  final String message;
-
+  bool get isBusLoaded;
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MapsState.error(message: $message)';
-  }
-
+  bool get isTrainLoaded;
   @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'MapsState.error'))
-      ..add(DiagnosticsProperty('message', message));
-  }
-
+  Exception get exception;
   @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is MapsError &&
-            (identical(other.message, message) ||
-                const DeepCollectionEquality().equals(other.message, message)));
-  }
-
+  Set<Polyline> get polylines;
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(message);
-
+  Set<Marker> get markers;
   @override
-  $MapsErrorCopyWith<MapsError> get copyWith =>
-      _$MapsErrorCopyWithImpl<MapsError>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result loading(),
-    @required Result loaded(Stream<LatLng> positions),
-    @required Result error(String message),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(loaded != null);
-    assert(error != null);
-    return error(message);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result loading(),
-    Result loaded(Stream<LatLng> positions),
-    Result error(String message),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (error != null) {
-      return error(message);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(MapsInitial value),
-    @required Result loading(MapsLoading value),
-    @required Result loaded(MapsLoaded value),
-    @required Result error(MapsError value),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(loaded != null);
-    assert(error != null);
-    return error(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(MapsInitial value),
-    Result loading(MapsLoading value),
-    Result loaded(MapsLoaded value),
-    Result error(MapsError value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (error != null) {
-      return error(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class MapsError implements MapsState {
-  const factory MapsError(String message) = _$MapsError;
-
-  String get message;
-  $MapsErrorCopyWith<MapsError> get copyWith;
+  _$MapsStateCopyWith<_MapsState> get copyWith;
 }

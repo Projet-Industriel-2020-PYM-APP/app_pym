@@ -1,5 +1,6 @@
 import 'package:app_pym/presentation/blocs/mobility/trips/trips_bloc.dart';
 import 'package:app_pym/presentation/widgets/mobility/direction_controls.dart';
+import 'package:app_pym/presentation/widgets/mobility/switch_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -36,47 +37,31 @@ class MobilityControls extends StatelessWidget {
     return ButtonBar(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        RaisedButton(
-          onPressed: () =>
-              context.bloc<BusTripsBloc>().add(FetchBusEvent(direction)),
+        SwitchButton(
+          isRaised: !context.bloc<TripsBloc>().state.isBusLoaded,
+          onRaisedPressed: () => context.bloc<TripsBloc>().add(
+              TripsEvent.fetchBus(context.bloc<TripsBloc>().state.direction)),
+          onFlatPressed: () =>
+              context.bloc<TripsBloc>().add(const TripsEvent.hideBus()),
           child: const Text(" Bus "),
         ),
-        RaisedButton(
-          onPressed: () =>
-              context.bloc<TrainTripsBloc>().add(FetchTrainEvent(direction)),
-          child: const Text("Train"),
+        SwitchButton(
+          isRaised: !context.bloc<TripsBloc>().state.isTrainLoaded,
+          onRaisedPressed: () => context.bloc<TripsBloc>().add(
+              TripsEvent.fetchTrain(context.bloc<TripsBloc>().state.direction)),
+          onFlatPressed: () =>
+              context.bloc<TripsBloc>().add(const TripsEvent.hideTrain()),
+          child: const Text(" Train "),
+        ),
+        SwitchButton(
+          isRaised: context.bloc<TripsBloc>().state.isBusLoaded ||
+              context.bloc<TripsBloc>().state.isTrainLoaded,
+          onRaisedPressed: () =>
+              context.bloc<TripsBloc>().add(const TripsEvent.hideAll()),
+          onFlatPressed: () => null,
+          child: const Text(" Train "),
         ),
       ],
     );
-  }
-}
-
-class SwitchButton extends MaterialButton {
-  final bool isRaised;
-
-  const SwitchButton(
-    this.isRaised, {
-    VoidCallback onPressed,
-    Widget child,
-    Key key,
-  }) : super(
-          key: key,
-          onPressed: onPressed,
-          child: child,
-        );
-
-  @override
-  Widget build(BuildContext context) {
-    if (isRaised) {
-      return RaisedButton(
-        onPressed: onPressed,
-        child: child,
-      );
-    } else {
-      return FlatButton(
-        onPressed: onPressed,
-        child: child,
-      );
-    }
   }
 }

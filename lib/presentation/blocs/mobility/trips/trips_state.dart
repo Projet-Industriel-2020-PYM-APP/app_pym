@@ -81,4 +81,17 @@ extension TripsStateX on TripsState {
       isTrainLoaded: false,
     );
   }
+
+  TripsState hideAll() {
+    return this.copyWith(
+      isTrainLoaded: false,
+      isBusLoaded: false,
+    );
+  }
+
+  TripsState changeDirection(Direction direction) {
+    return this.copyWith(
+      direction: direction,
+    );
+  }
 }

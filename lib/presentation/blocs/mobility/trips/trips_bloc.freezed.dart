@@ -31,6 +31,16 @@ class _$TripsEventTearOff {
   HideTrainEvent hideTrain() {
     return const HideTrainEvent();
   }
+
+  HideAllEvent hideAll() {
+    return const HideAllEvent();
+  }
+
+  ChangeDirectionEvent changeDirection(Direction direction) {
+    return ChangeDirectionEvent(
+      direction,
+    );
+  }
 }
 
 // ignore: unused_element
@@ -43,6 +53,8 @@ mixin _$TripsEvent {
     @required Result fetchTrain(Direction direction),
     @required Result hideBus(),
     @required Result hideTrain(),
+    @required Result hideAll(),
+    @required Result changeDirection(Direction direction),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
@@ -50,6 +62,8 @@ mixin _$TripsEvent {
     Result fetchTrain(Direction direction),
     Result hideBus(),
     Result hideTrain(),
+    Result hideAll(),
+    Result changeDirection(Direction direction),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -58,6 +72,8 @@ mixin _$TripsEvent {
     @required Result fetchTrain(FetchTrainEvent value),
     @required Result hideBus(HideBusEvent value),
     @required Result hideTrain(HideTrainEvent value),
+    @required Result hideAll(HideAllEvent value),
+    @required Result changeDirection(ChangeDirectionEvent value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
@@ -65,6 +81,8 @@ mixin _$TripsEvent {
     Result fetchTrain(FetchTrainEvent value),
     Result hideBus(HideBusEvent value),
     Result hideTrain(HideTrainEvent value),
+    Result hideAll(HideAllEvent value),
+    Result changeDirection(ChangeDirectionEvent value),
     @required Result orElse(),
   });
 }
@@ -152,11 +170,15 @@ class _$FetchBusEvent with DiagnosticableTreeMixin implements FetchBusEvent {
     @required Result fetchTrain(Direction direction),
     @required Result hideBus(),
     @required Result hideTrain(),
+    @required Result hideAll(),
+    @required Result changeDirection(Direction direction),
   }) {
     assert(fetchBus != null);
     assert(fetchTrain != null);
     assert(hideBus != null);
     assert(hideTrain != null);
+    assert(hideAll != null);
+    assert(changeDirection != null);
     return fetchBus(direction);
   }
 
@@ -167,6 +189,8 @@ class _$FetchBusEvent with DiagnosticableTreeMixin implements FetchBusEvent {
     Result fetchTrain(Direction direction),
     Result hideBus(),
     Result hideTrain(),
+    Result hideAll(),
+    Result changeDirection(Direction direction),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -183,11 +207,15 @@ class _$FetchBusEvent with DiagnosticableTreeMixin implements FetchBusEvent {
     @required Result fetchTrain(FetchTrainEvent value),
     @required Result hideBus(HideBusEvent value),
     @required Result hideTrain(HideTrainEvent value),
+    @required Result hideAll(HideAllEvent value),
+    @required Result changeDirection(ChangeDirectionEvent value),
   }) {
     assert(fetchBus != null);
     assert(fetchTrain != null);
     assert(hideBus != null);
     assert(hideTrain != null);
+    assert(hideAll != null);
+    assert(changeDirection != null);
     return fetchBus(this);
   }
 
@@ -198,6 +226,8 @@ class _$FetchBusEvent with DiagnosticableTreeMixin implements FetchBusEvent {
     Result fetchTrain(FetchTrainEvent value),
     Result hideBus(HideBusEvent value),
     Result hideTrain(HideTrainEvent value),
+    Result hideAll(HideAllEvent value),
+    Result changeDirection(ChangeDirectionEvent value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -286,11 +316,15 @@ class _$FetchTrainEvent
     @required Result fetchTrain(Direction direction),
     @required Result hideBus(),
     @required Result hideTrain(),
+    @required Result hideAll(),
+    @required Result changeDirection(Direction direction),
   }) {
     assert(fetchBus != null);
     assert(fetchTrain != null);
     assert(hideBus != null);
     assert(hideTrain != null);
+    assert(hideAll != null);
+    assert(changeDirection != null);
     return fetchTrain(direction);
   }
 
@@ -301,6 +335,8 @@ class _$FetchTrainEvent
     Result fetchTrain(Direction direction),
     Result hideBus(),
     Result hideTrain(),
+    Result hideAll(),
+    Result changeDirection(Direction direction),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -317,11 +353,15 @@ class _$FetchTrainEvent
     @required Result fetchTrain(FetchTrainEvent value),
     @required Result hideBus(HideBusEvent value),
     @required Result hideTrain(HideTrainEvent value),
+    @required Result hideAll(HideAllEvent value),
+    @required Result changeDirection(ChangeDirectionEvent value),
   }) {
     assert(fetchBus != null);
     assert(fetchTrain != null);
     assert(hideBus != null);
     assert(hideTrain != null);
+    assert(hideAll != null);
+    assert(changeDirection != null);
     return fetchTrain(this);
   }
 
@@ -332,6 +372,8 @@ class _$FetchTrainEvent
     Result fetchTrain(FetchTrainEvent value),
     Result hideBus(HideBusEvent value),
     Result hideTrain(HideTrainEvent value),
+    Result hideAll(HideAllEvent value),
+    Result changeDirection(ChangeDirectionEvent value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -394,11 +436,15 @@ class _$HideBusEvent with DiagnosticableTreeMixin implements HideBusEvent {
     @required Result fetchTrain(Direction direction),
     @required Result hideBus(),
     @required Result hideTrain(),
+    @required Result hideAll(),
+    @required Result changeDirection(Direction direction),
   }) {
     assert(fetchBus != null);
     assert(fetchTrain != null);
     assert(hideBus != null);
     assert(hideTrain != null);
+    assert(hideAll != null);
+    assert(changeDirection != null);
     return hideBus();
   }
 
@@ -409,6 +455,8 @@ class _$HideBusEvent with DiagnosticableTreeMixin implements HideBusEvent {
     Result fetchTrain(Direction direction),
     Result hideBus(),
     Result hideTrain(),
+    Result hideAll(),
+    Result changeDirection(Direction direction),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -425,11 +473,15 @@ class _$HideBusEvent with DiagnosticableTreeMixin implements HideBusEvent {
     @required Result fetchTrain(FetchTrainEvent value),
     @required Result hideBus(HideBusEvent value),
     @required Result hideTrain(HideTrainEvent value),
+    @required Result hideAll(HideAllEvent value),
+    @required Result changeDirection(ChangeDirectionEvent value),
   }) {
     assert(fetchBus != null);
     assert(fetchTrain != null);
     assert(hideBus != null);
     assert(hideTrain != null);
+    assert(hideAll != null);
+    assert(changeDirection != null);
     return hideBus(this);
   }
 
@@ -440,6 +492,8 @@ class _$HideBusEvent with DiagnosticableTreeMixin implements HideBusEvent {
     Result fetchTrain(FetchTrainEvent value),
     Result hideBus(HideBusEvent value),
     Result hideTrain(HideTrainEvent value),
+    Result hideAll(HideAllEvent value),
+    Result changeDirection(ChangeDirectionEvent value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -499,11 +553,15 @@ class _$HideTrainEvent with DiagnosticableTreeMixin implements HideTrainEvent {
     @required Result fetchTrain(Direction direction),
     @required Result hideBus(),
     @required Result hideTrain(),
+    @required Result hideAll(),
+    @required Result changeDirection(Direction direction),
   }) {
     assert(fetchBus != null);
     assert(fetchTrain != null);
     assert(hideBus != null);
     assert(hideTrain != null);
+    assert(hideAll != null);
+    assert(changeDirection != null);
     return hideTrain();
   }
 
@@ -514,6 +572,8 @@ class _$HideTrainEvent with DiagnosticableTreeMixin implements HideTrainEvent {
     Result fetchTrain(Direction direction),
     Result hideBus(),
     Result hideTrain(),
+    Result hideAll(),
+    Result changeDirection(Direction direction),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -530,11 +590,15 @@ class _$HideTrainEvent with DiagnosticableTreeMixin implements HideTrainEvent {
     @required Result fetchTrain(FetchTrainEvent value),
     @required Result hideBus(HideBusEvent value),
     @required Result hideTrain(HideTrainEvent value),
+    @required Result hideAll(HideAllEvent value),
+    @required Result changeDirection(ChangeDirectionEvent value),
   }) {
     assert(fetchBus != null);
     assert(fetchTrain != null);
     assert(hideBus != null);
     assert(hideTrain != null);
+    assert(hideAll != null);
+    assert(changeDirection != null);
     return hideTrain(this);
   }
 
@@ -545,6 +609,8 @@ class _$HideTrainEvent with DiagnosticableTreeMixin implements HideTrainEvent {
     Result fetchTrain(FetchTrainEvent value),
     Result hideBus(HideBusEvent value),
     Result hideTrain(HideTrainEvent value),
+    Result hideAll(HideAllEvent value),
+    Result changeDirection(ChangeDirectionEvent value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -557,6 +623,272 @@ class _$HideTrainEvent with DiagnosticableTreeMixin implements HideTrainEvent {
 
 abstract class HideTrainEvent implements TripsEvent {
   const factory HideTrainEvent() = _$HideTrainEvent;
+}
+
+abstract class $HideAllEventCopyWith<$Res> {
+  factory $HideAllEventCopyWith(
+          HideAllEvent value, $Res Function(HideAllEvent) then) =
+      _$HideAllEventCopyWithImpl<$Res>;
+}
+
+class _$HideAllEventCopyWithImpl<$Res> extends _$TripsEventCopyWithImpl<$Res>
+    implements $HideAllEventCopyWith<$Res> {
+  _$HideAllEventCopyWithImpl(
+      HideAllEvent _value, $Res Function(HideAllEvent) _then)
+      : super(_value, (v) => _then(v as HideAllEvent));
+
+  @override
+  HideAllEvent get _value => super._value as HideAllEvent;
+}
+
+class _$HideAllEvent with DiagnosticableTreeMixin implements HideAllEvent {
+  const _$HideAllEvent();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'TripsEvent.hideAll()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties..add(DiagnosticsProperty('type', 'TripsEvent.hideAll'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is HideAllEvent);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result fetchBus(Direction direction),
+    @required Result fetchTrain(Direction direction),
+    @required Result hideBus(),
+    @required Result hideTrain(),
+    @required Result hideAll(),
+    @required Result changeDirection(Direction direction),
+  }) {
+    assert(fetchBus != null);
+    assert(fetchTrain != null);
+    assert(hideBus != null);
+    assert(hideTrain != null);
+    assert(hideAll != null);
+    assert(changeDirection != null);
+    return hideAll();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result fetchBus(Direction direction),
+    Result fetchTrain(Direction direction),
+    Result hideBus(),
+    Result hideTrain(),
+    Result hideAll(),
+    Result changeDirection(Direction direction),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (hideAll != null) {
+      return hideAll();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result fetchBus(FetchBusEvent value),
+    @required Result fetchTrain(FetchTrainEvent value),
+    @required Result hideBus(HideBusEvent value),
+    @required Result hideTrain(HideTrainEvent value),
+    @required Result hideAll(HideAllEvent value),
+    @required Result changeDirection(ChangeDirectionEvent value),
+  }) {
+    assert(fetchBus != null);
+    assert(fetchTrain != null);
+    assert(hideBus != null);
+    assert(hideTrain != null);
+    assert(hideAll != null);
+    assert(changeDirection != null);
+    return hideAll(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result fetchBus(FetchBusEvent value),
+    Result fetchTrain(FetchTrainEvent value),
+    Result hideBus(HideBusEvent value),
+    Result hideTrain(HideTrainEvent value),
+    Result hideAll(HideAllEvent value),
+    Result changeDirection(ChangeDirectionEvent value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (hideAll != null) {
+      return hideAll(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class HideAllEvent implements TripsEvent {
+  const factory HideAllEvent() = _$HideAllEvent;
+}
+
+abstract class $ChangeDirectionEventCopyWith<$Res> {
+  factory $ChangeDirectionEventCopyWith(ChangeDirectionEvent value,
+          $Res Function(ChangeDirectionEvent) then) =
+      _$ChangeDirectionEventCopyWithImpl<$Res>;
+  $Res call({Direction direction});
+}
+
+class _$ChangeDirectionEventCopyWithImpl<$Res>
+    extends _$TripsEventCopyWithImpl<$Res>
+    implements $ChangeDirectionEventCopyWith<$Res> {
+  _$ChangeDirectionEventCopyWithImpl(
+      ChangeDirectionEvent _value, $Res Function(ChangeDirectionEvent) _then)
+      : super(_value, (v) => _then(v as ChangeDirectionEvent));
+
+  @override
+  ChangeDirectionEvent get _value => super._value as ChangeDirectionEvent;
+
+  @override
+  $Res call({
+    Object direction = freezed,
+  }) {
+    return _then(ChangeDirectionEvent(
+      direction == freezed ? _value.direction : direction as Direction,
+    ));
+  }
+}
+
+class _$ChangeDirectionEvent
+    with DiagnosticableTreeMixin
+    implements ChangeDirectionEvent {
+  const _$ChangeDirectionEvent(this.direction) : assert(direction != null);
+
+  @override
+  final Direction direction;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'TripsEvent.changeDirection(direction: $direction)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'TripsEvent.changeDirection'))
+      ..add(DiagnosticsProperty('direction', direction));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ChangeDirectionEvent &&
+            (identical(other.direction, direction) ||
+                const DeepCollectionEquality()
+                    .equals(other.direction, direction)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(direction);
+
+  @override
+  $ChangeDirectionEventCopyWith<ChangeDirectionEvent> get copyWith =>
+      _$ChangeDirectionEventCopyWithImpl<ChangeDirectionEvent>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result fetchBus(Direction direction),
+    @required Result fetchTrain(Direction direction),
+    @required Result hideBus(),
+    @required Result hideTrain(),
+    @required Result hideAll(),
+    @required Result changeDirection(Direction direction),
+  }) {
+    assert(fetchBus != null);
+    assert(fetchTrain != null);
+    assert(hideBus != null);
+    assert(hideTrain != null);
+    assert(hideAll != null);
+    assert(changeDirection != null);
+    return changeDirection(direction);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result fetchBus(Direction direction),
+    Result fetchTrain(Direction direction),
+    Result hideBus(),
+    Result hideTrain(),
+    Result hideAll(),
+    Result changeDirection(Direction direction),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (changeDirection != null) {
+      return changeDirection(direction);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result fetchBus(FetchBusEvent value),
+    @required Result fetchTrain(FetchTrainEvent value),
+    @required Result hideBus(HideBusEvent value),
+    @required Result hideTrain(HideTrainEvent value),
+    @required Result hideAll(HideAllEvent value),
+    @required Result changeDirection(ChangeDirectionEvent value),
+  }) {
+    assert(fetchBus != null);
+    assert(fetchTrain != null);
+    assert(hideBus != null);
+    assert(hideTrain != null);
+    assert(hideAll != null);
+    assert(changeDirection != null);
+    return changeDirection(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result fetchBus(FetchBusEvent value),
+    Result fetchTrain(FetchTrainEvent value),
+    Result hideBus(HideBusEvent value),
+    Result hideTrain(HideTrainEvent value),
+    Result hideAll(HideAllEvent value),
+    Result changeDirection(ChangeDirectionEvent value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (changeDirection != null) {
+      return changeDirection(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ChangeDirectionEvent implements TripsEvent {
+  const factory ChangeDirectionEvent(Direction direction) =
+      _$ChangeDirectionEvent;
+
+  Direction get direction;
+  $ChangeDirectionEventCopyWith<ChangeDirectionEvent> get copyWith;
 }
 
 class _$TripsStateTearOff {

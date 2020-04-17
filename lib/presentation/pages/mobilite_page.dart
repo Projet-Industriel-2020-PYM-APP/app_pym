@@ -42,13 +42,43 @@ class MobilitePage extends StatelessWidget {
           ),
         ],
         child: Center(
-          child: Stack(
-            alignment: Alignment.topCenter,
+          child: Column(
             children: <Widget>[
-              if (context.bloc<MapsBloc>().state is MapsLoaded)
-                const LinearProgressIndicator(),
-              const MapsScreen(initialPosition: LatLng(43.4506539, 5.4459134)),
-              const MobilityControls(),
+              Expanded(
+                flex: 3,
+                child: Stack(
+                  alignment: Alignment.topCenter,
+                  children: <Widget>[
+                    if (context.bloc<MapsBloc>().state.isLoading)
+                      const LinearProgressIndicator(),
+                    MapsScreen(
+                      initialPosition: const LatLng(43.4506539, 5.4459134),
+                    ),
+                    const MobilityControls(),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Container(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Card(
+                    margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Column(
+                      children: <Widget>[
+                        const Text("Autres transports"),
+                        Wrap(
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
