@@ -23,7 +23,7 @@ class FirestoreDataSourceImpl implements FirestoreDataSource {
 
   @override
   Stream<List<CategorieModel>> fetchCategories() async* {
-    final snaps = firestore.collection('categories').snapshots();
+    final snaps = firestore.collection('service_categories').snapshots();
 
     yield* snaps.map((snap) => snap.documents
         .map((document) => CategorieModel.fromFirestore(document))

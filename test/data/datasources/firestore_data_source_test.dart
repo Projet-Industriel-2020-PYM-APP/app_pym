@@ -60,7 +60,7 @@ void main() {
 
   void setUpCategoriesFirestore() {
     // Expected Entrypoint
-    when(mockFirestore.collection('categories'))
+    when(mockFirestore.collection('service_categories'))
         .thenReturn(mockCollectionReference);
     when(mockCollectionReference.snapshots())
         .thenAnswer((_) => Stream.fromIterable([mockQuerySnapshot]));
@@ -110,14 +110,14 @@ void main() {
 
   group('fetchCategories', () {
     test(
-      "should get documents from categories collection",
+      "should get documents from service_categories collection",
       () async {
         // arrange
         setUpCategoriesFirestore();
         // act
         await dataSource.fetchCategories().drain<List<CategorieModel>>();
         // assert
-        verify(mockFirestore.collection('categories'));
+        verify(mockFirestore.collection('service_categories'));
         verify(mockCollectionReference.snapshots());
         verify(mockQuerySnapshot.documents);
       },

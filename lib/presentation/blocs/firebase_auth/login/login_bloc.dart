@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:app_pym/core/validators.dart';
 import 'package:app_pym/domain/usecases/firebase_auth/signin.dart';
+import 'package:app_pym/domain/usecases/firebase_auth/signup.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -16,8 +18,9 @@ part 'login_state.dart';
 @injectable
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final FirebaseAuthSignIn firebaseAuthSignIn;
+  final FirebaseAuthSignUp firebaseAuthSignUp;
 
-  LoginBloc(this.firebaseAuthSignIn);
+  LoginBloc(this.firebaseAuthSignIn, this.firebaseAuthSignUp);
 
   @override
   LoginState get initialState => LoginState.empty();
@@ -25,10 +28,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     yield* event.when(
-      emailChanged: _mapEmailChangedToState,
-      passwordChanged: _mapPasswordChangedToState,
-      withCredentialsPressed: _mapWithCredentialsPressedToState,
-    );
+        emailChanged: _mapEmailChangedToState,
+        passwordChanged: _mapPasswordChangedToState,
+        withCredentialsPressed: _mapWithCredentialsPressedToState,
+        signUp: _mapFormSubmittedToState);
   }
 
   @override
@@ -47,7 +50,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Stream<LoginState> _mapEmailChangedToState(String email) async* {
-    yield state.update(
+    yield state.updateEmail(
       isEmailValid: Validators.isValidEmail(email),
     );
   }
@@ -60,14 +63,31 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       await firebaseAuthSignIn(SignInCredentials(email, password));
       yield LoginState.success();
-    } catch (_) {
-      yield LoginState.failure();
+    } on PlatformException catch (e) {
+      yield LoginState.failure(e.message);
+    } catch (e) {
+      yield LoginState.failure(e.toString());
     }
   }
 
   Stream<LoginState> _mapPasswordChangedToState(String password) async* {
-    yield state.update(
+    yield state.updatePassword(
       isPasswordValid: Validators.isValidPassword(password),
     );
+  }
+
+  Stream<LoginState> _mapFormSubmittedToState(
+    String email,
+    String password,
+  ) async* {
+    yield LoginState.loading();
+    try {
+      await firebaseAuthSignUp(SignUpCredentials(email, password));
+      yield LoginState.success();
+    } on PlatformException catch (e) {
+      yield LoginState.failure(e.message);
+    } catch (e) {
+      yield LoginState.failure(e.toString());
+    }
   }
 }

@@ -29,7 +29,7 @@ class ArScreen extends StatelessWidget {
         appBar: AppBar(
           leading: IconButton(
             key: const Key(KeysStringNavigation.goBackAlternative),
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () => goBack(context),
           ),
           title: const Text("Réalité Augmentée"),

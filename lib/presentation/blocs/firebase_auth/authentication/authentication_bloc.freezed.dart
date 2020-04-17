@@ -12,16 +12,26 @@ T _$identity<T>(T value) => value;
 class _$AuthenticationEventTearOff {
   const _$AuthenticationEventTearOff();
 
-  AppStarted appStated() {
-    return const AppStarted();
+  Refresh refresh() {
+    return const Refresh();
   }
 
-  LoggedIn loggedIn() {
-    return const LoggedIn();
+  LoggedIn loggedIn(AppUser user) {
+    return LoggedIn(
+      user,
+    );
   }
 
   LoggedOut loggedOut() {
     return const LoggedOut();
+  }
+
+  SignOut signOut() {
+    return const SignOut();
+  }
+
+  SendEmailVerification sendEmailVerification() {
+    return const SendEmailVerification();
   }
 }
 
@@ -31,28 +41,36 @@ const $AuthenticationEvent = _$AuthenticationEventTearOff();
 mixin _$AuthenticationEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result appStated(),
-    @required Result loggedIn(),
+    @required Result refresh(),
+    @required Result loggedIn(AppUser user),
     @required Result loggedOut(),
+    @required Result signOut(),
+    @required Result sendEmailVerification(),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result appStated(),
-    Result loggedIn(),
+    Result refresh(),
+    Result loggedIn(AppUser user),
     Result loggedOut(),
+    Result signOut(),
+    Result sendEmailVerification(),
     @required Result orElse(),
   });
   @optionalTypeArgs
   Result map<Result extends Object>({
-    @required Result appStated(AppStarted value),
+    @required Result refresh(Refresh value),
     @required Result loggedIn(LoggedIn value),
     @required Result loggedOut(LoggedOut value),
+    @required Result signOut(SignOut value),
+    @required Result sendEmailVerification(SendEmailVerification value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
-    Result appStated(AppStarted value),
+    Result refresh(Refresh value),
     Result loggedIn(LoggedIn value),
     Result loggedOut(LoggedOut value),
+    Result signOut(SignOut value),
+    Result sendEmailVerification(SendEmailVerification value),
     @required Result orElse(),
   });
 }
@@ -72,40 +90,38 @@ class _$AuthenticationEventCopyWithImpl<$Res>
   final $Res Function(AuthenticationEvent) _then;
 }
 
-abstract class $AppStartedCopyWith<$Res> {
-  factory $AppStartedCopyWith(
-          AppStarted value, $Res Function(AppStarted) then) =
-      _$AppStartedCopyWithImpl<$Res>;
+abstract class $RefreshCopyWith<$Res> {
+  factory $RefreshCopyWith(Refresh value, $Res Function(Refresh) then) =
+      _$RefreshCopyWithImpl<$Res>;
 }
 
-class _$AppStartedCopyWithImpl<$Res>
+class _$RefreshCopyWithImpl<$Res>
     extends _$AuthenticationEventCopyWithImpl<$Res>
-    implements $AppStartedCopyWith<$Res> {
-  _$AppStartedCopyWithImpl(AppStarted _value, $Res Function(AppStarted) _then)
-      : super(_value, (v) => _then(v as AppStarted));
+    implements $RefreshCopyWith<$Res> {
+  _$RefreshCopyWithImpl(Refresh _value, $Res Function(Refresh) _then)
+      : super(_value, (v) => _then(v as Refresh));
 
   @override
-  AppStarted get _value => super._value as AppStarted;
+  Refresh get _value => super._value as Refresh;
 }
 
-class _$AppStarted with DiagnosticableTreeMixin implements AppStarted {
-  const _$AppStarted();
+class _$Refresh with DiagnosticableTreeMixin implements Refresh {
+  const _$Refresh();
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AuthenticationEvent.appStated()';
+    return 'AuthenticationEvent.refresh()';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'AuthenticationEvent.appStated'));
+    properties..add(DiagnosticsProperty('type', 'AuthenticationEvent.refresh'));
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is AppStarted);
+    return identical(this, other) || (other is Refresh);
   }
 
   @override
@@ -114,27 +130,33 @@ class _$AppStarted with DiagnosticableTreeMixin implements AppStarted {
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result appStated(),
-    @required Result loggedIn(),
+    @required Result refresh(),
+    @required Result loggedIn(AppUser user),
     @required Result loggedOut(),
+    @required Result signOut(),
+    @required Result sendEmailVerification(),
   }) {
-    assert(appStated != null);
+    assert(refresh != null);
     assert(loggedIn != null);
     assert(loggedOut != null);
-    return appStated();
+    assert(signOut != null);
+    assert(sendEmailVerification != null);
+    return refresh();
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result appStated(),
-    Result loggedIn(),
+    Result refresh(),
+    Result loggedIn(AppUser user),
     Result loggedOut(),
+    Result signOut(),
+    Result sendEmailVerification(),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (appStated != null) {
-      return appStated();
+    if (refresh != null) {
+      return refresh();
     }
     return orElse();
   }
@@ -142,39 +164,48 @@ class _$AppStarted with DiagnosticableTreeMixin implements AppStarted {
   @override
   @optionalTypeArgs
   Result map<Result extends Object>({
-    @required Result appStated(AppStarted value),
+    @required Result refresh(Refresh value),
     @required Result loggedIn(LoggedIn value),
     @required Result loggedOut(LoggedOut value),
+    @required Result signOut(SignOut value),
+    @required Result sendEmailVerification(SendEmailVerification value),
   }) {
-    assert(appStated != null);
+    assert(refresh != null);
     assert(loggedIn != null);
     assert(loggedOut != null);
-    return appStated(this);
+    assert(signOut != null);
+    assert(sendEmailVerification != null);
+    return refresh(this);
   }
 
   @override
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
-    Result appStated(AppStarted value),
+    Result refresh(Refresh value),
     Result loggedIn(LoggedIn value),
     Result loggedOut(LoggedOut value),
+    Result signOut(SignOut value),
+    Result sendEmailVerification(SendEmailVerification value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (appStated != null) {
-      return appStated(this);
+    if (refresh != null) {
+      return refresh(this);
     }
     return orElse();
   }
 }
 
-abstract class AppStarted implements AuthenticationEvent {
-  const factory AppStarted() = _$AppStarted;
+abstract class Refresh implements AuthenticationEvent {
+  const factory Refresh() = _$Refresh;
 }
 
 abstract class $LoggedInCopyWith<$Res> {
   factory $LoggedInCopyWith(LoggedIn value, $Res Function(LoggedIn) then) =
       _$LoggedInCopyWithImpl<$Res>;
+  $Res call({AppUser user});
+
+  $AppUserCopyWith<$Res> get user;
 }
 
 class _$LoggedInCopyWithImpl<$Res>
@@ -185,55 +216,92 @@ class _$LoggedInCopyWithImpl<$Res>
 
   @override
   LoggedIn get _value => super._value as LoggedIn;
+
+  @override
+  $Res call({
+    Object user = freezed,
+  }) {
+    return _then(LoggedIn(
+      user == freezed ? _value.user : user as AppUser,
+    ));
+  }
+
+  @override
+  $AppUserCopyWith<$Res> get user {
+    if (_value.user == null) {
+      return null;
+    }
+    return $AppUserCopyWith<$Res>(_value.user, (value) {
+      return _then(_value.copyWith(user: value));
+    });
+  }
 }
 
 class _$LoggedIn with DiagnosticableTreeMixin implements LoggedIn {
-  const _$LoggedIn();
+  const _$LoggedIn(this.user) : assert(user != null);
+
+  @override
+  final AppUser user;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AuthenticationEvent.loggedIn()';
+    return 'AuthenticationEvent.loggedIn(user: $user)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'AuthenticationEvent.loggedIn'));
+      ..add(DiagnosticsProperty('type', 'AuthenticationEvent.loggedIn'))
+      ..add(DiagnosticsProperty('user', user));
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is LoggedIn);
+    return identical(this, other) ||
+        (other is LoggedIn &&
+            (identical(other.user, user) ||
+                const DeepCollectionEquality().equals(other.user, user)));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(user);
+
+  @override
+  $LoggedInCopyWith<LoggedIn> get copyWith =>
+      _$LoggedInCopyWithImpl<LoggedIn>(this, _$identity);
 
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result appStated(),
-    @required Result loggedIn(),
+    @required Result refresh(),
+    @required Result loggedIn(AppUser user),
     @required Result loggedOut(),
+    @required Result signOut(),
+    @required Result sendEmailVerification(),
   }) {
-    assert(appStated != null);
+    assert(refresh != null);
     assert(loggedIn != null);
     assert(loggedOut != null);
-    return loggedIn();
+    assert(signOut != null);
+    assert(sendEmailVerification != null);
+    return loggedIn(user);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result appStated(),
-    Result loggedIn(),
+    Result refresh(),
+    Result loggedIn(AppUser user),
     Result loggedOut(),
+    Result signOut(),
+    Result sendEmailVerification(),
     @required Result orElse(),
   }) {
     assert(orElse != null);
     if (loggedIn != null) {
-      return loggedIn();
+      return loggedIn(user);
     }
     return orElse();
   }
@@ -241,22 +309,28 @@ class _$LoggedIn with DiagnosticableTreeMixin implements LoggedIn {
   @override
   @optionalTypeArgs
   Result map<Result extends Object>({
-    @required Result appStated(AppStarted value),
+    @required Result refresh(Refresh value),
     @required Result loggedIn(LoggedIn value),
     @required Result loggedOut(LoggedOut value),
+    @required Result signOut(SignOut value),
+    @required Result sendEmailVerification(SendEmailVerification value),
   }) {
-    assert(appStated != null);
+    assert(refresh != null);
     assert(loggedIn != null);
     assert(loggedOut != null);
+    assert(signOut != null);
+    assert(sendEmailVerification != null);
     return loggedIn(this);
   }
 
   @override
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
-    Result appStated(AppStarted value),
+    Result refresh(Refresh value),
     Result loggedIn(LoggedIn value),
     Result loggedOut(LoggedOut value),
+    Result signOut(SignOut value),
+    Result sendEmailVerification(SendEmailVerification value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -268,7 +342,10 @@ class _$LoggedIn with DiagnosticableTreeMixin implements LoggedIn {
 }
 
 abstract class LoggedIn implements AuthenticationEvent {
-  const factory LoggedIn() = _$LoggedIn;
+  const factory LoggedIn(AppUser user) = _$LoggedIn;
+
+  AppUser get user;
+  $LoggedInCopyWith<LoggedIn> get copyWith;
 }
 
 abstract class $LoggedOutCopyWith<$Res> {
@@ -312,22 +389,28 @@ class _$LoggedOut with DiagnosticableTreeMixin implements LoggedOut {
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result appStated(),
-    @required Result loggedIn(),
+    @required Result refresh(),
+    @required Result loggedIn(AppUser user),
     @required Result loggedOut(),
+    @required Result signOut(),
+    @required Result sendEmailVerification(),
   }) {
-    assert(appStated != null);
+    assert(refresh != null);
     assert(loggedIn != null);
     assert(loggedOut != null);
+    assert(signOut != null);
+    assert(sendEmailVerification != null);
     return loggedOut();
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result appStated(),
-    Result loggedIn(),
+    Result refresh(),
+    Result loggedIn(AppUser user),
     Result loggedOut(),
+    Result signOut(),
+    Result sendEmailVerification(),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -340,22 +423,28 @@ class _$LoggedOut with DiagnosticableTreeMixin implements LoggedOut {
   @override
   @optionalTypeArgs
   Result map<Result extends Object>({
-    @required Result appStated(AppStarted value),
+    @required Result refresh(Refresh value),
     @required Result loggedIn(LoggedIn value),
     @required Result loggedOut(LoggedOut value),
+    @required Result signOut(SignOut value),
+    @required Result sendEmailVerification(SendEmailVerification value),
   }) {
-    assert(appStated != null);
+    assert(refresh != null);
     assert(loggedIn != null);
     assert(loggedOut != null);
+    assert(signOut != null);
+    assert(sendEmailVerification != null);
     return loggedOut(this);
   }
 
   @override
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
-    Result appStated(AppStarted value),
+    Result refresh(Refresh value),
     Result loggedIn(LoggedIn value),
     Result loggedOut(LoggedOut value),
+    Result signOut(SignOut value),
+    Result sendEmailVerification(SendEmailVerification value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -370,12 +459,234 @@ abstract class LoggedOut implements AuthenticationEvent {
   const factory LoggedOut() = _$LoggedOut;
 }
 
+abstract class $SignOutCopyWith<$Res> {
+  factory $SignOutCopyWith(SignOut value, $Res Function(SignOut) then) =
+      _$SignOutCopyWithImpl<$Res>;
+}
+
+class _$SignOutCopyWithImpl<$Res>
+    extends _$AuthenticationEventCopyWithImpl<$Res>
+    implements $SignOutCopyWith<$Res> {
+  _$SignOutCopyWithImpl(SignOut _value, $Res Function(SignOut) _then)
+      : super(_value, (v) => _then(v as SignOut));
+
+  @override
+  SignOut get _value => super._value as SignOut;
+}
+
+class _$SignOut with DiagnosticableTreeMixin implements SignOut {
+  const _$SignOut();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'AuthenticationEvent.signOut()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties..add(DiagnosticsProperty('type', 'AuthenticationEvent.signOut'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is SignOut);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result refresh(),
+    @required Result loggedIn(AppUser user),
+    @required Result loggedOut(),
+    @required Result signOut(),
+    @required Result sendEmailVerification(),
+  }) {
+    assert(refresh != null);
+    assert(loggedIn != null);
+    assert(loggedOut != null);
+    assert(signOut != null);
+    assert(sendEmailVerification != null);
+    return signOut();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result refresh(),
+    Result loggedIn(AppUser user),
+    Result loggedOut(),
+    Result signOut(),
+    Result sendEmailVerification(),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (signOut != null) {
+      return signOut();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result refresh(Refresh value),
+    @required Result loggedIn(LoggedIn value),
+    @required Result loggedOut(LoggedOut value),
+    @required Result signOut(SignOut value),
+    @required Result sendEmailVerification(SendEmailVerification value),
+  }) {
+    assert(refresh != null);
+    assert(loggedIn != null);
+    assert(loggedOut != null);
+    assert(signOut != null);
+    assert(sendEmailVerification != null);
+    return signOut(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result refresh(Refresh value),
+    Result loggedIn(LoggedIn value),
+    Result loggedOut(LoggedOut value),
+    Result signOut(SignOut value),
+    Result sendEmailVerification(SendEmailVerification value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (signOut != null) {
+      return signOut(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SignOut implements AuthenticationEvent {
+  const factory SignOut() = _$SignOut;
+}
+
+abstract class $SendEmailVerificationCopyWith<$Res> {
+  factory $SendEmailVerificationCopyWith(SendEmailVerification value,
+          $Res Function(SendEmailVerification) then) =
+      _$SendEmailVerificationCopyWithImpl<$Res>;
+}
+
+class _$SendEmailVerificationCopyWithImpl<$Res>
+    extends _$AuthenticationEventCopyWithImpl<$Res>
+    implements $SendEmailVerificationCopyWith<$Res> {
+  _$SendEmailVerificationCopyWithImpl(
+      SendEmailVerification _value, $Res Function(SendEmailVerification) _then)
+      : super(_value, (v) => _then(v as SendEmailVerification));
+
+  @override
+  SendEmailVerification get _value => super._value as SendEmailVerification;
+}
+
+class _$SendEmailVerification
+    with DiagnosticableTreeMixin
+    implements SendEmailVerification {
+  const _$SendEmailVerification();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'AuthenticationEvent.sendEmailVerification()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty(
+          'type', 'AuthenticationEvent.sendEmailVerification'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is SendEmailVerification);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result refresh(),
+    @required Result loggedIn(AppUser user),
+    @required Result loggedOut(),
+    @required Result signOut(),
+    @required Result sendEmailVerification(),
+  }) {
+    assert(refresh != null);
+    assert(loggedIn != null);
+    assert(loggedOut != null);
+    assert(signOut != null);
+    assert(sendEmailVerification != null);
+    return sendEmailVerification();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result refresh(),
+    Result loggedIn(AppUser user),
+    Result loggedOut(),
+    Result signOut(),
+    Result sendEmailVerification(),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (sendEmailVerification != null) {
+      return sendEmailVerification();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result refresh(Refresh value),
+    @required Result loggedIn(LoggedIn value),
+    @required Result loggedOut(LoggedOut value),
+    @required Result signOut(SignOut value),
+    @required Result sendEmailVerification(SendEmailVerification value),
+  }) {
+    assert(refresh != null);
+    assert(loggedIn != null);
+    assert(loggedOut != null);
+    assert(signOut != null);
+    assert(sendEmailVerification != null);
+    return sendEmailVerification(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result refresh(Refresh value),
+    Result loggedIn(LoggedIn value),
+    Result loggedOut(LoggedOut value),
+    Result signOut(SignOut value),
+    Result sendEmailVerification(SendEmailVerification value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (sendEmailVerification != null) {
+      return sendEmailVerification(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SendEmailVerification implements AuthenticationEvent {
+  const factory SendEmailVerification() = _$SendEmailVerification;
+}
+
 class _$AuthenticationStateTearOff {
   const _$AuthenticationStateTearOff();
-
-  Uninitialized uninitialized() {
-    return const Uninitialized();
-  }
 
   Authenticated authenticated(AppUser user) {
     return Authenticated(
@@ -394,26 +705,22 @@ const $AuthenticationState = _$AuthenticationStateTearOff();
 mixin _$AuthenticationState {
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result uninitialized(),
     @required Result authenticated(AppUser user),
     @required Result unauthenticated(),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result uninitialized(),
     Result authenticated(AppUser user),
     Result unauthenticated(),
     @required Result orElse(),
   });
   @optionalTypeArgs
   Result map<Result extends Object>({
-    @required Result uninitialized(Uninitialized value),
     @required Result authenticated(Authenticated value),
     @required Result unauthenticated(Unauthenticated value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
-    Result uninitialized(Uninitialized value),
     Result authenticated(Authenticated value),
     Result unauthenticated(Unauthenticated value),
     @required Result orElse(),
@@ -433,107 +740,6 @@ class _$AuthenticationStateCopyWithImpl<$Res>
   final AuthenticationState _value;
   // ignore: unused_field
   final $Res Function(AuthenticationState) _then;
-}
-
-abstract class $UninitializedCopyWith<$Res> {
-  factory $UninitializedCopyWith(
-          Uninitialized value, $Res Function(Uninitialized) then) =
-      _$UninitializedCopyWithImpl<$Res>;
-}
-
-class _$UninitializedCopyWithImpl<$Res>
-    extends _$AuthenticationStateCopyWithImpl<$Res>
-    implements $UninitializedCopyWith<$Res> {
-  _$UninitializedCopyWithImpl(
-      Uninitialized _value, $Res Function(Uninitialized) _then)
-      : super(_value, (v) => _then(v as Uninitialized));
-
-  @override
-  Uninitialized get _value => super._value as Uninitialized;
-}
-
-class _$Uninitialized with DiagnosticableTreeMixin implements Uninitialized {
-  const _$Uninitialized();
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AuthenticationState.uninitialized()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'AuthenticationState.uninitialized'));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is Uninitialized);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result uninitialized(),
-    @required Result authenticated(AppUser user),
-    @required Result unauthenticated(),
-  }) {
-    assert(uninitialized != null);
-    assert(authenticated != null);
-    assert(unauthenticated != null);
-    return uninitialized();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result uninitialized(),
-    Result authenticated(AppUser user),
-    Result unauthenticated(),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (uninitialized != null) {
-      return uninitialized();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result uninitialized(Uninitialized value),
-    @required Result authenticated(Authenticated value),
-    @required Result unauthenticated(Unauthenticated value),
-  }) {
-    assert(uninitialized != null);
-    assert(authenticated != null);
-    assert(unauthenticated != null);
-    return uninitialized(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result uninitialized(Uninitialized value),
-    Result authenticated(Authenticated value),
-    Result unauthenticated(Unauthenticated value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (uninitialized != null) {
-      return uninitialized(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class Uninitialized implements AuthenticationState {
-  const factory Uninitialized() = _$Uninitialized;
 }
 
 abstract class $AuthenticatedCopyWith<$Res> {
@@ -613,11 +819,9 @@ class _$Authenticated with DiagnosticableTreeMixin implements Authenticated {
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result uninitialized(),
     @required Result authenticated(AppUser user),
     @required Result unauthenticated(),
   }) {
-    assert(uninitialized != null);
     assert(authenticated != null);
     assert(unauthenticated != null);
     return authenticated(user);
@@ -626,7 +830,6 @@ class _$Authenticated with DiagnosticableTreeMixin implements Authenticated {
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result uninitialized(),
     Result authenticated(AppUser user),
     Result unauthenticated(),
     @required Result orElse(),
@@ -641,11 +844,9 @@ class _$Authenticated with DiagnosticableTreeMixin implements Authenticated {
   @override
   @optionalTypeArgs
   Result map<Result extends Object>({
-    @required Result uninitialized(Uninitialized value),
     @required Result authenticated(Authenticated value),
     @required Result unauthenticated(Unauthenticated value),
   }) {
-    assert(uninitialized != null);
     assert(authenticated != null);
     assert(unauthenticated != null);
     return authenticated(this);
@@ -654,7 +855,6 @@ class _$Authenticated with DiagnosticableTreeMixin implements Authenticated {
   @override
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
-    Result uninitialized(Uninitialized value),
     Result authenticated(Authenticated value),
     Result unauthenticated(Unauthenticated value),
     @required Result orElse(),
@@ -719,11 +919,9 @@ class _$Unauthenticated
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result uninitialized(),
     @required Result authenticated(AppUser user),
     @required Result unauthenticated(),
   }) {
-    assert(uninitialized != null);
     assert(authenticated != null);
     assert(unauthenticated != null);
     return unauthenticated();
@@ -732,7 +930,6 @@ class _$Unauthenticated
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result uninitialized(),
     Result authenticated(AppUser user),
     Result unauthenticated(),
     @required Result orElse(),
@@ -747,11 +944,9 @@ class _$Unauthenticated
   @override
   @optionalTypeArgs
   Result map<Result extends Object>({
-    @required Result uninitialized(Uninitialized value),
     @required Result authenticated(Authenticated value),
     @required Result unauthenticated(Unauthenticated value),
   }) {
-    assert(uninitialized != null);
     assert(authenticated != null);
     assert(unauthenticated != null);
     return unauthenticated(this);
@@ -760,7 +955,6 @@ class _$Unauthenticated
   @override
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
-    Result uninitialized(Uninitialized value),
     Result authenticated(Authenticated value),
     Result unauthenticated(Unauthenticated value),
     @required Result orElse(),

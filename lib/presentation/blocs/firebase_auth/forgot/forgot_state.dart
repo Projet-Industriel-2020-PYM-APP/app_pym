@@ -7,6 +7,7 @@ abstract class ForgotState with _$ForgotState {
     @required bool isSubmitting,
     @required bool isSuccess,
     @required bool isFailure,
+    String error,
   }) = _ForgotState;
 
   factory ForgotState.empty() {
@@ -27,12 +28,13 @@ abstract class ForgotState with _$ForgotState {
     );
   }
 
-  factory ForgotState.failure() {
-    return const ForgotState(
+  factory ForgotState.failure(String error) {
+    return ForgotState(
       isEmailValid: true,
       isSubmitting: false,
       isSuccess: false,
       isFailure: true,
+      error: error,
     );
   }
 

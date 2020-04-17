@@ -4,6 +4,7 @@ import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
@@ -37,6 +38,11 @@ class MockEntreprisesBox extends Mock implements Box<EntrepriseModel> {}
 class MockFirestore extends Mock implements Firestore {}
 
 @test
+@RegisterAs(FirebaseAuth)
+@injectable
+class MockFirebaseAuth extends Mock implements FirebaseAuth {}
+
+@test
 @RegisterAs(Geolocator)
 @injectable
 class MockGeolocator extends Mock implements Geolocator {}
@@ -64,10 +70,10 @@ abstract class RegisterModule {
       Hive.box<EntrepriseModel>('/entreprises');
 
   @prod
-  FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
+  FirebaseAuth get firebaseAuth => FirebaseAuth.fromApp(FirebaseApp.instance);
 
   @prod
-  Firestore get firestore => Firestore.instance;
+  Firestore get firestore => Firestore(app: FirebaseApp.instance);
 
   @prod
   @lazySingleton

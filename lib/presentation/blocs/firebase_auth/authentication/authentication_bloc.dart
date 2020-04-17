@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:app_pym/core/usecases/usecase.dart';
 import 'package:app_pym/domain/entities/firebase_auth/app_user.dart';
-import 'package:app_pym/domain/usecases/firebase_auth/get_user.dart';
-import 'package:app_pym/domain/usecases/firebase_auth/is_signed_in.dart';
+import 'package:app_pym/domain/usecases/firebase_auth/get_app_user.dart';
+import 'package:app_pym/domain/usecases/firebase_auth/send_email_confirmation.dart';
 import 'package:app_pym/domain/usecases/firebase_auth/signout.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,49 +19,69 @@ part 'authentication_state.dart';
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final GetAppUser getAppUser;
-  final IsSignedIn isSignedIn;
   final FirebaseAuthSignOut signOut;
+  final SendEmailConfirmation sendEmailConfirmation;
+  StreamSubscription<AppUser> subscription;
 
   AuthenticationBloc({
     @required this.getAppUser,
-    @required this.isSignedIn,
     @required this.signOut,
+    @required this.sendEmailConfirmation,
   });
 
   @override
   AuthenticationState get initialState =>
-      const AuthenticationState.uninitialized();
+      const AuthenticationState.unauthenticated();
 
   @override
   Stream<AuthenticationState> mapEventToState(
     AuthenticationEvent event,
   ) async* {
     yield* event.when(
-      appStated: _mapAppStartedToState,
-      loggedIn: _mapLoggedInToState,
-      loggedOut: _mapLoggedOutToState,
-    );
+        refresh: _mapRefreshToState,
+        loggedIn: _mapLoggedInToState,
+        loggedOut: _mapLoggedOutToState,
+        signOut: _mapSignOutToState,
+        sendEmailVerification: _mapSendEmailVerificationToState);
   }
 
-  Stream<AuthenticationState> _mapAppStartedToState() async* {
+  Stream<AuthenticationState> _mapRefreshToState() async* {
     try {
-      final status = await isSignedIn(const NoParams());
-      if (status) {
-        add(const AuthenticationEvent.loggedIn());
-      } else {
-        yield const AuthenticationState.unauthenticated();
-      }
+      await subscription?.cancel();
+      subscription = getAppUser(const NoParams()).listen(_onUserChange);
     } catch (_) {
+      print("Error");
       yield const AuthenticationState.unauthenticated();
     }
   }
 
-  Stream<AuthenticationState> _mapLoggedInToState() async* {
-    yield AuthenticationState.authenticated(getAppUser(const NoParams()));
+  void _onUserChange(AppUser user) {
+    if (user != null) {
+      add(AuthenticationEvent.loggedIn(user));
+    } else {
+      add(const AuthenticationEvent.loggedOut());
+    }
+  }
+
+  Stream<AuthenticationState> _mapLoggedInToState(AppUser user) async* {
+    yield AuthenticationState.authenticated(user);
   }
 
   Stream<AuthenticationState> _mapLoggedOutToState() async* {
     yield const AuthenticationState.unauthenticated();
+  }
+
+  Stream<AuthenticationState> _mapSignOutToState() async* {
     await signOut(const NoParams());
+  }
+
+  Stream<AuthenticationState> _mapSendEmailVerificationToState() async* {
+    await sendEmailConfirmation(const NoParams());
+  }
+
+  @override
+  Future<void> close() async {
+    await subscription?.cancel();
+    return super.close();
   }
 }

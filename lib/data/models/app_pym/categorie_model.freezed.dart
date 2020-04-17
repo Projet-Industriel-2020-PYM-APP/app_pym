@@ -37,6 +37,8 @@ abstract class $CategorieModelCopyWith<$Res> {
           CategorieModel value, $Res Function(CategorieModel) then) =
       _$CategorieModelCopyWithImpl<$Res>;
   $Res call({String id, String name, ActionModel action});
+
+  $ActionModelCopyWith<$Res> get action;
 }
 
 class _$CategorieModelCopyWithImpl<$Res>
@@ -59,6 +61,16 @@ class _$CategorieModelCopyWithImpl<$Res>
       action: action == freezed ? _value.action : action as ActionModel,
     ));
   }
+
+  @override
+  $ActionModelCopyWith<$Res> get action {
+    if (_value.action == null) {
+      return null;
+    }
+    return $ActionModelCopyWith<$Res>(_value.action, (value) {
+      return _then(_value.copyWith(action: value));
+    });
+  }
 }
 
 abstract class _$CategorieModelCopyWith<$Res>
@@ -68,6 +80,9 @@ abstract class _$CategorieModelCopyWith<$Res>
       __$CategorieModelCopyWithImpl<$Res>;
   @override
   $Res call({String id, String name, ActionModel action});
+
+  @override
+  $ActionModelCopyWith<$Res> get action;
 }
 
 class __$CategorieModelCopyWithImpl<$Res>
