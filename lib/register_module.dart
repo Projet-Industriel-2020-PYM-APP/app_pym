@@ -1,6 +1,8 @@
 import 'package:app_pym/data/models/map_pym/batiment_model.dart';
 import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
 import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
+
+import 'package:archive/archive.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -11,6 +13,7 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mockito/mockito.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @test
 @RegisterAs(Box)
@@ -42,6 +45,11 @@ class MockGeolocator extends Mock implements Geolocator {}
 @RegisterAs(Client)
 @injectable
 class MockHttpClient extends Mock implements Client {}
+
+@test
+@RegisterAs(ZipDecoder)
+@injectable
+class MockZipDecoder extends Mock implements ZipDecoder {}
 
 @registerModule
 abstract class RegisterModule {
@@ -79,4 +87,12 @@ abstract class RegisterModule {
   @prod
   @lazySingleton
   Client get httpClient => Client();
+
+  @prod
+  ZipDecoder get zipDecoder;
+
+  @prod
+  @preResolve
+  Future<SharedPreferences> get sharedPreferences =>
+      SharedPreferences.getInstance();
 }

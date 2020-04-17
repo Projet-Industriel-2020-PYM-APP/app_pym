@@ -1,4 +1,6 @@
 class KeysStringNavigation {
+  const KeysStringNavigation();
+
   static const actualite = "/bottom_nav_bar/actualite";
   static const mobilite = "/bottom_nav_bar/mobilite";
   static const cartographie = "/bottom_nav_bar/cartographie";
