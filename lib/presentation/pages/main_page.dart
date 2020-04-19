@@ -1,7 +1,6 @@
 import 'package:app_pym/core/keys/keys.dart';
 import 'package:app_pym/core/routes/routes.dart';
 import 'package:app_pym/injection_container.dart';
-import 'package:app_pym/notifier_widget.dart';
 import 'package:app_pym/presentation/blocs/main/main_page_bloc.dart';
 import 'package:app_pym/presentation/pages/actualite_page.dart';
 import 'package:app_pym/presentation/pages/cartographie_page.dart';
@@ -31,15 +30,13 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return FcmWidget(
-      child: BlocProvider<MainPageBloc>(
-        create: (_) => sl<MainPageBloc>(),
-        child: BlocBuilder<MainPageBloc, MainPageState>(
-          builder: (context, state) => Scaffold(
-            body: buildBody(context),
-            bottomNavigationBar: buildBottomNavBar(context, state),
-            floatingActionButton: buildFloatingActionButton(context, state),
-          ),
+    return BlocProvider<MainPageBloc>(
+      create: (_) => sl<MainPageBloc>(),
+      child: BlocBuilder<MainPageBloc, MainPageState>(
+        builder: (context, state) => Scaffold(
+          body: buildBody(context),
+          bottomNavigationBar: buildBottomNavBar(context, state),
+          floatingActionButton: buildFloatingActionButton(context, state),
         ),
       ),
     );

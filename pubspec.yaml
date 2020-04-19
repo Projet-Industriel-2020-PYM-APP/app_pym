@@ -49,6 +49,8 @@ dependencies:
   flutter_compass: ^0.4.1
   url_launcher: ^5.4.2
   freezed_annotation: ^0.7.1
+  package_info: ^0.4.0+16
+  flutter_markdown: ^0.3.4
   breakpoint: ^1.0.1+2
 
 dependency_overrides:
@@ -81,6 +83,7 @@ flutter:
     - assets/images/cartographie/
     - assets/images/graphique/
     - assets/images/actualite/
+    - assets/markdown/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see
