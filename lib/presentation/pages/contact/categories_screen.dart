@@ -14,15 +14,17 @@ class ContactTypeCategoriesScreen extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final _breakpoint = Breakpoint.fromConstraints(constraints);
-        return GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: (_breakpoint.columns / 8).ceil(),
-            childAspectRatio: 4 / 1,
+        return Scrollbar(
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: (_breakpoint.columns / 8).ceil(),
+              childAspectRatio: 4 / 1,
+            ),
+            itemCount: categories.length,
+            itemBuilder: (context, id) {
+              return ContactTypeCategorieCard(categories[id]);
+            },
           ),
-          itemCount: categories.length,
-          itemBuilder: (context, id) {
-            return ContactTypeCategorieCard(categories[id]);
-          },
         );
       },
     );
@@ -40,9 +42,12 @@ class ContactTypeCategorieCard extends StatelessWidget {
       padding: const EdgeInsets.all(4.0),
       child: Card(
         child: InkWell(
-          highlightColor:
-              (categorie.primary_color ?? Colors.black).withAlpha(20),
-          splashColor: (categorie.primary_color ?? Colors.black).withAlpha(20),
+          highlightColor: (categorie.primary_color ??
+                  Theme.of(context).textTheme.headline6.color)
+              .withAlpha(20),
+          splashColor: (categorie.primary_color ??
+                  Theme.of(context).textTheme.headline6.color)
+              .withAlpha(20),
           onTap: () {
             if (categorie.action.html_url != null &&
                 categorie.action.html_url.isNotEmpty) {
@@ -72,7 +77,8 @@ class ContactTypeCategorieCard extends StatelessWidget {
                     child: Text(
                       categorie.name,
                       style: Theme.of(context).textTheme.headline5.apply(
-                          color: categorie.primary_color ?? Colors.black),
+                          color: categorie.primary_color ??
+                              Theme.of(context).textTheme.headline6.color),
                     ),
                   ),
                 ),

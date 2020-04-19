@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_pym/core/theme.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,21 +16,6 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   final BuildContext context;
 
   ThemeBloc(this.context, {@required this.prefs});
-
-  ThemeState _getInitialState() {
-    final initialTheme = prefs.getString('initial_theme');
-    switch (initialTheme) {
-      case 'Dark':
-        return ThemeState.dark();
-      case 'Light':
-        return ThemeState.light();
-      case 'Adaptive':
-        return ThemeState.adaptive();
-      default:
-        add(const ThemeEvent.toAdaptive());
-        return ThemeState.adaptive();
-    }
-  }
 
   @override
   ThemeState get initialState => _getInitialState();
@@ -52,5 +38,20 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
         yield ThemeState.adaptive();
       },
     );
+  }
+
+  ThemeState _getInitialState() {
+    final initialTheme = prefs.getString('initial_theme');
+    switch (initialTheme) {
+      case 'Dark':
+        return ThemeState.dark();
+      case 'Light':
+        return ThemeState.light();
+      case 'Adaptive':
+        return ThemeState.adaptive();
+      default:
+        add(const ThemeEvent.toAdaptive());
+        return ThemeState.adaptive();
+    }
   }
 }

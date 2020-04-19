@@ -58,15 +58,17 @@ class ContactTypesOfCategorieScreen extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final _breakpoint = Breakpoint.fromConstraints(constraints);
-        return GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: (_breakpoint.columns / 8).ceil(),
-            childAspectRatio: 5 / 2,
+        return Scrollbar(
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: (_breakpoint.columns / 8).ceil(),
+              childAspectRatio: 5 / 2,
+            ),
+            itemCount: contactTypes.length,
+            itemBuilder: (context, id) {
+              return ContactTypeOfCategorieCard(contactTypes[id]);
+            },
           ),
-          itemCount: contactTypes.length,
-          itemBuilder: (context, id) {
-            return ContactTypeOfCategorieCard(contactTypes[id]);
-          },
         );
       },
     );

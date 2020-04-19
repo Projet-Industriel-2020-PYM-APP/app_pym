@@ -1,6 +1,7 @@
 import 'package:app_pym/core/utils/time_formatter.dart';
 import 'package:app_pym/core/utils/url_launcher_utils.dart';
 import 'package:app_pym/domain/entities/blogger/post.dart';
+import 'package:breakpoint/breakpoint.dart';
 import 'package:flutter/material.dart';
 import 'package:html/dom.dart' as html_dom;
 import 'package:html/parser.dart' as html_parser;
@@ -12,13 +13,14 @@ class ActualiteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
+    return Scrollbar(
+      child: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
           SliverAppBar(
             floating: false,
             snap: false,
-            expandedHeight: 200.0,
+            expandedHeight: MediaQuery.of(context).size.height / 2,
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
                 fit: StackFit.expand,
@@ -31,13 +33,22 @@ class ActualiteScreen extends StatelessWidget {
               ),
             ),
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => PostCard(posts[index]),
-              childCount: posts.length,
-            ),
-          )
+          _buildSliverGrid(context)
         ],
+      ),
+    );
+  }
+
+  SliverGrid _buildSliverGrid(BuildContext context) {
+    final _breakpoint = Breakpoint.fromMediaQuery(context);
+    return SliverGrid(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) => PostCard(posts[index]),
+        childCount: posts.length,
+      ),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: (_breakpoint.columns / 6).ceil(),
+        childAspectRatio: 2 / 1,
       ),
     );
   }
@@ -54,7 +65,9 @@ class PostCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Card(
-        color: Colors.transparent,
+        color: Theme.of(context).brightness == Brightness.light
+            ? Colors.white
+            : Colors.transparent,
         elevation: 0,
         shape: RoundedRectangleBorder(
           side: BorderSide(
@@ -66,8 +79,7 @@ class PostCard extends StatelessWidget {
         ),
         child: InkWell(
           onTap: () => UrlLauncherUtils.launch(post.url),
-          child: Container(
-            height: MediaQuery.of(context).size.height / 4,
+          child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: <Widget>[
@@ -92,24 +104,31 @@ class PostCard extends StatelessWidget {
                           textAlign: TextAlign.start,
                         ),
                         const Divider(color: Colors.transparent),
-                        Text(
-                          _getText(post.content),
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle1
-                              .apply(fontSizeDelta: -2),
-                          textAlign: TextAlign.start,
-                          maxLines: 2,
+                        Expanded(
+                          child: Text(
+                            _getText(post.content),
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                .apply(fontSizeDelta: -2),
+                            textAlign: TextAlign.start,
+                            overflow: TextOverflow.fade,
+                          ),
                         ),
                       ],
                     ),
                   ),
                 ),
                 if (postImage != null)
-                  Image.network(
-                    postImage,
-                    width: MediaQuery.of(context).size.width / 4,
-                    fit: BoxFit.contain,
+                  AspectRatio(
+                    aspectRatio: 2 / 3,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.network(
+                        postImage,
+                        fit: BoxFit.fitHeight,
+                      ),
+                    ),
                   ),
               ],
             ),

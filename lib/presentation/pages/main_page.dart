@@ -6,6 +6,7 @@ import 'package:app_pym/presentation/pages/actualite_page.dart';
 import 'package:app_pym/presentation/pages/cartographie_page.dart';
 import 'package:app_pym/presentation/pages/mobilite_page.dart';
 import 'package:app_pym/presentation/pages/services_page.dart';
+import 'package:app_pym/presentation/widgets/custom_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,7 +24,7 @@ class _MainPageState extends State<MainPage> {
     "Mobilité",
     "Cartographie",
     "Services",
-    "More",
+    "Plus",
   ];
 
   PageController pageController;
@@ -60,50 +61,80 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  BottomNavigationBar buildBottomNavBar(
-      BuildContext context, MainPageState state) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      onTap: (int i) => onTabTapped(context, i),
-      currentIndex: state.currentIndex,
-      items: [
-        BottomNavigationBarItem(
-          icon: const Icon(
-            FontAwesomeIcons.solidNewspaper,
-            key: Key(KeysStringNavigation.actualite),
-          ),
-          title: Text(titles[0]),
+  Widget buildBottomNavBar(BuildContext context, MainPageState state) {
+    final orientation = MediaQuery.of(context).orientation;
+
+    if (orientation == Orientation.landscape) {
+      return CustomBottomNavigationBar(
+        type: BottomNavigationBarType.shifting,
+        selectedItemColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Theme.of(context).primaryColor.withAlpha(150),
+        onTap: (int i) => onTabTapped(context, i),
+        currentIndex: state.currentIndex,
+        items: _buildBottomBarItems(),
+      );
+    } else {
+      return BottomNavigationBar(
+        type: BottomNavigationBarType.shifting,
+        selectedItemColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Theme.of(context).primaryColor.withAlpha(150),
+        onTap: (int i) => onTabTapped(context, i),
+        currentIndex: state.currentIndex,
+        items: _buildBottomBarItems(),
+      );
+    }
+  }
+
+  List<BottomNavigationBarItem> _buildBottomBarItems() {
+    return [
+      BottomNavigationBarItem(
+        activeIcon: const Icon(
+          FontAwesomeIcons.newspaper,
         ),
-        BottomNavigationBarItem(
-          icon: const Icon(
-            Icons.train,
-            key: Key(KeysStringNavigation.mobilite),
-          ),
-          title: Text(titles[1]),
+        icon: const Icon(
+          FontAwesomeIcons.solidNewspaper,
+          key: Key(KeysStringNavigation.actualite),
         ),
-        BottomNavigationBarItem(
-          icon: const Icon(
-            Icons.location_on,
-            key: Key(KeysStringNavigation.cartographie),
-          ),
-          title: Text(titles[2]),
+        title: Text(titles[0]),
+      ),
+      BottomNavigationBarItem(
+        activeIcon: const Icon(
+          FontAwesomeIcons.train,
         ),
-        BottomNavigationBarItem(
-          icon: const Icon(
-            Icons.room_service,
-            key: Key(KeysStringNavigation.services),
-          ),
-          title: Text(titles[3]),
+        icon: const Icon(
+          Icons.train,
+          key: Key(KeysStringNavigation.mobilite),
         ),
-        BottomNavigationBarItem(
-          icon: const Icon(
-            Icons.more_vert,
-            key: Key(KeysStringNavigation.more),
-          ),
-          title: Text(titles[4]),
+        title: Text(titles[1]),
+      ),
+      BottomNavigationBarItem(
+        activeIcon: const Icon(
+          FontAwesomeIcons.mapMarked,
         ),
-      ],
-    );
+        icon: const Icon(
+          FontAwesomeIcons.map,
+          key: Key(KeysStringNavigation.cartographie),
+        ),
+        title: Text(titles[2]),
+      ),
+      BottomNavigationBarItem(
+        activeIcon: const Icon(
+          FontAwesomeIcons.utensils,
+        ),
+        icon: const Icon(
+          Icons.room_service,
+          key: Key(KeysStringNavigation.services),
+        ),
+        title: Text(titles[3]),
+      ),
+      BottomNavigationBarItem(
+        icon: const Icon(
+          Icons.more_vert,
+          key: Key(KeysStringNavigation.more),
+        ),
+        title: Text(titles[4]),
+      ),
+    ];
   }
 
   FloatingActionButton buildFloatingActionButton(

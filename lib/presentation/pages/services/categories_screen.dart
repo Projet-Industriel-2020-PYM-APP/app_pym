@@ -13,17 +13,19 @@ class CategoriesScreen extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final _breakpoint = Breakpoint.fromConstraints(constraints);
-        return GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: (_breakpoint.columns / 8).ceil(),
-            crossAxisSpacing: _breakpoint.gutters,
-            mainAxisSpacing: _breakpoint.gutters,
-            childAspectRatio: 5 / 2,
+        return Scrollbar(
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: (_breakpoint.columns / 8).ceil(),
+              crossAxisSpacing: _breakpoint.gutters,
+              mainAxisSpacing: _breakpoint.gutters,
+              childAspectRatio: 5 / 2,
+            ),
+            itemCount: categories.length,
+            itemBuilder: (context, id) {
+              return CategorieCard(categories[id]);
+            },
           ),
-          itemCount: categories.length,
-          itemBuilder: (context, id) {
-            return CategorieCard(categories[id]);
-          },
         );
       },
     );
