@@ -1,4 +1,4 @@
-import 'package:app_pym/domain/usecases/services/fetch_categories.dart';
+import 'package:app_pym/domain/usecases/services/fetch_service_categories.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mockito/mockito.dart';
 

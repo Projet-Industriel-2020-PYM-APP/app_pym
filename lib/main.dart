@@ -69,14 +69,14 @@ class _MyAppState extends State<MyApp> {
                 Theme.of(context).iconTheme.copyWith(color: Colors.black),
           ),
         ),
-        darkTheme: ThemeData(
-          brightness: Brightness.dark,
-          primaryColor: Colors.red[900],
-          accentColor: Colors.redAccent[700],
-          appBarTheme: const AppBarTheme(
-            color: Colors.black,
-          ),
-        ),
+        // darkTheme: ThemeData(
+        //   brightness: Brightness.dark,
+        //   primaryColor: Colors.red[900],
+        //   accentColor: Colors.redAccent[700],
+        //   appBarTheme: const AppBarTheme(
+        //     color: Colors.black,
+        //   ),
+        // ),
       ),
     );
   }

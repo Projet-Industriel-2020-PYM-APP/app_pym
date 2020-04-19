@@ -29,14 +29,14 @@ void main() {
     Service(
       id: "1",
       title: "title",
-      categorie_id: "1",
+      categorie_ref: "1",
       subtitle: "subtitle",
       address: "address",
       img_url: "img_url",
       actions: [tAction],
     ),
     Service(
-      categorie_id: "2",
+      categorie_ref: "2",
     ),
   ];
 

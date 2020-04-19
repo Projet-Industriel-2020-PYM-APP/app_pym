@@ -50,6 +50,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  breakpoint:
+    dependency: "direct main"
+    description:
+      name: breakpoint
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1+2"
   build:
     dependency: transitive
     description:
@@ -440,7 +447,7 @@ packages:
       name: google_maps_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.25+3"
+    version: "0.5.26"
   graphs:
     dependency: transitive
     description:
@@ -1005,7 +1012,7 @@ packages:
       name: webview_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.19+9"
+    version: "0.3.20"
   yaml:
     dependency: transitive
     description:

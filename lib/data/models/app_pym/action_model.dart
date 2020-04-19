@@ -13,9 +13,9 @@ abstract class ActionModel with _$ActionModel {
 
   factory ActionModel.fromMap(Map<String, dynamic> data) {
     return ActionModel(
-      id: data["id"] as String ?? '',
-      name: data['name'] as String ?? '',
-      html_url: data['html_url'] as String ?? '',
+      id: data["id"] as String,
+      name: data['name'] as String,
+      html_url: data['html_url'] as String,
     );
   }
 }

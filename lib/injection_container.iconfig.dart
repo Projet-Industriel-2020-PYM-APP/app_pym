@@ -14,24 +14,32 @@ import 'package:app_pym/data/datasources/mock_blogger_local_data_source.dart';
 import 'package:app_pym/data/datasources/blogger_local_data_source.dart';
 import 'package:app_pym/data/datasources/mock_blogger_remote_data_source.dart';
 import 'package:app_pym/data/datasources/blogger_remote_data_source.dart';
-import 'package:app_pym/register_module.dart';
-import 'package:hive/hive.dart';
 import 'package:app_pym/data/models/map_pym/batiment_model.dart';
+import 'package:hive/hive.dart';
+import 'package:app_pym/register_module.dart';
 import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
 import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
 import 'package:app_pym/data/models/blogger/post_model.dart';
 import 'package:app_pym/domain/repositories/app_pym/mock_categorie_repository.dart';
 import 'package:app_pym/domain/repositories/app_pym/categorie_repository.dart';
+import 'package:app_pym/domain/entities/app_pym/contact_type.dart';
+import 'package:app_pym/domain/entities/app_pym/service.dart';
 import 'package:http/src/client.dart';
 import 'package:app_pym/data/devices/compass_device_mock.dart';
 import 'package:app_pym/data/devices/compass_device.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:app_pym/domain/repositories/app_pym/mock_contact_type_repository.dart';
+import 'package:app_pym/domain/repositories/app_pym/contact_type_repository.dart';
 import 'package:app_pym/core/directory_manager/directory_manager.dart';
 import 'package:app_pym/core/directory_manager/mock_directory_manager.dart';
 import 'package:app_pym/domain/repositories/map_pym/mock_entreprise_repository.dart';
 import 'package:app_pym/domain/repositories/map_pym/entreprise_repository.dart';
-import 'package:app_pym/domain/usecases/services/fetch_categories.dart';
-import 'package:app_pym/domain/usecases/services/mock_fetch_categories.dart';
+import 'package:app_pym/domain/usecases/contacts/fetch_contact_type_categories.dart';
+import 'package:app_pym/domain/usecases/contacts/mock_fetch_contact_categories.dart';
+import 'package:app_pym/domain/usecases/contacts/fetch_contact_types_of_categorie.dart';
+import 'package:app_pym/domain/usecases/contacts/mock_fetch_contact_types_of_categorie.dart';
+import 'package:app_pym/domain/usecases/services/mock_fetch_service_categories.dart';
+import 'package:app_pym/domain/usecases/services/fetch_service_categories.dart';
 import 'package:app_pym/domain/usecases/services/mock_fetch_services_of_categorie.dart';
 import 'package:app_pym/domain/usecases/services/fetch_services_of_categorie.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -44,41 +52,42 @@ import 'package:app_pym/domain/usecases/firebase_auth/signout.dart';
 import 'package:app_pym/domain/usecases/firebase_auth/signup.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:app_pym/data/datasources/mock_firestore_data_source.dart';
 import 'package:app_pym/data/datasources/firestore_data_source.dart';
+import 'package:app_pym/data/datasources/mock_firestore_data_source.dart';
 import 'package:app_pym/domain/usecases/firebase_auth/forgot_password.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:app_pym/data/devices/geolocator_device.dart';
 import 'package:app_pym/data/devices/geolocator_device_mock.dart';
 import 'package:app_pym/domain/usecases/firebase_auth/get_app_user.dart';
-import 'package:app_pym/domain/usecases/cartographie/get_batiment_detail.dart';
 import 'package:app_pym/domain/usecases/cartographie/mock_get_batiment_detail.dart';
-import 'package:app_pym/domain/usecases/cartographie/mock_get_entreprises_of_batiment.dart';
+import 'package:app_pym/domain/usecases/cartographie/get_batiment_detail.dart';
 import 'package:app_pym/domain/usecases/cartographie/get_entreprises_of_batiment.dart';
+import 'package:app_pym/domain/usecases/cartographie/mock_get_entreprises_of_batiment.dart';
 import 'package:app_pym/domain/usecases/fil_actualite/mock_get_posts.dart';
 import 'package:app_pym/domain/usecases/fil_actualite/get_posts.dart';
-import 'package:app_pym/domain/usecases/cartographie/mock_load_page_and_place_batiments.dart';
 import 'package:app_pym/domain/usecases/cartographie/load_page_and_place_batiments.dart';
+import 'package:app_pym/domain/usecases/cartographie/mock_load_page_and_place_batiments.dart';
 import 'package:app_pym/presentation/blocs/firebase_auth/login/login_bloc.dart';
 import 'package:app_pym/presentation/blocs/main/main_page_bloc.dart';
 import 'package:app_pym/data/datasources/map_pym_local_data_source.dart';
 import 'package:app_pym/data/datasources/mock_map_pym_local_data_source.dart';
-import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
 import 'package:app_pym/data/datasources/mock_map_pym_remote_data_source.dart';
+import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
 import 'package:app_pym/presentation/blocs/mobility/maps/maps_bloc.dart';
 import 'package:app_pym/data/datasources/metropole_remote_data_source.dart';
-import 'package:app_pym/core/network/network_info.dart';
 import 'package:app_pym/core/network/mock_network_info.dart';
+import 'package:app_pym/core/network/network_info.dart';
 import 'package:app_pym/core/permission_handler/permission_handler.dart';
 import 'package:app_pym/core/permission_handler/mock_permission_handler.dart';
-import 'package:app_pym/data/repositories/blogger/post_repository_impl.dart';
-import 'package:app_pym/domain/repositories/blogger/post_repository.dart';
 import 'package:app_pym/domain/repositories/blogger/mock_post_repository.dart';
+import 'package:app_pym/domain/repositories/blogger/post_repository.dart';
+import 'package:app_pym/data/repositories/blogger/post_repository_impl.dart';
 import 'package:app_pym/data/datasources/sncf_remote_data_source.dart';
 import 'package:app_pym/domain/usecases/firebase_auth/send_email_confirmation.dart';
-import 'package:app_pym/domain/repositories/app_pym/mock_service_repository.dart';
-import 'package:app_pym/domain/repositories/app_pym/service_repository.dart';
+import 'package:app_pym/presentation/blocs/services/service_categories/service_categories_bloc.dart';
 import 'package:app_pym/data/repositories/app_pym/service_repository_impl.dart';
+import 'package:app_pym/domain/repositories/app_pym/service_repository.dart';
+import 'package:app_pym/domain/repositories/app_pym/mock_service_repository.dart';
 import 'package:app_pym/presentation/blocs/services/services_of_categorie/services_of_categorie_bloc.dart';
 import 'package:app_pym/domain/usecases/firebase_auth/set_user_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -92,8 +101,10 @@ import 'package:app_pym/presentation/blocs/cartographie/batiment/batiment_bloc.d
 import 'package:app_pym/data/repositories/map_pym/batiment_position_repository_impl.dart';
 import 'package:app_pym/data/repositories/map_pym/batiment_repository_impl.dart';
 import 'package:app_pym/data/repositories/app_pym/categorie_repository_impl.dart';
-import 'package:app_pym/presentation/blocs/services/categories/categories_bloc.dart';
 import 'package:app_pym/presentation/blocs/cartographie/compass/compass_bloc.dart';
+import 'package:app_pym/presentation/blocs/contacts/contact_type_categories/contact_type_categories_bloc.dart';
+import 'package:app_pym/data/repositories/app_pym/contact_type_repository_impl.dart';
+import 'package:app_pym/presentation/blocs/contacts/contact_types_of_categorie/contact_types_of_categorie_bloc.dart';
 import 'package:app_pym/presentation/blocs/cartographie/entreprise/entreprise_bloc.dart';
 import 'package:app_pym/data/repositories/map_pym/entreprise_repository_impl.dart';
 import 'package:app_pym/presentation/blocs/fil_actualite/fil_actualite_bloc.dart';
@@ -129,12 +140,20 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         () => MockBatimentPositionBox());
     g.registerFactory<Box<EntrepriseModel>>(() => MockEntreprisesBox());
     g.registerFactory<Box<List<PostModel>>>(() => MockPostsBox());
-    g.registerFactory<CategorieRepository>(() => MockCategorieRepository());
+    g.registerFactory<CategorieRepository<ContactType>>(
+        () => MockContactCategorieRepository());
+    g.registerFactory<CategorieRepository<Service>>(
+        () => MockServiceCategorieRepository());
     g.registerFactory<Client>(() => MockHttpClient());
     g.registerFactory<CompassDevice>(() => MockCompassDevice());
     g.registerFactory<Connectivity>(() => MockDataConnectionChecker());
+    g.registerFactory<ContactTypeRepository>(() => MockContactTypeRepository());
     g.registerFactory<DirectoryManager>(() => MockDirectoryManager());
     g.registerFactory<EntrepriseRepository>(() => MockEntrepriseRepository());
+    g.registerFactory<FetchContactTypeCategories>(
+        () => MockFetchContactCategories());
+    g.registerFactory<FetchContactTypesOfCategorie>(
+        () => MockFetchContactTypesOfCategorie());
     g.registerFactory<FetchServiceCategories>(
         () => MockFetchServiceCategories());
     g.registerFactory<FetchServicesOfCategorie>(
@@ -181,8 +200,12 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerLazySingleton<CompassDevice>(() => CompassDeviceImpl());
     g.registerLazySingleton<Connectivity>(() => registerModule.connectivity);
     g.registerLazySingleton<DirectoryManager>(() => DirectoryManagerImpl());
+    g.registerLazySingleton<FetchContactTypeCategories>(() =>
+        FetchContactTypeCategories(g<CategorieRepository<ContactType>>()));
+    g.registerLazySingleton<FetchContactTypesOfCategorie>(
+        () => FetchContactTypesOfCategorie(g<ContactTypeRepository>()));
     g.registerLazySingleton<FetchServiceCategories>(
-        () => FetchServiceCategories(g<CategorieRepository>()));
+        () => FetchServiceCategories(g<CategorieRepository<Service>>()));
     g.registerFactory<FirebaseAnalytics>(
         () => registerModule.firebaseAnalytics);
     g.registerFactory<FirebaseAuth>(() => registerModule.firebaseAuth);
@@ -242,6 +265,8 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         () => SNCFRemoteDataSourceImpl(client: g<Client>()));
     g.registerLazySingleton<SendEmailConfirmation>(
         () => SendEmailConfirmation(g<FirebaseAuthDataSource>()));
+    g.registerFactory<ServiceCategoriesBloc>(
+        () => ServiceCategoriesBloc(g<FetchServiceCategories>()));
     g.registerLazySingleton<ServiceRepository>(
         () => ServiceRepositoryImpl(dataSource: g<FirestoreDataSource>()));
     g.registerFactory<ServicesOfCategorieBloc>(
@@ -278,13 +303,20 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         () => BloggerLocalDataSourceImpl(box: g<Box<List<PostModel>>>()));
     g.registerLazySingleton<BloggerRemoteDataSource>(
         () => BloggerRemoteDataSourceImpl(client: g<Client>()));
-    g.registerLazySingleton<CategorieRepository>(
-        () => CategorieRepositoryImpl(dataSource: g<FirestoreDataSource>()));
-    g.registerFactory<CategoriesBloc>(
-        () => CategoriesBloc(g<FetchServiceCategories>()));
+    g.registerLazySingleton<CategorieRepository<ContactType>>(() =>
+        ContactTypeCategorieRepositoryImpl(
+            dataSource: g<FirestoreDataSource>()));
+    g.registerLazySingleton<CategorieRepository<Service>>(() =>
+        ServiceCategorieRepositoryImpl(dataSource: g<FirestoreDataSource>()));
     g.registerFactory<CompassBloc>(() => CompassBloc(
         permissionHandler: g<PermissionHandler>(),
         compassDevice: g<CompassDevice>()));
+    g.registerFactory<ContactTypeCategoriesBloc>(
+        () => ContactTypeCategoriesBloc(g<FetchContactTypeCategories>()));
+    g.registerLazySingleton<ContactTypeRepository>(
+        () => ContactTypeRepositoryImpl(dataSource: g<FirestoreDataSource>()));
+    g.registerFactory<ContactTypesOfCategorieBloc>(
+        () => ContactTypesOfCategorieBloc(g<FetchContactTypesOfCategorie>()));
     g.registerFactory<EntrepriseBloc>(
         () => EntrepriseBloc(g<GetEntreprisesOfBatiment>()));
     g.registerLazySingleton<EntrepriseRepository>(

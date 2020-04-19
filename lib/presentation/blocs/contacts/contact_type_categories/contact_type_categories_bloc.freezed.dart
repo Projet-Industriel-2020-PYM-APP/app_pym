@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named
 
-part of 'categories_bloc.dart';
+part of 'contact_type_categories_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -9,24 +9,24 @@ part of 'categories_bloc.dart';
 
 T _$identity<T>(T value) => value;
 
-class _$CategoriesEventTearOff {
-  const _$CategoriesEventTearOff();
+class _$ContactTypeCategoriesEventTearOff {
+  const _$ContactTypeCategoriesEventTearOff();
 
-  FetchCategoriesEvent fetch() {
-    return const FetchCategoriesEvent();
+  FetchContactTypeCategoriesEvent fetch() {
+    return const FetchContactTypeCategoriesEvent();
   }
 
-  RefreshCategoriesEvent refresh(List<Categorie> categories) {
-    return RefreshCategoriesEvent(
+  RefreshContactTypeCategoriesEvent refresh(List<Categorie> categories) {
+    return RefreshContactTypeCategoriesEvent(
       categories,
     );
   }
 }
 
 // ignore: unused_element
-const $CategoriesEvent = _$CategoriesEventTearOff();
+const $ContactTypeCategoriesEvent = _$ContactTypeCategoriesEventTearOff();
 
-mixin _$CategoriesEvent {
+mixin _$ContactTypeCategoriesEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result fetch(),
@@ -40,68 +40,72 @@ mixin _$CategoriesEvent {
   });
   @optionalTypeArgs
   Result map<Result extends Object>({
-    @required Result fetch(FetchCategoriesEvent value),
-    @required Result refresh(RefreshCategoriesEvent value),
+    @required Result fetch(FetchContactTypeCategoriesEvent value),
+    @required Result refresh(RefreshContactTypeCategoriesEvent value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
-    Result fetch(FetchCategoriesEvent value),
-    Result refresh(RefreshCategoriesEvent value),
+    Result fetch(FetchContactTypeCategoriesEvent value),
+    Result refresh(RefreshContactTypeCategoriesEvent value),
     @required Result orElse(),
   });
 }
 
-abstract class $CategoriesEventCopyWith<$Res> {
-  factory $CategoriesEventCopyWith(
-          CategoriesEvent value, $Res Function(CategoriesEvent) then) =
-      _$CategoriesEventCopyWithImpl<$Res>;
+abstract class $ContactTypeCategoriesEventCopyWith<$Res> {
+  factory $ContactTypeCategoriesEventCopyWith(ContactTypeCategoriesEvent value,
+          $Res Function(ContactTypeCategoriesEvent) then) =
+      _$ContactTypeCategoriesEventCopyWithImpl<$Res>;
 }
 
-class _$CategoriesEventCopyWithImpl<$Res>
-    implements $CategoriesEventCopyWith<$Res> {
-  _$CategoriesEventCopyWithImpl(this._value, this._then);
+class _$ContactTypeCategoriesEventCopyWithImpl<$Res>
+    implements $ContactTypeCategoriesEventCopyWith<$Res> {
+  _$ContactTypeCategoriesEventCopyWithImpl(this._value, this._then);
 
-  final CategoriesEvent _value;
+  final ContactTypeCategoriesEvent _value;
   // ignore: unused_field
-  final $Res Function(CategoriesEvent) _then;
+  final $Res Function(ContactTypeCategoriesEvent) _then;
 }
 
-abstract class $FetchCategoriesEventCopyWith<$Res> {
-  factory $FetchCategoriesEventCopyWith(FetchCategoriesEvent value,
-          $Res Function(FetchCategoriesEvent) then) =
-      _$FetchCategoriesEventCopyWithImpl<$Res>;
+abstract class $FetchContactTypeCategoriesEventCopyWith<$Res> {
+  factory $FetchContactTypeCategoriesEventCopyWith(
+          FetchContactTypeCategoriesEvent value,
+          $Res Function(FetchContactTypeCategoriesEvent) then) =
+      _$FetchContactTypeCategoriesEventCopyWithImpl<$Res>;
 }
 
-class _$FetchCategoriesEventCopyWithImpl<$Res>
-    extends _$CategoriesEventCopyWithImpl<$Res>
-    implements $FetchCategoriesEventCopyWith<$Res> {
-  _$FetchCategoriesEventCopyWithImpl(
-      FetchCategoriesEvent _value, $Res Function(FetchCategoriesEvent) _then)
-      : super(_value, (v) => _then(v as FetchCategoriesEvent));
+class _$FetchContactTypeCategoriesEventCopyWithImpl<$Res>
+    extends _$ContactTypeCategoriesEventCopyWithImpl<$Res>
+    implements $FetchContactTypeCategoriesEventCopyWith<$Res> {
+  _$FetchContactTypeCategoriesEventCopyWithImpl(
+      FetchContactTypeCategoriesEvent _value,
+      $Res Function(FetchContactTypeCategoriesEvent) _then)
+      : super(_value, (v) => _then(v as FetchContactTypeCategoriesEvent));
 
   @override
-  FetchCategoriesEvent get _value => super._value as FetchCategoriesEvent;
+  FetchContactTypeCategoriesEvent get _value =>
+      super._value as FetchContactTypeCategoriesEvent;
 }
 
-class _$FetchCategoriesEvent
+class _$FetchContactTypeCategoriesEvent
     with DiagnosticableTreeMixin
-    implements FetchCategoriesEvent {
-  const _$FetchCategoriesEvent();
+    implements FetchContactTypeCategoriesEvent {
+  const _$FetchContactTypeCategoriesEvent();
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CategoriesEvent.fetch()';
+    return 'ContactTypeCategoriesEvent.fetch()';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties..add(DiagnosticsProperty('type', 'CategoriesEvent.fetch'));
+    properties
+      ..add(DiagnosticsProperty('type', 'ContactTypeCategoriesEvent.fetch'));
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is FetchCategoriesEvent);
+    return identical(this, other) || (other is FetchContactTypeCategoriesEvent);
   }
 
   @override
@@ -135,8 +139,8 @@ class _$FetchCategoriesEvent
   @override
   @optionalTypeArgs
   Result map<Result extends Object>({
-    @required Result fetch(FetchCategoriesEvent value),
-    @required Result refresh(RefreshCategoriesEvent value),
+    @required Result fetch(FetchContactTypeCategoriesEvent value),
+    @required Result refresh(RefreshContactTypeCategoriesEvent value),
   }) {
     assert(fetch != null);
     assert(refresh != null);
@@ -146,8 +150,8 @@ class _$FetchCategoriesEvent
   @override
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
-    Result fetch(FetchCategoriesEvent value),
-    Result refresh(RefreshCategoriesEvent value),
+    Result fetch(FetchContactTypeCategoriesEvent value),
+    Result refresh(RefreshContactTypeCategoriesEvent value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -158,62 +162,68 @@ class _$FetchCategoriesEvent
   }
 }
 
-abstract class FetchCategoriesEvent implements CategoriesEvent {
-  const factory FetchCategoriesEvent() = _$FetchCategoriesEvent;
+abstract class FetchContactTypeCategoriesEvent
+    implements ContactTypeCategoriesEvent {
+  const factory FetchContactTypeCategoriesEvent() =
+      _$FetchContactTypeCategoriesEvent;
 }
 
-abstract class $RefreshCategoriesEventCopyWith<$Res> {
-  factory $RefreshCategoriesEventCopyWith(RefreshCategoriesEvent value,
-          $Res Function(RefreshCategoriesEvent) then) =
-      _$RefreshCategoriesEventCopyWithImpl<$Res>;
+abstract class $RefreshContactTypeCategoriesEventCopyWith<$Res> {
+  factory $RefreshContactTypeCategoriesEventCopyWith(
+          RefreshContactTypeCategoriesEvent value,
+          $Res Function(RefreshContactTypeCategoriesEvent) then) =
+      _$RefreshContactTypeCategoriesEventCopyWithImpl<$Res>;
   $Res call({List<Categorie> categories});
 }
 
-class _$RefreshCategoriesEventCopyWithImpl<$Res>
-    extends _$CategoriesEventCopyWithImpl<$Res>
-    implements $RefreshCategoriesEventCopyWith<$Res> {
-  _$RefreshCategoriesEventCopyWithImpl(RefreshCategoriesEvent _value,
-      $Res Function(RefreshCategoriesEvent) _then)
-      : super(_value, (v) => _then(v as RefreshCategoriesEvent));
+class _$RefreshContactTypeCategoriesEventCopyWithImpl<$Res>
+    extends _$ContactTypeCategoriesEventCopyWithImpl<$Res>
+    implements $RefreshContactTypeCategoriesEventCopyWith<$Res> {
+  _$RefreshContactTypeCategoriesEventCopyWithImpl(
+      RefreshContactTypeCategoriesEvent _value,
+      $Res Function(RefreshContactTypeCategoriesEvent) _then)
+      : super(_value, (v) => _then(v as RefreshContactTypeCategoriesEvent));
 
   @override
-  RefreshCategoriesEvent get _value => super._value as RefreshCategoriesEvent;
+  RefreshContactTypeCategoriesEvent get _value =>
+      super._value as RefreshContactTypeCategoriesEvent;
 
   @override
   $Res call({
     Object categories = freezed,
   }) {
-    return _then(RefreshCategoriesEvent(
+    return _then(RefreshContactTypeCategoriesEvent(
       categories == freezed ? _value.categories : categories as List<Categorie>,
     ));
   }
 }
 
-class _$RefreshCategoriesEvent
+class _$RefreshContactTypeCategoriesEvent
     with DiagnosticableTreeMixin
-    implements RefreshCategoriesEvent {
-  const _$RefreshCategoriesEvent(this.categories) : assert(categories != null);
+    implements RefreshContactTypeCategoriesEvent {
+  const _$RefreshContactTypeCategoriesEvent(this.categories)
+      : assert(categories != null);
 
   @override
   final List<Categorie> categories;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CategoriesEvent.refresh(categories: $categories)';
+    return 'ContactTypeCategoriesEvent.refresh(categories: $categories)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'CategoriesEvent.refresh'))
+      ..add(DiagnosticsProperty('type', 'ContactTypeCategoriesEvent.refresh'))
       ..add(DiagnosticsProperty('categories', categories));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is RefreshCategoriesEvent &&
+        (other is RefreshContactTypeCategoriesEvent &&
             (identical(other.categories, categories) ||
                 const DeepCollectionEquality()
                     .equals(other.categories, categories)));
@@ -224,9 +234,9 @@ class _$RefreshCategoriesEvent
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(categories);
 
   @override
-  $RefreshCategoriesEventCopyWith<RefreshCategoriesEvent> get copyWith =>
-      _$RefreshCategoriesEventCopyWithImpl<RefreshCategoriesEvent>(
-          this, _$identity);
+  $RefreshContactTypeCategoriesEventCopyWith<RefreshContactTypeCategoriesEvent>
+      get copyWith => _$RefreshContactTypeCategoriesEventCopyWithImpl<
+          RefreshContactTypeCategoriesEvent>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -256,8 +266,8 @@ class _$RefreshCategoriesEvent
   @override
   @optionalTypeArgs
   Result map<Result extends Object>({
-    @required Result fetch(FetchCategoriesEvent value),
-    @required Result refresh(RefreshCategoriesEvent value),
+    @required Result fetch(FetchContactTypeCategoriesEvent value),
+    @required Result refresh(RefreshContactTypeCategoriesEvent value),
   }) {
     assert(fetch != null);
     assert(refresh != null);
@@ -267,8 +277,8 @@ class _$RefreshCategoriesEvent
   @override
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
-    Result fetch(FetchCategoriesEvent value),
-    Result refresh(RefreshCategoriesEvent value),
+    Result fetch(FetchContactTypeCategoriesEvent value),
+    Result refresh(RefreshContactTypeCategoriesEvent value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -279,16 +289,18 @@ class _$RefreshCategoriesEvent
   }
 }
 
-abstract class RefreshCategoriesEvent implements CategoriesEvent {
-  const factory RefreshCategoriesEvent(List<Categorie> categories) =
-      _$RefreshCategoriesEvent;
+abstract class RefreshContactTypeCategoriesEvent
+    implements ContactTypeCategoriesEvent {
+  const factory RefreshContactTypeCategoriesEvent(List<Categorie> categories) =
+      _$RefreshContactTypeCategoriesEvent;
 
   List<Categorie> get categories;
-  $RefreshCategoriesEventCopyWith<RefreshCategoriesEvent> get copyWith;
+  $RefreshContactTypeCategoriesEventCopyWith<RefreshContactTypeCategoriesEvent>
+      get copyWith;
 }
 
-class _$CategoriesStateTearOff {
-  const _$CategoriesStateTearOff();
+class _$ContactTypeCategoriesStateTearOff {
+  const _$ContactTypeCategoriesStateTearOff();
 
   CategoriesInitial initial() {
     return const CategoriesInitial();
@@ -312,9 +324,9 @@ class _$CategoriesStateTearOff {
 }
 
 // ignore: unused_element
-const $CategoriesState = _$CategoriesStateTearOff();
+const $ContactTypeCategoriesState = _$ContactTypeCategoriesStateTearOff();
 
-mixin _$CategoriesState {
+mixin _$ContactTypeCategoriesState {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result initial(),
@@ -347,19 +359,19 @@ mixin _$CategoriesState {
   });
 }
 
-abstract class $CategoriesStateCopyWith<$Res> {
-  factory $CategoriesStateCopyWith(
-          CategoriesState value, $Res Function(CategoriesState) then) =
-      _$CategoriesStateCopyWithImpl<$Res>;
+abstract class $ContactTypeCategoriesStateCopyWith<$Res> {
+  factory $ContactTypeCategoriesStateCopyWith(ContactTypeCategoriesState value,
+          $Res Function(ContactTypeCategoriesState) then) =
+      _$ContactTypeCategoriesStateCopyWithImpl<$Res>;
 }
 
-class _$CategoriesStateCopyWithImpl<$Res>
-    implements $CategoriesStateCopyWith<$Res> {
-  _$CategoriesStateCopyWithImpl(this._value, this._then);
+class _$ContactTypeCategoriesStateCopyWithImpl<$Res>
+    implements $ContactTypeCategoriesStateCopyWith<$Res> {
+  _$ContactTypeCategoriesStateCopyWithImpl(this._value, this._then);
 
-  final CategoriesState _value;
+  final ContactTypeCategoriesState _value;
   // ignore: unused_field
-  final $Res Function(CategoriesState) _then;
+  final $Res Function(ContactTypeCategoriesState) _then;
 }
 
 abstract class $CategoriesInitialCopyWith<$Res> {
@@ -369,7 +381,7 @@ abstract class $CategoriesInitialCopyWith<$Res> {
 }
 
 class _$CategoriesInitialCopyWithImpl<$Res>
-    extends _$CategoriesStateCopyWithImpl<$Res>
+    extends _$ContactTypeCategoriesStateCopyWithImpl<$Res>
     implements $CategoriesInitialCopyWith<$Res> {
   _$CategoriesInitialCopyWithImpl(
       CategoriesInitial _value, $Res Function(CategoriesInitial) _then)
@@ -386,13 +398,14 @@ class _$CategoriesInitial
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CategoriesState.initial()';
+    return 'ContactTypeCategoriesState.initial()';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties..add(DiagnosticsProperty('type', 'CategoriesState.initial'));
+    properties
+      ..add(DiagnosticsProperty('type', 'ContactTypeCategoriesState.initial'));
   }
 
   @override
@@ -466,7 +479,7 @@ class _$CategoriesInitial
   }
 }
 
-abstract class CategoriesInitial implements CategoriesState {
+abstract class CategoriesInitial implements ContactTypeCategoriesState {
   const factory CategoriesInitial() = _$CategoriesInitial;
 }
 
@@ -477,7 +490,7 @@ abstract class $CategoriesLoadingCopyWith<$Res> {
 }
 
 class _$CategoriesLoadingCopyWithImpl<$Res>
-    extends _$CategoriesStateCopyWithImpl<$Res>
+    extends _$ContactTypeCategoriesStateCopyWithImpl<$Res>
     implements $CategoriesLoadingCopyWith<$Res> {
   _$CategoriesLoadingCopyWithImpl(
       CategoriesLoading _value, $Res Function(CategoriesLoading) _then)
@@ -494,13 +507,14 @@ class _$CategoriesLoading
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CategoriesState.loading()';
+    return 'ContactTypeCategoriesState.loading()';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties..add(DiagnosticsProperty('type', 'CategoriesState.loading'));
+    properties
+      ..add(DiagnosticsProperty('type', 'ContactTypeCategoriesState.loading'));
   }
 
   @override
@@ -574,7 +588,7 @@ class _$CategoriesLoading
   }
 }
 
-abstract class CategoriesLoading implements CategoriesState {
+abstract class CategoriesLoading implements ContactTypeCategoriesState {
   const factory CategoriesLoading() = _$CategoriesLoading;
 }
 
@@ -586,7 +600,7 @@ abstract class $CategoriesLoadedCopyWith<$Res> {
 }
 
 class _$CategoriesLoadedCopyWithImpl<$Res>
-    extends _$CategoriesStateCopyWithImpl<$Res>
+    extends _$ContactTypeCategoriesStateCopyWithImpl<$Res>
     implements $CategoriesLoadedCopyWith<$Res> {
   _$CategoriesLoadedCopyWithImpl(
       CategoriesLoaded _value, $Res Function(CategoriesLoaded) _then)
@@ -615,14 +629,14 @@ class _$CategoriesLoaded
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CategoriesState.loaded(categories: $categories)';
+    return 'ContactTypeCategoriesState.loaded(categories: $categories)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'CategoriesState.loaded'))
+      ..add(DiagnosticsProperty('type', 'ContactTypeCategoriesState.loaded'))
       ..add(DiagnosticsProperty('categories', categories));
   }
 
@@ -706,7 +720,7 @@ class _$CategoriesLoaded
   }
 }
 
-abstract class CategoriesLoaded implements CategoriesState {
+abstract class CategoriesLoaded implements ContactTypeCategoriesState {
   const factory CategoriesLoaded(List<Categorie> categories) =
       _$CategoriesLoaded;
 
@@ -722,7 +736,7 @@ abstract class $CategoriesErrorCopyWith<$Res> {
 }
 
 class _$CategoriesErrorCopyWithImpl<$Res>
-    extends _$CategoriesStateCopyWithImpl<$Res>
+    extends _$ContactTypeCategoriesStateCopyWithImpl<$Res>
     implements $CategoriesErrorCopyWith<$Res> {
   _$CategoriesErrorCopyWithImpl(
       CategoriesError _value, $Res Function(CategoriesError) _then)
@@ -751,14 +765,14 @@ class _$CategoriesError
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CategoriesState.error(message: $message)';
+    return 'ContactTypeCategoriesState.error(message: $message)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'CategoriesState.error'))
+      ..add(DiagnosticsProperty('type', 'ContactTypeCategoriesState.error'))
       ..add(DiagnosticsProperty('message', message));
   }
 
@@ -841,7 +855,7 @@ class _$CategoriesError
   }
 }
 
-abstract class CategoriesError implements CategoriesState {
+abstract class CategoriesError implements ContactTypeCategoriesState {
   const factory CategoriesError(String message) = _$CategoriesError;
 
   String get message;

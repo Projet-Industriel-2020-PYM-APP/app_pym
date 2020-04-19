@@ -2,16 +2,16 @@ import 'package:app_pym/core/error/exceptions.dart';
 import 'package:app_pym/core/usecases/usecase.dart';
 import 'package:app_pym/domain/entities/app_pym/action.dart';
 import 'package:app_pym/domain/entities/app_pym/categorie.dart';
-import 'package:app_pym/domain/usecases/services/fetch_categories.dart';
+import 'package:app_pym/domain/usecases/contacts/fetch_contact_type_categories.dart';
 import 'package:app_pym/injection_container.dart';
-import 'package:app_pym/presentation/blocs/services/categories/categories_bloc.dart';
+import 'package:app_pym/presentation/blocs/contacts/contact_type_categories/contact_type_categories_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:injectable/injectable.dart' show Environment;
 import 'package:mockito/mockito.dart';
 
 void main() {
-  CategoriesBloc bloc;
-  FetchServiceCategories mockFetchServiceCategories;
+  ContactTypeCategoriesBloc bloc;
+  FetchContactTypeCategories mockFetchContactCategories;
 
   init(env: Environment.test);
 
@@ -27,8 +27,8 @@ void main() {
   );
 
   setUp(() {
-    mockFetchServiceCategories = sl<FetchServiceCategories>();
-    bloc = CategoriesBloc(mockFetchServiceCategories);
+    mockFetchContactCategories = sl<FetchContactTypeCategories>();
+    bloc = ContactTypeCategoriesBloc(mockFetchContactCategories);
   });
 
   test('initialState should be CategoriesInitial', () {
@@ -41,15 +41,15 @@ void main() {
       'should get data from the concrete use case',
       () async {
         // arrange
-        when(mockFetchServiceCategories(any))
+        when(mockFetchContactCategories(any))
             .thenAnswer((_) => Stream.fromIterable([
                   [tCategorie]
                 ]));
         // act
-        bloc.add(const FetchCategoriesEvent());
-        await untilCalled(mockFetchServiceCategories(any));
+        bloc.add(const FetchContactTypeCategoriesEvent());
+        await untilCalled(mockFetchContactCategories(any));
         // assert
-        verify(mockFetchServiceCategories(const NoParams()));
+        verify(mockFetchContactCategories(const NoParams()));
       },
     );
 
@@ -57,7 +57,7 @@ void main() {
       'should emit [CategoriesInitial, CategoriesLoading, CategoriesLoaded] when data is gotten successfully',
       () async {
         // arrange
-        when(mockFetchServiceCategories(any))
+        when(mockFetchContactCategories(any))
             .thenAnswer((_) => Stream.fromIterable([
                   [tCategorie]
                 ]));
@@ -69,7 +69,7 @@ void main() {
         ];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(const FetchCategoriesEvent());
+        bloc.add(const FetchContactTypeCategoriesEvent());
         await future;
       },
     );
@@ -79,7 +79,7 @@ void main() {
       () async {
         // arrange
         final tException = ServerException('ServerException');
-        when(mockFetchServiceCategories(any)).thenThrow(tException);
+        when(mockFetchContactCategories(any)).thenThrow(tException);
         // assert later
         final expected = [
           const CategoriesInitial(),
@@ -88,7 +88,7 @@ void main() {
         ];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(const FetchCategoriesEvent());
+        bloc.add(const FetchContactTypeCategoriesEvent());
         await future;
       },
     );
@@ -105,7 +105,7 @@ void main() {
         ];
         final Future<void> future = expectLater(bloc, emitsInOrder(expected));
         // act
-        bloc.add(const RefreshCategoriesEvent([tCategorie]));
+        bloc.add(const RefreshContactTypeCategoriesEvent([tCategorie]));
         await future;
       },
     );

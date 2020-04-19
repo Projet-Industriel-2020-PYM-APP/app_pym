@@ -6,9 +6,16 @@ import 'package:app_pym/domain/entities/app_pym/action.dart';
 import 'package:app_pym/domain/entities/app_pym/categorie.dart';
 import 'package:app_pym/domain/entities/app_pym/service.dart';
 import 'package:app_pym/injection_container.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:injectable/injectable.dart' show Environment;
 import 'package:mockito/mockito.dart';
+
+// ignore: avoid_implementing_value_types
+class MockDocumentReference extends Mock implements DocumentReference {
+  @override
+  String toString() => "categorie_ref";
+}
 
 void main() {
   ServiceRepositoryImpl repository;
@@ -34,20 +41,20 @@ void main() {
       html_url: "html_url",
       name: "name",
     );
-    const tServiceModel = ServiceModel(
+    final tServiceModel = ServiceModel(
       id: "1",
       title: "title",
-      categorie_id: "categorie_id",
+      categorie_ref: MockDocumentReference(),
       subtitle: "subtitle",
       address: "address",
       img_url: "img_url",
       actions: [tActionModel],
     );
-    const tListServiceModel = [tServiceModel];
+    final tListServiceModel = [tServiceModel];
     const tService = Service(
       id: "1",
       title: "title",
-      categorie_id: "categorie_id",
+      categorie_ref: "categorie_ref",
       subtitle: "subtitle",
       address: "address",
       img_url: "img_url",

@@ -37,7 +37,7 @@ void main() {
   const tService = Service(
     id: "1",
     title: "title",
-    categorie_id: "1",
+    categorie_ref: "1",
     subtitle: "subtitle",
     address: "address",
     img_url: "img_url",

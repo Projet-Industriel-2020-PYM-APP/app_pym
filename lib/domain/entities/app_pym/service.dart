@@ -8,7 +8,7 @@ abstract class Service with _$Service {
   const factory Service({
     String id,
     String title,
-    String categorie_id,
+    String categorie_ref,
     String subtitle,
     String address,
     String img_url,

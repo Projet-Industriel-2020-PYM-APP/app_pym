@@ -15,7 +15,7 @@ class _$ServiceModelTearOff {
   _ServiceModel call(
       {String id,
       String title,
-      String categorie_id,
+      DocumentReference categorie_ref,
       String subtitle,
       String address,
       String img_url,
@@ -23,7 +23,7 @@ class _$ServiceModelTearOff {
     return _ServiceModel(
       id: id,
       title: title,
-      categorie_id: categorie_id,
+      categorie_ref: categorie_ref,
       subtitle: subtitle,
       address: address,
       img_url: img_url,
@@ -38,7 +38,7 @@ const $ServiceModel = _$ServiceModelTearOff();
 mixin _$ServiceModel {
   String get id;
   String get title;
-  String get categorie_id;
+  DocumentReference get categorie_ref;
   String get subtitle;
   String get address;
   String get img_url;
@@ -54,7 +54,7 @@ abstract class $ServiceModelCopyWith<$Res> {
   $Res call(
       {String id,
       String title,
-      String categorie_id,
+      DocumentReference categorie_ref,
       String subtitle,
       String address,
       String img_url,
@@ -72,7 +72,7 @@ class _$ServiceModelCopyWithImpl<$Res> implements $ServiceModelCopyWith<$Res> {
   $Res call({
     Object id = freezed,
     Object title = freezed,
-    Object categorie_id = freezed,
+    Object categorie_ref = freezed,
     Object subtitle = freezed,
     Object address = freezed,
     Object img_url = freezed,
@@ -81,9 +81,9 @@ class _$ServiceModelCopyWithImpl<$Res> implements $ServiceModelCopyWith<$Res> {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as String,
       title: title == freezed ? _value.title : title as String,
-      categorie_id: categorie_id == freezed
-          ? _value.categorie_id
-          : categorie_id as String,
+      categorie_ref: categorie_ref == freezed
+          ? _value.categorie_ref
+          : categorie_ref as DocumentReference,
       subtitle: subtitle == freezed ? _value.subtitle : subtitle as String,
       address: address == freezed ? _value.address : address as String,
       img_url: img_url == freezed ? _value.img_url : img_url as String,
@@ -102,7 +102,7 @@ abstract class _$ServiceModelCopyWith<$Res>
   $Res call(
       {String id,
       String title,
-      String categorie_id,
+      DocumentReference categorie_ref,
       String subtitle,
       String address,
       String img_url,
@@ -122,7 +122,7 @@ class __$ServiceModelCopyWithImpl<$Res> extends _$ServiceModelCopyWithImpl<$Res>
   $Res call({
     Object id = freezed,
     Object title = freezed,
-    Object categorie_id = freezed,
+    Object categorie_ref = freezed,
     Object subtitle = freezed,
     Object address = freezed,
     Object img_url = freezed,
@@ -131,9 +131,9 @@ class __$ServiceModelCopyWithImpl<$Res> extends _$ServiceModelCopyWithImpl<$Res>
     return _then(_ServiceModel(
       id: id == freezed ? _value.id : id as String,
       title: title == freezed ? _value.title : title as String,
-      categorie_id: categorie_id == freezed
-          ? _value.categorie_id
-          : categorie_id as String,
+      categorie_ref: categorie_ref == freezed
+          ? _value.categorie_ref
+          : categorie_ref as DocumentReference,
       subtitle: subtitle == freezed ? _value.subtitle : subtitle as String,
       address: address == freezed ? _value.address : address as String,
       img_url: img_url == freezed ? _value.img_url : img_url as String,
@@ -147,7 +147,7 @@ class _$_ServiceModel implements _ServiceModel {
   const _$_ServiceModel(
       {this.id,
       this.title,
-      this.categorie_id,
+      this.categorie_ref,
       this.subtitle,
       this.address,
       this.img_url,
@@ -158,7 +158,7 @@ class _$_ServiceModel implements _ServiceModel {
   @override
   final String title;
   @override
-  final String categorie_id;
+  final DocumentReference categorie_ref;
   @override
   final String subtitle;
   @override
@@ -170,7 +170,7 @@ class _$_ServiceModel implements _ServiceModel {
 
   @override
   String toString() {
-    return 'ServiceModel(id: $id, title: $title, categorie_id: $categorie_id, subtitle: $subtitle, address: $address, img_url: $img_url, actions: $actions)';
+    return 'ServiceModel(id: $id, title: $title, categorie_ref: $categorie_ref, subtitle: $subtitle, address: $address, img_url: $img_url, actions: $actions)';
   }
 
   @override
@@ -181,9 +181,9 @@ class _$_ServiceModel implements _ServiceModel {
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.title, title) ||
                 const DeepCollectionEquality().equals(other.title, title)) &&
-            (identical(other.categorie_id, categorie_id) ||
+            (identical(other.categorie_ref, categorie_ref) ||
                 const DeepCollectionEquality()
-                    .equals(other.categorie_id, categorie_id)) &&
+                    .equals(other.categorie_ref, categorie_ref)) &&
             (identical(other.subtitle, subtitle) ||
                 const DeepCollectionEquality()
                     .equals(other.subtitle, subtitle)) &&
@@ -202,7 +202,7 @@ class _$_ServiceModel implements _ServiceModel {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(title) ^
-      const DeepCollectionEquality().hash(categorie_id) ^
+      const DeepCollectionEquality().hash(categorie_ref) ^
       const DeepCollectionEquality().hash(subtitle) ^
       const DeepCollectionEquality().hash(address) ^
       const DeepCollectionEquality().hash(img_url) ^
@@ -217,7 +217,7 @@ abstract class _ServiceModel implements ServiceModel {
   const factory _ServiceModel(
       {String id,
       String title,
-      String categorie_id,
+      DocumentReference categorie_ref,
       String subtitle,
       String address,
       String img_url,
@@ -228,7 +228,7 @@ abstract class _ServiceModel implements ServiceModel {
   @override
   String get title;
   @override
-  String get categorie_id;
+  DocumentReference get categorie_ref;
   @override
   String get subtitle;
   @override
