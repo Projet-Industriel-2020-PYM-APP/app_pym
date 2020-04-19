@@ -20,23 +20,32 @@ class HomeScreen extends StatelessWidget {
           create: (_) => sl<UserDataBloc>(),
           child: BlocBuilder<UserDataBloc, UserDataState>(
             builder: (BuildContext context, UserDataState state) {
-              if (state is UpdatedState || state is NotUpdatedState) {
-                return Switch(
+              return state.when(
+                notUpdated: () => Switch(
                   value: user.isAdmin,
                   onChanged: (value) {
-                    final AppUser newUser = AppUser.setAdmin(user, value);
-                    sl<UserDataBloc>().add(UpdatedUserData(newUser));
+                    final AppUser newUser = user.copyWith(isAdmin: value);
+                    sl<UserDataBloc>().add(UserDataEvent.updated(newUser));
                   },
-                );
-              } else {
-                return const CircularProgressIndicator();
-              }
+                ),
+                loading: () => const CircularProgressIndicator(),
+                updated: () => Switch(
+                  value: user.isAdmin,
+                  onChanged: (value) {
+                    final AppUser newUser = user.copyWith(isAdmin: value);
+                    sl<UserDataBloc>().add(UserDataEvent.updated(newUser));
+                  },
+                ),
+                error: (e) => Text(e.toString()),
+              );
             },
           ),
         ),
         RaisedButton(
           onPressed: () {
-            context.bloc<AuthenticationBloc>().add(const LoggedOut());
+            context
+                .bloc<AuthenticationBloc>()
+                .add(const AuthenticationEvent.loggedOut());
           },
           child: const Text("SignOut"),
         ),

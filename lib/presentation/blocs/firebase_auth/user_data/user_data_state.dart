@@ -1,23 +1,9 @@
 part of 'user_data_bloc.dart';
 
-abstract class UserDataState extends Equatable {
-  const UserDataState();
-  @override
-  List<Object> get props => [];
-}
-
-class NotUpdatedState extends UserDataState {
-  const NotUpdatedState();
-}
-
-class LoadingState extends UserDataState {
-  const LoadingState();
-}
-
-class UpdatedState extends UserDataState {
-  const UpdatedState();
-}
-
-class ErrorState extends UserDataState {
-  const ErrorState();
+@freezed
+abstract class UserDataState with _$UserDataState {
+  const factory UserDataState.notUpdated() = NotUpdatedState;
+  const factory UserDataState.loading() = LoadingState;
+  const factory UserDataState.updated() = UpdatedState;
+  const factory UserDataState.error(Exception e) = ErrorState;
 }

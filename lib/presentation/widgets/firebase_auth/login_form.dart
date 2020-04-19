@@ -139,19 +139,19 @@ class _LoginFormState extends State<LoginForm> {
 
   void _onEmailChanged() {
     _loginBloc.add(
-      EmailChanged(email: _emailController.text),
+      LoginEvent.emailChanged(_emailController.text),
     );
   }
 
   void _onPasswordChanged() {
     _loginBloc.add(
-      PasswordChanged(password: _passwordController.text),
+      LoginEvent.passwordChanged(_passwordController.text),
     );
   }
 
   void _onFormSubmitted() {
     _loginBloc.add(
-      LoginWithCredentialsPressed(
+      LoginEvent.withCredentialsPressed(
         email: _emailController.text,
         password: _passwordController.text,
       ),

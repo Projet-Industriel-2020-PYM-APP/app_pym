@@ -20,7 +20,7 @@ class Router {
           settings: settings,
         );
       case RoutePaths.ar:
-        return MaterialPageRoute<void>(
+        return FadeRoute<void>(
           builder: (BuildContext context) => const ArScreen(),
           settings: settings,
         );

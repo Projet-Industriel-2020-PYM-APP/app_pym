@@ -1,7 +1,7 @@
+import 'package:app_pym/data/models/firebase_auth/app_user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:app_pym/data/datasources/firebase_auth_data_source.dart';
-import 'package:app_pym/data/mappers/firebase_auth/app_user_mapper.dart';
 import 'package:app_pym/domain/entities/firebase_auth/app_user.dart';
 import 'package:app_pym/domain/repositories/firebase_auth/app_user_repository.dart';
 import 'package:injectable/injectable.dart';
@@ -12,18 +12,16 @@ import 'package:injectable/injectable.dart';
 @injectable
 class AppUserRepositoryImpl implements AppUserRepository {
   final FirebaseAuthDataSource dataSource;
-  final AppUserMapper userMapper;
 
   const AppUserRepositoryImpl({
     @required this.dataSource,
-    @required this.userMapper,
   });
   @override
-  AppUser get profile => userMapper.mapTo(dataSource.profile);
+  AppUser get profile => dataSource.profile.toEntity();
 
   @override
-  Future<void> setUserData(AppUser map) {
-    return dataSource.setUserData(userMapper.mapFrom(map));
+  Future<void> setUserData(AppUser user) {
+    return dataSource.setUserData(user.toModel());
   }
 
   @override
