@@ -29,7 +29,7 @@ class _$AppUserModelTearOff {
           String displayName,
       @required
       @nullable
-      @JsonKey(fromJson: _fromJson, toJson: _toJson)
+      @JsonKey(fromJson: TimestampSerializer.toDateTime, toJson: TimestampSerializer.fromDateTime)
           DateTime lastSeen,
       @required
       @nullable
@@ -60,7 +60,9 @@ mixin _$AppUserModel {
   @nullable
   String get displayName;
   @nullable
-  @JsonKey(fromJson: _fromJson, toJson: _toJson)
+  @JsonKey(
+      fromJson: TimestampSerializer.toDateTime,
+      toJson: TimestampSerializer.fromDateTime)
   DateTime get lastSeen;
   @nullable
   bool get isEmailVerified;
@@ -83,7 +85,7 @@ abstract class $AppUserModelCopyWith<$Res> {
       @nullable
           String displayName,
       @nullable
-      @JsonKey(fromJson: _fromJson, toJson: _toJson)
+      @JsonKey(fromJson: TimestampSerializer.toDateTime, toJson: TimestampSerializer.fromDateTime)
           DateTime lastSeen,
       @nullable
           bool isEmailVerified,
@@ -137,7 +139,7 @@ abstract class _$AppUserModelCopyWith<$Res>
       @nullable
           String displayName,
       @nullable
-      @JsonKey(fromJson: _fromJson, toJson: _toJson)
+      @JsonKey(fromJson: TimestampSerializer.toDateTime, toJson: TimestampSerializer.fromDateTime)
           DateTime lastSeen,
       @nullable
           bool isEmailVerified,
@@ -194,7 +196,7 @@ class _$_AppUserModel with DiagnosticableTreeMixin implements _AppUserModel {
           this.displayName,
       @required
       @nullable
-      @JsonKey(fromJson: _fromJson, toJson: _toJson)
+      @JsonKey(fromJson: TimestampSerializer.toDateTime, toJson: TimestampSerializer.fromDateTime)
           this.lastSeen,
       @required
       @nullable
@@ -220,7 +222,9 @@ class _$_AppUserModel with DiagnosticableTreeMixin implements _AppUserModel {
   final String displayName;
   @override
   @nullable
-  @JsonKey(fromJson: _fromJson, toJson: _toJson)
+  @JsonKey(
+      fromJson: TimestampSerializer.toDateTime,
+      toJson: TimestampSerializer.fromDateTime)
   final DateTime lastSeen;
   @override
   @nullable
@@ -307,7 +311,7 @@ abstract class _AppUserModel implements AppUserModel {
           String displayName,
       @required
       @nullable
-      @JsonKey(fromJson: _fromJson, toJson: _toJson)
+      @JsonKey(fromJson: TimestampSerializer.toDateTime, toJson: TimestampSerializer.fromDateTime)
           DateTime lastSeen,
       @required
       @nullable
@@ -331,7 +335,9 @@ abstract class _AppUserModel implements AppUserModel {
   String get displayName;
   @override
   @nullable
-  @JsonKey(fromJson: _fromJson, toJson: _toJson)
+  @JsonKey(
+      fromJson: TimestampSerializer.toDateTime,
+      toJson: TimestampSerializer.fromDateTime)
   DateTime get lastSeen;
   @override
   @nullable

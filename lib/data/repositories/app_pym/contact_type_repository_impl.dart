@@ -18,8 +18,8 @@ class ContactTypeRepositoryImpl implements ContactTypeRepository {
   });
 
   @override
-  Stream<List<ContactType>> fetchContactTypesOf(Categorie categorie) async* {
-    yield* dataSource
+  Stream<List<ContactType>> fetchContactTypesOf(Categorie categorie) {
+    return dataSource
         .fetchContactTypesOf(categorie.id)
         .map((list) => list.map((e) => e.toEntity()).toList());
   }

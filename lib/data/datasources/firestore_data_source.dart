@@ -1,3 +1,4 @@
+import 'package:app_pym/data/models/app_pym/booking_model.dart';
 import 'package:app_pym/data/models/app_pym/categorie_model.dart';
 import 'package:app_pym/data/models/app_pym/contact_type_model.dart';
 import 'package:app_pym/data/models/app_pym/service_model.dart';
@@ -17,6 +18,11 @@ abstract class FirestoreDataSource {
 
   /// Retourne un observable/stream affichant les catégories de contact_type
   Stream<List<CategorieModel>> fetchContactTypeCategories();
+
+  Stream<List<BookingModel>> fetchAllBookingsOf(String service_id);
+  Future<void> addBookingTo(String service_id, BookingModel booking);
+  Future<void> deleteBookingOf(String service_id, String booking_id);
+  Future<void> updateBookingOf(String service_id, BookingModel booking);
 }
 
 @RegisterAs(FirestoreDataSource)
@@ -73,6 +79,49 @@ class FirestoreDataSourceImpl implements FirestoreDataSource {
 
     yield* snaps.map((snap) => snap.documents
         .map((document) => ContactTypeModel.fromFirestore(document))
+        .toList());
+  }
+
+  @override
+  Future<void> addBookingTo(String service_id, BookingModel booking) {
+    return firestore
+        .collection('services')
+        .document(service_id)
+        .collection('booking')
+        .document()
+        .setData(booking.toMap());
+  }
+
+  @override
+  Future<void> deleteBookingOf(String service_id, String booking_id) {
+    return firestore
+        .collection('services')
+        .document(service_id)
+        .collection('booking')
+        .document(booking_id)
+        .delete();
+  }
+
+  @override
+  Future<void> updateBookingOf(String service_id, BookingModel booking) {
+    return firestore
+        .collection('services')
+        .document(service_id)
+        .collection('booking')
+        .document(booking.id)
+        .setData(booking.toMap(), merge: true);
+  }
+
+  @override
+  Stream<List<BookingModel>> fetchAllBookingsOf(String service_id) async* {
+    final snaps = firestore
+        .collection('services')
+        .document(service_id)
+        .collection('booking')
+        .snapshots();
+
+    yield* snaps.map((snap) => snap.documents
+        .map((document) => BookingModel.fromFirestore(document))
         .toList());
   }
 }

@@ -561,7 +561,7 @@ packages:
     source: hosted
     version: "2.1.0"
   json_serializable:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: json_serializable
       url: "https://pub.dartlang.org"

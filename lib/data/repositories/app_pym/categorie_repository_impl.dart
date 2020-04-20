@@ -19,8 +19,8 @@ class ServiceCategorieRepositoryImpl implements CategorieRepository<Service> {
   });
 
   @override
-  Stream<List<Categorie>> fetchCategories() async* {
-    yield* dataSource
+  Stream<List<Categorie>> fetchCategories() {
+    return dataSource
         .fetchServiceCategories()
         .map((list) => list.map((e) => e.toEntity()).toList());
   }
@@ -39,8 +39,8 @@ class ContactTypeCategorieRepositoryImpl
   });
 
   @override
-  Stream<List<Categorie>> fetchCategories() async* {
-    yield* dataSource
+  Stream<List<Categorie>> fetchCategories() {
+    return dataSource
         .fetchContactTypeCategories()
         .map((list) => list.map((e) => e.toEntity()).toList());
   }

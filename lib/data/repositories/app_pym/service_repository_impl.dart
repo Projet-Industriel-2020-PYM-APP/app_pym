@@ -18,8 +18,8 @@ class ServiceRepositoryImpl implements ServiceRepository {
   });
 
   @override
-  Stream<List<Service>> fetchServicesOf(Categorie categorie) async* {
-    yield* dataSource
+  Stream<List<Service>> fetchServicesOf(Categorie categorie) {
+    return dataSource
         .fetchServicesOf(categorie.id)
         .map((list) => list.map((e) => e.toEntity()).toList());
   }

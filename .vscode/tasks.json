@@ -1,0 +1,17 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Flutter Build Runner Build",
+      "type": "shell",
+      "command": "flutter pub run build_runner build --delete-conflicting-outputs"
+    },
+    {
+      "label": "Flutter Build Runner Watch",
+      "type": "shell",
+      "command": "flutter pub run build_runner watch --delete-conflicting-outputs"
+    }
+  ]
+}

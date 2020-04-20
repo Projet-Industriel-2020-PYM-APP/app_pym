@@ -1,3 +1,4 @@
+import 'package:app_pym/core/utils/firestore_utils.dart';
 import 'package:app_pym/domain/entities/firebase_auth/app_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -16,7 +17,7 @@ abstract class AppUserModel with _$AppUserModel {
     @nullable @required String displayName,
     @nullable
     @required
-    @JsonKey(fromJson: _fromJson, toJson: _toJson)
+    @JsonKey(fromJson: TimestampSerializer.toDateTime, toJson: TimestampSerializer.fromDateTime)
         DateTime lastSeen,
     @nullable @required bool isEmailVerified,
     @required bool isAdmin,
@@ -25,9 +26,6 @@ abstract class AppUserModel with _$AppUserModel {
   factory AppUserModel.fromJson(Map<String, dynamic> json) =>
       _$AppUserModelFromJson(json);
 }
-
-DateTime _fromJson(Timestamp timestamp) => timestamp.toDate();
-Timestamp _toJson(DateTime date) => Timestamp.fromDate(date);
 
 extension AppUserModelX on AppUserModel {
   AppUser toEntity() {
