@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'booking_model.freezed.dart';
-part 'booking_model.g.dart';
 
 @freezed
 abstract class BookingModel with _$BookingModel {
