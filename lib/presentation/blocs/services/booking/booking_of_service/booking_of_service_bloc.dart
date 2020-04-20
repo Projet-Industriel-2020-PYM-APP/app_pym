@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app_pym/domain/entities/app_pym/booking.dart';
+import 'package:app_pym/domain/entities/firebase_auth/app_user.dart';
 import 'package:app_pym/domain/usecases/services/booking/add_booking_to_service.dart';
 import 'package:app_pym/domain/usecases/services/booking/booking_of_service_params.dart';
 import 'package:app_pym/domain/usecases/services/booking/delete_booking_of_service.dart';
@@ -60,28 +61,38 @@ class BookingOfServiceBloc
   }
 
   Stream<BookingOfServiceState> _mapAddToState(
-      String service_id, Booking booking) async* {
+    String service_id,
+    Booking booking,
+    AppUser appUser,
+  ) async* {
     yield BookingOfServiceState.loading();
     try {
-      await addBookingToService(BookingOfServiceParams(service_id, booking));
+      await addBookingToService(BookingOfServiceParams(
+        service_id: service_id,
+        booking: booking,
+        appUser: appUser,
+      ));
       yield BookingOfServiceState.success();
-    } on PlatformException catch (e) {
-      yield BookingOfServiceState.failure(e.message);
-    } catch (e) {
-      yield BookingOfServiceState.failure(e.toString());
+    } on Exception catch (e) {
+      yield BookingOfServiceState.failure(e);
     }
   }
 
   Stream<BookingOfServiceState> _mapDeleteToState(
-      String service_id, Booking booking) async* {
+    String service_id,
+    Booking booking,
+    AppUser appUser,
+  ) async* {
     yield BookingOfServiceState.loading();
     try {
-      await deleteBookingOfService(BookingOfServiceParams(service_id, booking));
+      await deleteBookingOfService(BookingOfServiceParams(
+        service_id: service_id,
+        booking: booking,
+        appUser: appUser,
+      ));
       yield BookingOfServiceState.success();
-    } on PlatformException catch (e) {
-      yield BookingOfServiceState.failure(e.message);
-    } catch (e) {
-      yield BookingOfServiceState.failure(e.toString());
+    } on Exception catch (e) {
+      yield BookingOfServiceState.failure(e);
     }
   }
 
@@ -90,15 +101,20 @@ class BookingOfServiceBloc
   }
 
   Stream<BookingOfServiceState> _mapUpdateToState(
-      String service_id, Booking booking) async* {
+    String service_id,
+    Booking booking,
+    AppUser appUser,
+  ) async* {
     yield BookingOfServiceState.loading();
     try {
-      await updateBookingOfService(BookingOfServiceParams(service_id, booking));
+      await updateBookingOfService(BookingOfServiceParams(
+        service_id: service_id,
+        booking: booking,
+        appUser: appUser,
+      ));
       yield BookingOfServiceState.success();
-    } on PlatformException catch (e) {
-      yield BookingOfServiceState.failure(e.message);
-    } catch (e) {
-      yield BookingOfServiceState.failure(e.toString());
+    } on Exception catch (e) {
+      yield BookingOfServiceState.failure(e);
     }
   }
 }

@@ -19,26 +19,35 @@ class _$BookingOfServiceEventTearOff {
   }
 
   BookingOfServiceAdd add(
-      {@required String service_id, @required Booking booking}) {
+      {@required String service_id,
+      @required Booking booking,
+      @required AppUser appUser}) {
     return BookingOfServiceAdd(
       service_id: service_id,
       booking: booking,
+      appUser: appUser,
     );
   }
 
   BookingOfServiceDelete delete(
-      {@required String service_id, @required Booking booking}) {
+      {@required String service_id,
+      @required Booking booking,
+      @required AppUser appUser}) {
     return BookingOfServiceDelete(
       service_id: service_id,
       booking: booking,
+      appUser: appUser,
     );
   }
 
   BookingOfServiceUpdate update(
-      {@required String service_id, @required Booking booking}) {
+      {@required String service_id,
+      @required Booking booking,
+      @required AppUser appUser}) {
     return BookingOfServiceUpdate(
       service_id: service_id,
       booking: booking,
+      appUser: appUser,
     );
   }
 }
@@ -50,16 +59,18 @@ mixin _$BookingOfServiceEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result titleChanged(String title),
-    @required Result add(String service_id, Booking booking),
-    @required Result delete(String service_id, Booking booking),
-    @required Result update(String service_id, Booking booking),
+    @required Result add(String service_id, Booking booking, AppUser appUser),
+    @required
+        Result delete(String service_id, Booking booking, AppUser appUser),
+    @required
+        Result update(String service_id, Booking booking, AppUser appUser),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result titleChanged(String title),
-    Result add(String service_id, Booking booking),
-    Result delete(String service_id, Booking booking),
-    Result update(String service_id, Booking booking),
+    Result add(String service_id, Booking booking, AppUser appUser),
+    Result delete(String service_id, Booking booking, AppUser appUser),
+    Result update(String service_id, Booking booking, AppUser appUser),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -152,9 +163,11 @@ class _$TitleChanged implements TitleChanged {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result titleChanged(String title),
-    @required Result add(String service_id, Booking booking),
-    @required Result delete(String service_id, Booking booking),
-    @required Result update(String service_id, Booking booking),
+    @required Result add(String service_id, Booking booking, AppUser appUser),
+    @required
+        Result delete(String service_id, Booking booking, AppUser appUser),
+    @required
+        Result update(String service_id, Booking booking, AppUser appUser),
   }) {
     assert(titleChanged != null);
     assert(add != null);
@@ -167,9 +180,9 @@ class _$TitleChanged implements TitleChanged {
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result titleChanged(String title),
-    Result add(String service_id, Booking booking),
-    Result delete(String service_id, Booking booking),
-    Result update(String service_id, Booking booking),
+    Result add(String service_id, Booking booking, AppUser appUser),
+    Result delete(String service_id, Booking booking, AppUser appUser),
+    Result update(String service_id, Booking booking, AppUser appUser),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -222,9 +235,10 @@ abstract class $BookingOfServiceAddCopyWith<$Res> {
   factory $BookingOfServiceAddCopyWith(
           BookingOfServiceAdd value, $Res Function(BookingOfServiceAdd) then) =
       _$BookingOfServiceAddCopyWithImpl<$Res>;
-  $Res call({String service_id, Booking booking});
+  $Res call({String service_id, Booking booking, AppUser appUser});
 
   $BookingCopyWith<$Res> get booking;
+  $AppUserCopyWith<$Res> get appUser;
 }
 
 class _$BookingOfServiceAddCopyWithImpl<$Res>
@@ -241,11 +255,13 @@ class _$BookingOfServiceAddCopyWithImpl<$Res>
   $Res call({
     Object service_id = freezed,
     Object booking = freezed,
+    Object appUser = freezed,
   }) {
     return _then(BookingOfServiceAdd(
       service_id:
           service_id == freezed ? _value.service_id : service_id as String,
       booking: booking == freezed ? _value.booking : booking as Booking,
+      appUser: appUser == freezed ? _value.appUser : appUser as AppUser,
     ));
   }
 
@@ -258,22 +274,37 @@ class _$BookingOfServiceAddCopyWithImpl<$Res>
       return _then(_value.copyWith(booking: value));
     });
   }
+
+  @override
+  $AppUserCopyWith<$Res> get appUser {
+    if (_value.appUser == null) {
+      return null;
+    }
+    return $AppUserCopyWith<$Res>(_value.appUser, (value) {
+      return _then(_value.copyWith(appUser: value));
+    });
+  }
 }
 
 class _$BookingOfServiceAdd implements BookingOfServiceAdd {
   const _$BookingOfServiceAdd(
-      {@required this.service_id, @required this.booking})
+      {@required this.service_id,
+      @required this.booking,
+      @required this.appUser})
       : assert(service_id != null),
-        assert(booking != null);
+        assert(booking != null),
+        assert(appUser != null);
 
   @override
   final String service_id;
   @override
   final Booking booking;
+  @override
+  final AppUser appUser;
 
   @override
   String toString() {
-    return 'BookingOfServiceEvent.add(service_id: $service_id, booking: $booking)';
+    return 'BookingOfServiceEvent.add(service_id: $service_id, booking: $booking, appUser: $appUser)';
   }
 
   @override
@@ -284,14 +315,18 @@ class _$BookingOfServiceAdd implements BookingOfServiceAdd {
                 const DeepCollectionEquality()
                     .equals(other.service_id, service_id)) &&
             (identical(other.booking, booking) ||
-                const DeepCollectionEquality().equals(other.booking, booking)));
+                const DeepCollectionEquality()
+                    .equals(other.booking, booking)) &&
+            (identical(other.appUser, appUser) ||
+                const DeepCollectionEquality().equals(other.appUser, appUser)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(service_id) ^
-      const DeepCollectionEquality().hash(booking);
+      const DeepCollectionEquality().hash(booking) ^
+      const DeepCollectionEquality().hash(appUser);
 
   @override
   $BookingOfServiceAddCopyWith<BookingOfServiceAdd> get copyWith =>
@@ -301,29 +336,31 @@ class _$BookingOfServiceAdd implements BookingOfServiceAdd {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result titleChanged(String title),
-    @required Result add(String service_id, Booking booking),
-    @required Result delete(String service_id, Booking booking),
-    @required Result update(String service_id, Booking booking),
+    @required Result add(String service_id, Booking booking, AppUser appUser),
+    @required
+        Result delete(String service_id, Booking booking, AppUser appUser),
+    @required
+        Result update(String service_id, Booking booking, AppUser appUser),
   }) {
     assert(titleChanged != null);
     assert(add != null);
     assert(delete != null);
     assert(update != null);
-    return add(service_id, booking);
+    return add(service_id, booking, appUser);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result titleChanged(String title),
-    Result add(String service_id, Booking booking),
-    Result delete(String service_id, Booking booking),
-    Result update(String service_id, Booking booking),
+    Result add(String service_id, Booking booking, AppUser appUser),
+    Result delete(String service_id, Booking booking, AppUser appUser),
+    Result update(String service_id, Booking booking, AppUser appUser),
     @required Result orElse(),
   }) {
     assert(orElse != null);
     if (add != null) {
-      return add(service_id, booking);
+      return add(service_id, booking, appUser);
     }
     return orElse();
   }
@@ -363,10 +400,12 @@ class _$BookingOfServiceAdd implements BookingOfServiceAdd {
 abstract class BookingOfServiceAdd implements BookingOfServiceEvent {
   const factory BookingOfServiceAdd(
       {@required String service_id,
-      @required Booking booking}) = _$BookingOfServiceAdd;
+      @required Booking booking,
+      @required AppUser appUser}) = _$BookingOfServiceAdd;
 
   String get service_id;
   Booking get booking;
+  AppUser get appUser;
   $BookingOfServiceAddCopyWith<BookingOfServiceAdd> get copyWith;
 }
 
@@ -374,9 +413,10 @@ abstract class $BookingOfServiceDeleteCopyWith<$Res> {
   factory $BookingOfServiceDeleteCopyWith(BookingOfServiceDelete value,
           $Res Function(BookingOfServiceDelete) then) =
       _$BookingOfServiceDeleteCopyWithImpl<$Res>;
-  $Res call({String service_id, Booking booking});
+  $Res call({String service_id, Booking booking, AppUser appUser});
 
   $BookingCopyWith<$Res> get booking;
+  $AppUserCopyWith<$Res> get appUser;
 }
 
 class _$BookingOfServiceDeleteCopyWithImpl<$Res>
@@ -393,11 +433,13 @@ class _$BookingOfServiceDeleteCopyWithImpl<$Res>
   $Res call({
     Object service_id = freezed,
     Object booking = freezed,
+    Object appUser = freezed,
   }) {
     return _then(BookingOfServiceDelete(
       service_id:
           service_id == freezed ? _value.service_id : service_id as String,
       booking: booking == freezed ? _value.booking : booking as Booking,
+      appUser: appUser == freezed ? _value.appUser : appUser as AppUser,
     ));
   }
 
@@ -410,22 +452,37 @@ class _$BookingOfServiceDeleteCopyWithImpl<$Res>
       return _then(_value.copyWith(booking: value));
     });
   }
+
+  @override
+  $AppUserCopyWith<$Res> get appUser {
+    if (_value.appUser == null) {
+      return null;
+    }
+    return $AppUserCopyWith<$Res>(_value.appUser, (value) {
+      return _then(_value.copyWith(appUser: value));
+    });
+  }
 }
 
 class _$BookingOfServiceDelete implements BookingOfServiceDelete {
   const _$BookingOfServiceDelete(
-      {@required this.service_id, @required this.booking})
+      {@required this.service_id,
+      @required this.booking,
+      @required this.appUser})
       : assert(service_id != null),
-        assert(booking != null);
+        assert(booking != null),
+        assert(appUser != null);
 
   @override
   final String service_id;
   @override
   final Booking booking;
+  @override
+  final AppUser appUser;
 
   @override
   String toString() {
-    return 'BookingOfServiceEvent.delete(service_id: $service_id, booking: $booking)';
+    return 'BookingOfServiceEvent.delete(service_id: $service_id, booking: $booking, appUser: $appUser)';
   }
 
   @override
@@ -436,14 +493,18 @@ class _$BookingOfServiceDelete implements BookingOfServiceDelete {
                 const DeepCollectionEquality()
                     .equals(other.service_id, service_id)) &&
             (identical(other.booking, booking) ||
-                const DeepCollectionEquality().equals(other.booking, booking)));
+                const DeepCollectionEquality()
+                    .equals(other.booking, booking)) &&
+            (identical(other.appUser, appUser) ||
+                const DeepCollectionEquality().equals(other.appUser, appUser)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(service_id) ^
-      const DeepCollectionEquality().hash(booking);
+      const DeepCollectionEquality().hash(booking) ^
+      const DeepCollectionEquality().hash(appUser);
 
   @override
   $BookingOfServiceDeleteCopyWith<BookingOfServiceDelete> get copyWith =>
@@ -454,29 +515,31 @@ class _$BookingOfServiceDelete implements BookingOfServiceDelete {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result titleChanged(String title),
-    @required Result add(String service_id, Booking booking),
-    @required Result delete(String service_id, Booking booking),
-    @required Result update(String service_id, Booking booking),
+    @required Result add(String service_id, Booking booking, AppUser appUser),
+    @required
+        Result delete(String service_id, Booking booking, AppUser appUser),
+    @required
+        Result update(String service_id, Booking booking, AppUser appUser),
   }) {
     assert(titleChanged != null);
     assert(add != null);
     assert(delete != null);
     assert(update != null);
-    return delete(service_id, booking);
+    return delete(service_id, booking, appUser);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result titleChanged(String title),
-    Result add(String service_id, Booking booking),
-    Result delete(String service_id, Booking booking),
-    Result update(String service_id, Booking booking),
+    Result add(String service_id, Booking booking, AppUser appUser),
+    Result delete(String service_id, Booking booking, AppUser appUser),
+    Result update(String service_id, Booking booking, AppUser appUser),
     @required Result orElse(),
   }) {
     assert(orElse != null);
     if (delete != null) {
-      return delete(service_id, booking);
+      return delete(service_id, booking, appUser);
     }
     return orElse();
   }
@@ -516,10 +579,12 @@ class _$BookingOfServiceDelete implements BookingOfServiceDelete {
 abstract class BookingOfServiceDelete implements BookingOfServiceEvent {
   const factory BookingOfServiceDelete(
       {@required String service_id,
-      @required Booking booking}) = _$BookingOfServiceDelete;
+      @required Booking booking,
+      @required AppUser appUser}) = _$BookingOfServiceDelete;
 
   String get service_id;
   Booking get booking;
+  AppUser get appUser;
   $BookingOfServiceDeleteCopyWith<BookingOfServiceDelete> get copyWith;
 }
 
@@ -527,9 +592,10 @@ abstract class $BookingOfServiceUpdateCopyWith<$Res> {
   factory $BookingOfServiceUpdateCopyWith(BookingOfServiceUpdate value,
           $Res Function(BookingOfServiceUpdate) then) =
       _$BookingOfServiceUpdateCopyWithImpl<$Res>;
-  $Res call({String service_id, Booking booking});
+  $Res call({String service_id, Booking booking, AppUser appUser});
 
   $BookingCopyWith<$Res> get booking;
+  $AppUserCopyWith<$Res> get appUser;
 }
 
 class _$BookingOfServiceUpdateCopyWithImpl<$Res>
@@ -546,11 +612,13 @@ class _$BookingOfServiceUpdateCopyWithImpl<$Res>
   $Res call({
     Object service_id = freezed,
     Object booking = freezed,
+    Object appUser = freezed,
   }) {
     return _then(BookingOfServiceUpdate(
       service_id:
           service_id == freezed ? _value.service_id : service_id as String,
       booking: booking == freezed ? _value.booking : booking as Booking,
+      appUser: appUser == freezed ? _value.appUser : appUser as AppUser,
     ));
   }
 
@@ -563,22 +631,37 @@ class _$BookingOfServiceUpdateCopyWithImpl<$Res>
       return _then(_value.copyWith(booking: value));
     });
   }
+
+  @override
+  $AppUserCopyWith<$Res> get appUser {
+    if (_value.appUser == null) {
+      return null;
+    }
+    return $AppUserCopyWith<$Res>(_value.appUser, (value) {
+      return _then(_value.copyWith(appUser: value));
+    });
+  }
 }
 
 class _$BookingOfServiceUpdate implements BookingOfServiceUpdate {
   const _$BookingOfServiceUpdate(
-      {@required this.service_id, @required this.booking})
+      {@required this.service_id,
+      @required this.booking,
+      @required this.appUser})
       : assert(service_id != null),
-        assert(booking != null);
+        assert(booking != null),
+        assert(appUser != null);
 
   @override
   final String service_id;
   @override
   final Booking booking;
+  @override
+  final AppUser appUser;
 
   @override
   String toString() {
-    return 'BookingOfServiceEvent.update(service_id: $service_id, booking: $booking)';
+    return 'BookingOfServiceEvent.update(service_id: $service_id, booking: $booking, appUser: $appUser)';
   }
 
   @override
@@ -589,14 +672,18 @@ class _$BookingOfServiceUpdate implements BookingOfServiceUpdate {
                 const DeepCollectionEquality()
                     .equals(other.service_id, service_id)) &&
             (identical(other.booking, booking) ||
-                const DeepCollectionEquality().equals(other.booking, booking)));
+                const DeepCollectionEquality()
+                    .equals(other.booking, booking)) &&
+            (identical(other.appUser, appUser) ||
+                const DeepCollectionEquality().equals(other.appUser, appUser)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(service_id) ^
-      const DeepCollectionEquality().hash(booking);
+      const DeepCollectionEquality().hash(booking) ^
+      const DeepCollectionEquality().hash(appUser);
 
   @override
   $BookingOfServiceUpdateCopyWith<BookingOfServiceUpdate> get copyWith =>
@@ -607,29 +694,31 @@ class _$BookingOfServiceUpdate implements BookingOfServiceUpdate {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result titleChanged(String title),
-    @required Result add(String service_id, Booking booking),
-    @required Result delete(String service_id, Booking booking),
-    @required Result update(String service_id, Booking booking),
+    @required Result add(String service_id, Booking booking, AppUser appUser),
+    @required
+        Result delete(String service_id, Booking booking, AppUser appUser),
+    @required
+        Result update(String service_id, Booking booking, AppUser appUser),
   }) {
     assert(titleChanged != null);
     assert(add != null);
     assert(delete != null);
     assert(update != null);
-    return update(service_id, booking);
+    return update(service_id, booking, appUser);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result titleChanged(String title),
-    Result add(String service_id, Booking booking),
-    Result delete(String service_id, Booking booking),
-    Result update(String service_id, Booking booking),
+    Result add(String service_id, Booking booking, AppUser appUser),
+    Result delete(String service_id, Booking booking, AppUser appUser),
+    Result update(String service_id, Booking booking, AppUser appUser),
     @required Result orElse(),
   }) {
     assert(orElse != null);
     if (update != null) {
-      return update(service_id, booking);
+      return update(service_id, booking, appUser);
     }
     return orElse();
   }
@@ -669,10 +758,12 @@ class _$BookingOfServiceUpdate implements BookingOfServiceUpdate {
 abstract class BookingOfServiceUpdate implements BookingOfServiceEvent {
   const factory BookingOfServiceUpdate(
       {@required String service_id,
-      @required Booking booking}) = _$BookingOfServiceUpdate;
+      @required Booking booking,
+      @required AppUser appUser}) = _$BookingOfServiceUpdate;
 
   String get service_id;
   Booking get booking;
+  AppUser get appUser;
   $BookingOfServiceUpdateCopyWith<BookingOfServiceUpdate> get copyWith;
 }
 
@@ -684,7 +775,7 @@ class _$BookingOfServiceStateTearOff {
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
-      String error}) {
+      Exception error}) {
     return _BookingOfServiceState(
       isTitleValid: isTitleValid,
       isSubmitting: isSubmitting,
@@ -703,7 +794,7 @@ mixin _$BookingOfServiceState {
   bool get isSubmitting;
   bool get isSuccess;
   bool get isFailure;
-  String get error;
+  Exception get error;
 
   $BookingOfServiceStateCopyWith<BookingOfServiceState> get copyWith;
 }
@@ -717,7 +808,7 @@ abstract class $BookingOfServiceStateCopyWith<$Res> {
       bool isSubmitting,
       bool isSuccess,
       bool isFailure,
-      String error});
+      Exception error});
 }
 
 class _$BookingOfServiceStateCopyWithImpl<$Res>
@@ -743,7 +834,7 @@ class _$BookingOfServiceStateCopyWithImpl<$Res>
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
       isFailure: isFailure == freezed ? _value.isFailure : isFailure as bool,
-      error: error == freezed ? _value.error : error as String,
+      error: error == freezed ? _value.error : error as Exception,
     ));
   }
 }
@@ -759,7 +850,7 @@ abstract class _$BookingOfServiceStateCopyWith<$Res>
       bool isSubmitting,
       bool isSuccess,
       bool isFailure,
-      String error});
+      Exception error});
 }
 
 class __$BookingOfServiceStateCopyWithImpl<$Res>
@@ -787,7 +878,7 @@ class __$BookingOfServiceStateCopyWithImpl<$Res>
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
       isFailure: isFailure == freezed ? _value.isFailure : isFailure as bool,
-      error: error == freezed ? _value.error : error as String,
+      error: error == freezed ? _value.error : error as Exception,
     ));
   }
 }
@@ -813,7 +904,7 @@ class _$_BookingOfServiceState implements _BookingOfServiceState {
   @override
   final bool isFailure;
   @override
-  final String error;
+  final Exception error;
 
   @override
   String toString() {
@@ -861,7 +952,7 @@ abstract class _BookingOfServiceState implements BookingOfServiceState {
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
-      String error}) = _$_BookingOfServiceState;
+      Exception error}) = _$_BookingOfServiceState;
 
   @override
   bool get isTitleValid;
@@ -872,7 +963,7 @@ abstract class _BookingOfServiceState implements BookingOfServiceState {
   @override
   bool get isFailure;
   @override
-  String get error;
+  Exception get error;
   @override
   _$BookingOfServiceStateCopyWith<_BookingOfServiceState> get copyWith;
 }

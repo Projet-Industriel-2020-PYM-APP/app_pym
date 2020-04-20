@@ -6,13 +6,16 @@ abstract class BookingOfServiceEvent with _$BookingOfServiceEvent {
   const factory BookingOfServiceEvent.add({
     @required String service_id,
     @required Booking booking,
+    @required AppUser appUser,
   }) = BookingOfServiceAdd;
   const factory BookingOfServiceEvent.delete({
     @required String service_id,
     @required Booking booking,
+    @required AppUser appUser,
   }) = BookingOfServiceDelete;
   const factory BookingOfServiceEvent.update({
     @required String service_id,
     @required Booking booking,
+    @required AppUser appUser,
   }) = BookingOfServiceUpdate;
 }

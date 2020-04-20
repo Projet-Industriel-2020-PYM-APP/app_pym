@@ -7,7 +7,7 @@ abstract class BookingOfServiceState with _$BookingOfServiceState {
     @required bool isSubmitting,
     @required bool isSuccess,
     @required bool isFailure,
-    String error,
+    Exception error,
   }) = _BookingOfServiceState;
 
   factory BookingOfServiceState.empty() {
@@ -28,7 +28,7 @@ abstract class BookingOfServiceState with _$BookingOfServiceState {
     );
   }
 
-  factory BookingOfServiceState.failure(String error) {
+  factory BookingOfServiceState.failure(Exception error) {
     return BookingOfServiceState(
       isTitleValid: true,
       isSubmitting: false,

@@ -12,10 +12,14 @@ T _$identity<T>(T value) => value;
 class _$BookingOfServiceParamsTearOff {
   const _$BookingOfServiceParamsTearOff();
 
-  _BookingOfServiceParams call(String service_id, Booking booking) {
+  _BookingOfServiceParams call(
+      {@required @nullable String service_id,
+      @required @nullable Booking booking,
+      @required @nullable AppUser appUser}) {
     return _BookingOfServiceParams(
-      service_id,
-      booking,
+      service_id: service_id,
+      booking: booking,
+      appUser: appUser,
     );
   }
 }
@@ -24,8 +28,12 @@ class _$BookingOfServiceParamsTearOff {
 const $BookingOfServiceParams = _$BookingOfServiceParamsTearOff();
 
 mixin _$BookingOfServiceParams {
+  @nullable
   String get service_id;
+  @nullable
   Booking get booking;
+  @nullable
+  AppUser get appUser;
 
   $BookingOfServiceParamsCopyWith<BookingOfServiceParams> get copyWith;
 }
@@ -34,9 +42,13 @@ abstract class $BookingOfServiceParamsCopyWith<$Res> {
   factory $BookingOfServiceParamsCopyWith(BookingOfServiceParams value,
           $Res Function(BookingOfServiceParams) then) =
       _$BookingOfServiceParamsCopyWithImpl<$Res>;
-  $Res call({String service_id, Booking booking});
+  $Res call(
+      {@nullable String service_id,
+      @nullable Booking booking,
+      @nullable AppUser appUser});
 
   $BookingCopyWith<$Res> get booking;
+  $AppUserCopyWith<$Res> get appUser;
 }
 
 class _$BookingOfServiceParamsCopyWithImpl<$Res>
@@ -51,11 +63,13 @@ class _$BookingOfServiceParamsCopyWithImpl<$Res>
   $Res call({
     Object service_id = freezed,
     Object booking = freezed,
+    Object appUser = freezed,
   }) {
     return _then(_value.copyWith(
       service_id:
           service_id == freezed ? _value.service_id : service_id as String,
       booking: booking == freezed ? _value.booking : booking as Booking,
+      appUser: appUser == freezed ? _value.appUser : appUser as AppUser,
     ));
   }
 
@@ -68,6 +82,16 @@ class _$BookingOfServiceParamsCopyWithImpl<$Res>
       return _then(_value.copyWith(booking: value));
     });
   }
+
+  @override
+  $AppUserCopyWith<$Res> get appUser {
+    if (_value.appUser == null) {
+      return null;
+    }
+    return $AppUserCopyWith<$Res>(_value.appUser, (value) {
+      return _then(_value.copyWith(appUser: value));
+    });
+  }
 }
 
 abstract class _$BookingOfServiceParamsCopyWith<$Res>
@@ -76,10 +100,15 @@ abstract class _$BookingOfServiceParamsCopyWith<$Res>
           $Res Function(_BookingOfServiceParams) then) =
       __$BookingOfServiceParamsCopyWithImpl<$Res>;
   @override
-  $Res call({String service_id, Booking booking});
+  $Res call(
+      {@nullable String service_id,
+      @nullable Booking booking,
+      @nullable AppUser appUser});
 
   @override
   $BookingCopyWith<$Res> get booking;
+  @override
+  $AppUserCopyWith<$Res> get appUser;
 }
 
 class __$BookingOfServiceParamsCopyWithImpl<$Res>
@@ -96,27 +125,36 @@ class __$BookingOfServiceParamsCopyWithImpl<$Res>
   $Res call({
     Object service_id = freezed,
     Object booking = freezed,
+    Object appUser = freezed,
   }) {
     return _then(_BookingOfServiceParams(
-      service_id == freezed ? _value.service_id : service_id as String,
-      booking == freezed ? _value.booking : booking as Booking,
+      service_id:
+          service_id == freezed ? _value.service_id : service_id as String,
+      booking: booking == freezed ? _value.booking : booking as Booking,
+      appUser: appUser == freezed ? _value.appUser : appUser as AppUser,
     ));
   }
 }
 
 class _$_BookingOfServiceParams implements _BookingOfServiceParams {
-  const _$_BookingOfServiceParams(this.service_id, this.booking)
-      : assert(service_id != null),
-        assert(booking != null);
+  const _$_BookingOfServiceParams(
+      {@required @nullable this.service_id,
+      @required @nullable this.booking,
+      @required @nullable this.appUser});
 
   @override
+  @nullable
   final String service_id;
   @override
+  @nullable
   final Booking booking;
+  @override
+  @nullable
+  final AppUser appUser;
 
   @override
   String toString() {
-    return 'BookingOfServiceParams(service_id: $service_id, booking: $booking)';
+    return 'BookingOfServiceParams(service_id: $service_id, booking: $booking, appUser: $appUser)';
   }
 
   @override
@@ -127,14 +165,18 @@ class _$_BookingOfServiceParams implements _BookingOfServiceParams {
                 const DeepCollectionEquality()
                     .equals(other.service_id, service_id)) &&
             (identical(other.booking, booking) ||
-                const DeepCollectionEquality().equals(other.booking, booking)));
+                const DeepCollectionEquality()
+                    .equals(other.booking, booking)) &&
+            (identical(other.appUser, appUser) ||
+                const DeepCollectionEquality().equals(other.appUser, appUser)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(service_id) ^
-      const DeepCollectionEquality().hash(booking);
+      const DeepCollectionEquality().hash(booking) ^
+      const DeepCollectionEquality().hash(appUser);
 
   @override
   _$BookingOfServiceParamsCopyWith<_BookingOfServiceParams> get copyWith =>
@@ -143,13 +185,20 @@ class _$_BookingOfServiceParams implements _BookingOfServiceParams {
 }
 
 abstract class _BookingOfServiceParams implements BookingOfServiceParams {
-  const factory _BookingOfServiceParams(String service_id, Booking booking) =
-      _$_BookingOfServiceParams;
+  const factory _BookingOfServiceParams(
+      {@required @nullable String service_id,
+      @required @nullable Booking booking,
+      @required @nullable AppUser appUser}) = _$_BookingOfServiceParams;
 
   @override
+  @nullable
   String get service_id;
   @override
+  @nullable
   Booking get booking;
+  @override
+  @nullable
+  AppUser get appUser;
   @override
   _$BookingOfServiceParamsCopyWith<_BookingOfServiceParams> get copyWith;
 }
