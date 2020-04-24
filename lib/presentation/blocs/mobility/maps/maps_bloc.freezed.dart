@@ -12,21 +12,29 @@ T _$identity<T>(T value) => value;
 class _$MapsEventTearOff {
   const _$MapsEventTearOff();
 
-  LoadMapsEvent load(List<Trip> busTrips, bool isBus, List<Trip> trainTrips,
-      bool isTrain, Direction direction) {
+  LoadMapsEvent load(
+      {@required bool isBus,
+      @required bool isTrain,
+      @required Direction direction,
+      List<Trip> busTrips,
+      List<Trip> trainTrips}) {
     return LoadMapsEvent(
-      busTrips,
-      isBus,
-      trainTrips,
-      isTrain,
-      direction,
+      isBus: isBus,
+      isTrain: isTrain,
+      direction: direction,
+      busTrips: busTrips,
+      trainTrips: trainTrips,
     );
   }
 
-  HideMapsEvent hide(bool isBus, bool isTtrain) {
+  HideMapsEvent hide(
+      {@required bool isBus,
+      @required bool isTrain,
+      @required Direction direction}) {
     return HideMapsEvent(
-      isBus,
-      isTtrain,
+      isBus: isBus,
+      isTrain: isTrain,
+      direction: direction,
     );
   }
 }
@@ -36,19 +44,21 @@ const $MapsEvent = _$MapsEventTearOff();
 
 mixin _$MapsEvent {
   bool get isBus;
+  bool get isTrain;
+  Direction get direction;
 
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required
-        Result load(List<Trip> busTrips, bool isBus, List<Trip> trainTrips,
-            bool isTrain, Direction direction),
-    @required Result hide(bool isBus, bool isTtrain),
+        Result load(bool isBus, bool isTrain, Direction direction,
+            List<Trip> busTrips, List<Trip> trainTrips),
+    @required Result hide(bool isBus, bool isTrain, Direction direction),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result load(List<Trip> busTrips, bool isBus, List<Trip> trainTrips,
-        bool isTrain, Direction direction),
-    Result hide(bool isBus, bool isTtrain),
+    Result load(bool isBus, bool isTrain, Direction direction,
+        List<Trip> busTrips, List<Trip> trainTrips),
+    Result hide(bool isBus, bool isTrain, Direction direction),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -69,7 +79,7 @@ mixin _$MapsEvent {
 abstract class $MapsEventCopyWith<$Res> {
   factory $MapsEventCopyWith(MapsEvent value, $Res Function(MapsEvent) then) =
       _$MapsEventCopyWithImpl<$Res>;
-  $Res call({bool isBus});
+  $Res call({bool isBus, bool isTrain, Direction direction});
 }
 
 class _$MapsEventCopyWithImpl<$Res> implements $MapsEventCopyWith<$Res> {
@@ -82,9 +92,14 @@ class _$MapsEventCopyWithImpl<$Res> implements $MapsEventCopyWith<$Res> {
   @override
   $Res call({
     Object isBus = freezed,
+    Object isTrain = freezed,
+    Object direction = freezed,
   }) {
     return _then(_value.copyWith(
       isBus: isBus == freezed ? _value.isBus : isBus as bool,
+      isTrain: isTrain == freezed ? _value.isTrain : isTrain as bool,
+      direction:
+          direction == freezed ? _value.direction : direction as Direction,
     ));
   }
 }
@@ -96,11 +111,11 @@ abstract class $LoadMapsEventCopyWith<$Res>
       _$LoadMapsEventCopyWithImpl<$Res>;
   @override
   $Res call(
-      {List<Trip> busTrips,
-      bool isBus,
-      List<Trip> trainTrips,
+      {bool isBus,
       bool isTrain,
-      Direction direction});
+      Direction direction,
+      List<Trip> busTrips,
+      List<Trip> trainTrips});
 }
 
 class _$LoadMapsEventCopyWithImpl<$Res> extends _$MapsEventCopyWithImpl<$Res>
@@ -114,45 +129,49 @@ class _$LoadMapsEventCopyWithImpl<$Res> extends _$MapsEventCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object busTrips = freezed,
     Object isBus = freezed,
-    Object trainTrips = freezed,
     Object isTrain = freezed,
     Object direction = freezed,
+    Object busTrips = freezed,
+    Object trainTrips = freezed,
   }) {
     return _then(LoadMapsEvent(
-      busTrips == freezed ? _value.busTrips : busTrips as List<Trip>,
-      isBus == freezed ? _value.isBus : isBus as bool,
-      trainTrips == freezed ? _value.trainTrips : trainTrips as List<Trip>,
-      isTrain == freezed ? _value.isTrain : isTrain as bool,
-      direction == freezed ? _value.direction : direction as Direction,
+      isBus: isBus == freezed ? _value.isBus : isBus as bool,
+      isTrain: isTrain == freezed ? _value.isTrain : isTrain as bool,
+      direction:
+          direction == freezed ? _value.direction : direction as Direction,
+      busTrips: busTrips == freezed ? _value.busTrips : busTrips as List<Trip>,
+      trainTrips:
+          trainTrips == freezed ? _value.trainTrips : trainTrips as List<Trip>,
     ));
   }
 }
 
 class _$LoadMapsEvent with DiagnosticableTreeMixin implements LoadMapsEvent {
   const _$LoadMapsEvent(
-      this.busTrips, this.isBus, this.trainTrips, this.isTrain, this.direction)
-      : assert(busTrips != null),
-        assert(isBus != null),
-        assert(trainTrips != null),
+      {@required this.isBus,
+      @required this.isTrain,
+      @required this.direction,
+      this.busTrips,
+      this.trainTrips})
+      : assert(isBus != null),
         assert(isTrain != null),
         assert(direction != null);
 
   @override
-  final List<Trip> busTrips;
-  @override
   final bool isBus;
-  @override
-  final List<Trip> trainTrips;
   @override
   final bool isTrain;
   @override
   final Direction direction;
+  @override
+  final List<Trip> busTrips;
+  @override
+  final List<Trip> trainTrips;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MapsEvent.load(busTrips: $busTrips, isBus: $isBus, trainTrips: $trainTrips, isTrain: $isTrain, direction: $direction)';
+    return 'MapsEvent.load(isBus: $isBus, isTrain: $isTrain, direction: $direction, busTrips: $busTrips, trainTrips: $trainTrips)';
   }
 
   @override
@@ -160,41 +179,41 @@ class _$LoadMapsEvent with DiagnosticableTreeMixin implements LoadMapsEvent {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'MapsEvent.load'))
-      ..add(DiagnosticsProperty('busTrips', busTrips))
       ..add(DiagnosticsProperty('isBus', isBus))
-      ..add(DiagnosticsProperty('trainTrips', trainTrips))
       ..add(DiagnosticsProperty('isTrain', isTrain))
-      ..add(DiagnosticsProperty('direction', direction));
+      ..add(DiagnosticsProperty('direction', direction))
+      ..add(DiagnosticsProperty('busTrips', busTrips))
+      ..add(DiagnosticsProperty('trainTrips', trainTrips));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is LoadMapsEvent &&
-            (identical(other.busTrips, busTrips) ||
-                const DeepCollectionEquality()
-                    .equals(other.busTrips, busTrips)) &&
             (identical(other.isBus, isBus) ||
                 const DeepCollectionEquality().equals(other.isBus, isBus)) &&
-            (identical(other.trainTrips, trainTrips) ||
-                const DeepCollectionEquality()
-                    .equals(other.trainTrips, trainTrips)) &&
             (identical(other.isTrain, isTrain) ||
                 const DeepCollectionEquality()
                     .equals(other.isTrain, isTrain)) &&
             (identical(other.direction, direction) ||
                 const DeepCollectionEquality()
-                    .equals(other.direction, direction)));
+                    .equals(other.direction, direction)) &&
+            (identical(other.busTrips, busTrips) ||
+                const DeepCollectionEquality()
+                    .equals(other.busTrips, busTrips)) &&
+            (identical(other.trainTrips, trainTrips) ||
+                const DeepCollectionEquality()
+                    .equals(other.trainTrips, trainTrips)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(busTrips) ^
       const DeepCollectionEquality().hash(isBus) ^
-      const DeepCollectionEquality().hash(trainTrips) ^
       const DeepCollectionEquality().hash(isTrain) ^
-      const DeepCollectionEquality().hash(direction);
+      const DeepCollectionEquality().hash(direction) ^
+      const DeepCollectionEquality().hash(busTrips) ^
+      const DeepCollectionEquality().hash(trainTrips);
 
   @override
   $LoadMapsEventCopyWith<LoadMapsEvent> get copyWith =>
@@ -204,26 +223,26 @@ class _$LoadMapsEvent with DiagnosticableTreeMixin implements LoadMapsEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required
-        Result load(List<Trip> busTrips, bool isBus, List<Trip> trainTrips,
-            bool isTrain, Direction direction),
-    @required Result hide(bool isBus, bool isTtrain),
+        Result load(bool isBus, bool isTrain, Direction direction,
+            List<Trip> busTrips, List<Trip> trainTrips),
+    @required Result hide(bool isBus, bool isTrain, Direction direction),
   }) {
     assert(load != null);
     assert(hide != null);
-    return load(busTrips, isBus, trainTrips, isTrain, direction);
+    return load(isBus, isTrain, direction, busTrips, trainTrips);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result load(List<Trip> busTrips, bool isBus, List<Trip> trainTrips,
-        bool isTrain, Direction direction),
-    Result hide(bool isBus, bool isTtrain),
+    Result load(bool isBus, bool isTrain, Direction direction,
+        List<Trip> busTrips, List<Trip> trainTrips),
+    Result hide(bool isBus, bool isTrain, Direction direction),
     @required Result orElse(),
   }) {
     assert(orElse != null);
     if (load != null) {
-      return load(busTrips, isBus, trainTrips, isTrain, direction);
+      return load(isBus, isTrain, direction, busTrips, trainTrips);
     }
     return orElse();
   }
@@ -256,18 +275,20 @@ class _$LoadMapsEvent with DiagnosticableTreeMixin implements LoadMapsEvent {
 
 abstract class LoadMapsEvent implements MapsEvent {
   const factory LoadMapsEvent(
+      {@required bool isBus,
+      @required bool isTrain,
+      @required Direction direction,
       List<Trip> busTrips,
-      bool isBus,
-      List<Trip> trainTrips,
-      bool isTrain,
-      Direction direction) = _$LoadMapsEvent;
+      List<Trip> trainTrips}) = _$LoadMapsEvent;
 
-  List<Trip> get busTrips;
   @override
   bool get isBus;
-  List<Trip> get trainTrips;
+  @override
   bool get isTrain;
+  @override
   Direction get direction;
+  List<Trip> get busTrips;
+  List<Trip> get trainTrips;
   @override
   $LoadMapsEventCopyWith<LoadMapsEvent> get copyWith;
 }
@@ -278,7 +299,7 @@ abstract class $HideMapsEventCopyWith<$Res>
           HideMapsEvent value, $Res Function(HideMapsEvent) then) =
       _$HideMapsEventCopyWithImpl<$Res>;
   @override
-  $Res call({bool isBus, bool isTtrain});
+  $Res call({bool isBus, bool isTrain, Direction direction});
 }
 
 class _$HideMapsEventCopyWithImpl<$Res> extends _$MapsEventCopyWithImpl<$Res>
@@ -293,28 +314,35 @@ class _$HideMapsEventCopyWithImpl<$Res> extends _$MapsEventCopyWithImpl<$Res>
   @override
   $Res call({
     Object isBus = freezed,
-    Object isTtrain = freezed,
+    Object isTrain = freezed,
+    Object direction = freezed,
   }) {
     return _then(HideMapsEvent(
-      isBus == freezed ? _value.isBus : isBus as bool,
-      isTtrain == freezed ? _value.isTtrain : isTtrain as bool,
+      isBus: isBus == freezed ? _value.isBus : isBus as bool,
+      isTrain: isTrain == freezed ? _value.isTrain : isTrain as bool,
+      direction:
+          direction == freezed ? _value.direction : direction as Direction,
     ));
   }
 }
 
 class _$HideMapsEvent with DiagnosticableTreeMixin implements HideMapsEvent {
-  const _$HideMapsEvent(this.isBus, this.isTtrain)
+  const _$HideMapsEvent(
+      {@required this.isBus, @required this.isTrain, @required this.direction})
       : assert(isBus != null),
-        assert(isTtrain != null);
+        assert(isTrain != null),
+        assert(direction != null);
 
   @override
   final bool isBus;
   @override
-  final bool isTtrain;
+  final bool isTrain;
+  @override
+  final Direction direction;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MapsEvent.hide(isBus: $isBus, isTtrain: $isTtrain)';
+    return 'MapsEvent.hide(isBus: $isBus, isTrain: $isTrain, direction: $direction)';
   }
 
   @override
@@ -323,7 +351,8 @@ class _$HideMapsEvent with DiagnosticableTreeMixin implements HideMapsEvent {
     properties
       ..add(DiagnosticsProperty('type', 'MapsEvent.hide'))
       ..add(DiagnosticsProperty('isBus', isBus))
-      ..add(DiagnosticsProperty('isTtrain', isTtrain));
+      ..add(DiagnosticsProperty('isTrain', isTrain))
+      ..add(DiagnosticsProperty('direction', direction));
   }
 
   @override
@@ -332,16 +361,20 @@ class _$HideMapsEvent with DiagnosticableTreeMixin implements HideMapsEvent {
         (other is HideMapsEvent &&
             (identical(other.isBus, isBus) ||
                 const DeepCollectionEquality().equals(other.isBus, isBus)) &&
-            (identical(other.isTtrain, isTtrain) ||
+            (identical(other.isTrain, isTrain) ||
                 const DeepCollectionEquality()
-                    .equals(other.isTtrain, isTtrain)));
+                    .equals(other.isTrain, isTrain)) &&
+            (identical(other.direction, direction) ||
+                const DeepCollectionEquality()
+                    .equals(other.direction, direction)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(isBus) ^
-      const DeepCollectionEquality().hash(isTtrain);
+      const DeepCollectionEquality().hash(isTrain) ^
+      const DeepCollectionEquality().hash(direction);
 
   @override
   $HideMapsEventCopyWith<HideMapsEvent> get copyWith =>
@@ -351,26 +384,26 @@ class _$HideMapsEvent with DiagnosticableTreeMixin implements HideMapsEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required
-        Result load(List<Trip> busTrips, bool isBus, List<Trip> trainTrips,
-            bool isTrain, Direction direction),
-    @required Result hide(bool isBus, bool isTtrain),
+        Result load(bool isBus, bool isTrain, Direction direction,
+            List<Trip> busTrips, List<Trip> trainTrips),
+    @required Result hide(bool isBus, bool isTrain, Direction direction),
   }) {
     assert(load != null);
     assert(hide != null);
-    return hide(isBus, isTtrain);
+    return hide(isBus, isTrain, direction);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result load(List<Trip> busTrips, bool isBus, List<Trip> trainTrips,
-        bool isTrain, Direction direction),
-    Result hide(bool isBus, bool isTtrain),
+    Result load(bool isBus, bool isTrain, Direction direction,
+        List<Trip> busTrips, List<Trip> trainTrips),
+    Result hide(bool isBus, bool isTrain, Direction direction),
     @required Result orElse(),
   }) {
     assert(orElse != null);
     if (hide != null) {
-      return hide(isBus, isTtrain);
+      return hide(isBus, isTrain, direction);
     }
     return orElse();
   }
@@ -402,11 +435,17 @@ class _$HideMapsEvent with DiagnosticableTreeMixin implements HideMapsEvent {
 }
 
 abstract class HideMapsEvent implements MapsEvent {
-  const factory HideMapsEvent(bool isBus, bool isTtrain) = _$HideMapsEvent;
+  const factory HideMapsEvent(
+      {@required bool isBus,
+      @required bool isTrain,
+      @required Direction direction}) = _$HideMapsEvent;
 
   @override
   bool get isBus;
-  bool get isTtrain;
+  @override
+  bool get isTrain;
+  @override
+  Direction get direction;
   @override
   $HideMapsEventCopyWith<HideMapsEvent> get copyWith;
 }
@@ -419,17 +458,17 @@ class _$MapsStateTearOff {
       @required bool isError,
       @required bool isBusLoaded,
       @required bool isTrainLoaded,
-      Exception exception,
-      Set<Polyline> polylines,
-      Set<Marker> markers}) {
+      @required Set<Polyline> polylines,
+      @required Set<Marker> markers,
+      Exception exception}) {
     return _MapsState(
       isLoading: isLoading,
       isError: isError,
       isBusLoaded: isBusLoaded,
       isTrainLoaded: isTrainLoaded,
-      exception: exception,
       polylines: polylines,
       markers: markers,
+      exception: exception,
     );
   }
 }
@@ -442,9 +481,9 @@ mixin _$MapsState {
   bool get isError;
   bool get isBusLoaded;
   bool get isTrainLoaded;
-  Exception get exception;
   Set<Polyline> get polylines;
   Set<Marker> get markers;
+  Exception get exception;
 
   $MapsStateCopyWith<MapsState> get copyWith;
 }
@@ -457,9 +496,9 @@ abstract class $MapsStateCopyWith<$Res> {
       bool isError,
       bool isBusLoaded,
       bool isTrainLoaded,
-      Exception exception,
       Set<Polyline> polylines,
-      Set<Marker> markers});
+      Set<Marker> markers,
+      Exception exception});
 }
 
 class _$MapsStateCopyWithImpl<$Res> implements $MapsStateCopyWith<$Res> {
@@ -475,9 +514,9 @@ class _$MapsStateCopyWithImpl<$Res> implements $MapsStateCopyWith<$Res> {
     Object isError = freezed,
     Object isBusLoaded = freezed,
     Object isTrainLoaded = freezed,
-    Object exception = freezed,
     Object polylines = freezed,
     Object markers = freezed,
+    Object exception = freezed,
   }) {
     return _then(_value.copyWith(
       isLoading: isLoading == freezed ? _value.isLoading : isLoading as bool,
@@ -487,11 +526,11 @@ class _$MapsStateCopyWithImpl<$Res> implements $MapsStateCopyWith<$Res> {
       isTrainLoaded: isTrainLoaded == freezed
           ? _value.isTrainLoaded
           : isTrainLoaded as bool,
-      exception:
-          exception == freezed ? _value.exception : exception as Exception,
       polylines:
           polylines == freezed ? _value.polylines : polylines as Set<Polyline>,
       markers: markers == freezed ? _value.markers : markers as Set<Marker>,
+      exception:
+          exception == freezed ? _value.exception : exception as Exception,
     ));
   }
 }
@@ -506,9 +545,9 @@ abstract class _$MapsStateCopyWith<$Res> implements $MapsStateCopyWith<$Res> {
       bool isError,
       bool isBusLoaded,
       bool isTrainLoaded,
-      Exception exception,
       Set<Polyline> polylines,
-      Set<Marker> markers});
+      Set<Marker> markers,
+      Exception exception});
 }
 
 class __$MapsStateCopyWithImpl<$Res> extends _$MapsStateCopyWithImpl<$Res>
@@ -525,9 +564,9 @@ class __$MapsStateCopyWithImpl<$Res> extends _$MapsStateCopyWithImpl<$Res>
     Object isError = freezed,
     Object isBusLoaded = freezed,
     Object isTrainLoaded = freezed,
-    Object exception = freezed,
     Object polylines = freezed,
     Object markers = freezed,
+    Object exception = freezed,
   }) {
     return _then(_MapsState(
       isLoading: isLoading == freezed ? _value.isLoading : isLoading as bool,
@@ -537,11 +576,11 @@ class __$MapsStateCopyWithImpl<$Res> extends _$MapsStateCopyWithImpl<$Res>
       isTrainLoaded: isTrainLoaded == freezed
           ? _value.isTrainLoaded
           : isTrainLoaded as bool,
-      exception:
-          exception == freezed ? _value.exception : exception as Exception,
       polylines:
           polylines == freezed ? _value.polylines : polylines as Set<Polyline>,
       markers: markers == freezed ? _value.markers : markers as Set<Marker>,
+      exception:
+          exception == freezed ? _value.exception : exception as Exception,
     ));
   }
 }
@@ -552,13 +591,15 @@ class _$_MapsState with DiagnosticableTreeMixin implements _MapsState {
       @required this.isError,
       @required this.isBusLoaded,
       @required this.isTrainLoaded,
-      this.exception,
-      this.polylines,
-      this.markers})
+      @required this.polylines,
+      @required this.markers,
+      this.exception})
       : assert(isLoading != null),
         assert(isError != null),
         assert(isBusLoaded != null),
-        assert(isTrainLoaded != null);
+        assert(isTrainLoaded != null),
+        assert(polylines != null),
+        assert(markers != null);
 
   @override
   final bool isLoading;
@@ -569,15 +610,15 @@ class _$_MapsState with DiagnosticableTreeMixin implements _MapsState {
   @override
   final bool isTrainLoaded;
   @override
-  final Exception exception;
-  @override
   final Set<Polyline> polylines;
   @override
   final Set<Marker> markers;
+  @override
+  final Exception exception;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MapsState(isLoading: $isLoading, isError: $isError, isBusLoaded: $isBusLoaded, isTrainLoaded: $isTrainLoaded, exception: $exception, polylines: $polylines, markers: $markers)';
+    return 'MapsState(isLoading: $isLoading, isError: $isError, isBusLoaded: $isBusLoaded, isTrainLoaded: $isTrainLoaded, polylines: $polylines, markers: $markers, exception: $exception)';
   }
 
   @override
@@ -589,9 +630,9 @@ class _$_MapsState with DiagnosticableTreeMixin implements _MapsState {
       ..add(DiagnosticsProperty('isError', isError))
       ..add(DiagnosticsProperty('isBusLoaded', isBusLoaded))
       ..add(DiagnosticsProperty('isTrainLoaded', isTrainLoaded))
-      ..add(DiagnosticsProperty('exception', exception))
       ..add(DiagnosticsProperty('polylines', polylines))
-      ..add(DiagnosticsProperty('markers', markers));
+      ..add(DiagnosticsProperty('markers', markers))
+      ..add(DiagnosticsProperty('exception', exception));
   }
 
   @override
@@ -610,14 +651,15 @@ class _$_MapsState with DiagnosticableTreeMixin implements _MapsState {
             (identical(other.isTrainLoaded, isTrainLoaded) ||
                 const DeepCollectionEquality()
                     .equals(other.isTrainLoaded, isTrainLoaded)) &&
-            (identical(other.exception, exception) ||
-                const DeepCollectionEquality()
-                    .equals(other.exception, exception)) &&
             (identical(other.polylines, polylines) ||
                 const DeepCollectionEquality()
                     .equals(other.polylines, polylines)) &&
             (identical(other.markers, markers) ||
-                const DeepCollectionEquality().equals(other.markers, markers)));
+                const DeepCollectionEquality()
+                    .equals(other.markers, markers)) &&
+            (identical(other.exception, exception) ||
+                const DeepCollectionEquality()
+                    .equals(other.exception, exception)));
   }
 
   @override
@@ -627,9 +669,9 @@ class _$_MapsState with DiagnosticableTreeMixin implements _MapsState {
       const DeepCollectionEquality().hash(isError) ^
       const DeepCollectionEquality().hash(isBusLoaded) ^
       const DeepCollectionEquality().hash(isTrainLoaded) ^
-      const DeepCollectionEquality().hash(exception) ^
       const DeepCollectionEquality().hash(polylines) ^
-      const DeepCollectionEquality().hash(markers);
+      const DeepCollectionEquality().hash(markers) ^
+      const DeepCollectionEquality().hash(exception);
 
   @override
   _$MapsStateCopyWith<_MapsState> get copyWith =>
@@ -642,9 +684,9 @@ abstract class _MapsState implements MapsState {
       @required bool isError,
       @required bool isBusLoaded,
       @required bool isTrainLoaded,
-      Exception exception,
-      Set<Polyline> polylines,
-      Set<Marker> markers}) = _$_MapsState;
+      @required Set<Polyline> polylines,
+      @required Set<Marker> markers,
+      Exception exception}) = _$_MapsState;
 
   @override
   bool get isLoading;
@@ -655,11 +697,11 @@ abstract class _MapsState implements MapsState {
   @override
   bool get isTrainLoaded;
   @override
-  Exception get exception;
-  @override
   Set<Polyline> get polylines;
   @override
   Set<Marker> get markers;
+  @override
+  Exception get exception;
   @override
   _$MapsStateCopyWith<_MapsState> get copyWith;
 }

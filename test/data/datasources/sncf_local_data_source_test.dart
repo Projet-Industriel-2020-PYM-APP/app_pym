@@ -22,7 +22,6 @@ void main() {
     dataSource = SNCFLocalDataSourceImpl(
       directoryManager: mockDirectoryManager,
       zipDecoder: mockZipDecoder,
-      prefs: mockPrefs,
     );
   });
 }

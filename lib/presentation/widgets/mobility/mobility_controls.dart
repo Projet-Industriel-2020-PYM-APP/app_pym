@@ -13,17 +13,17 @@ class MobilityControls extends StatelessWidget {
       builder: (context, state) {
         return Stack(
           children: <Widget>[
-            const Align(
+            Align(
               alignment: Alignment.topCenter,
               child: Padding(
-                padding: EdgeInsets.all(5.0),
+                padding: const EdgeInsets.all(5.0),
                 child: DirectionControls(),
               ),
             ),
             Align(
-              alignment: Alignment.bottomRight,
+              alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(5.0),
                 child: buildButtonBar(context),
               ),
             ),
@@ -56,10 +56,12 @@ class MobilityControls extends StatelessWidget {
         SwitchButton(
           isRaised: context.bloc<TripsBloc>().state.isBusLoaded ||
               context.bloc<TripsBloc>().state.isTrainLoaded,
-          onRaisedPressed: () =>
-              context.bloc<TripsBloc>().add(const TripsEvent.hideAll()),
+          onRaisedPressed: () {
+            context.bloc<TripsBloc>().add(const TripsEvent.hideBus());
+            context.bloc<TripsBloc>().add(const TripsEvent.hideTrain());
+          },
           onFlatPressed: () => null,
-          child: const Text(" Train "),
+          child: const Text(" Cacher "),
         ),
       ],
     );

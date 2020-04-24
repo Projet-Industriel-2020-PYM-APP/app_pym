@@ -1,4 +1,5 @@
 import 'package:app_pym/core/network/network_info.dart';
+import 'package:app_pym/core/constants/mobility.dart';
 import 'package:app_pym/data/datasources/sncf_local_data_source.dart';
 import 'package:app_pym/data/datasources/sncf_remote_data_source.dart';
 import 'package:app_pym/data/models/mobility/route_model.dart';
@@ -31,7 +32,7 @@ class SNCFRouteRepositoryImpl implements SNCFRouteRepository {
   Stream<Route> _fetchRoute() async* {
     if (await networkInfo.result != ConnectivityResult.none) {
       final timestamp = await remoteDataSource.timestamp;
-      if (timestamp != localDataSource.timestamp) {
+      if (timestamp != await localDataSource.timestamp) {
         await localDataSource.setTimestamp(timestamp);
         final stream = remoteDataSource.download();
         await localDataSource.writeFile(stream);
@@ -44,14 +45,14 @@ class SNCFRouteRepositoryImpl implements SNCFRouteRepository {
     final stopTimeModels = localDataSource.fetchStopTimes();
     final stopModels = localDataSource.fetchStops();
 
-    for (final routeModel in await routeModels) {
-      final route = routeModel.toEntity(
-        calendarModels: await calendarModels,
-        stopModels: await stopModels,
-        stopTimeModels: await stopTimeModels,
-        tripModels: await tripModels,
-      );
-      yield route;
-    }
+    final routeModel = (await routeModels).firstWhere((routeModel) =>
+        routeModel.route_id.compareTo(MobilityConstants.trainLines.first) == 0);
+    final route = routeModel.toEntity(
+      calendarModels: await calendarModels,
+      stopModels: await stopModels,
+      stopTimeModels: await stopTimeModels,
+      tripModels: await tripModels,
+    );
+    yield route;
   }
 }

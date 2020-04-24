@@ -1,3 +1,4 @@
+import 'package:app_pym/core/constants/mobility.dart';
 import 'package:app_pym/data/models/mobility/calendar_model.dart';
 import 'package:app_pym/data/models/mobility/stop_model.dart';
 import 'package:app_pym/data/models/mobility/stop_time_model.dart';
@@ -23,11 +24,19 @@ extension RouteModelX on RouteModel {
     @required List<StopTimeModel> stopTimeModels,
     @required List<StopModel> stopModels,
   }) {
+    final List<TripModel> filteredTripModels1 = tripModels
+        .where((tripModel) => tripModel.route_id.compareTo(this.route_id) == 0)
+        .toList();
+    final List<TripModel> filteredTripModels2 = filteredTripModels1
+        .where((tripModel) => calendarModels
+            .map((e) => e.service_id)
+            .contains(tripModel.service_id))
+        .toList();
     return Route(
       route_id: this.route_id,
       route_long_name: this.route_long_name,
       route_short_name: this.route_short_name,
-      trips: tripModels
+      trips: filteredTripModels2
           .map((e) => e.toEntity(
                 calendarModels: calendarModels,
                 stopModels: stopModels,
