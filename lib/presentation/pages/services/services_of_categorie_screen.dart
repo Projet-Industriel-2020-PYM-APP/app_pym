@@ -5,6 +5,7 @@ import 'package:app_pym/domain/entities/app_pym/service.dart';
 import 'package:app_pym/domain/entities/app_pym/categorie.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app_pym/presentation/blocs/services/services_of_categorie/services_of_categorie_bloc.dart';
+import 'package:app_pym/presentation/pages/services/fetch_all_bookings_screen.dart';
 
 class ServicesOfCategoriePage extends StatelessWidget {
   final Categorie categorie;
@@ -132,7 +133,13 @@ class ServiceCard extends StatelessWidget {
                     buttonTextTheme: ButtonTextTheme.primary,
                     children: service.actions
                         .map((e) => FlatButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .push<void>(MaterialPageRoute(
+                                  builder: (context) =>
+                                      FetchAllBookingsPage(service),
+                                ));
+                              },
                               child: Text(e.name.toUpperCase()),
                             ))
                         .toList(),
