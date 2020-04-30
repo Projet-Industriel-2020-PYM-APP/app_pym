@@ -57,10 +57,6 @@ class TripsBloc extends Bloc<TripsEvent, TripsState> {
       hideTrain: () async* {
         yield state.hideTrain();
       },
-      hideAll: () async* {
-        yield state.hideTrain();
-        yield state.hideBus();
-      },
       changeDirection: (direction) async* {
         yield state.changeDirection(direction);
       },

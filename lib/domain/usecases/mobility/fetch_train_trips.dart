@@ -42,8 +42,7 @@ class FetchTrainTrips extends Usecase<Future<List<Trip>>, NoParams> {
         //StopTime de l'arrêt à Gardanne
         final stopTimeOfTrip = trip.stop_time
             .where((stop_time) =>
-                stop_time.stop.stop_name == MobilityConstants.gareGardanne &&
-                stop_time.stop.location_type == 0)
+                stop_time.stop.stop_name == MobilityConstants.gareGardanne)
             .first;
         //heure de l'arrêt
         final arrivalTimeOfTrip = stopTimeOfTrip.arrival_time.timeToDateTime();
@@ -77,8 +76,7 @@ class FetchTrainTrips extends Usecase<Future<List<Trip>>, NoParams> {
         //StopTime de l'arrêt à Gardanne
         final stopTimeOfTrip = trip.stop_time
             .where((stop_time) =>
-                stop_time.stop.stop_name == MobilityConstants.gareGardanne &&
-                stop_time.stop.location_type == 0)
+                stop_time.stop.stop_name == MobilityConstants.gareGardanne)
             .first;
         //l'heure de l'arrêt
         final arrivalTimeOfTrip = stopTimeOfTrip.arrival_time.timeToDateTime();

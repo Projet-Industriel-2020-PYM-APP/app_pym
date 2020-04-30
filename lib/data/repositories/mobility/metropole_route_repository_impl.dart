@@ -31,7 +31,7 @@ class MetropoleRouteRepositoryImpl implements MetropoleRouteRepository {
   Stream<Route> _fetchRoute() async* {
     if (await networkInfo.result != ConnectivityResult.none) {
       final timestamp = await remoteDataSource.timestamp;
-      if (timestamp != localDataSource.timestamp) {
+      if (timestamp != await localDataSource.timestamp) {
         await localDataSource.setTimestamp(timestamp);
         final stream = remoteDataSource.download();
         await localDataSource.writeFile(stream);

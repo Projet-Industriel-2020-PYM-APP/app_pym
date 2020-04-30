@@ -22,8 +22,8 @@ extension GTFSUtils on File {
       final List<String> fields = lines[i].split(',');
       routes.add(RouteModel(
         route_id: fields[data['route_id']],
-        route_short_name: fields[data['route_short_name']],
-        route_long_name: fields[data['route_long_name']],
+        route_short_name: fields[data['route_short_name']].replaceAll('"', ''),
+        route_long_name: fields[data['route_long_name']].replaceAll('"', ''),
       ));
     }
     return routes;
@@ -41,6 +41,7 @@ extension GTFSUtils on File {
     for (var i = 1; i < lines.length; i++) {
       final List<String> fields = lines[i].split(',');
       routes.add(TripModel(
+        service_id: fields[data['service_id']],
         route_id: fields[data['route_id']],
         trip_id: fields[data['trip_id']],
         trip_headsign: fields[data['trip_headsign']],
@@ -88,14 +89,14 @@ extension GTFSUtils on File {
     // Fill data
     for (var i = 1; i < lines.length; i++) {
       final List<String> fields = lines[i].split(',');
-      stops.add(StopModel(
-        stop_id: fields[data['stop_id']],
-        stop_code: fields[data['stop_code']],
-        stop_name: fields[data['stop_name']],
-        stop_lat: fields[data['stop_lat']],
-        stop_long: fields[data['stop_long']],
-        location_type: int.parse(fields[data['location_type']]),
-      ));
+      if (!fields[data['stop_id']].startsWith("StopArea")) {
+        stops.add(StopModel(
+          stop_id: fields[data['stop_id']],
+          stop_name: fields[data['stop_name']].replaceAll('"', ''),
+          stop_lat: fields[data['stop_lat']],
+          stop_long: fields[data['stop_lon']],
+        ));
+      }
     }
     return stops;
   }

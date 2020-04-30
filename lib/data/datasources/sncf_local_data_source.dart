@@ -12,11 +12,10 @@ import 'package:app_pym/data/models/mobility/trip_model.dart';
 import 'package:archive/archive.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class SNCFLocalDataSource extends GTFSTypeLocalDataSource {
-  DateTime get timestamp;
-  Future<bool> setTimestamp(DateTime timestamp);
+  Future<DateTime> get timestamp;
+  Future<void> setTimestamp(DateTime timestamp);
 }
 
 @RegisterAs(SNCFLocalDataSource)
@@ -26,24 +25,32 @@ abstract class SNCFLocalDataSource extends GTFSTypeLocalDataSource {
 class SNCFLocalDataSourceImpl implements SNCFLocalDataSource {
   final DirectoryManager directoryManager;
   final ZipDecoder zipDecoder;
-  final SharedPreferences prefs;
 
   SNCFLocalDataSourceImpl({
     @required this.directoryManager,
     @required this.zipDecoder,
-    @required this.prefs,
   });
 
   @override
-  DateTime get timestamp => DateTime.parse(prefs.getString('sncf_timestamp'));
+  Future<DateTime> get timestamp async {
+    final file = File('${await directoryManager.sncf}/timestamp.txt');
+    if (file.existsSync()) {
+      return DateTime.parse(file.readAsLinesSync().first);
+    }
+    return DateTime.parse("1970-01-01 12:00:00");
+  }
 
   @override
-  Future<bool> setTimestamp(DateTime timestamp) =>
-      prefs.setString('sncf_timestamp', timestamp.toIso8601String());
+  Future<void> setTimestamp(DateTime timestamp) async {
+    final path = await directoryManager.sncf;
+    Directory(path).createSync(recursive: true);
+    final File file = File('${path}/timestamp.txt');
+    await file.writeAsString(timestamp.toIso8601String());
+  }
 
   @override
   Future<List<CalendarModel>> fetchCalendars() async {
-    final file = File('${directoryManager.sncf}/calendars.txt');
+    final file = File('${await directoryManager.sncf}/calendar.txt');
     if (file.existsSync()) {
       return file.parseCalendars();
     } else {
@@ -53,7 +60,7 @@ class SNCFLocalDataSourceImpl implements SNCFLocalDataSource {
 
   @override
   Future<List<RouteModel>> fetchRoutes() async {
-    final file = File('${directoryManager.sncf}/routes.txt');
+    final file = File('${await directoryManager.sncf}/routes.txt');
     if (file.existsSync()) {
       return file.parseRoutes();
     } else {
@@ -63,7 +70,7 @@ class SNCFLocalDataSourceImpl implements SNCFLocalDataSource {
 
   @override
   Future<List<StopModel>> fetchStops() async {
-    final file = File('${directoryManager.sncf}/stops.txt');
+    final file = File('${await directoryManager.sncf}/stops.txt');
     if (file.existsSync()) {
       return file.parseStops();
     } else {
@@ -73,7 +80,7 @@ class SNCFLocalDataSourceImpl implements SNCFLocalDataSource {
 
   @override
   Future<List<StopTimeModel>> fetchStopTimes() async {
-    final file = File('${directoryManager.sncf}/stop_times.txt');
+    final file = File('${await directoryManager.sncf}/stop_times.txt');
     if (file.existsSync()) {
       return file.parseStopTimes();
     } else {
@@ -83,7 +90,7 @@ class SNCFLocalDataSourceImpl implements SNCFLocalDataSource {
 
   @override
   Future<List<TripModel>> fetchTrips() async {
-    final file = File('${directoryManager.sncf}/trips.txt');
+    final file = File('${await directoryManager.sncf}/trips.txt');
     if (file.existsSync()) {
       return file.parseTrips();
     } else {
@@ -93,14 +100,15 @@ class SNCFLocalDataSourceImpl implements SNCFLocalDataSource {
 
   @override
   Future<void> writeFile(Stream<List<int>> bytes) async {
-    final File file = File('${directoryManager.sncf}/export-ter-gtfs-last.zip');
+    final File file =
+        File('${await directoryManager.sncf}/export-ter-gtfs-last.zip');
     final IOSink sink = file.openWrite();
     await bytes.forEach(sink.add);
     await sink.close();
     return _unzip(file);
   }
 
-  Future<void> _unzip(File file) {
+  Future<void> _unzip(File file) async {
     // Decode the Zip file
     final Archive archive = zipDecoder.decodeBytes(file.readAsBytesSync());
 
@@ -110,12 +118,11 @@ class SNCFLocalDataSourceImpl implements SNCFLocalDataSource {
     for (final ArchiveFile file in archive) {
       if (file.isFile) {
         final List<int> data = file.content as List<int>;
-        final openFile = File('${directoryManager.sncf}/' + file.name)
+        final openFile = File('${await directoryManager.sncf}/' + file.name)
           ..createSync(recursive: true);
         futures.add(openFile.writeAsBytes(data));
       }
     }
-
     return Future.wait<void>(futures);
   }
 }

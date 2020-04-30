@@ -32,13 +32,9 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
     MapsEvent event,
   ) async* {
     yield* event.when(
-      load: (busTrips, isBus, trainTrips, isTrain, direction) async* {
+      load: (isBus, isTrain, direction, busTrips, trainTrips) async* {
         yield state.loading();
         try {
-          await streamSubscription?.cancel();
-          final positions = geolocatorDevice.positions
-              .map((position) => LatLng(position.latitude, position.longitude));
-          // TODO : Add markers
           final Set<Polyline> polylines = {};
           final Set<Marker> markers = {};
           if (isBus) {
@@ -67,12 +63,19 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
           yield state.error(e);
         }
       },
-      hide: (isBus, isTrain) async* {
+      hide: (isBus, isTrain, direction) async* {
         if (isBus) {
-          yield state.hideBus();
+          yield state.hideBus(direction);
         }
         if (isTrain) {
-          yield state.hideTrain();
+          yield state.hideTrain(direction);
+        }
+        if (direction == Direction.Aller) {
+          yield state.hideTrain(Direction.Retour);
+          yield state.hideBus(Direction.Retour);
+        } else {
+          yield state.hideTrain(Direction.Aller);
+          yield state.hideBus(Direction.Aller);
         }
       },
     );
@@ -96,18 +99,26 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
     for (final StopTime stopTime in trip.stop_time) {
       final LatLng position = LatLng(double.parse(stopTime.stop.stop_lat),
           double.parse(stopTime.stop.stop_long));
-      if (stopTime.stop.stop_name == MobilityConstants.pymStop) {
-        list.add(position);
-        ajoute = !ajoute;
-      } else if (ajoute) {
-        list.add(position);
+      if (id.startsWith("bus")) {
+        if (stopTime.stop.stop_name == MobilityConstants.pymStop) {
+          list.add(position);
+          ajoute = !ajoute;
+        } else if (ajoute) {
+          list.add(position);
+        }
+      } else {
+        if (stopTime.stop.stop_name == MobilityConstants.gareGardanne) {
+          list.add(position);
+          ajoute = !ajoute;
+        } else if (ajoute) {
+          list.add(position);
+        }
       }
     }
     return Polyline(
       polylineId: PolylineId(id),
       color: couleur,
       points: list,
-      patterns: [PatternItem.dot],
       visible: true,
       width: 4,
     );
@@ -128,11 +139,20 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
             double.parse(stopTime.stop.stop_long)),
         visible: true,
       );
-      if (stopTime.stop.stop_name == MobilityConstants.pymStop) {
-        markers.add(marker);
-        ajoute = !ajoute;
-      } else if (ajoute) {
-        markers.add(marker);
+      if (id.startsWith("bus")) {
+        if (stopTime.stop.stop_name == MobilityConstants.pymStop) {
+          markers.add(marker);
+          ajoute = !ajoute;
+        } else if (ajoute) {
+          markers.add(marker);
+        }
+      } else {
+        if (stopTime.stop.stop_name == MobilityConstants.gareGardanne) {
+          markers.add(marker);
+          ajoute = !ajoute;
+        } else if (ajoute) {
+          markers.add(marker);
+        }
       }
     }
     return markers;
