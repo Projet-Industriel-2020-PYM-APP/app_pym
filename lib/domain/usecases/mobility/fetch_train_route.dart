@@ -1,4 +1,3 @@
-import 'package:app_pym/core/constants/mobility.dart';
 import 'package:app_pym/core/usecases/usecase.dart';
 import 'package:app_pym/domain/entities/mobility/route.dart';
 import 'package:app_pym/domain/repositories/mobility/route_repository.dart';
@@ -14,11 +13,7 @@ class FetchTrainRoute extends Usecase<Future<Route>, NoParams> {
 
   @override
   Future<Route> call(NoParams params) {
-    final route = repository
-        .fetchRoutes()
-        .where((routeModel) =>
-            MobilityConstants.trainLines.contains(routeModel.route_id))
-        .first;
+    final route = repository.fetchRoutes().first;
 
     return route;
   }

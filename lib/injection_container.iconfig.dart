@@ -360,12 +360,10 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
             auth: g<FirebaseAuth>(), db: g<Firestore>()));
     g.registerFactory<ForgotBloc>(() => ForgotBloc(g<ForgotPassword>()));
     g.registerLazySingleton<GetPosts>(() => GetPosts(g<PostRepository>()));
-    g.registerLazySingleton<MetropoleLocalDataSource>(
-        () => MetropoleLocalDataSourceImpl(
-              directoryManager: g<DirectoryManager>(),
-              zipDecoder: g<ZipDecoder>(),
-              prefs: g<SharedPreferences>(),
-            ));
+    g.registerLazySingleton<MetropoleLocalDataSource>(() =>
+        MetropoleLocalDataSourceImpl(
+            directoryManager: g<DirectoryManager>(),
+            zipDecoder: g<ZipDecoder>()));
     g.registerLazySingleton<MetropoleRouteRepository>(
         () => MetropoleRouteRepositoryImpl(
               localDataSource: g<MetropoleLocalDataSource>(),
@@ -373,10 +371,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
               networkInfo: g<NetworkInfo>(),
             ));
     g.registerLazySingleton<SNCFLocalDataSource>(() => SNCFLocalDataSourceImpl(
-          directoryManager: g<DirectoryManager>(),
-          zipDecoder: g<ZipDecoder>(),
-          prefs: g<SharedPreferences>(),
-        ));
+        directoryManager: g<DirectoryManager>(), zipDecoder: g<ZipDecoder>()));
     g.registerLazySingleton<SNCFRouteRepository>(() => SNCFRouteRepositoryImpl(
           localDataSource: g<SNCFLocalDataSource>(),
           remoteDataSource: g<SNCFRemoteDataSource>(),

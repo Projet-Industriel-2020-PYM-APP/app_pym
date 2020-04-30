@@ -31,9 +31,12 @@ extension TripModelX on TripModel {
       route_id: this.route_id,
       trip_headsign: this.trip_headsign,
       calendar: calendarModels
-          .firstWhere((element) => element.service_id == this.service_id)
+          .firstWhere(
+              (element) => element.service_id.compareTo(this.service_id) == 0)
           .toEntity(),
       stop_time: stopTimeModels
+          .where((stopTimeModel) =>
+              stopTimeModel.trip_id.compareTo(this.trip_id) == 0)
           .map((e) => e.toEntity(stopModels: stopModels))
           .toList(),
     );
