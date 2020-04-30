@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:app_pym/core/validators.dart';
-import 'package:app_pym/data/datasources/firebase_auth_data_source.dart';
+import 'package:app_pym/domain/usecases/firebase_auth/forgot_password.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -15,9 +16,9 @@ part 'forgot_state.dart';
 @prod
 @injectable
 class ForgotBloc extends Bloc<ForgotEvent, ForgotState> {
-  final FirebaseAuthDataSource firebaseAuthDataSource;
+  final ForgotPassword forgotPassword;
 
-  ForgotBloc(this.firebaseAuthDataSource);
+  ForgotBloc(this.forgotPassword);
 
   @override
   ForgotState get initialState => ForgotState.empty();
@@ -58,10 +59,12 @@ class ForgotBloc extends Bloc<ForgotEvent, ForgotState> {
   ) async* {
     yield ForgotState.loading();
     try {
-      await firebaseAuthDataSource.forgotPassword(email);
+      await forgotPassword(email);
       yield ForgotState.success();
-    } catch (_) {
-      yield ForgotState.failure();
+    } on PlatformException catch (e) {
+      yield ForgotState.failure(e.message);
+    } catch (e) {
+      yield ForgotState.failure(e.toString());
     }
   }
 }

@@ -15,7 +15,15 @@ void main() {
     setUpAll(() async {
       driver = await FlutterDriver.connect();
 
-      sleep(const Duration(seconds: 30));
+      var connected = false;
+      while (!connected) {
+        try {
+          await driver.waitUntilFirstFrameRasterized();
+          connected = true;
+        } catch (error) {
+          continue;
+        }
+      }
     });
 
     // Close the connection to the driver after the tests have completed.
@@ -27,7 +35,7 @@ void main() {
       final Health health = await driver.checkHealth();
       print(health.status);
       expect(health.status, equals(HealthStatus.ok));
-    });
+    }, timeout: const Timeout(Duration(minutes: 30)));
 
     group('Navigation', () {
       test('Move to Actualite', () async {
@@ -40,10 +48,12 @@ void main() {
         await driver.tap(find.byValueKey(KeysStringNavigation.mobilite));
         await takeScreenshot(driver, ScreenshotsPaths.mobilite);
       });
+
       test('Move to Cartographie', () async {
         await driver.tap(find.byValueKey(KeysStringNavigation.cartographie));
+        await Future<void>.delayed(const Duration(minutes: 1));
         await takeScreenshot(driver, ScreenshotsPaths.cartographie);
-      });
+      }, timeout: const Timeout(Duration(minutes: 5)));
 
       // Note: AR is unstable. Do not use it for screen shots.
       // test('Move to AR', () async {
@@ -78,12 +88,14 @@ void main() {
         await takeScreenshot(driver, ScreenshotsPaths.contacts);
         await driver.tap(find.pageBack());
       });
-    });
-  });
+    }, timeout: const Timeout(Duration(minutes: 30)));
+  }, timeout: const Timeout(Duration(minutes: 30)));
 }
 
 Future<void> takeScreenshot(FlutterDriver driver, String path) async {
-  await driver.waitUntilNoTransientCallbacks();
+  await driver
+      .waitUntilNoTransientCallbacks()
+      .timeout(const Duration(seconds: 5));
   final List<int> pixels = await driver.screenshot();
   final File file = File(path);
   file.createSync(recursive: true);

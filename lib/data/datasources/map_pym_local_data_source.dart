@@ -7,20 +7,18 @@ import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class MapPymLocalDataSource {
-  Future<void> cacheBatimentsPosition(
-      List<BatimentPositionModel> batimentPositionModels);
-
-  Future<List<BatimentPositionModel>> fetchBatimentsPosition();
-
-  Future<void> cacheBatiment(BatimentModel batiment);
-
-  Future<BatimentModel> fetchBatiment(int id);
-
-  Future<void> cacheEntreprise(EntrepriseModel entreprise);
+  Future<void> cacheAllBatimentPosition(
+      Iterable<BatimentPositionModel> batimentPositionModels);
 
   Future<void> cacheAllEntreprise(Iterable<EntrepriseModel> entreprises);
 
-  Future<List<EntrepriseModel>> fetchEntreprisesOfBatiment(int idBatiment);
+  Future<void> cacheBatiment(BatimentModel batiment);
+
+  BatimentModel fetchBatiment(int id);
+
+  List<BatimentPositionModel> fetchBatimentsPosition();
+
+  List<EntrepriseModel> fetchEntreprisesOfBatiment(int idBatiment);
 }
 
 @RegisterAs(MapPymLocalDataSource)
@@ -28,34 +26,25 @@ abstract class MapPymLocalDataSource {
 @lazySingleton
 @injectable
 class MapPymLocalDataSourceImpl implements MapPymLocalDataSource {
-  final Box<List<BatimentPositionModel>> batimentsPositionBox;
+  final Box<BatimentPositionModel> batimentPositionBox;
   final Box<BatimentModel> batimentsBox;
   final Box<EntrepriseModel> entreprisesBox;
 
   const MapPymLocalDataSourceImpl({
     @required this.batimentsBox,
-    @required this.batimentsPositionBox,
+    @required this.batimentPositionBox,
     @required this.entreprisesBox,
   });
 
   @override
-  Future<void> cacheBatimentsPosition(
-      List<BatimentPositionModel> batimentPositionModels) {
-    return batimentsPositionBox.put(
-      '/batiments_position',
-      batimentPositionModels,
-    );
+  Future<void> cacheAllBatimentPosition(
+      Iterable<BatimentPositionModel> batimentPositionModels) async {
+    return batimentPositionModels.forEach(_cacheBatimentPosition);
   }
 
   @override
-  Future<List<BatimentPositionModel>> fetchBatimentsPosition() async {
-    final List<BatimentPositionModel> batimentPositionModels =
-        batimentsPositionBox.get('/batiments_position');
-    if (batimentPositionModels != null) {
-      return batimentPositionModels;
-    } else {
-      throw CacheException('No Batiment Position in cache.');
-    }
+  Future<void> cacheAllEntreprise(Iterable<EntrepriseModel> entreprises) async {
+    return entreprises.forEach(_cacheEntreprise);
   }
 
   @override
@@ -66,8 +55,15 @@ class MapPymLocalDataSourceImpl implements MapPymLocalDataSource {
     );
   }
 
+  Future<void> _cacheEntreprise(EntrepriseModel entreprise) {
+    return entreprisesBox.put(
+      '/entreprises/${entreprise.id}',
+      entreprise,
+    );
+  }
+
   @override
-  Future<BatimentModel> fetchBatiment(int id) async {
+  BatimentModel fetchBatiment(int id) {
     final BatimentModel batimentModel = batimentsBox.get('/batiments/${id}');
     if (batimentModel != null) {
       return batimentModel;
@@ -77,23 +73,36 @@ class MapPymLocalDataSourceImpl implements MapPymLocalDataSource {
   }
 
   @override
-  Future<void> cacheEntreprise(EntrepriseModel entreprise) {
-    return entreprisesBox.put(
-      '/entreprises/${entreprise.id}',
-      entreprise,
+  List<BatimentPositionModel> fetchBatimentsPosition() {
+    final List<BatimentPositionModel> batimentPositionModels =
+        batimentPositionBox?.values?.toList();
+    if (batimentPositionModels != null && batimentPositionModels.isNotEmpty) {
+      return batimentPositionModels;
+    } else {
+      throw CacheException('No Batiment Position in cache.');
+    }
+  }
+
+  @override
+  List<EntrepriseModel> fetchEntreprisesOfBatiment(int idBatiment) {
+    final entreprisesOfBatiment = entreprisesBox?.values
+        ?.where((element) => element.idBatiment == idBatiment)
+        ?.toList();
+    if (fetchEntreprisesOfBatiment != null &&
+        entreprisesOfBatiment.isNotEmpty) {
+      return entreprisesOfBatiment;
+    } else {
+      throw CacheException(
+          'No Entreprises of Batiment ${idBatiment} in cache.');
+    }
+  }
+
+  /// Cache one BatimentPosition. The id identify the object.
+  Future<void> _cacheBatimentPosition(
+      BatimentPositionModel batimentPositionModel) {
+    return batimentPositionBox.put(
+      '/batiment_position/${batimentPositionModel.idBatiment}',
+      batimentPositionModel,
     );
-  }
-
-  @override
-  Future<List<EntrepriseModel>> fetchEntreprisesOfBatiment(
-      int idBatiment) async {
-    return entreprisesBox.values
-        .where((element) => element.idBatiment == idBatiment)
-        .toList();
-  }
-
-  @override
-  Future<void> cacheAllEntreprise(Iterable<EntrepriseModel> entreprises) async {
-    return entreprises.forEach(cacheEntreprise);
   }
 }

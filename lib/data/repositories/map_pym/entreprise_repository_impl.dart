@@ -31,7 +31,7 @@ class EntrepriseRepositoryImpl implements EntrepriseRepository {
       await localDataSource.cacheAllEntreprise(data);
       return data.map((e) => e.toEntity()).toList();
     } else {
-      final data = await localDataSource.fetchEntreprisesOfBatiment(idBatiment);
+      final data = localDataSource.fetchEntreprisesOfBatiment(idBatiment);
       return data.map((e) => e.toEntity()).toList();
     }
   }

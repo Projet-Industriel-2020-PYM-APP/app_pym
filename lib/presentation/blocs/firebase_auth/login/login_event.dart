@@ -8,4 +8,8 @@ abstract class LoginEvent with _$LoginEvent {
     @required String email,
     @required String password,
   }) = LoginWithCredentialsPressed;
+  const factory LoginEvent.signUp({
+    @required String email,
+    @required String password,
+  }) = SignUpEvent;
 }

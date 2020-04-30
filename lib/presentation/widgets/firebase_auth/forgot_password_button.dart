@@ -1,5 +1,5 @@
+import 'package:app_pym/presentation/pages/login/forgot_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:app_pym/presentation/pages/firebase_auth/forgot_screen.dart';
 
 class ForgotPasswordButton extends StatelessWidget {
   const ForgotPasswordButton({Key key}) : super(key: key);
@@ -15,7 +15,7 @@ class ForgotPasswordButton extends StatelessWidget {
         );
       },
       child: const Text(
-        'Forgot Password',
+        "J'ai oublié mon mot de passe",
       ),
     );
   }

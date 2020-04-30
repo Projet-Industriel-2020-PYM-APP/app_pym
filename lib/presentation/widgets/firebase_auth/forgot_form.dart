@@ -55,13 +55,7 @@ class _ForgotFormState extends State<ForgotForm> {
             ..hideCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Forgot Failure'),
-                    Icon(Icons.error),
-                  ],
-                ),
+                content: Text(state.error.toString()),
                 backgroundColor: Colors.red,
               ),
             );
@@ -69,29 +63,27 @@ class _ForgotFormState extends State<ForgotForm> {
       },
       child: BlocBuilder<ForgotBloc, ForgotState>(
         builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.all(30),
-            child: Form(
-              child: ListView(
-                children: <Widget>[
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.email),
-                      labelText: 'Email',
-                    ),
-                    autocorrect: false,
-                    autovalidate: true,
-                    validator: (_) {
-                      return !state.isEmailValid ? 'Invalid Email' : null;
-                    },
+          return Form(
+            child: ListView(
+              padding: const EdgeInsets.all(30),
+              children: <Widget>[
+                TextFormField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.email),
+                    labelText: 'Email',
                   ),
-                  ForgotButton(
-                    onPressed:
-                        isForgotButtonEnabled(state) ? _onFormSubmitted : null,
-                  ),
-                ],
-              ),
+                  autocorrect: false,
+                  autovalidate: true,
+                  validator: (_) {
+                    return !state.isEmailValid ? 'E-mail invalide' : null;
+                  },
+                ),
+                ForgotButton(
+                  onPressed:
+                      isForgotButtonEnabled(state) ? _onFormSubmitted : null,
+                ),
+              ],
             ),
           );
         },

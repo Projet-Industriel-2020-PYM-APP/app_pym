@@ -1,4 +1,5 @@
 import 'package:app_pym/domain/entities/map_pym/batiment_position.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';

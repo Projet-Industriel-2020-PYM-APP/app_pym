@@ -331,12 +331,14 @@ class _$ForgotStateTearOff {
       {@required bool isEmailValid,
       @required bool isSubmitting,
       @required bool isSuccess,
-      @required bool isFailure}) {
+      @required bool isFailure,
+      String error}) {
     return _ForgotState(
       isEmailValid: isEmailValid,
       isSubmitting: isSubmitting,
       isSuccess: isSuccess,
       isFailure: isFailure,
+      error: error,
     );
   }
 }
@@ -349,6 +351,7 @@ mixin _$ForgotState {
   bool get isSubmitting;
   bool get isSuccess;
   bool get isFailure;
+  String get error;
 
   $ForgotStateCopyWith<ForgotState> get copyWith;
 }
@@ -358,7 +361,11 @@ abstract class $ForgotStateCopyWith<$Res> {
           ForgotState value, $Res Function(ForgotState) then) =
       _$ForgotStateCopyWithImpl<$Res>;
   $Res call(
-      {bool isEmailValid, bool isSubmitting, bool isSuccess, bool isFailure});
+      {bool isEmailValid,
+      bool isSubmitting,
+      bool isSuccess,
+      bool isFailure,
+      String error});
 }
 
 class _$ForgotStateCopyWithImpl<$Res> implements $ForgotStateCopyWith<$Res> {
@@ -374,6 +381,7 @@ class _$ForgotStateCopyWithImpl<$Res> implements $ForgotStateCopyWith<$Res> {
     Object isSubmitting = freezed,
     Object isSuccess = freezed,
     Object isFailure = freezed,
+    Object error = freezed,
   }) {
     return _then(_value.copyWith(
       isEmailValid:
@@ -382,6 +390,7 @@ class _$ForgotStateCopyWithImpl<$Res> implements $ForgotStateCopyWith<$Res> {
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
       isFailure: isFailure == freezed ? _value.isFailure : isFailure as bool,
+      error: error == freezed ? _value.error : error as String,
     ));
   }
 }
@@ -393,7 +402,11 @@ abstract class _$ForgotStateCopyWith<$Res>
       __$ForgotStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {bool isEmailValid, bool isSubmitting, bool isSuccess, bool isFailure});
+      {bool isEmailValid,
+      bool isSubmitting,
+      bool isSuccess,
+      bool isFailure,
+      String error});
 }
 
 class __$ForgotStateCopyWithImpl<$Res> extends _$ForgotStateCopyWithImpl<$Res>
@@ -411,6 +424,7 @@ class __$ForgotStateCopyWithImpl<$Res> extends _$ForgotStateCopyWithImpl<$Res>
     Object isSubmitting = freezed,
     Object isSuccess = freezed,
     Object isFailure = freezed,
+    Object error = freezed,
   }) {
     return _then(_ForgotState(
       isEmailValid:
@@ -419,6 +433,7 @@ class __$ForgotStateCopyWithImpl<$Res> extends _$ForgotStateCopyWithImpl<$Res>
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
       isFailure: isFailure == freezed ? _value.isFailure : isFailure as bool,
+      error: error == freezed ? _value.error : error as String,
     ));
   }
 }
@@ -428,7 +443,8 @@ class _$_ForgotState with DiagnosticableTreeMixin implements _ForgotState {
       {@required this.isEmailValid,
       @required this.isSubmitting,
       @required this.isSuccess,
-      @required this.isFailure})
+      @required this.isFailure,
+      this.error})
       : assert(isEmailValid != null),
         assert(isSubmitting != null),
         assert(isSuccess != null),
@@ -442,10 +458,12 @@ class _$_ForgotState with DiagnosticableTreeMixin implements _ForgotState {
   final bool isSuccess;
   @override
   final bool isFailure;
+  @override
+  final String error;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ForgotState(isEmailValid: $isEmailValid, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure)';
+    return 'ForgotState(isEmailValid: $isEmailValid, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, error: $error)';
   }
 
   @override
@@ -456,7 +474,8 @@ class _$_ForgotState with DiagnosticableTreeMixin implements _ForgotState {
       ..add(DiagnosticsProperty('isEmailValid', isEmailValid))
       ..add(DiagnosticsProperty('isSubmitting', isSubmitting))
       ..add(DiagnosticsProperty('isSuccess', isSuccess))
-      ..add(DiagnosticsProperty('isFailure', isFailure));
+      ..add(DiagnosticsProperty('isFailure', isFailure))
+      ..add(DiagnosticsProperty('error', error));
   }
 
   @override
@@ -474,7 +493,9 @@ class _$_ForgotState with DiagnosticableTreeMixin implements _ForgotState {
                     .equals(other.isSuccess, isSuccess)) &&
             (identical(other.isFailure, isFailure) ||
                 const DeepCollectionEquality()
-                    .equals(other.isFailure, isFailure)));
+                    .equals(other.isFailure, isFailure)) &&
+            (identical(other.error, error) ||
+                const DeepCollectionEquality().equals(other.error, error)));
   }
 
   @override
@@ -483,7 +504,8 @@ class _$_ForgotState with DiagnosticableTreeMixin implements _ForgotState {
       const DeepCollectionEquality().hash(isEmailValid) ^
       const DeepCollectionEquality().hash(isSubmitting) ^
       const DeepCollectionEquality().hash(isSuccess) ^
-      const DeepCollectionEquality().hash(isFailure);
+      const DeepCollectionEquality().hash(isFailure) ^
+      const DeepCollectionEquality().hash(error);
 
   @override
   _$ForgotStateCopyWith<_ForgotState> get copyWith =>
@@ -495,7 +517,8 @@ abstract class _ForgotState implements ForgotState {
       {@required bool isEmailValid,
       @required bool isSubmitting,
       @required bool isSuccess,
-      @required bool isFailure}) = _$_ForgotState;
+      @required bool isFailure,
+      String error}) = _$_ForgotState;
 
   @override
   bool get isEmailValid;
@@ -505,6 +528,8 @@ abstract class _ForgotState implements ForgotState {
   bool get isSuccess;
   @override
   bool get isFailure;
+  @override
+  String get error;
   @override
   _$ForgotStateCopyWith<_ForgotState> get copyWith;
 }

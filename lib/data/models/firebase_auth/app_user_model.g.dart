@@ -13,6 +13,7 @@ _$_AppUserModel _$_$_AppUserModelFromJson(Map<String, dynamic> json) {
     photoUrl: json['photoUrl'] as String,
     displayName: json['displayName'] as String,
     lastSeen: _fromJson(json['lastSeen'] as Timestamp),
+    isEmailVerified: json['isEmailVerified'] as bool,
     isAdmin: json['isAdmin'] as bool,
   );
 }
@@ -24,5 +25,6 @@ Map<String, dynamic> _$_$_AppUserModelToJson(_$_AppUserModel instance) =>
       'photoUrl': instance.photoUrl,
       'displayName': instance.displayName,
       'lastSeen': _toJson(instance.lastSeen),
+      'isEmailVerified': instance.isEmailVerified,
       'isAdmin': instance.isAdmin,
     };

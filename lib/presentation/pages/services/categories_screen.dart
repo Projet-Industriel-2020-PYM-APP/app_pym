@@ -1,19 +1,34 @@
 import 'package:app_pym/domain/entities/app_pym/categorie.dart';
 import 'package:app_pym/presentation/pages/services/services_of_categorie_screen.dart';
+import 'package:breakpoint/breakpoint.dart';
 import 'package:flutter/material.dart';
 
-class CategoriesSreen extends StatelessWidget {
+class CategoriesScreen extends StatelessWidget {
   final List<Categorie> categories;
 
-  const CategoriesSreen(this.categories);
+  const CategoriesScreen(this.categories);
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: categories.length,
-        itemBuilder: (context, id) {
-          return CategorieCard(categories[id]);
-        });
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final _breakpoint = Breakpoint.fromConstraints(constraints);
+        return Scrollbar(
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: (_breakpoint.columns / 8).ceil(),
+              crossAxisSpacing: _breakpoint.gutters,
+              mainAxisSpacing: _breakpoint.gutters,
+              childAspectRatio: 5 / 2,
+            ),
+            itemCount: categories.length,
+            itemBuilder: (context, id) {
+              return CategorieCard(categories[id]);
+            },
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -29,12 +44,49 @@ class CategorieCard extends StatelessWidget {
       child: Card(
         child: Column(
           children: <Widget>[
-            Text(categorie.name),
-            FlatButton(
-              onPressed: () {
-                //go to services of category
-              },
-              child: Text(categorie.action.name),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  image:
+                      categorie.img_url != null && categorie.img_url.isNotEmpty
+                          ? DecorationImage(
+                              image: NetworkImage(categorie.img_url),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
+                  color:
+                      categorie.primary_color ?? Theme.of(context).primaryColor,
+                ),
+                padding: const EdgeInsets.all(20.0),
+                alignment: Alignment.bottomLeft,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    categorie.name,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5
+                        .apply(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+            ButtonBar(
+              buttonTextTheme: ButtonTextTheme.primary,
+              children: <Widget>[
+                FlatButton(
+                  textColor:
+                      categorie.primary_color ?? Theme.of(context).primaryColor,
+                  onPressed: () {
+                    Navigator.of(context).push<void>(MaterialPageRoute(
+                      builder: (context) => ServicesOfCategoriePage(categorie),
+                    ));
+                  },
+                  child: Text(
+                    categorie.action.name.toUpperCase(),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

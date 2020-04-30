@@ -15,7 +15,7 @@ class _$ServiceTearOff {
   _Service call(
       {String id,
       String title,
-      String categorie_id,
+      String categorie_ref,
       String subtitle,
       String address,
       String img_url,
@@ -23,7 +23,7 @@ class _$ServiceTearOff {
     return _Service(
       id: id,
       title: title,
-      categorie_id: categorie_id,
+      categorie_ref: categorie_ref,
       subtitle: subtitle,
       address: address,
       img_url: img_url,
@@ -38,7 +38,7 @@ const $Service = _$ServiceTearOff();
 mixin _$Service {
   String get id;
   String get title;
-  String get categorie_id;
+  String get categorie_ref;
   String get subtitle;
   String get address;
   String get img_url;
@@ -53,7 +53,7 @@ abstract class $ServiceCopyWith<$Res> {
   $Res call(
       {String id,
       String title,
-      String categorie_id,
+      String categorie_ref,
       String subtitle,
       String address,
       String img_url,
@@ -71,7 +71,7 @@ class _$ServiceCopyWithImpl<$Res> implements $ServiceCopyWith<$Res> {
   $Res call({
     Object id = freezed,
     Object title = freezed,
-    Object categorie_id = freezed,
+    Object categorie_ref = freezed,
     Object subtitle = freezed,
     Object address = freezed,
     Object img_url = freezed,
@@ -80,9 +80,9 @@ class _$ServiceCopyWithImpl<$Res> implements $ServiceCopyWith<$Res> {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as String,
       title: title == freezed ? _value.title : title as String,
-      categorie_id: categorie_id == freezed
-          ? _value.categorie_id
-          : categorie_id as String,
+      categorie_ref: categorie_ref == freezed
+          ? _value.categorie_ref
+          : categorie_ref as String,
       subtitle: subtitle == freezed ? _value.subtitle : subtitle as String,
       address: address == freezed ? _value.address : address as String,
       img_url: img_url == freezed ? _value.img_url : img_url as String,
@@ -98,7 +98,7 @@ abstract class _$ServiceCopyWith<$Res> implements $ServiceCopyWith<$Res> {
   $Res call(
       {String id,
       String title,
-      String categorie_id,
+      String categorie_ref,
       String subtitle,
       String address,
       String img_url,
@@ -117,7 +117,7 @@ class __$ServiceCopyWithImpl<$Res> extends _$ServiceCopyWithImpl<$Res>
   $Res call({
     Object id = freezed,
     Object title = freezed,
-    Object categorie_id = freezed,
+    Object categorie_ref = freezed,
     Object subtitle = freezed,
     Object address = freezed,
     Object img_url = freezed,
@@ -126,9 +126,9 @@ class __$ServiceCopyWithImpl<$Res> extends _$ServiceCopyWithImpl<$Res>
     return _then(_Service(
       id: id == freezed ? _value.id : id as String,
       title: title == freezed ? _value.title : title as String,
-      categorie_id: categorie_id == freezed
-          ? _value.categorie_id
-          : categorie_id as String,
+      categorie_ref: categorie_ref == freezed
+          ? _value.categorie_ref
+          : categorie_ref as String,
       subtitle: subtitle == freezed ? _value.subtitle : subtitle as String,
       address: address == freezed ? _value.address : address as String,
       img_url: img_url == freezed ? _value.img_url : img_url as String,
@@ -141,7 +141,7 @@ class _$_Service implements _Service {
   const _$_Service(
       {this.id,
       this.title,
-      this.categorie_id,
+      this.categorie_ref,
       this.subtitle,
       this.address,
       this.img_url,
@@ -152,7 +152,7 @@ class _$_Service implements _Service {
   @override
   final String title;
   @override
-  final String categorie_id;
+  final String categorie_ref;
   @override
   final String subtitle;
   @override
@@ -164,7 +164,7 @@ class _$_Service implements _Service {
 
   @override
   String toString() {
-    return 'Service(id: $id, title: $title, categorie_id: $categorie_id, subtitle: $subtitle, address: $address, img_url: $img_url, actions: $actions)';
+    return 'Service(id: $id, title: $title, categorie_ref: $categorie_ref, subtitle: $subtitle, address: $address, img_url: $img_url, actions: $actions)';
   }
 
   @override
@@ -175,9 +175,9 @@ class _$_Service implements _Service {
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.title, title) ||
                 const DeepCollectionEquality().equals(other.title, title)) &&
-            (identical(other.categorie_id, categorie_id) ||
+            (identical(other.categorie_ref, categorie_ref) ||
                 const DeepCollectionEquality()
-                    .equals(other.categorie_id, categorie_id)) &&
+                    .equals(other.categorie_ref, categorie_ref)) &&
             (identical(other.subtitle, subtitle) ||
                 const DeepCollectionEquality()
                     .equals(other.subtitle, subtitle)) &&
@@ -196,7 +196,7 @@ class _$_Service implements _Service {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(title) ^
-      const DeepCollectionEquality().hash(categorie_id) ^
+      const DeepCollectionEquality().hash(categorie_ref) ^
       const DeepCollectionEquality().hash(subtitle) ^
       const DeepCollectionEquality().hash(address) ^
       const DeepCollectionEquality().hash(img_url) ^
@@ -211,7 +211,7 @@ abstract class _Service implements Service {
   const factory _Service(
       {String id,
       String title,
-      String categorie_id,
+      String categorie_ref,
       String subtitle,
       String address,
       String img_url,
@@ -222,7 +222,7 @@ abstract class _Service implements Service {
   @override
   String get title;
   @override
-  String get categorie_id;
+  String get categorie_ref;
   @override
   String get subtitle;
   @override

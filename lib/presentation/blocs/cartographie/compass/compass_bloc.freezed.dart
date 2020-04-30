@@ -131,8 +131,8 @@ mixin _$CompassState {
     @required Result stopMovingLoading(),
     @required Result loaded(num bearingBetweenCameraAndNorth),
     @required
-        Result notPermitted(@required bool locationIsGranted,
-            @required bool locationIsEnabled, @required bool cameraIsGranted),
+        Result notPermitted(bool locationIsGranted, bool locationIsEnabled,
+            bool cameraIsGranted),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
@@ -141,8 +141,8 @@ mixin _$CompassState {
     Result movingLoading(),
     Result stopMovingLoading(),
     Result loaded(num bearingBetweenCameraAndNorth),
-    Result notPermitted(@required bool locationIsGranted,
-        @required bool locationIsEnabled, @required bool cameraIsGranted),
+    Result notPermitted(
+        bool locationIsGranted, bool locationIsEnabled, bool cameraIsGranted),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -228,8 +228,8 @@ class _$CompassInitial with DiagnosticableTreeMixin implements CompassInitial {
     @required Result stopMovingLoading(),
     @required Result loaded(num bearingBetweenCameraAndNorth),
     @required
-        Result notPermitted(@required bool locationIsGranted,
-            @required bool locationIsEnabled, @required bool cameraIsGranted),
+        Result notPermitted(bool locationIsGranted, bool locationIsEnabled,
+            bool cameraIsGranted),
   }) {
     assert(initial != null);
     assert(loading != null);
@@ -248,8 +248,8 @@ class _$CompassInitial with DiagnosticableTreeMixin implements CompassInitial {
     Result movingLoading(),
     Result stopMovingLoading(),
     Result loaded(num bearingBetweenCameraAndNorth),
-    Result notPermitted(@required bool locationIsGranted,
-        @required bool locationIsEnabled, @required bool cameraIsGranted),
+    Result notPermitted(
+        bool locationIsGranted, bool locationIsEnabled, bool cameraIsGranted),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -349,8 +349,8 @@ class _$CompassLoading with DiagnosticableTreeMixin implements CompassLoading {
     @required Result stopMovingLoading(),
     @required Result loaded(num bearingBetweenCameraAndNorth),
     @required
-        Result notPermitted(@required bool locationIsGranted,
-            @required bool locationIsEnabled, @required bool cameraIsGranted),
+        Result notPermitted(bool locationIsGranted, bool locationIsEnabled,
+            bool cameraIsGranted),
   }) {
     assert(initial != null);
     assert(loading != null);
@@ -369,8 +369,8 @@ class _$CompassLoading with DiagnosticableTreeMixin implements CompassLoading {
     Result movingLoading(),
     Result stopMovingLoading(),
     Result loaded(num bearingBetweenCameraAndNorth),
-    Result notPermitted(@required bool locationIsGranted,
-        @required bool locationIsEnabled, @required bool cameraIsGranted),
+    Result notPermitted(
+        bool locationIsGranted, bool locationIsEnabled, bool cameraIsGranted),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -472,8 +472,8 @@ class _$CompassMovingLoading
     @required Result stopMovingLoading(),
     @required Result loaded(num bearingBetweenCameraAndNorth),
     @required
-        Result notPermitted(@required bool locationIsGranted,
-            @required bool locationIsEnabled, @required bool cameraIsGranted),
+        Result notPermitted(bool locationIsGranted, bool locationIsEnabled,
+            bool cameraIsGranted),
   }) {
     assert(initial != null);
     assert(loading != null);
@@ -492,8 +492,8 @@ class _$CompassMovingLoading
     Result movingLoading(),
     Result stopMovingLoading(),
     Result loaded(num bearingBetweenCameraAndNorth),
-    Result notPermitted(@required bool locationIsGranted,
-        @required bool locationIsEnabled, @required bool cameraIsGranted),
+    Result notPermitted(
+        bool locationIsGranted, bool locationIsEnabled, bool cameraIsGranted),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -597,8 +597,8 @@ class _$CompassStopMovingLoading
     @required Result stopMovingLoading(),
     @required Result loaded(num bearingBetweenCameraAndNorth),
     @required
-        Result notPermitted(@required bool locationIsGranted,
-            @required bool locationIsEnabled, @required bool cameraIsGranted),
+        Result notPermitted(bool locationIsGranted, bool locationIsEnabled,
+            bool cameraIsGranted),
   }) {
     assert(initial != null);
     assert(loading != null);
@@ -617,8 +617,8 @@ class _$CompassStopMovingLoading
     Result movingLoading(),
     Result stopMovingLoading(),
     Result loaded(num bearingBetweenCameraAndNorth),
-    Result notPermitted(@required bool locationIsGranted,
-        @required bool locationIsEnabled, @required bool cameraIsGranted),
+    Result notPermitted(
+        bool locationIsGranted, bool locationIsEnabled, bool cameraIsGranted),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -748,8 +748,8 @@ class _$CompassLoaded with DiagnosticableTreeMixin implements CompassLoaded {
     @required Result stopMovingLoading(),
     @required Result loaded(num bearingBetweenCameraAndNorth),
     @required
-        Result notPermitted(@required bool locationIsGranted,
-            @required bool locationIsEnabled, @required bool cameraIsGranted),
+        Result notPermitted(bool locationIsGranted, bool locationIsEnabled,
+            bool cameraIsGranted),
   }) {
     assert(initial != null);
     assert(loading != null);
@@ -768,8 +768,8 @@ class _$CompassLoaded with DiagnosticableTreeMixin implements CompassLoaded {
     Result movingLoading(),
     Result stopMovingLoading(),
     Result loaded(num bearingBetweenCameraAndNorth),
-    Result notPermitted(@required bool locationIsGranted,
-        @required bool locationIsEnabled, @required bool cameraIsGranted),
+    Result notPermitted(
+        bool locationIsGranted, bool locationIsEnabled, bool cameraIsGranted),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -931,8 +931,8 @@ class _$CompassNotPermitted
     @required Result stopMovingLoading(),
     @required Result loaded(num bearingBetweenCameraAndNorth),
     @required
-        Result notPermitted(@required bool locationIsGranted,
-            @required bool locationIsEnabled, @required bool cameraIsGranted),
+        Result notPermitted(bool locationIsGranted, bool locationIsEnabled,
+            bool cameraIsGranted),
   }) {
     assert(initial != null);
     assert(loading != null);
@@ -951,8 +951,8 @@ class _$CompassNotPermitted
     Result movingLoading(),
     Result stopMovingLoading(),
     Result loaded(num bearingBetweenCameraAndNorth),
-    Result notPermitted(@required bool locationIsGranted,
-        @required bool locationIsEnabled, @required bool cameraIsGranted),
+    Result notPermitted(
+        bool locationIsGranted, bool locationIsEnabled, bool cameraIsGranted),
     @required Result orElse(),
   }) {
     assert(orElse != null);

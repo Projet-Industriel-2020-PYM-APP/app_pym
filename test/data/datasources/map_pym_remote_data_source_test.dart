@@ -27,9 +27,9 @@ void main() {
 
   void setUpMockHttpClientSuccess200() {
     when(
-      mockHttpClient.get('https://admin.map-pym.com/api/batiments_position'),
+      mockHttpClient.get('https://admin.map-pym.com/api/batiment_position'),
     ).thenAnswer((_) async =>
-        http.Response(fixture('map_pym/batiments_position.json'), 200));
+        http.Response(fixture('map_pym/batiment_position.json'), 200));
     when(
       mockHttpClient.get('https://admin.map-pym.com/api/batiments'),
     ).thenAnswer(
@@ -47,7 +47,7 @@ void main() {
 
   group('fetchBatimentPosition', () {
     final tListBatimentPositionModel =
-        (json.decode(fixture('map_pym/batiments_position.json')) as List)
+        (json.decode(fixture('map_pym/batiment_position.json')) as List)
             .map((dynamic data) =>
                 BatimentPositionModel.fromJson(data as Map<String, dynamic>))
             .toList();
@@ -61,7 +61,7 @@ void main() {
         await dataSource.fetchBatimentsPosition();
         // assert
         verify(mockHttpClient.get(
-          'https://admin.map-pym.com/api/batiments_position',
+          'https://admin.map-pym.com/api/batiment_position',
         ));
       },
     );

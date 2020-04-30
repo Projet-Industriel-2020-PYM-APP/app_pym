@@ -136,7 +136,7 @@ void main() {
         () async {
           // arrange
           when(mockLocalDataSource.fetchBatiment(any))
-              .thenAnswer((_) async => tBatimentModel);
+              .thenAnswer((_) => tBatimentModel);
           // act
           final result = await repository.fetchBatiment(1);
           // assert

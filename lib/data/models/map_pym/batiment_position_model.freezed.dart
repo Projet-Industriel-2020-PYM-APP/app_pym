@@ -113,7 +113,9 @@ class __$BatimentPositionModelCopyWithImpl<$Res>
 
 @HiveType(typeId: 0)
 @JsonSerializable(explicitToJson: true)
-class _$_BatimentPositionModel implements _BatimentPositionModel {
+class _$_BatimentPositionModel
+    with DiagnosticableTreeMixin
+    implements _BatimentPositionModel {
   const _$_BatimentPositionModel(
       {@required @HiveField(0) this.latitude,
       @required @HiveField(1) this.longitude,
@@ -136,8 +138,18 @@ class _$_BatimentPositionModel implements _BatimentPositionModel {
   final int idBatiment;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'BatimentPositionModel(latitude: $latitude, longitude: $longitude, idBatiment: $idBatiment)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'BatimentPositionModel'))
+      ..add(DiagnosticsProperty('latitude', latitude))
+      ..add(DiagnosticsProperty('longitude', longitude))
+      ..add(DiagnosticsProperty('idBatiment', idBatiment));
   }
 
   @override

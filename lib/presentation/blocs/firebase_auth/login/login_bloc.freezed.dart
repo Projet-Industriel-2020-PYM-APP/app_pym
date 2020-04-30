@@ -31,6 +31,13 @@ class _$LoginEventTearOff {
       password: password,
     );
   }
+
+  SignUpEvent signUp({@required String email, @required String password}) {
+    return SignUpEvent(
+      email: email,
+      password: password,
+    );
+  }
 }
 
 // ignore: unused_element
@@ -41,16 +48,15 @@ mixin _$LoginEvent {
   Result when<Result extends Object>({
     @required Result emailChanged(String email),
     @required Result passwordChanged(String password),
-    @required
-        Result withCredentialsPressed(
-            @required String email, @required String password),
+    @required Result withCredentialsPressed(String email, String password),
+    @required Result signUp(String email, String password),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result emailChanged(String email),
     Result passwordChanged(String password),
-    Result withCredentialsPressed(
-        @required String email, @required String password),
+    Result withCredentialsPressed(String email, String password),
+    Result signUp(String email, String password),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -58,12 +64,14 @@ mixin _$LoginEvent {
     @required Result emailChanged(EmailChanged value),
     @required Result passwordChanged(PasswordChanged value),
     @required Result withCredentialsPressed(LoginWithCredentialsPressed value),
+    @required Result signUp(SignUpEvent value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result emailChanged(EmailChanged value),
     Result passwordChanged(PasswordChanged value),
     Result withCredentialsPressed(LoginWithCredentialsPressed value),
+    Result signUp(SignUpEvent value),
     @required Result orElse(),
   });
 }
@@ -148,13 +156,13 @@ class _$EmailChanged with DiagnosticableTreeMixin implements EmailChanged {
   Result when<Result extends Object>({
     @required Result emailChanged(String email),
     @required Result passwordChanged(String password),
-    @required
-        Result withCredentialsPressed(
-            @required String email, @required String password),
+    @required Result withCredentialsPressed(String email, String password),
+    @required Result signUp(String email, String password),
   }) {
     assert(emailChanged != null);
     assert(passwordChanged != null);
     assert(withCredentialsPressed != null);
+    assert(signUp != null);
     return emailChanged(email);
   }
 
@@ -163,8 +171,8 @@ class _$EmailChanged with DiagnosticableTreeMixin implements EmailChanged {
   Result maybeWhen<Result extends Object>({
     Result emailChanged(String email),
     Result passwordChanged(String password),
-    Result withCredentialsPressed(
-        @required String email, @required String password),
+    Result withCredentialsPressed(String email, String password),
+    Result signUp(String email, String password),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -180,10 +188,12 @@ class _$EmailChanged with DiagnosticableTreeMixin implements EmailChanged {
     @required Result emailChanged(EmailChanged value),
     @required Result passwordChanged(PasswordChanged value),
     @required Result withCredentialsPressed(LoginWithCredentialsPressed value),
+    @required Result signUp(SignUpEvent value),
   }) {
     assert(emailChanged != null);
     assert(passwordChanged != null);
     assert(withCredentialsPressed != null);
+    assert(signUp != null);
     return emailChanged(this);
   }
 
@@ -193,6 +203,7 @@ class _$EmailChanged with DiagnosticableTreeMixin implements EmailChanged {
     Result emailChanged(EmailChanged value),
     Result passwordChanged(PasswordChanged value),
     Result withCredentialsPressed(LoginWithCredentialsPressed value),
+    Result signUp(SignUpEvent value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -279,13 +290,13 @@ class _$PasswordChanged
   Result when<Result extends Object>({
     @required Result emailChanged(String email),
     @required Result passwordChanged(String password),
-    @required
-        Result withCredentialsPressed(
-            @required String email, @required String password),
+    @required Result withCredentialsPressed(String email, String password),
+    @required Result signUp(String email, String password),
   }) {
     assert(emailChanged != null);
     assert(passwordChanged != null);
     assert(withCredentialsPressed != null);
+    assert(signUp != null);
     return passwordChanged(password);
   }
 
@@ -294,8 +305,8 @@ class _$PasswordChanged
   Result maybeWhen<Result extends Object>({
     Result emailChanged(String email),
     Result passwordChanged(String password),
-    Result withCredentialsPressed(
-        @required String email, @required String password),
+    Result withCredentialsPressed(String email, String password),
+    Result signUp(String email, String password),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -311,10 +322,12 @@ class _$PasswordChanged
     @required Result emailChanged(EmailChanged value),
     @required Result passwordChanged(PasswordChanged value),
     @required Result withCredentialsPressed(LoginWithCredentialsPressed value),
+    @required Result signUp(SignUpEvent value),
   }) {
     assert(emailChanged != null);
     assert(passwordChanged != null);
     assert(withCredentialsPressed != null);
+    assert(signUp != null);
     return passwordChanged(this);
   }
 
@@ -324,6 +337,7 @@ class _$PasswordChanged
     Result emailChanged(EmailChanged value),
     Result passwordChanged(PasswordChanged value),
     Result withCredentialsPressed(LoginWithCredentialsPressed value),
+    Result signUp(SignUpEvent value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -426,13 +440,13 @@ class _$LoginWithCredentialsPressed
   Result when<Result extends Object>({
     @required Result emailChanged(String email),
     @required Result passwordChanged(String password),
-    @required
-        Result withCredentialsPressed(
-            @required String email, @required String password),
+    @required Result withCredentialsPressed(String email, String password),
+    @required Result signUp(String email, String password),
   }) {
     assert(emailChanged != null);
     assert(passwordChanged != null);
     assert(withCredentialsPressed != null);
+    assert(signUp != null);
     return withCredentialsPressed(email, password);
   }
 
@@ -441,8 +455,8 @@ class _$LoginWithCredentialsPressed
   Result maybeWhen<Result extends Object>({
     Result emailChanged(String email),
     Result passwordChanged(String password),
-    Result withCredentialsPressed(
-        @required String email, @required String password),
+    Result withCredentialsPressed(String email, String password),
+    Result signUp(String email, String password),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -458,10 +472,12 @@ class _$LoginWithCredentialsPressed
     @required Result emailChanged(EmailChanged value),
     @required Result passwordChanged(PasswordChanged value),
     @required Result withCredentialsPressed(LoginWithCredentialsPressed value),
+    @required Result signUp(SignUpEvent value),
   }) {
     assert(emailChanged != null);
     assert(passwordChanged != null);
     assert(withCredentialsPressed != null);
+    assert(signUp != null);
     return withCredentialsPressed(this);
   }
 
@@ -471,6 +487,7 @@ class _$LoginWithCredentialsPressed
     Result emailChanged(EmailChanged value),
     Result passwordChanged(PasswordChanged value),
     Result withCredentialsPressed(LoginWithCredentialsPressed value),
+    Result signUp(SignUpEvent value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -492,6 +509,151 @@ abstract class LoginWithCredentialsPressed implements LoginEvent {
       get copyWith;
 }
 
+abstract class $SignUpEventCopyWith<$Res> {
+  factory $SignUpEventCopyWith(
+          SignUpEvent value, $Res Function(SignUpEvent) then) =
+      _$SignUpEventCopyWithImpl<$Res>;
+  $Res call({String email, String password});
+}
+
+class _$SignUpEventCopyWithImpl<$Res> extends _$LoginEventCopyWithImpl<$Res>
+    implements $SignUpEventCopyWith<$Res> {
+  _$SignUpEventCopyWithImpl(
+      SignUpEvent _value, $Res Function(SignUpEvent) _then)
+      : super(_value, (v) => _then(v as SignUpEvent));
+
+  @override
+  SignUpEvent get _value => super._value as SignUpEvent;
+
+  @override
+  $Res call({
+    Object email = freezed,
+    Object password = freezed,
+  }) {
+    return _then(SignUpEvent(
+      email: email == freezed ? _value.email : email as String,
+      password: password == freezed ? _value.password : password as String,
+    ));
+  }
+}
+
+class _$SignUpEvent with DiagnosticableTreeMixin implements SignUpEvent {
+  const _$SignUpEvent({@required this.email, @required this.password})
+      : assert(email != null),
+        assert(password != null);
+
+  @override
+  final String email;
+  @override
+  final String password;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'LoginEvent.signUp(email: $email, password: $password)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'LoginEvent.signUp'))
+      ..add(DiagnosticsProperty('email', email))
+      ..add(DiagnosticsProperty('password', password));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is SignUpEvent &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)) &&
+            (identical(other.password, password) ||
+                const DeepCollectionEquality()
+                    .equals(other.password, password)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(email) ^
+      const DeepCollectionEquality().hash(password);
+
+  @override
+  $SignUpEventCopyWith<SignUpEvent> get copyWith =>
+      _$SignUpEventCopyWithImpl<SignUpEvent>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result emailChanged(String email),
+    @required Result passwordChanged(String password),
+    @required Result withCredentialsPressed(String email, String password),
+    @required Result signUp(String email, String password),
+  }) {
+    assert(emailChanged != null);
+    assert(passwordChanged != null);
+    assert(withCredentialsPressed != null);
+    assert(signUp != null);
+    return signUp(email, password);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result emailChanged(String email),
+    Result passwordChanged(String password),
+    Result withCredentialsPressed(String email, String password),
+    Result signUp(String email, String password),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (signUp != null) {
+      return signUp(email, password);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result emailChanged(EmailChanged value),
+    @required Result passwordChanged(PasswordChanged value),
+    @required Result withCredentialsPressed(LoginWithCredentialsPressed value),
+    @required Result signUp(SignUpEvent value),
+  }) {
+    assert(emailChanged != null);
+    assert(passwordChanged != null);
+    assert(withCredentialsPressed != null);
+    assert(signUp != null);
+    return signUp(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result emailChanged(EmailChanged value),
+    Result passwordChanged(PasswordChanged value),
+    Result withCredentialsPressed(LoginWithCredentialsPressed value),
+    Result signUp(SignUpEvent value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (signUp != null) {
+      return signUp(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SignUpEvent implements LoginEvent {
+  const factory SignUpEvent(
+      {@required String email, @required String password}) = _$SignUpEvent;
+
+  String get email;
+  String get password;
+  $SignUpEventCopyWith<SignUpEvent> get copyWith;
+}
+
 class _$LoginStateTearOff {
   const _$LoginStateTearOff();
 
@@ -500,13 +662,15 @@ class _$LoginStateTearOff {
       @required bool isPasswordValid,
       @required bool isSubmitting,
       @required bool isSuccess,
-      @required bool isFailure}) {
+      @required bool isFailure,
+      String error}) {
     return _LoginState(
       isEmailValid: isEmailValid,
       isPasswordValid: isPasswordValid,
       isSubmitting: isSubmitting,
       isSuccess: isSuccess,
       isFailure: isFailure,
+      error: error,
     );
   }
 }
@@ -520,6 +684,7 @@ mixin _$LoginState {
   bool get isSubmitting;
   bool get isSuccess;
   bool get isFailure;
+  String get error;
 
   $LoginStateCopyWith<LoginState> get copyWith;
 }
@@ -533,7 +698,8 @@ abstract class $LoginStateCopyWith<$Res> {
       bool isPasswordValid,
       bool isSubmitting,
       bool isSuccess,
-      bool isFailure});
+      bool isFailure,
+      String error});
 }
 
 class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
@@ -550,6 +716,7 @@ class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
     Object isSubmitting = freezed,
     Object isSuccess = freezed,
     Object isFailure = freezed,
+    Object error = freezed,
   }) {
     return _then(_value.copyWith(
       isEmailValid:
@@ -561,6 +728,7 @@ class _$LoginStateCopyWithImpl<$Res> implements $LoginStateCopyWith<$Res> {
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
       isFailure: isFailure == freezed ? _value.isFailure : isFailure as bool,
+      error: error == freezed ? _value.error : error as String,
     ));
   }
 }
@@ -575,7 +743,8 @@ abstract class _$LoginStateCopyWith<$Res> implements $LoginStateCopyWith<$Res> {
       bool isPasswordValid,
       bool isSubmitting,
       bool isSuccess,
-      bool isFailure});
+      bool isFailure,
+      String error});
 }
 
 class __$LoginStateCopyWithImpl<$Res> extends _$LoginStateCopyWithImpl<$Res>
@@ -594,6 +763,7 @@ class __$LoginStateCopyWithImpl<$Res> extends _$LoginStateCopyWithImpl<$Res>
     Object isSubmitting = freezed,
     Object isSuccess = freezed,
     Object isFailure = freezed,
+    Object error = freezed,
   }) {
     return _then(_LoginState(
       isEmailValid:
@@ -605,6 +775,7 @@ class __$LoginStateCopyWithImpl<$Res> extends _$LoginStateCopyWithImpl<$Res>
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
       isFailure: isFailure == freezed ? _value.isFailure : isFailure as bool,
+      error: error == freezed ? _value.error : error as String,
     ));
   }
 }
@@ -615,7 +786,8 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
       @required this.isPasswordValid,
       @required this.isSubmitting,
       @required this.isSuccess,
-      @required this.isFailure})
+      @required this.isFailure,
+      this.error})
       : assert(isEmailValid != null),
         assert(isPasswordValid != null),
         assert(isSubmitting != null),
@@ -632,10 +804,12 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
   final bool isSuccess;
   @override
   final bool isFailure;
+  @override
+  final String error;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'LoginState(isEmailValid: $isEmailValid, isPasswordValid: $isPasswordValid, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure)';
+    return 'LoginState(isEmailValid: $isEmailValid, isPasswordValid: $isPasswordValid, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, error: $error)';
   }
 
   @override
@@ -647,7 +821,8 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
       ..add(DiagnosticsProperty('isPasswordValid', isPasswordValid))
       ..add(DiagnosticsProperty('isSubmitting', isSubmitting))
       ..add(DiagnosticsProperty('isSuccess', isSuccess))
-      ..add(DiagnosticsProperty('isFailure', isFailure));
+      ..add(DiagnosticsProperty('isFailure', isFailure))
+      ..add(DiagnosticsProperty('error', error));
   }
 
   @override
@@ -668,7 +843,9 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
                     .equals(other.isSuccess, isSuccess)) &&
             (identical(other.isFailure, isFailure) ||
                 const DeepCollectionEquality()
-                    .equals(other.isFailure, isFailure)));
+                    .equals(other.isFailure, isFailure)) &&
+            (identical(other.error, error) ||
+                const DeepCollectionEquality().equals(other.error, error)));
   }
 
   @override
@@ -678,7 +855,8 @@ class _$_LoginState with DiagnosticableTreeMixin implements _LoginState {
       const DeepCollectionEquality().hash(isPasswordValid) ^
       const DeepCollectionEquality().hash(isSubmitting) ^
       const DeepCollectionEquality().hash(isSuccess) ^
-      const DeepCollectionEquality().hash(isFailure);
+      const DeepCollectionEquality().hash(isFailure) ^
+      const DeepCollectionEquality().hash(error);
 
   @override
   _$LoginStateCopyWith<_LoginState> get copyWith =>
@@ -691,7 +869,8 @@ abstract class _LoginState implements LoginState {
       @required bool isPasswordValid,
       @required bool isSubmitting,
       @required bool isSuccess,
-      @required bool isFailure}) = _$_LoginState;
+      @required bool isFailure,
+      String error}) = _$_LoginState;
 
   @override
   bool get isEmailValid;
@@ -703,6 +882,8 @@ abstract class _LoginState implements LoginState {
   bool get isSuccess;
   @override
   bool get isFailure;
+  @override
+  String get error;
   @override
   _$LoginStateCopyWith<_LoginState> get copyWith;
 }

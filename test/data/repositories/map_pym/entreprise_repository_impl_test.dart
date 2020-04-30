@@ -140,7 +140,7 @@ void main() {
         () async {
           // arrange
           when(mockLocalDataSource.fetchEntreprisesOfBatiment(any))
-              .thenAnswer((_) async => tListEntrepriseModel);
+              .thenAnswer((_) => tListEntrepriseModel);
           // act
           final result = await repository.fetchEntreprisesOfBatiment(1);
           // assert

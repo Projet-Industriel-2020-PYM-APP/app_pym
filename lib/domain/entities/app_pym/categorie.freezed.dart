@@ -12,10 +12,17 @@ T _$identity<T>(T value) => value;
 class _$CategorieTearOff {
   const _$CategorieTearOff();
 
-  _Categorie call({String id, String name, Action action}) {
+  _Categorie call(
+      {String id,
+      String name,
+      Color primary_color,
+      String img_url,
+      Action action}) {
     return _Categorie(
       id: id,
       name: name,
+      primary_color: primary_color,
+      img_url: img_url,
       action: action,
     );
   }
@@ -27,6 +34,8 @@ const $Categorie = _$CategorieTearOff();
 mixin _$Categorie {
   String get id;
   String get name;
+  Color get primary_color;
+  String get img_url;
   Action get action;
 
   $CategorieCopyWith<Categorie> get copyWith;
@@ -35,7 +44,12 @@ mixin _$Categorie {
 abstract class $CategorieCopyWith<$Res> {
   factory $CategorieCopyWith(Categorie value, $Res Function(Categorie) then) =
       _$CategorieCopyWithImpl<$Res>;
-  $Res call({String id, String name, Action action});
+  $Res call(
+      {String id,
+      String name,
+      Color primary_color,
+      String img_url,
+      Action action});
 
   $ActionCopyWith<$Res> get action;
 }
@@ -51,11 +65,17 @@ class _$CategorieCopyWithImpl<$Res> implements $CategorieCopyWith<$Res> {
   $Res call({
     Object id = freezed,
     Object name = freezed,
+    Object primary_color = freezed,
+    Object img_url = freezed,
     Object action = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as String,
       name: name == freezed ? _value.name : name as String,
+      primary_color: primary_color == freezed
+          ? _value.primary_color
+          : primary_color as Color,
+      img_url: img_url == freezed ? _value.img_url : img_url as String,
       action: action == freezed ? _value.action : action as Action,
     ));
   }
@@ -76,7 +96,12 @@ abstract class _$CategorieCopyWith<$Res> implements $CategorieCopyWith<$Res> {
           _Categorie value, $Res Function(_Categorie) then) =
       __$CategorieCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String name, Action action});
+  $Res call(
+      {String id,
+      String name,
+      Color primary_color,
+      String img_url,
+      Action action});
 
   @override
   $ActionCopyWith<$Res> get action;
@@ -94,29 +119,52 @@ class __$CategorieCopyWithImpl<$Res> extends _$CategorieCopyWithImpl<$Res>
   $Res call({
     Object id = freezed,
     Object name = freezed,
+    Object primary_color = freezed,
+    Object img_url = freezed,
     Object action = freezed,
   }) {
     return _then(_Categorie(
       id: id == freezed ? _value.id : id as String,
       name: name == freezed ? _value.name : name as String,
+      primary_color: primary_color == freezed
+          ? _value.primary_color
+          : primary_color as Color,
+      img_url: img_url == freezed ? _value.img_url : img_url as String,
       action: action == freezed ? _value.action : action as Action,
     ));
   }
 }
 
-class _$_Categorie implements _Categorie {
-  const _$_Categorie({this.id, this.name, this.action});
+class _$_Categorie with DiagnosticableTreeMixin implements _Categorie {
+  const _$_Categorie(
+      {this.id, this.name, this.primary_color, this.img_url, this.action});
 
   @override
   final String id;
   @override
   final String name;
   @override
+  final Color primary_color;
+  @override
+  final String img_url;
+  @override
   final Action action;
 
   @override
-  String toString() {
-    return 'Categorie(id: $id, name: $name, action: $action)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'Categorie(id: $id, name: $name, primary_color: $primary_color, img_url: $img_url, action: $action)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'Categorie'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('primary_color', primary_color))
+      ..add(DiagnosticsProperty('img_url', img_url))
+      ..add(DiagnosticsProperty('action', action));
   }
 
   @override
@@ -127,6 +175,12 @@ class _$_Categorie implements _Categorie {
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.primary_color, primary_color) ||
+                const DeepCollectionEquality()
+                    .equals(other.primary_color, primary_color)) &&
+            (identical(other.img_url, img_url) ||
+                const DeepCollectionEquality()
+                    .equals(other.img_url, img_url)) &&
             (identical(other.action, action) ||
                 const DeepCollectionEquality().equals(other.action, action)));
   }
@@ -136,6 +190,8 @@ class _$_Categorie implements _Categorie {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(primary_color) ^
+      const DeepCollectionEquality().hash(img_url) ^
       const DeepCollectionEquality().hash(action);
 
   @override
@@ -144,13 +200,21 @@ class _$_Categorie implements _Categorie {
 }
 
 abstract class _Categorie implements Categorie {
-  const factory _Categorie({String id, String name, Action action}) =
-      _$_Categorie;
+  const factory _Categorie(
+      {String id,
+      String name,
+      Color primary_color,
+      String img_url,
+      Action action}) = _$_Categorie;
 
   @override
   String get id;
   @override
   String get name;
+  @override
+  Color get primary_color;
+  @override
+  String get img_url;
   @override
   Action get action;
   @override

@@ -19,14 +19,21 @@ class _$AppUserModelTearOff {
       {@required
           String uid,
       @required
+      @nullable
           String email,
       @required
+      @nullable
           String photoUrl,
       @required
+      @nullable
           String displayName,
       @required
+      @nullable
       @JsonKey(fromJson: _fromJson, toJson: _toJson)
           DateTime lastSeen,
+      @required
+      @nullable
+          bool isEmailVerified,
       @required
           bool isAdmin}) {
     return _AppUserModel(
@@ -35,6 +42,7 @@ class _$AppUserModelTearOff {
       photoUrl: photoUrl,
       displayName: displayName,
       lastSeen: lastSeen,
+      isEmailVerified: isEmailVerified,
       isAdmin: isAdmin,
     );
   }
@@ -45,11 +53,17 @@ const $AppUserModel = _$AppUserModelTearOff();
 
 mixin _$AppUserModel {
   String get uid;
+  @nullable
   String get email;
+  @nullable
   String get photoUrl;
+  @nullable
   String get displayName;
+  @nullable
   @JsonKey(fromJson: _fromJson, toJson: _toJson)
   DateTime get lastSeen;
+  @nullable
+  bool get isEmailVerified;
   bool get isAdmin;
 
   Map<String, dynamic> toJson();
@@ -62,10 +76,17 @@ abstract class $AppUserModelCopyWith<$Res> {
       _$AppUserModelCopyWithImpl<$Res>;
   $Res call(
       {String uid,
-      String email,
-      String photoUrl,
-      String displayName,
-      @JsonKey(fromJson: _fromJson, toJson: _toJson) DateTime lastSeen,
+      @nullable
+          String email,
+      @nullable
+          String photoUrl,
+      @nullable
+          String displayName,
+      @nullable
+      @JsonKey(fromJson: _fromJson, toJson: _toJson)
+          DateTime lastSeen,
+      @nullable
+          bool isEmailVerified,
       bool isAdmin});
 }
 
@@ -83,6 +104,7 @@ class _$AppUserModelCopyWithImpl<$Res> implements $AppUserModelCopyWith<$Res> {
     Object photoUrl = freezed,
     Object displayName = freezed,
     Object lastSeen = freezed,
+    Object isEmailVerified = freezed,
     Object isAdmin = freezed,
   }) {
     return _then(_value.copyWith(
@@ -92,6 +114,9 @@ class _$AppUserModelCopyWithImpl<$Res> implements $AppUserModelCopyWith<$Res> {
       displayName:
           displayName == freezed ? _value.displayName : displayName as String,
       lastSeen: lastSeen == freezed ? _value.lastSeen : lastSeen as DateTime,
+      isEmailVerified: isEmailVerified == freezed
+          ? _value.isEmailVerified
+          : isEmailVerified as bool,
       isAdmin: isAdmin == freezed ? _value.isAdmin : isAdmin as bool,
     ));
   }
@@ -105,10 +130,17 @@ abstract class _$AppUserModelCopyWith<$Res>
   @override
   $Res call(
       {String uid,
-      String email,
-      String photoUrl,
-      String displayName,
-      @JsonKey(fromJson: _fromJson, toJson: _toJson) DateTime lastSeen,
+      @nullable
+          String email,
+      @nullable
+          String photoUrl,
+      @nullable
+          String displayName,
+      @nullable
+      @JsonKey(fromJson: _fromJson, toJson: _toJson)
+          DateTime lastSeen,
+      @nullable
+          bool isEmailVerified,
       bool isAdmin});
 }
 
@@ -128,6 +160,7 @@ class __$AppUserModelCopyWithImpl<$Res> extends _$AppUserModelCopyWithImpl<$Res>
     Object photoUrl = freezed,
     Object displayName = freezed,
     Object lastSeen = freezed,
+    Object isEmailVerified = freezed,
     Object isAdmin = freezed,
   }) {
     return _then(_AppUserModel(
@@ -137,25 +170,38 @@ class __$AppUserModelCopyWithImpl<$Res> extends _$AppUserModelCopyWithImpl<$Res>
       displayName:
           displayName == freezed ? _value.displayName : displayName as String,
       lastSeen: lastSeen == freezed ? _value.lastSeen : lastSeen as DateTime,
+      isEmailVerified: isEmailVerified == freezed
+          ? _value.isEmailVerified
+          : isEmailVerified as bool,
       isAdmin: isAdmin == freezed ? _value.isAdmin : isAdmin as bool,
     ));
   }
 }
 
 @JsonSerializable()
-class _$_AppUserModel implements _AppUserModel {
+class _$_AppUserModel with DiagnosticableTreeMixin implements _AppUserModel {
   const _$_AppUserModel(
-      {@required this.uid,
-      @required this.email,
-      @required this.photoUrl,
-      @required this.displayName,
-      @required @JsonKey(fromJson: _fromJson, toJson: _toJson) this.lastSeen,
-      @required this.isAdmin})
+      {@required
+          this.uid,
+      @required
+      @nullable
+          this.email,
+      @required
+      @nullable
+          this.photoUrl,
+      @required
+      @nullable
+          this.displayName,
+      @required
+      @nullable
+      @JsonKey(fromJson: _fromJson, toJson: _toJson)
+          this.lastSeen,
+      @required
+      @nullable
+          this.isEmailVerified,
+      @required
+          this.isAdmin})
       : assert(uid != null),
-        assert(email != null),
-        assert(photoUrl != null),
-        assert(displayName != null),
-        assert(lastSeen != null),
         assert(isAdmin != null);
 
   factory _$_AppUserModel.fromJson(Map<String, dynamic> json) =>
@@ -164,20 +210,41 @@ class _$_AppUserModel implements _AppUserModel {
   @override
   final String uid;
   @override
+  @nullable
   final String email;
   @override
+  @nullable
   final String photoUrl;
   @override
+  @nullable
   final String displayName;
   @override
+  @nullable
   @JsonKey(fromJson: _fromJson, toJson: _toJson)
   final DateTime lastSeen;
+  @override
+  @nullable
+  final bool isEmailVerified;
   @override
   final bool isAdmin;
 
   @override
-  String toString() {
-    return 'AppUserModel(uid: $uid, email: $email, photoUrl: $photoUrl, displayName: $displayName, lastSeen: $lastSeen, isAdmin: $isAdmin)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'AppUserModel(uid: $uid, email: $email, photoUrl: $photoUrl, displayName: $displayName, lastSeen: $lastSeen, isEmailVerified: $isEmailVerified, isAdmin: $isAdmin)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'AppUserModel'))
+      ..add(DiagnosticsProperty('uid', uid))
+      ..add(DiagnosticsProperty('email', email))
+      ..add(DiagnosticsProperty('photoUrl', photoUrl))
+      ..add(DiagnosticsProperty('displayName', displayName))
+      ..add(DiagnosticsProperty('lastSeen', lastSeen))
+      ..add(DiagnosticsProperty('isEmailVerified', isEmailVerified))
+      ..add(DiagnosticsProperty('isAdmin', isAdmin));
   }
 
   @override
@@ -197,6 +264,9 @@ class _$_AppUserModel implements _AppUserModel {
             (identical(other.lastSeen, lastSeen) ||
                 const DeepCollectionEquality()
                     .equals(other.lastSeen, lastSeen)) &&
+            (identical(other.isEmailVerified, isEmailVerified) ||
+                const DeepCollectionEquality()
+                    .equals(other.isEmailVerified, isEmailVerified)) &&
             (identical(other.isAdmin, isAdmin) ||
                 const DeepCollectionEquality().equals(other.isAdmin, isAdmin)));
   }
@@ -209,6 +279,7 @@ class _$_AppUserModel implements _AppUserModel {
       const DeepCollectionEquality().hash(photoUrl) ^
       const DeepCollectionEquality().hash(displayName) ^
       const DeepCollectionEquality().hash(lastSeen) ^
+      const DeepCollectionEquality().hash(isEmailVerified) ^
       const DeepCollectionEquality().hash(isAdmin);
 
   @override
@@ -226,14 +297,21 @@ abstract class _AppUserModel implements AppUserModel {
       {@required
           String uid,
       @required
+      @nullable
           String email,
       @required
+      @nullable
           String photoUrl,
       @required
+      @nullable
           String displayName,
       @required
+      @nullable
       @JsonKey(fromJson: _fromJson, toJson: _toJson)
           DateTime lastSeen,
+      @required
+      @nullable
+          bool isEmailVerified,
       @required
           bool isAdmin}) = _$_AppUserModel;
 
@@ -243,14 +321,21 @@ abstract class _AppUserModel implements AppUserModel {
   @override
   String get uid;
   @override
+  @nullable
   String get email;
   @override
+  @nullable
   String get photoUrl;
   @override
+  @nullable
   String get displayName;
   @override
+  @nullable
   @JsonKey(fromJson: _fromJson, toJson: _toJson)
   DateTime get lastSeen;
+  @override
+  @nullable
+  bool get isEmailVerified;
   @override
   bool get isAdmin;
   @override

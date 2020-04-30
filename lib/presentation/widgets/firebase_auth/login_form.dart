@@ -43,10 +43,7 @@ class _LoginFormState extends State<LoginForm> {
             ..hideCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [const Text('Login Failure'), Icon(Icons.error)],
-                ),
+                content: Text(state.error.toString()),
                 backgroundColor: Colors.red,
               ),
             );
@@ -67,62 +64,72 @@ class _LoginFormState extends State<LoginForm> {
             );
         }
         if (state.isSuccess) {
-          context.bloc<AuthenticationBloc>().add(const LoggedIn());
+          context
+              .bloc<AuthenticationBloc>()
+              .add(const AuthenticationEvent.refresh());
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Form(
-              child: ListView(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 30),
-                    child: Icon(Icons.android),
+          return Form(
+            child: ListView(
+              padding: const EdgeInsets.all(20.0),
+              children: <Widget>[
+                Image.asset(
+                    'assets/images/graphique/Logo-Pôle Yvon Morandat-original.png'),
+                TextFormField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.email),
+                    labelText: 'Email',
                   ),
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.email),
-                      labelText: 'Email',
-                    ),
-                    autovalidate: true,
-                    autocorrect: false,
-                    validator: (_) {
-                      return !state.isEmailValid ? 'Invalid Email' : null;
-                    },
+                  autovalidate: true,
+                  autocorrect: false,
+                  validator: (_) {
+                    return !state.isEmailValid ? 'E-mail invalide' : null;
+                  },
+                ),
+                TextFormField(
+                  controller: _passwordController,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.lock),
+                    labelText: 'Mot de passe',
                   ),
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.lock),
-                      labelText: 'Password',
-                    ),
-                    obscureText: true,
-                    autovalidate: true,
-                    autocorrect: false,
-                    validator: (_) {
-                      return !state.isPasswordValid ? 'Invalid Password' : null;
-                    },
+                  obscureText: true,
+                  autovalidate: true,
+                  autocorrect: false,
+                  validator: (_) {
+                    return !state.isPasswordValid
+                        ? 'Requis : une lettre, un chiffre et minimum 8 caractères'
+                        : null;
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 30),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      ButtonBar(
+                        alignment: MainAxisAlignment.end,
+                        overflowDirection: VerticalDirection.up,
+                        children: [
+                          CreateAccountButton(
+                            onPressed: isLoginButtonEnabled(state)
+                                ? _onSignUpSubmitted
+                                : null,
+                          ),
+                          LoginButton(
+                            onPressed: isLoginButtonEnabled(state)
+                                ? _onFormSubmitted
+                                : null,
+                          ),
+                        ],
+                      ),
+                      const ForgotPasswordButton(),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 30),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        LoginButton(
-                          onPressed: isLoginButtonEnabled(state)
-                              ? _onFormSubmitted
-                              : null,
-                        ),
-                        const CreateAccountButton(),
-                        const ForgotPasswordButton(),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },
@@ -152,6 +159,15 @@ class _LoginFormState extends State<LoginForm> {
   void _onFormSubmitted() {
     _loginBloc.add(
       LoginEvent.withCredentialsPressed(
+        email: _emailController.text,
+        password: _passwordController.text,
+      ),
+    );
+  }
+
+  void _onSignUpSubmitted() {
+    _loginBloc.add(
+      LoginEvent.signUp(
         email: _emailController.text,
         password: _passwordController.text,
       ),

@@ -17,7 +17,8 @@ class AppUserRepositoryImpl implements AppUserRepository {
     @required this.dataSource,
   });
   @override
-  AppUser get profile => dataSource.profile.toEntity();
+  Stream<AppUser> get profile =>
+      dataSource.profile.map((user) => user?.toEntity());
 
   @override
   Future<void> setUserData(AppUser user) {
@@ -32,11 +33,6 @@ class AppUserRepositoryImpl implements AppUserRepository {
   @override
   Future<void> signOut() {
     return dataSource.signOut();
-  }
-
-  @override
-  Future<bool> isSignedIn() {
-    return dataSource.isSignedIn();
   }
 
   @override

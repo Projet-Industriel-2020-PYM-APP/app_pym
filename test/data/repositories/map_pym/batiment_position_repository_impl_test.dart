@@ -57,10 +57,11 @@ void main() {
   }
 
   group('fetchBatimentPosition', () {
-    final tBatimentPositionModel = BatimentPositionModel.fromJson(
-        json.decode(fixture('map_pym/batiment_position.json'))
-            as Map<String, dynamic>);
-    final tListBatimentPositionModel = [tBatimentPositionModel];
+    final tListBatimentPositionModel =
+        (json.decode(fixture('map_pym/batiment_position.json')) as List)
+            .map((dynamic data) =>
+                BatimentPositionModel.fromJson(data as Map<String, dynamic>))
+            .toList();
     const tBatimentPosition = BatimentPosition(
       idBatiment: 1,
       latitude: 44,
@@ -109,7 +110,7 @@ void main() {
           // assert
           verify(mockRemoteDataSource.fetchBatimentsPosition());
           verify(mockLocalDataSource
-              .cacheBatimentsPosition(tListBatimentPositionModel));
+              .cacheAllBatimentPosition(tListBatimentPositionModel));
         },
       );
 
@@ -137,7 +138,7 @@ void main() {
         () async {
           // arrange
           when(mockLocalDataSource.fetchBatimentsPosition())
-              .thenAnswer((_) async => tListBatimentPositionModel);
+              .thenAnswer((_) => tListBatimentPositionModel);
           // act
           final result = await repository.fetchBatimentsPosition();
           // assert
