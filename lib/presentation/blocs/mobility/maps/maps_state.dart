@@ -75,12 +75,10 @@ extension MapsStateX on MapsState {
   }
 
   MapsState hideBus(Direction direction) {
-    this.polylines.removeWhere((polyline) => polyline.polylineId
-        .toString()
-        .contains("PolylineId{value: bus_${direction}"));
-    this.markers.removeWhere((marker) => marker.markerId
-        .toString()
-        .contains("MarkerId{value: bus_${direction}"));
+    this.polylines.removeWhere((polyline) =>
+        polyline.polylineId.toString().contains("bus_${direction}"));
+    this.markers.removeWhere(
+        (marker) => marker.markerId.toString().contains("bus_${direction}"));
     return this.copyWith(
       isBusLoaded: false,
       polylines: this.polylines,
@@ -89,12 +87,10 @@ extension MapsStateX on MapsState {
   }
 
   MapsState hideTrain(Direction direction) {
-    this.polylines.removeWhere((polyline) => polyline.polylineId
-        .toString()
-        .contains("PolylineId{value: train_${direction}"));
-    this.markers.removeWhere((marker) => marker.markerId
-        .toString()
-        .contains("MarkerId{value: train_${direction}"));
+    this.polylines.removeWhere((polyline) =>
+        polyline.polylineId.toString().contains("train_${direction}"));
+    this.markers.removeWhere(
+        (marker) => marker.markerId.toString().contains("train_${direction}"));
     return this.copyWith(
       isTrainLoaded: false,
       polylines: this.polylines,

@@ -39,8 +39,10 @@ class MobilityControls extends StatelessWidget {
       children: <Widget>[
         SwitchButton(
           isRaised: !context.bloc<TripsBloc>().state.isBusLoaded,
-          onRaisedPressed: () => context.bloc<TripsBloc>().add(
-              TripsEvent.fetchBus(context.bloc<TripsBloc>().state.direction)),
+          onRaisedPressed: () => null,
+          //TODO
+          // onRaisedPressed: () => context.bloc<TripsBloc>().add(
+          //     TripsEvent.fetchBus(context.bloc<TripsBloc>().state.direction)),
           onFlatPressed: () =>
               context.bloc<TripsBloc>().add(const TripsEvent.hideBus()),
           child: const Text(" Bus "),
