@@ -4,6 +4,7 @@ import 'package:app_pym/domain/entities/app_pym/service.dart';
 import 'package:app_pym/domain/entities/app_pym/booking.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app_pym/presentation/blocs/services/booking/fetch_all_bookings_of_service/fetch_all_bookings_of_service_bloc.dart';
+import 'package:app_pym/presentation/blocs/services/booking/booking_of_service/booking_of_service_bloc.dart';
 
 class FetchAllBookingsPage extends StatelessWidget {
   final Service service;
@@ -16,7 +17,7 @@ class FetchAllBookingsPage extends StatelessWidget {
       appBar: AppBar(title: Text(service.title)),
       body: buildBooked(context, service),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => _onButtonPressed(context),
         backgroundColor: Colors.blueAccent,
         child: const Icon(Icons.add),
       ),
@@ -55,6 +56,108 @@ class FetchAllBookingsPage extends StatelessWidget {
       ),
     );
   }
+
+  void _onButtonPressed(BuildContext context) {
+    showModalBottomSheet<Widget>(
+      context: context,
+      builder: (context) {
+        String bookingTitle; //TODO: nom par défaut ?
+        DateTime startDate;
+        DateTime endDate;
+
+        Booking booking;
+
+        return Container(
+          padding: const EdgeInsets.all(4.0),
+          child: Column(
+            children: <Widget>[
+              const Text('Titre :'),
+              TextField(
+                onSubmitted: (str) {
+                  bookingTitle = str;
+                },
+              ), //TODO: à raffiner
+              const Text('Début :'),
+              Text(startDate == null ? '---' : startDate.toString()),
+              Row(children: <Widget>[
+                IconButton(
+                  icon: const Icon(Icons.calendar_today),
+                  onPressed: () {
+                    showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime(2038),
+                    ).then((date) {
+                      startDate = date;
+                    });
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.watch_later),
+                  onPressed:
+                      () {}, //TODO: ajouter le controle de l'heure à la classe Booking
+                ),
+              ]),
+              const Text('Fin :'),
+              Text(startDate == null ? '---' : endDate.toString()),
+              Row(children: <Widget>[
+                IconButton(
+                  icon: const Icon(Icons.calendar_today),
+                  onPressed: () {
+                    showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime(2038),
+                    ).then((date) {
+                      endDate = date;
+                    });
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.watch_later),
+                  onPressed:
+                      () {}, //TODO: ajouter le controle de l'heure à la classe Booking
+                ),
+              ]),
+              RaisedButton(
+                onPressed: () {
+                  if (startDate == null || endDate == null) {
+                    errorMessage(context);
+                  } else {
+                    Navigator.pop(context);
+                  }
+                },
+                child: const Text('Confirmer'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void errorMessage(BuildContext context) {
+    showDialog<Widget>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Réservation invalide'),
+          content: const Text('Date(s) manquante(s)'),
+          actions: [
+            FlatButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('OK'),
+            )
+          ],
+        );
+      },
+      barrierDismissible: true,
+    );
+  }
 }
 
 class FetchAllBookingsScreen extends StatelessWidget {
@@ -65,14 +168,23 @@ class FetchAllBookingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //(techniquement fonctionnel) Tri des bookings pour n'afficher que les pertinents actuellement
+    List<Booking> currentBookings;
+    for (int i; i >= bookings.length; i++) {
+      if (DateTime.now().isAfter(bookings[i].start_date) &&
+          DateTime.now().isBefore(bookings[i].end_date)) {
+        currentBookings.insert(-1, bookings[i]);
+      }
+    }
+
     return LayoutBuilder(
       builder: (context, constraints) {
         return Scrollbar(
           child: ListView.builder(
             padding: const EdgeInsets.all(4),
-            itemCount: bookings.length,
+            itemCount: currentBookings.length,
             itemBuilder: (context, id) {
-              return BookingCard(bookings[id]);
+              return BookingCard(currentBookings[id]);
             },
           ),
         );
