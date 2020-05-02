@@ -39,24 +39,24 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
           final Set<Marker> markers = {};
           if (isBus) {
             polylines.add(polylineFromTrip(
-                busTrips[0], direction, "bus_${direction}_1", Colors.black));
+                busTrips[0], direction, "bus_${direction}_1_", Colors.black));
             markers.addAll(
-                markersFromTrip(busTrips[0], direction, "bus_${direction}_1"));
+                markersFromTrip(busTrips[0], direction, "bus_${direction}_1_"));
             polylines.add(polylineFromTrip(
-                busTrips[1], direction, "bus_${direction}_2", Colors.black));
+                busTrips[1], direction, "bus_${direction}_2_", Colors.black));
             markers.addAll(
-                markersFromTrip(busTrips[1], direction, "bus_${direction}_2"));
+                markersFromTrip(busTrips[1], direction, "bus_${direction}_2_"));
             yield state.busLoaded(polylines: polylines, markers: markers);
           }
           if (isTrain) {
             polylines.add(polylineFromTrip(trainTrips[0], direction,
-                "train_${direction}_1", Colors.orange));
+                "train_${direction}_1_", Colors.orange));
             markers.addAll(markersFromTrip(
-                trainTrips[0], direction, "train_${direction}_1"));
+                trainTrips[0], direction, "train_${direction}_1_"));
             polylines.add(polylineFromTrip(trainTrips[1], direction,
-                "train_${direction}_2", Colors.orange));
+                "train_${direction}_2_", Colors.orange));
             markers.addAll(markersFromTrip(
-                trainTrips[1], direction, "train_${direction}_2"));
+                trainTrips[1], direction, "train_${direction}_2_"));
             yield state.trainLoaded(polylines: polylines, markers: markers);
           }
         } on Exception catch (e) {
@@ -90,12 +90,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
   Polyline polylineFromTrip(
       Trip trip, Direction direction, String id, Color couleur) {
     final List<LatLng> list = <LatLng>[];
-    bool ajoute;
-    if (direction == Direction.Aller) {
-      ajoute = true;
-    } else {
-      ajoute = false;
-    }
+    bool ajoute = direction == Direction.Aller;
     for (final StopTime stopTime in trip.stop_time) {
       final LatLng position = LatLng(double.parse(stopTime.stop.stop_lat),
           double.parse(stopTime.stop.stop_long));
@@ -126,12 +121,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
 
   Set<Marker> markersFromTrip(Trip trip, Direction direction, String id) {
     final Set<Marker> markers = {};
-    bool ajoute;
-    if (direction == Direction.Aller) {
-      ajoute = true;
-    } else {
-      ajoute = false;
-    }
+    bool ajoute = direction == Direction.Aller;
     for (final StopTime stopTime in trip.stop_time) {
       final Marker marker = Marker(
         markerId: MarkerId(id + stopTime.stop.stop_name),

@@ -1,4 +1,3 @@
-import 'package:app_pym/core/constants/mobility.dart';
 import 'package:app_pym/data/models/mobility/calendar_model.dart';
 import 'package:app_pym/data/models/mobility/stop_model.dart';
 import 'package:app_pym/data/models/mobility/stop_time_model.dart';

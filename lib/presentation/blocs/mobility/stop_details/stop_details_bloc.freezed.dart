@@ -12,8 +12,13 @@ T _$identity<T>(T value) => value;
 class _$StopDetailsEventTearOff {
   const _$StopDetailsEventTearOff();
 
-  FetchStopDetailsEvent fetch() {
-    return const FetchStopDetailsEvent();
+  FetchBusStopDetailsEvent show(
+      {@required String id, @required List<Trip> trips, @required bool isBus}) {
+    return FetchBusStopDetailsEvent(
+      id: id,
+      trips: trips,
+      isBus: isBus,
+    );
   }
 
   HideStopDetailsEvent hide() {
@@ -27,23 +32,23 @@ const $StopDetailsEvent = _$StopDetailsEventTearOff();
 mixin _$StopDetailsEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result fetch(),
+    @required Result show(String id, List<Trip> trips, bool isBus),
     @required Result hide(),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result fetch(),
+    Result show(String id, List<Trip> trips, bool isBus),
     Result hide(),
     @required Result orElse(),
   });
   @optionalTypeArgs
   Result map<Result extends Object>({
-    @required Result fetch(FetchStopDetailsEvent value),
+    @required Result show(FetchBusStopDetailsEvent value),
     @required Result hide(HideStopDetailsEvent value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
-    Result fetch(FetchStopDetailsEvent value),
+    Result show(FetchBusStopDetailsEvent value),
     Result hide(HideStopDetailsEvent value),
     @required Result orElse(),
   });
@@ -64,68 +69,114 @@ class _$StopDetailsEventCopyWithImpl<$Res>
   final $Res Function(StopDetailsEvent) _then;
 }
 
-abstract class $FetchStopDetailsEventCopyWith<$Res> {
-  factory $FetchStopDetailsEventCopyWith(FetchStopDetailsEvent value,
-          $Res Function(FetchStopDetailsEvent) then) =
-      _$FetchStopDetailsEventCopyWithImpl<$Res>;
+abstract class $FetchBusStopDetailsEventCopyWith<$Res> {
+  factory $FetchBusStopDetailsEventCopyWith(FetchBusStopDetailsEvent value,
+          $Res Function(FetchBusStopDetailsEvent) then) =
+      _$FetchBusStopDetailsEventCopyWithImpl<$Res>;
+  $Res call({String id, List<Trip> trips, bool isBus});
 }
 
-class _$FetchStopDetailsEventCopyWithImpl<$Res>
+class _$FetchBusStopDetailsEventCopyWithImpl<$Res>
     extends _$StopDetailsEventCopyWithImpl<$Res>
-    implements $FetchStopDetailsEventCopyWith<$Res> {
-  _$FetchStopDetailsEventCopyWithImpl(
-      FetchStopDetailsEvent _value, $Res Function(FetchStopDetailsEvent) _then)
-      : super(_value, (v) => _then(v as FetchStopDetailsEvent));
+    implements $FetchBusStopDetailsEventCopyWith<$Res> {
+  _$FetchBusStopDetailsEventCopyWithImpl(FetchBusStopDetailsEvent _value,
+      $Res Function(FetchBusStopDetailsEvent) _then)
+      : super(_value, (v) => _then(v as FetchBusStopDetailsEvent));
 
   @override
-  FetchStopDetailsEvent get _value => super._value as FetchStopDetailsEvent;
+  FetchBusStopDetailsEvent get _value =>
+      super._value as FetchBusStopDetailsEvent;
+
+  @override
+  $Res call({
+    Object id = freezed,
+    Object trips = freezed,
+    Object isBus = freezed,
+  }) {
+    return _then(FetchBusStopDetailsEvent(
+      id: id == freezed ? _value.id : id as String,
+      trips: trips == freezed ? _value.trips : trips as List<Trip>,
+      isBus: isBus == freezed ? _value.isBus : isBus as bool,
+    ));
+  }
 }
 
-class _$FetchStopDetailsEvent
+class _$FetchBusStopDetailsEvent
     with DiagnosticableTreeMixin
-    implements FetchStopDetailsEvent {
-  const _$FetchStopDetailsEvent();
+    implements FetchBusStopDetailsEvent {
+  const _$FetchBusStopDetailsEvent(
+      {@required this.id, @required this.trips, @required this.isBus})
+      : assert(id != null),
+        assert(trips != null),
+        assert(isBus != null);
+
+  @override
+  final String id;
+  @override
+  final List<Trip> trips;
+  @override
+  final bool isBus;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'StopDetailsEvent.fetch()';
+    return 'StopDetailsEvent.show(id: $id, trips: $trips, isBus: $isBus)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties..add(DiagnosticsProperty('type', 'StopDetailsEvent.fetch'));
+    properties
+      ..add(DiagnosticsProperty('type', 'StopDetailsEvent.show'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('trips', trips))
+      ..add(DiagnosticsProperty('isBus', isBus));
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is FetchStopDetailsEvent);
+    return identical(this, other) ||
+        (other is FetchBusStopDetailsEvent &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.trips, trips) ||
+                const DeepCollectionEquality().equals(other.trips, trips)) &&
+            (identical(other.isBus, isBus) ||
+                const DeepCollectionEquality().equals(other.isBus, isBus)));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(trips) ^
+      const DeepCollectionEquality().hash(isBus);
+
+  @override
+  $FetchBusStopDetailsEventCopyWith<FetchBusStopDetailsEvent> get copyWith =>
+      _$FetchBusStopDetailsEventCopyWithImpl<FetchBusStopDetailsEvent>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result fetch(),
+    @required Result show(String id, List<Trip> trips, bool isBus),
     @required Result hide(),
   }) {
-    assert(fetch != null);
+    assert(show != null);
     assert(hide != null);
-    return fetch();
+    return show(id, trips, isBus);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result fetch(),
+    Result show(String id, List<Trip> trips, bool isBus),
     Result hide(),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (fetch != null) {
-      return fetch();
+    if (show != null) {
+      return show(id, trips, isBus);
     }
     return orElse();
   }
@@ -133,31 +184,39 @@ class _$FetchStopDetailsEvent
   @override
   @optionalTypeArgs
   Result map<Result extends Object>({
-    @required Result fetch(FetchStopDetailsEvent value),
+    @required Result show(FetchBusStopDetailsEvent value),
     @required Result hide(HideStopDetailsEvent value),
   }) {
-    assert(fetch != null);
+    assert(show != null);
     assert(hide != null);
-    return fetch(this);
+    return show(this);
   }
 
   @override
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
-    Result fetch(FetchStopDetailsEvent value),
+    Result show(FetchBusStopDetailsEvent value),
     Result hide(HideStopDetailsEvent value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (fetch != null) {
-      return fetch(this);
+    if (show != null) {
+      return show(this);
     }
     return orElse();
   }
 }
 
-abstract class FetchStopDetailsEvent implements StopDetailsEvent {
-  const factory FetchStopDetailsEvent() = _$FetchStopDetailsEvent;
+abstract class FetchBusStopDetailsEvent implements StopDetailsEvent {
+  const factory FetchBusStopDetailsEvent(
+      {@required String id,
+      @required List<Trip> trips,
+      @required bool isBus}) = _$FetchBusStopDetailsEvent;
+
+  String get id;
+  List<Trip> get trips;
+  bool get isBus;
+  $FetchBusStopDetailsEventCopyWith<FetchBusStopDetailsEvent> get copyWith;
 }
 
 abstract class $HideStopDetailsEventCopyWith<$Res> {
@@ -204,10 +263,10 @@ class _$HideStopDetailsEvent
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result fetch(),
+    @required Result show(String id, List<Trip> trips, bool isBus),
     @required Result hide(),
   }) {
-    assert(fetch != null);
+    assert(show != null);
     assert(hide != null);
     return hide();
   }
@@ -215,7 +274,7 @@ class _$HideStopDetailsEvent
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result fetch(),
+    Result show(String id, List<Trip> trips, bool isBus),
     Result hide(),
     @required Result orElse(),
   }) {
@@ -229,10 +288,10 @@ class _$HideStopDetailsEvent
   @override
   @optionalTypeArgs
   Result map<Result extends Object>({
-    @required Result fetch(FetchStopDetailsEvent value),
+    @required Result show(FetchBusStopDetailsEvent value),
     @required Result hide(HideStopDetailsEvent value),
   }) {
-    assert(fetch != null);
+    assert(show != null);
     assert(hide != null);
     return hide(this);
   }
@@ -240,7 +299,7 @@ class _$HideStopDetailsEvent
   @override
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
-    Result fetch(FetchStopDetailsEvent value),
+    Result show(FetchBusStopDetailsEvent value),
     Result hide(HideStopDetailsEvent value),
     @required Result orElse(),
   }) {
@@ -259,21 +318,26 @@ abstract class HideStopDetailsEvent implements StopDetailsEvent {
 class _$StopDetailsStateTearOff {
   const _$StopDetailsStateTearOff();
 
-  StopDetailsInitial initial() {
-    return const StopDetailsInitial();
-  }
-
-  StopDetailsLoading loading() {
-    return const StopDetailsLoading();
-  }
-
-  StopDetailsLoaded loaded() {
-    return const StopDetailsLoaded();
-  }
-
-  StopDetailsError error(String message) {
-    return StopDetailsError(
-      message,
+  _StopDetailsState call(
+      {@required bool isLoading,
+      @required bool isError,
+      @required bool isBus,
+      @required String stop_name,
+      @required String last_stop,
+      @required List<String> stop_times,
+      @required List<StopTime> trip,
+      @required String destination,
+      Exception exception}) {
+    return _StopDetailsState(
+      isLoading: isLoading,
+      isError: isError,
+      isBus: isBus,
+      stop_name: stop_name,
+      last_stop: last_stop,
+      stop_times: stop_times,
+      trip: trip,
+      destination: destination,
+      exception: exception,
     );
   }
 }
@@ -282,42 +346,33 @@ class _$StopDetailsStateTearOff {
 const $StopDetailsState = _$StopDetailsStateTearOff();
 
 mixin _$StopDetailsState {
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result loading(),
-    @required Result loaded(),
-    @required Result error(String message),
-  });
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result loading(),
-    Result loaded(),
-    Result error(String message),
-    @required Result orElse(),
-  });
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(StopDetailsInitial value),
-    @required Result loading(StopDetailsLoading value),
-    @required Result loaded(StopDetailsLoaded value),
-    @required Result error(StopDetailsError value),
-  });
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(StopDetailsInitial value),
-    Result loading(StopDetailsLoading value),
-    Result loaded(StopDetailsLoaded value),
-    Result error(StopDetailsError value),
-    @required Result orElse(),
-  });
+  bool get isLoading;
+  bool get isError;
+  bool get isBus;
+  String get stop_name;
+  String get last_stop;
+  List<String> get stop_times;
+  List<StopTime> get trip;
+  String get destination;
+  Exception get exception;
+
+  $StopDetailsStateCopyWith<StopDetailsState> get copyWith;
 }
 
 abstract class $StopDetailsStateCopyWith<$Res> {
   factory $StopDetailsStateCopyWith(
           StopDetailsState value, $Res Function(StopDetailsState) then) =
       _$StopDetailsStateCopyWithImpl<$Res>;
+  $Res call(
+      {bool isLoading,
+      bool isError,
+      bool isBus,
+      String stop_name,
+      String last_stop,
+      List<String> stop_times,
+      List<StopTime> trip,
+      String destination,
+      Exception exception});
 }
 
 class _$StopDetailsStateCopyWithImpl<$Res>
@@ -327,462 +382,236 @@ class _$StopDetailsStateCopyWithImpl<$Res>
   final StopDetailsState _value;
   // ignore: unused_field
   final $Res Function(StopDetailsState) _then;
-}
-
-abstract class $StopDetailsInitialCopyWith<$Res> {
-  factory $StopDetailsInitialCopyWith(
-          StopDetailsInitial value, $Res Function(StopDetailsInitial) then) =
-      _$StopDetailsInitialCopyWithImpl<$Res>;
-}
-
-class _$StopDetailsInitialCopyWithImpl<$Res>
-    extends _$StopDetailsStateCopyWithImpl<$Res>
-    implements $StopDetailsInitialCopyWith<$Res> {
-  _$StopDetailsInitialCopyWithImpl(
-      StopDetailsInitial _value, $Res Function(StopDetailsInitial) _then)
-      : super(_value, (v) => _then(v as StopDetailsInitial));
-
-  @override
-  StopDetailsInitial get _value => super._value as StopDetailsInitial;
-}
-
-class _$StopDetailsInitial
-    with DiagnosticableTreeMixin
-    implements StopDetailsInitial {
-  const _$StopDetailsInitial();
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'StopDetailsState.initial()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties..add(DiagnosticsProperty('type', 'StopDetailsState.initial'));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is StopDetailsInitial);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result loading(),
-    @required Result loaded(),
-    @required Result error(String message),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(loaded != null);
-    assert(error != null);
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result loading(),
-    Result loaded(),
-    Result error(String message),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(StopDetailsInitial value),
-    @required Result loading(StopDetailsLoading value),
-    @required Result loaded(StopDetailsLoaded value),
-    @required Result error(StopDetailsError value),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(loaded != null);
-    assert(error != null);
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(StopDetailsInitial value),
-    Result loading(StopDetailsLoading value),
-    Result loaded(StopDetailsLoaded value),
-    Result error(StopDetailsError value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class StopDetailsInitial implements StopDetailsState {
-  const factory StopDetailsInitial() = _$StopDetailsInitial;
-}
-
-abstract class $StopDetailsLoadingCopyWith<$Res> {
-  factory $StopDetailsLoadingCopyWith(
-          StopDetailsLoading value, $Res Function(StopDetailsLoading) then) =
-      _$StopDetailsLoadingCopyWithImpl<$Res>;
-}
-
-class _$StopDetailsLoadingCopyWithImpl<$Res>
-    extends _$StopDetailsStateCopyWithImpl<$Res>
-    implements $StopDetailsLoadingCopyWith<$Res> {
-  _$StopDetailsLoadingCopyWithImpl(
-      StopDetailsLoading _value, $Res Function(StopDetailsLoading) _then)
-      : super(_value, (v) => _then(v as StopDetailsLoading));
-
-  @override
-  StopDetailsLoading get _value => super._value as StopDetailsLoading;
-}
-
-class _$StopDetailsLoading
-    with DiagnosticableTreeMixin
-    implements StopDetailsLoading {
-  const _$StopDetailsLoading();
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'StopDetailsState.loading()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties..add(DiagnosticsProperty('type', 'StopDetailsState.loading'));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is StopDetailsLoading);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result loading(),
-    @required Result loaded(),
-    @required Result error(String message),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(loaded != null);
-    assert(error != null);
-    return loading();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result loading(),
-    Result loaded(),
-    Result error(String message),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(StopDetailsInitial value),
-    @required Result loading(StopDetailsLoading value),
-    @required Result loaded(StopDetailsLoaded value),
-    @required Result error(StopDetailsError value),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(loaded != null);
-    assert(error != null);
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(StopDetailsInitial value),
-    Result loading(StopDetailsLoading value),
-    Result loaded(StopDetailsLoaded value),
-    Result error(StopDetailsError value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class StopDetailsLoading implements StopDetailsState {
-  const factory StopDetailsLoading() = _$StopDetailsLoading;
-}
-
-abstract class $StopDetailsLoadedCopyWith<$Res> {
-  factory $StopDetailsLoadedCopyWith(
-          StopDetailsLoaded value, $Res Function(StopDetailsLoaded) then) =
-      _$StopDetailsLoadedCopyWithImpl<$Res>;
-}
-
-class _$StopDetailsLoadedCopyWithImpl<$Res>
-    extends _$StopDetailsStateCopyWithImpl<$Res>
-    implements $StopDetailsLoadedCopyWith<$Res> {
-  _$StopDetailsLoadedCopyWithImpl(
-      StopDetailsLoaded _value, $Res Function(StopDetailsLoaded) _then)
-      : super(_value, (v) => _then(v as StopDetailsLoaded));
-
-  @override
-  StopDetailsLoaded get _value => super._value as StopDetailsLoaded;
-}
-
-class _$StopDetailsLoaded
-    with DiagnosticableTreeMixin
-    implements StopDetailsLoaded {
-  const _$StopDetailsLoaded();
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'StopDetailsState.loaded()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties..add(DiagnosticsProperty('type', 'StopDetailsState.loaded'));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is StopDetailsLoaded);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result loading(),
-    @required Result loaded(),
-    @required Result error(String message),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(loaded != null);
-    assert(error != null);
-    return loaded();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result loading(),
-    Result loaded(),
-    Result error(String message),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (loaded != null) {
-      return loaded();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(StopDetailsInitial value),
-    @required Result loading(StopDetailsLoading value),
-    @required Result loaded(StopDetailsLoaded value),
-    @required Result error(StopDetailsError value),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(loaded != null);
-    assert(error != null);
-    return loaded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(StopDetailsInitial value),
-    Result loading(StopDetailsLoading value),
-    Result loaded(StopDetailsLoaded value),
-    Result error(StopDetailsError value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (loaded != null) {
-      return loaded(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class StopDetailsLoaded implements StopDetailsState {
-  const factory StopDetailsLoaded() = _$StopDetailsLoaded;
-}
-
-abstract class $StopDetailsErrorCopyWith<$Res> {
-  factory $StopDetailsErrorCopyWith(
-          StopDetailsError value, $Res Function(StopDetailsError) then) =
-      _$StopDetailsErrorCopyWithImpl<$Res>;
-  $Res call({String message});
-}
-
-class _$StopDetailsErrorCopyWithImpl<$Res>
-    extends _$StopDetailsStateCopyWithImpl<$Res>
-    implements $StopDetailsErrorCopyWith<$Res> {
-  _$StopDetailsErrorCopyWithImpl(
-      StopDetailsError _value, $Res Function(StopDetailsError) _then)
-      : super(_value, (v) => _then(v as StopDetailsError));
-
-  @override
-  StopDetailsError get _value => super._value as StopDetailsError;
 
   @override
   $Res call({
-    Object message = freezed,
+    Object isLoading = freezed,
+    Object isError = freezed,
+    Object isBus = freezed,
+    Object stop_name = freezed,
+    Object last_stop = freezed,
+    Object stop_times = freezed,
+    Object trip = freezed,
+    Object destination = freezed,
+    Object exception = freezed,
   }) {
-    return _then(StopDetailsError(
-      message == freezed ? _value.message : message as String,
+    return _then(_value.copyWith(
+      isLoading: isLoading == freezed ? _value.isLoading : isLoading as bool,
+      isError: isError == freezed ? _value.isError : isError as bool,
+      isBus: isBus == freezed ? _value.isBus : isBus as bool,
+      stop_name: stop_name == freezed ? _value.stop_name : stop_name as String,
+      last_stop: last_stop == freezed ? _value.last_stop : last_stop as String,
+      stop_times: stop_times == freezed
+          ? _value.stop_times
+          : stop_times as List<String>,
+      trip: trip == freezed ? _value.trip : trip as List<StopTime>,
+      destination:
+          destination == freezed ? _value.destination : destination as String,
+      exception:
+          exception == freezed ? _value.exception : exception as Exception,
     ));
   }
 }
 
-class _$StopDetailsError
-    with DiagnosticableTreeMixin
-    implements StopDetailsError {
-  const _$StopDetailsError(this.message) : assert(message != null);
+abstract class _$StopDetailsStateCopyWith<$Res>
+    implements $StopDetailsStateCopyWith<$Res> {
+  factory _$StopDetailsStateCopyWith(
+          _StopDetailsState value, $Res Function(_StopDetailsState) then) =
+      __$StopDetailsStateCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {bool isLoading,
+      bool isError,
+      bool isBus,
+      String stop_name,
+      String last_stop,
+      List<String> stop_times,
+      List<StopTime> trip,
+      String destination,
+      Exception exception});
+}
+
+class __$StopDetailsStateCopyWithImpl<$Res>
+    extends _$StopDetailsStateCopyWithImpl<$Res>
+    implements _$StopDetailsStateCopyWith<$Res> {
+  __$StopDetailsStateCopyWithImpl(
+      _StopDetailsState _value, $Res Function(_StopDetailsState) _then)
+      : super(_value, (v) => _then(v as _StopDetailsState));
 
   @override
-  final String message;
+  _StopDetailsState get _value => super._value as _StopDetailsState;
+
+  @override
+  $Res call({
+    Object isLoading = freezed,
+    Object isError = freezed,
+    Object isBus = freezed,
+    Object stop_name = freezed,
+    Object last_stop = freezed,
+    Object stop_times = freezed,
+    Object trip = freezed,
+    Object destination = freezed,
+    Object exception = freezed,
+  }) {
+    return _then(_StopDetailsState(
+      isLoading: isLoading == freezed ? _value.isLoading : isLoading as bool,
+      isError: isError == freezed ? _value.isError : isError as bool,
+      isBus: isBus == freezed ? _value.isBus : isBus as bool,
+      stop_name: stop_name == freezed ? _value.stop_name : stop_name as String,
+      last_stop: last_stop == freezed ? _value.last_stop : last_stop as String,
+      stop_times: stop_times == freezed
+          ? _value.stop_times
+          : stop_times as List<String>,
+      trip: trip == freezed ? _value.trip : trip as List<StopTime>,
+      destination:
+          destination == freezed ? _value.destination : destination as String,
+      exception:
+          exception == freezed ? _value.exception : exception as Exception,
+    ));
+  }
+}
+
+class _$_StopDetailsState
+    with DiagnosticableTreeMixin
+    implements _StopDetailsState {
+  const _$_StopDetailsState(
+      {@required this.isLoading,
+      @required this.isError,
+      @required this.isBus,
+      @required this.stop_name,
+      @required this.last_stop,
+      @required this.stop_times,
+      @required this.trip,
+      @required this.destination,
+      this.exception})
+      : assert(isLoading != null),
+        assert(isError != null),
+        assert(isBus != null),
+        assert(stop_name != null),
+        assert(last_stop != null),
+        assert(stop_times != null),
+        assert(trip != null),
+        assert(destination != null);
+
+  @override
+  final bool isLoading;
+  @override
+  final bool isError;
+  @override
+  final bool isBus;
+  @override
+  final String stop_name;
+  @override
+  final String last_stop;
+  @override
+  final List<String> stop_times;
+  @override
+  final List<StopTime> trip;
+  @override
+  final String destination;
+  @override
+  final Exception exception;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'StopDetailsState.error(message: $message)';
+    return 'StopDetailsState(isLoading: $isLoading, isError: $isError, isBus: $isBus, stop_name: $stop_name, last_stop: $last_stop, stop_times: $stop_times, trip: $trip, destination: $destination, exception: $exception)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'StopDetailsState.error'))
-      ..add(DiagnosticsProperty('message', message));
+      ..add(DiagnosticsProperty('type', 'StopDetailsState'))
+      ..add(DiagnosticsProperty('isLoading', isLoading))
+      ..add(DiagnosticsProperty('isError', isError))
+      ..add(DiagnosticsProperty('isBus', isBus))
+      ..add(DiagnosticsProperty('stop_name', stop_name))
+      ..add(DiagnosticsProperty('last_stop', last_stop))
+      ..add(DiagnosticsProperty('stop_times', stop_times))
+      ..add(DiagnosticsProperty('trip', trip))
+      ..add(DiagnosticsProperty('destination', destination))
+      ..add(DiagnosticsProperty('exception', exception));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is StopDetailsError &&
-            (identical(other.message, message) ||
-                const DeepCollectionEquality().equals(other.message, message)));
+        (other is _StopDetailsState &&
+            (identical(other.isLoading, isLoading) ||
+                const DeepCollectionEquality()
+                    .equals(other.isLoading, isLoading)) &&
+            (identical(other.isError, isError) ||
+                const DeepCollectionEquality()
+                    .equals(other.isError, isError)) &&
+            (identical(other.isBus, isBus) ||
+                const DeepCollectionEquality().equals(other.isBus, isBus)) &&
+            (identical(other.stop_name, stop_name) ||
+                const DeepCollectionEquality()
+                    .equals(other.stop_name, stop_name)) &&
+            (identical(other.last_stop, last_stop) ||
+                const DeepCollectionEquality()
+                    .equals(other.last_stop, last_stop)) &&
+            (identical(other.stop_times, stop_times) ||
+                const DeepCollectionEquality()
+                    .equals(other.stop_times, stop_times)) &&
+            (identical(other.trip, trip) ||
+                const DeepCollectionEquality().equals(other.trip, trip)) &&
+            (identical(other.destination, destination) ||
+                const DeepCollectionEquality()
+                    .equals(other.destination, destination)) &&
+            (identical(other.exception, exception) ||
+                const DeepCollectionEquality()
+                    .equals(other.exception, exception)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(message);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(isLoading) ^
+      const DeepCollectionEquality().hash(isError) ^
+      const DeepCollectionEquality().hash(isBus) ^
+      const DeepCollectionEquality().hash(stop_name) ^
+      const DeepCollectionEquality().hash(last_stop) ^
+      const DeepCollectionEquality().hash(stop_times) ^
+      const DeepCollectionEquality().hash(trip) ^
+      const DeepCollectionEquality().hash(destination) ^
+      const DeepCollectionEquality().hash(exception);
 
   @override
-  $StopDetailsErrorCopyWith<StopDetailsError> get copyWith =>
-      _$StopDetailsErrorCopyWithImpl<StopDetailsError>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result loading(),
-    @required Result loaded(),
-    @required Result error(String message),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(loaded != null);
-    assert(error != null);
-    return error(message);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result loading(),
-    Result loaded(),
-    Result error(String message),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (error != null) {
-      return error(message);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(StopDetailsInitial value),
-    @required Result loading(StopDetailsLoading value),
-    @required Result loaded(StopDetailsLoaded value),
-    @required Result error(StopDetailsError value),
-  }) {
-    assert(initial != null);
-    assert(loading != null);
-    assert(loaded != null);
-    assert(error != null);
-    return error(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(StopDetailsInitial value),
-    Result loading(StopDetailsLoading value),
-    Result loaded(StopDetailsLoaded value),
-    Result error(StopDetailsError value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (error != null) {
-      return error(this);
-    }
-    return orElse();
-  }
+  _$StopDetailsStateCopyWith<_StopDetailsState> get copyWith =>
+      __$StopDetailsStateCopyWithImpl<_StopDetailsState>(this, _$identity);
 }
 
-abstract class StopDetailsError implements StopDetailsState {
-  const factory StopDetailsError(String message) = _$StopDetailsError;
+abstract class _StopDetailsState implements StopDetailsState {
+  const factory _StopDetailsState(
+      {@required bool isLoading,
+      @required bool isError,
+      @required bool isBus,
+      @required String stop_name,
+      @required String last_stop,
+      @required List<String> stop_times,
+      @required List<StopTime> trip,
+      @required String destination,
+      Exception exception}) = _$_StopDetailsState;
 
-  String get message;
-  $StopDetailsErrorCopyWith<StopDetailsError> get copyWith;
+  @override
+  bool get isLoading;
+  @override
+  bool get isError;
+  @override
+  bool get isBus;
+  @override
+  String get stop_name;
+  @override
+  String get last_stop;
+  @override
+  List<String> get stop_times;
+  @override
+  List<StopTime> get trip;
+  @override
+  String get destination;
+  @override
+  Exception get exception;
+  @override
+  _$StopDetailsStateCopyWith<_StopDetailsState> get copyWith;
 }

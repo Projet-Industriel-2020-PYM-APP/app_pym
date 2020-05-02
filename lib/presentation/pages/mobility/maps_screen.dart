@@ -16,20 +16,24 @@ class MapsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<MapsBloc, MapsState>(
       builder: (BuildContext context, MapsState state) {
+        final mapsState = context.bloc<MapsBloc>().state;
         return GoogleMap(
           mapType: MapType.normal,
-          polylines: context.bloc<MapsBloc>().state.polylines,
-          markers: context.bloc<MapsBloc>().state.markers,
+          polylines: mapsState.polylines,
+          markers: mapsState.markers,
           initialCameraPosition:
               CameraPosition(target: initialPosition, zoom: 15),
           onMapCreated: (GoogleMapController controller) {
-            context.bloc<MapsBloc>().add(MapsEvent.load(
-                  busTrips: context.bloc<TripsBloc>().state.busTrips,
-                  isBus: context.bloc<TripsBloc>().state.isBusLoaded,
-                  trainTrips: context.bloc<TripsBloc>().state.trainTrips,
-                  isTrain: context.bloc<TripsBloc>().state.isTrainLoaded,
-                  direction: context.bloc<TripsBloc>().state.direction,
-                ));
+            final tripsState = context.bloc<TripsBloc>().state;
+            context.bloc<MapsBloc>().add(
+                  MapsEvent.load(
+                    busTrips: tripsState.busTrips,
+                    isBus: tripsState.isBusLoaded,
+                    trainTrips: tripsState.trainTrips,
+                    isTrain: tripsState.isTrainLoaded,
+                    direction: tripsState.direction,
+                  ),
+                );
           },
         );
       },
