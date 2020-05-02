@@ -1,12 +1,9 @@
-import 'dart:convert';
-
 import 'package:app_pym/data/models/map_pym/batiment_model.dart';
+import 'package:app_pym/domain/entities/map_pym/batiment.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../../fixtures/fixture_reader.dart';
-
 void main() {
-  const tBatimentModel = BatimentModel(
+  const model = BatimentModel(
     id: 1,
     accesHandicape: false,
     adresse: "Rue",
@@ -14,40 +11,30 @@ void main() {
     nbEtage: 2,
     nom: "Entreprise",
     url: "Super",
+    latitude: 1.0,
+    longitude: 2.0,
   );
 
-  group('fromJson', () {
-    test(
-      'should return a valid model',
-      () async {
-        // arrange
-        final Map<String, dynamic> jsonMap = json
-            .decode(fixture('map_pym/batiment.json')) as Map<String, dynamic>;
-        // act
-        final result = BatimentModel.fromJson(jsonMap);
-        // assert
-        expect(result, tBatimentModel);
-      },
-    );
-  });
+  const entity = Batiment(
+    id: 1,
+    accesHandicape: false,
+    adresse: "Rue",
+    description: "Description",
+    nbEtage: 2,
+    nom: "Entreprise",
+    url: "Super",
+    latitude: 1.0,
+    longitude: 2.0,
+  );
 
-  group('toJson', () {
+  group('toEntity', () {
     test(
-      'should return a JSON map containing the proper data',
+      'should return a valid entity',
       () async {
         // act
-        final result = tBatimentModel.toJson();
+        final result = model.toEntity();
         // assert
-        final expectedMap = {
-          "id": 1,
-          "accesHandicape": false,
-          "adresse": "Rue",
-          "description": "Description",
-          "nbEtage": 2,
-          "nom": "Entreprise",
-          "url": "Super",
-        };
-        expect(result, expectedMap);
+        expect(result, equals(entity));
       },
     );
   });

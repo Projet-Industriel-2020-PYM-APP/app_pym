@@ -16,21 +16,19 @@ class _$ContactModelTearOff {
   const _$ContactModelTearOff();
 
   _ContactModel call(
-      {String id,
-      String html_url,
-      String address,
-      String name,
-      String email,
-      String telephone,
-      String user_id}) {
+      {@required @HiveField(0) int id,
+      @required @nullable @HiveField(1) String nom,
+      @required @nullable @HiveField(2) String prenom,
+      @required @nullable @HiveField(3) String mail,
+      @required @nullable @HiveField(4) String telephone,
+      @required @nullable @HiveField(5) int idEntreprise}) {
     return _ContactModel(
       id: id,
-      html_url: html_url,
-      address: address,
-      name: name,
-      email: email,
+      nom: nom,
+      prenom: prenom,
+      mail: mail,
       telephone: telephone,
-      user_id: user_id,
+      idEntreprise: idEntreprise,
     );
   }
 }
@@ -39,13 +37,23 @@ class _$ContactModelTearOff {
 const $ContactModel = _$ContactModelTearOff();
 
 mixin _$ContactModel {
-  String get id;
-  String get html_url;
-  String get address;
-  String get name;
-  String get email;
+  @HiveField(0)
+  int get id;
+  @nullable
+  @HiveField(1)
+  String get nom;
+  @nullable
+  @HiveField(2)
+  String get prenom;
+  @nullable
+  @HiveField(3)
+  String get mail;
+  @nullable
+  @HiveField(4)
   String get telephone;
-  String get user_id;
+  @nullable
+  @HiveField(5)
+  int get idEntreprise;
 
   Map<String, dynamic> toJson();
   $ContactModelCopyWith<ContactModel> get copyWith;
@@ -56,13 +64,12 @@ abstract class $ContactModelCopyWith<$Res> {
           ContactModel value, $Res Function(ContactModel) then) =
       _$ContactModelCopyWithImpl<$Res>;
   $Res call(
-      {String id,
-      String html_url,
-      String address,
-      String name,
-      String email,
-      String telephone,
-      String user_id});
+      {@HiveField(0) int id,
+      @nullable @HiveField(1) String nom,
+      @nullable @HiveField(2) String prenom,
+      @nullable @HiveField(3) String mail,
+      @nullable @HiveField(4) String telephone,
+      @nullable @HiveField(5) int idEntreprise});
 }
 
 class _$ContactModelCopyWithImpl<$Res> implements $ContactModelCopyWith<$Res> {
@@ -75,21 +82,20 @@ class _$ContactModelCopyWithImpl<$Res> implements $ContactModelCopyWith<$Res> {
   @override
   $Res call({
     Object id = freezed,
-    Object html_url = freezed,
-    Object address = freezed,
-    Object name = freezed,
-    Object email = freezed,
+    Object nom = freezed,
+    Object prenom = freezed,
+    Object mail = freezed,
     Object telephone = freezed,
-    Object user_id = freezed,
+    Object idEntreprise = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed ? _value.id : id as String,
-      html_url: html_url == freezed ? _value.html_url : html_url as String,
-      address: address == freezed ? _value.address : address as String,
-      name: name == freezed ? _value.name : name as String,
-      email: email == freezed ? _value.email : email as String,
+      id: id == freezed ? _value.id : id as int,
+      nom: nom == freezed ? _value.nom : nom as String,
+      prenom: prenom == freezed ? _value.prenom : prenom as String,
+      mail: mail == freezed ? _value.mail : mail as String,
       telephone: telephone == freezed ? _value.telephone : telephone as String,
-      user_id: user_id == freezed ? _value.user_id : user_id as String,
+      idEntreprise:
+          idEntreprise == freezed ? _value.idEntreprise : idEntreprise as int,
     ));
   }
 }
@@ -101,13 +107,12 @@ abstract class _$ContactModelCopyWith<$Res>
       __$ContactModelCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String id,
-      String html_url,
-      String address,
-      String name,
-      String email,
-      String telephone,
-      String user_id});
+      {@HiveField(0) int id,
+      @nullable @HiveField(1) String nom,
+      @nullable @HiveField(2) String prenom,
+      @nullable @HiveField(3) String mail,
+      @nullable @HiveField(4) String telephone,
+      @nullable @HiveField(5) int idEntreprise});
 }
 
 class __$ContactModelCopyWithImpl<$Res> extends _$ContactModelCopyWithImpl<$Res>
@@ -122,57 +127,66 @@ class __$ContactModelCopyWithImpl<$Res> extends _$ContactModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object id = freezed,
-    Object html_url = freezed,
-    Object address = freezed,
-    Object name = freezed,
-    Object email = freezed,
+    Object nom = freezed,
+    Object prenom = freezed,
+    Object mail = freezed,
     Object telephone = freezed,
-    Object user_id = freezed,
+    Object idEntreprise = freezed,
   }) {
     return _then(_ContactModel(
-      id: id == freezed ? _value.id : id as String,
-      html_url: html_url == freezed ? _value.html_url : html_url as String,
-      address: address == freezed ? _value.address : address as String,
-      name: name == freezed ? _value.name : name as String,
-      email: email == freezed ? _value.email : email as String,
+      id: id == freezed ? _value.id : id as int,
+      nom: nom == freezed ? _value.nom : nom as String,
+      prenom: prenom == freezed ? _value.prenom : prenom as String,
+      mail: mail == freezed ? _value.mail : mail as String,
       telephone: telephone == freezed ? _value.telephone : telephone as String,
-      user_id: user_id == freezed ? _value.user_id : user_id as String,
+      idEntreprise:
+          idEntreprise == freezed ? _value.idEntreprise : idEntreprise as int,
     ));
   }
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
+@HiveType(typeId: 6)
 class _$_ContactModel implements _ContactModel {
   const _$_ContactModel(
-      {this.id,
-      this.html_url,
-      this.address,
-      this.name,
-      this.email,
-      this.telephone,
-      this.user_id});
+      {@required @HiveField(0) this.id,
+      @required @nullable @HiveField(1) this.nom,
+      @required @nullable @HiveField(2) this.prenom,
+      @required @nullable @HiveField(3) this.mail,
+      @required @nullable @HiveField(4) this.telephone,
+      @required @nullable @HiveField(5) this.idEntreprise})
+      : assert(id != null);
 
   factory _$_ContactModel.fromJson(Map<String, dynamic> json) =>
       _$_$_ContactModelFromJson(json);
 
   @override
-  final String id;
+  @HiveField(0)
+  final int id;
   @override
-  final String html_url;
+  @nullable
+  @HiveField(1)
+  final String nom;
   @override
-  final String address;
+  @nullable
+  @HiveField(2)
+  final String prenom;
   @override
-  final String name;
+  @nullable
+  @HiveField(3)
+  final String mail;
   @override
-  final String email;
-  @override
+  @nullable
+  @HiveField(4)
   final String telephone;
   @override
-  final String user_id;
+  @nullable
+  @HiveField(5)
+  final int idEntreprise;
 
   @override
   String toString() {
-    return 'ContactModel(id: $id, html_url: $html_url, address: $address, name: $name, email: $email, telephone: $telephone, user_id: $user_id)';
+    return 'ContactModel(id: $id, nom: $nom, prenom: $prenom, mail: $mail, telephone: $telephone, idEntreprise: $idEntreprise)';
   }
 
   @override
@@ -181,33 +195,29 @@ class _$_ContactModel implements _ContactModel {
         (other is _ContactModel &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.html_url, html_url) ||
-                const DeepCollectionEquality()
-                    .equals(other.html_url, html_url)) &&
-            (identical(other.address, address) ||
-                const DeepCollectionEquality()
-                    .equals(other.address, address)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
+            (identical(other.nom, nom) ||
+                const DeepCollectionEquality().equals(other.nom, nom)) &&
+            (identical(other.prenom, prenom) ||
+                const DeepCollectionEquality().equals(other.prenom, prenom)) &&
+            (identical(other.mail, mail) ||
+                const DeepCollectionEquality().equals(other.mail, mail)) &&
             (identical(other.telephone, telephone) ||
                 const DeepCollectionEquality()
                     .equals(other.telephone, telephone)) &&
-            (identical(other.user_id, user_id) ||
-                const DeepCollectionEquality().equals(other.user_id, user_id)));
+            (identical(other.idEntreprise, idEntreprise) ||
+                const DeepCollectionEquality()
+                    .equals(other.idEntreprise, idEntreprise)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(html_url) ^
-      const DeepCollectionEquality().hash(address) ^
-      const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(email) ^
+      const DeepCollectionEquality().hash(nom) ^
+      const DeepCollectionEquality().hash(prenom) ^
+      const DeepCollectionEquality().hash(mail) ^
       const DeepCollectionEquality().hash(telephone) ^
-      const DeepCollectionEquality().hash(user_id);
+      const DeepCollectionEquality().hash(idEntreprise);
 
   @override
   _$ContactModelCopyWith<_ContactModel> get copyWith =>
@@ -221,31 +231,39 @@ class _$_ContactModel implements _ContactModel {
 
 abstract class _ContactModel implements ContactModel {
   const factory _ContactModel(
-      {String id,
-      String html_url,
-      String address,
-      String name,
-      String email,
-      String telephone,
-      String user_id}) = _$_ContactModel;
+      {@required @HiveField(0) int id,
+      @required @nullable @HiveField(1) String nom,
+      @required @nullable @HiveField(2) String prenom,
+      @required @nullable @HiveField(3) String mail,
+      @required @nullable @HiveField(4) String telephone,
+      @required @nullable @HiveField(5) int idEntreprise}) = _$_ContactModel;
 
   factory _ContactModel.fromJson(Map<String, dynamic> json) =
       _$_ContactModel.fromJson;
 
   @override
-  String get id;
+  @HiveField(0)
+  int get id;
   @override
-  String get html_url;
+  @nullable
+  @HiveField(1)
+  String get nom;
   @override
-  String get address;
+  @nullable
+  @HiveField(2)
+  String get prenom;
   @override
-  String get name;
+  @nullable
+  @HiveField(3)
+  String get mail;
   @override
-  String get email;
-  @override
+  @nullable
+  @HiveField(4)
   String get telephone;
   @override
-  String get user_id;
+  @nullable
+  @HiveField(5)
+  int get idEntreprise;
   @override
   _$ContactModelCopyWith<_ContactModel> get copyWith;
 }

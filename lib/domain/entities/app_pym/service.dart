@@ -6,12 +6,12 @@ part 'service.freezed.dart';
 @freezed
 abstract class Service with _$Service {
   const factory Service({
-    String id,
-    String title,
-    String categorie_ref,
-    String subtitle,
-    String address,
-    String img_url,
-    List<Action> actions,
+    @required int id,
+    @nullable @required String title,
+    @nullable @required int categorie_id,
+    @nullable @required String subtitle,
+    @nullable @required String address,
+    @nullable @required String img_url,
+    @nullable @required List<Action> actions,
   }) = _Service;
 }

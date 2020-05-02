@@ -1,10 +1,10 @@
-import 'package:app_pym/domain/entities/app_pym/categorie.dart';
+import 'package:app_pym/domain/entities/app_pym/service_categorie.dart';
 import 'package:app_pym/presentation/pages/services/services_of_categorie_screen.dart';
 import 'package:breakpoint/breakpoint.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesScreen extends StatelessWidget {
-  final List<Categorie> categories;
+  final List<ServiceCategorie> categories;
 
   const CategoriesScreen(this.categories);
 
@@ -33,7 +33,7 @@ class CategoriesScreen extends StatelessWidget {
 }
 
 class CategorieCard extends StatelessWidget {
-  final Categorie categorie;
+  final ServiceCategorie categorie;
 
   const CategorieCard(this.categorie);
 

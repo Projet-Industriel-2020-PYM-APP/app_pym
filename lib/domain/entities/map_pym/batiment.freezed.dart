@@ -19,7 +19,9 @@ class _$BatimentTearOff {
       @required String description,
       @required bool accesHandicape,
       @required String url,
-      @required String adresse}) {
+      @required String adresse,
+      @required double latitude,
+      @required double longitude}) {
     return _Batiment(
       id: id,
       nom: nom,
@@ -28,6 +30,8 @@ class _$BatimentTearOff {
       accesHandicape: accesHandicape,
       url: url,
       adresse: adresse,
+      latitude: latitude,
+      longitude: longitude,
     );
   }
 }
@@ -43,6 +47,8 @@ mixin _$Batiment {
   bool get accesHandicape;
   String get url;
   String get adresse;
+  double get latitude;
+  double get longitude;
 
   $BatimentCopyWith<Batiment> get copyWith;
 }
@@ -57,7 +63,9 @@ abstract class $BatimentCopyWith<$Res> {
       String description,
       bool accesHandicape,
       String url,
-      String adresse});
+      String adresse,
+      double latitude,
+      double longitude});
 }
 
 class _$BatimentCopyWithImpl<$Res> implements $BatimentCopyWith<$Res> {
@@ -76,6 +84,8 @@ class _$BatimentCopyWithImpl<$Res> implements $BatimentCopyWith<$Res> {
     Object accesHandicape = freezed,
     Object url = freezed,
     Object adresse = freezed,
+    Object latitude = freezed,
+    Object longitude = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -88,6 +98,8 @@ class _$BatimentCopyWithImpl<$Res> implements $BatimentCopyWith<$Res> {
           : accesHandicape as bool,
       url: url == freezed ? _value.url : url as String,
       adresse: adresse == freezed ? _value.adresse : adresse as String,
+      latitude: latitude == freezed ? _value.latitude : latitude as double,
+      longitude: longitude == freezed ? _value.longitude : longitude as double,
     ));
   }
 }
@@ -103,7 +115,9 @@ abstract class _$BatimentCopyWith<$Res> implements $BatimentCopyWith<$Res> {
       String description,
       bool accesHandicape,
       String url,
-      String adresse});
+      String adresse,
+      double latitude,
+      double longitude});
 }
 
 class __$BatimentCopyWithImpl<$Res> extends _$BatimentCopyWithImpl<$Res>
@@ -123,6 +137,8 @@ class __$BatimentCopyWithImpl<$Res> extends _$BatimentCopyWithImpl<$Res>
     Object accesHandicape = freezed,
     Object url = freezed,
     Object adresse = freezed,
+    Object latitude = freezed,
+    Object longitude = freezed,
   }) {
     return _then(_Batiment(
       id: id == freezed ? _value.id : id as int,
@@ -135,6 +151,8 @@ class __$BatimentCopyWithImpl<$Res> extends _$BatimentCopyWithImpl<$Res>
           : accesHandicape as bool,
       url: url == freezed ? _value.url : url as String,
       adresse: adresse == freezed ? _value.adresse : adresse as String,
+      latitude: latitude == freezed ? _value.latitude : latitude as double,
+      longitude: longitude == freezed ? _value.longitude : longitude as double,
     ));
   }
 }
@@ -147,14 +165,18 @@ class _$_Batiment with DiagnosticableTreeMixin implements _Batiment {
       @required this.description,
       @required this.accesHandicape,
       @required this.url,
-      @required this.adresse})
+      @required this.adresse,
+      @required this.latitude,
+      @required this.longitude})
       : assert(id != null),
         assert(nom != null),
         assert(nbEtage != null),
         assert(description != null),
         assert(accesHandicape != null),
         assert(url != null),
-        assert(adresse != null);
+        assert(adresse != null),
+        assert(latitude != null),
+        assert(longitude != null);
 
   @override
   final int id;
@@ -170,10 +192,14 @@ class _$_Batiment with DiagnosticableTreeMixin implements _Batiment {
   final String url;
   @override
   final String adresse;
+  @override
+  final double latitude;
+  @override
+  final double longitude;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Batiment(id: $id, nom: $nom, nbEtage: $nbEtage, description: $description, accesHandicape: $accesHandicape, url: $url, adresse: $adresse)';
+    return 'Batiment(id: $id, nom: $nom, nbEtage: $nbEtage, description: $description, accesHandicape: $accesHandicape, url: $url, adresse: $adresse, latitude: $latitude, longitude: $longitude)';
   }
 
   @override
@@ -187,7 +213,9 @@ class _$_Batiment with DiagnosticableTreeMixin implements _Batiment {
       ..add(DiagnosticsProperty('description', description))
       ..add(DiagnosticsProperty('accesHandicape', accesHandicape))
       ..add(DiagnosticsProperty('url', url))
-      ..add(DiagnosticsProperty('adresse', adresse));
+      ..add(DiagnosticsProperty('adresse', adresse))
+      ..add(DiagnosticsProperty('latitude', latitude))
+      ..add(DiagnosticsProperty('longitude', longitude));
   }
 
   @override
@@ -210,7 +238,14 @@ class _$_Batiment with DiagnosticableTreeMixin implements _Batiment {
             (identical(other.url, url) ||
                 const DeepCollectionEquality().equals(other.url, url)) &&
             (identical(other.adresse, adresse) ||
-                const DeepCollectionEquality().equals(other.adresse, adresse)));
+                const DeepCollectionEquality()
+                    .equals(other.adresse, adresse)) &&
+            (identical(other.latitude, latitude) ||
+                const DeepCollectionEquality()
+                    .equals(other.latitude, latitude)) &&
+            (identical(other.longitude, longitude) ||
+                const DeepCollectionEquality()
+                    .equals(other.longitude, longitude)));
   }
 
   @override
@@ -222,7 +257,9 @@ class _$_Batiment with DiagnosticableTreeMixin implements _Batiment {
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(accesHandicape) ^
       const DeepCollectionEquality().hash(url) ^
-      const DeepCollectionEquality().hash(adresse);
+      const DeepCollectionEquality().hash(adresse) ^
+      const DeepCollectionEquality().hash(latitude) ^
+      const DeepCollectionEquality().hash(longitude);
 
   @override
   _$BatimentCopyWith<_Batiment> get copyWith =>
@@ -237,7 +274,9 @@ abstract class _Batiment implements Batiment {
       @required String description,
       @required bool accesHandicape,
       @required String url,
-      @required String adresse}) = _$_Batiment;
+      @required String adresse,
+      @required double latitude,
+      @required double longitude}) = _$_Batiment;
 
   @override
   int get id;
@@ -253,6 +292,10 @@ abstract class _Batiment implements Batiment {
   String get url;
   @override
   String get adresse;
+  @override
+  double get latitude;
+  @override
+  double get longitude;
   @override
   _$BatimentCopyWith<_Batiment> get copyWith;
 }

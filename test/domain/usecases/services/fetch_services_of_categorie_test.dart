@@ -1,6 +1,8 @@
+import 'dart:ui';
+
 import 'package:app_pym/domain/entities/app_pym/action.dart';
-import 'package:app_pym/domain/entities/app_pym/categorie.dart';
 import 'package:app_pym/domain/entities/app_pym/service.dart';
+import 'package:app_pym/domain/entities/app_pym/service_categorie.dart';
 import 'package:app_pym/domain/repositories/app_pym/service_repository.dart';
 import 'package:app_pym/domain/usecases/services/fetch_services_of_categorie.dart';
 import 'package:app_pym/injection_container.dart';
@@ -20,24 +22,23 @@ void main() {
   });
 
   const tAction = Action(
-    id: "1",
     html_url: "html_url",
     name: "name",
   );
-  const tCategorie = Categorie(
-    id: "1",
-    action: tAction,
-    name: "name",
-  );
+  const tCategorie = ServiceCategorie(
+      id: 0,
+      action: tAction,
+      name: "name",
+      img_url: "img_url",
+      primary_color: Color(0xffffffff));
   const tAction2 = Action(
-    id: "1",
     html_url: "html_url",
     name: "name",
   );
   const tService = Service(
-    id: "1",
+    id: 1,
     title: "title",
-    categorie_ref: "1",
+    categorie_id: 1,
     subtitle: "subtitle",
     address: "address",
     img_url: "img_url",
@@ -49,16 +50,12 @@ void main() {
     () async {
       // arrange
       when(mockServiceRepository.fetchServicesOf(any))
-          .thenAnswer((_) => Stream.fromIterable([
-                [tService]
-              ]));
+          .thenAnswer((_) async => [tService]);
       // act
-      final result = await usecase(tCategorie).toList();
+      final result = await usecase(tCategorie);
       // assert
-      expect(result, [
-        [tService]
-      ]);
-      verify(mockServiceRepository.fetchServicesOf(tCategorie));
+      expect(result, [tService]);
+      verify(mockServiceRepository.fetchServicesOf(tCategorie.id));
       verifyNoMoreInteractions(mockServiceRepository);
     },
   );

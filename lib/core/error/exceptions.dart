@@ -22,6 +22,18 @@ class ServerException implements Exception {
   }
 }
 
+class ConnectivityException implements Exception {
+  final dynamic message;
+
+  ConnectivityException([this.message]);
+
+  @override
+  String toString() {
+    if (message == null) return "ConnectivityException";
+    return "ConnectivityException: $message";
+  }
+}
+
 class PermissionException implements Exception {
   final dynamic message;
 

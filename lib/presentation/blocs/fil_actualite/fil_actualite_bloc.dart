@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:app_pym/core/usecases/usecase.dart';
-import 'package:app_pym/domain/entities/blogger/post.dart';
+import 'package:app_pym/domain/entities/app_pym/post.dart';
 import 'package:app_pym/domain/usecases/fil_actualite/get_posts.dart';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

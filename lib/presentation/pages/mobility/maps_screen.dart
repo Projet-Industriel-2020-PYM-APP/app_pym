@@ -16,11 +16,10 @@ class MapsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<MapsBloc, MapsState>(
       builder: (BuildContext context, MapsState state) {
-        final mapsState = context.bloc<MapsBloc>().state;
         return GoogleMap(
           mapType: MapType.normal,
-          polylines: mapsState.polylines,
-          markers: mapsState.markers,
+          polylines: state.polylines,
+          markers: state.markers,
           initialCameraPosition:
               CameraPosition(target: initialPosition, zoom: 15),
           onMapCreated: (GoogleMapController controller) {

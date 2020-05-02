@@ -8,13 +8,17 @@ part of 'action_model.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+ActionModel _$ActionModelFromJson(Map<String, dynamic> json) {
+  return _ActionModel.fromJson(json);
+}
 
 class _$ActionModelTearOff {
   const _$ActionModelTearOff();
 
-  _ActionModel call({String id, String name, String html_url}) {
+  _ActionModel call(
+      {@required @nullable @HiveField(0) String name,
+      @required @nullable @HiveField(1) String html_url}) {
     return _ActionModel(
-      id: id,
       name: name,
       html_url: html_url,
     );
@@ -25,10 +29,14 @@ class _$ActionModelTearOff {
 const $ActionModel = _$ActionModelTearOff();
 
 mixin _$ActionModel {
-  String get id;
+  @nullable
+  @HiveField(0)
   String get name;
+  @nullable
+  @HiveField(1)
   String get html_url;
 
+  Map<String, dynamic> toJson();
   $ActionModelCopyWith<ActionModel> get copyWith;
 }
 
@@ -36,7 +44,9 @@ abstract class $ActionModelCopyWith<$Res> {
   factory $ActionModelCopyWith(
           ActionModel value, $Res Function(ActionModel) then) =
       _$ActionModelCopyWithImpl<$Res>;
-  $Res call({String id, String name, String html_url});
+  $Res call(
+      {@nullable @HiveField(0) String name,
+      @nullable @HiveField(1) String html_url});
 }
 
 class _$ActionModelCopyWithImpl<$Res> implements $ActionModelCopyWith<$Res> {
@@ -48,12 +58,10 @@ class _$ActionModelCopyWithImpl<$Res> implements $ActionModelCopyWith<$Res> {
 
   @override
   $Res call({
-    Object id = freezed,
     Object name = freezed,
     Object html_url = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed ? _value.id : id as String,
       name: name == freezed ? _value.name : name as String,
       html_url: html_url == freezed ? _value.html_url : html_url as String,
     ));
@@ -66,7 +74,9 @@ abstract class _$ActionModelCopyWith<$Res>
           _ActionModel value, $Res Function(_ActionModel) then) =
       __$ActionModelCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String name, String html_url});
+  $Res call(
+      {@nullable @HiveField(0) String name,
+      @nullable @HiveField(1) String html_url});
 }
 
 class __$ActionModelCopyWithImpl<$Res> extends _$ActionModelCopyWithImpl<$Res>
@@ -80,39 +90,44 @@ class __$ActionModelCopyWithImpl<$Res> extends _$ActionModelCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object id = freezed,
     Object name = freezed,
     Object html_url = freezed,
   }) {
     return _then(_ActionModel(
-      id: id == freezed ? _value.id : id as String,
       name: name == freezed ? _value.name : name as String,
       html_url: html_url == freezed ? _value.html_url : html_url as String,
     ));
   }
 }
 
+@JsonSerializable(explicitToJson: true)
+@HiveType(typeId: 4)
 class _$_ActionModel implements _ActionModel {
-  const _$_ActionModel({this.id, this.name, this.html_url});
+  const _$_ActionModel(
+      {@required @nullable @HiveField(0) this.name,
+      @required @nullable @HiveField(1) this.html_url});
+
+  factory _$_ActionModel.fromJson(Map<String, dynamic> json) =>
+      _$_$_ActionModelFromJson(json);
 
   @override
-  final String id;
-  @override
+  @nullable
+  @HiveField(0)
   final String name;
   @override
+  @nullable
+  @HiveField(1)
   final String html_url;
 
   @override
   String toString() {
-    return 'ActionModel(id: $id, name: $name, html_url: $html_url)';
+    return 'ActionModel(name: $name, html_url: $html_url)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _ActionModel &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.html_url, html_url) ||
@@ -123,24 +138,34 @@ class _$_ActionModel implements _ActionModel {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(html_url);
 
   @override
   _$ActionModelCopyWith<_ActionModel> get copyWith =>
       __$ActionModelCopyWithImpl<_ActionModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$_ActionModelToJson(this);
+  }
 }
 
 abstract class _ActionModel implements ActionModel {
-  const factory _ActionModel({String id, String name, String html_url}) =
-      _$_ActionModel;
+  const factory _ActionModel(
+      {@required @nullable @HiveField(0) String name,
+      @required @nullable @HiveField(1) String html_url}) = _$_ActionModel;
+
+  factory _ActionModel.fromJson(Map<String, dynamic> json) =
+      _$_ActionModel.fromJson;
 
   @override
-  String get id;
-  @override
+  @nullable
+  @HiveField(0)
   String get name;
   @override
+  @nullable
+  @HiveField(1)
   String get html_url;
   @override
   _$ActionModelCopyWith<_ActionModel> get copyWith;

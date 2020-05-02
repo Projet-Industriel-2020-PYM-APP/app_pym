@@ -13,5 +13,7 @@ abstract class Batiment with _$Batiment {
     @required bool accesHandicape,
     @required String url,
     @required String adresse,
+    @required double latitude,
+    @required double longitude,
   }) = _Batiment;
 }

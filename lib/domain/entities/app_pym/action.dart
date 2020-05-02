@@ -5,8 +5,7 @@ part 'action.freezed.dart';
 @freezed
 abstract class Action with _$Action {
   const factory Action({
-    String id,
-    String name,
-    String html_url,
+    @nullable @required String name,
+    @nullable @required String html_url,
   }) = _Action;
 }

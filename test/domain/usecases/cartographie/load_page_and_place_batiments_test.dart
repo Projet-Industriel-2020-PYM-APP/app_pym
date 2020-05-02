@@ -2,8 +2,6 @@ import 'dart:math';
 
 import 'package:app_pym/data/devices/geolocator_device.dart';
 import 'package:app_pym/domain/entities/map_pym/batiment.dart';
-import 'package:app_pym/domain/entities/map_pym/batiment_position.dart';
-import 'package:app_pym/domain/repositories/map_pym/batiment_position_repository.dart';
 import 'package:app_pym/domain/repositories/map_pym/batiment_repository.dart';
 import 'package:app_pym/domain/usecases/cartographie/load_page_and_place_batiments.dart';
 import 'package:app_pym/injection_container.dart';
@@ -14,8 +12,7 @@ import 'package:injectable/injectable.dart' show Environment;
 import 'package:mockito/mockito.dart';
 
 void main() {
-  LoadPageAndPlaceBatiment usecase;
-  BatimentPositionRepository mockBatimentPositionRepository;
+  LoadPageAndPlaceBatiments usecase;
   BatimentRepository mockBatimentRepository;
   GeolocatorDevice mockGeolocatorDevice;
   UnityWidgetController mockUnityWidgetController;
@@ -23,12 +20,10 @@ void main() {
   init(env: Environment.test);
 
   setUp(() {
-    mockBatimentPositionRepository = sl<BatimentPositionRepository>();
     mockGeolocatorDevice = sl<GeolocatorDevice>();
     mockBatimentRepository = sl<BatimentRepository>();
     mockUnityWidgetController = MockUnityWidgetController();
-    usecase = LoadPageAndPlaceBatiment(
-      batimentPositionRepository: mockBatimentPositionRepository,
+    usecase = LoadPageAndPlaceBatiments(
       batimentRepository: mockBatimentRepository,
       geolocatorDevice: mockGeolocatorDevice,
     );
@@ -50,11 +45,6 @@ void main() {
         speedAccuracy: 0,
         timestamp: tDateTime,
       );
-      const tBatimentPosition = BatimentPosition(
-        idBatiment: 1,
-        latitude: 44,
-        longitude: 3,
-      );
       const tBatiment = Batiment(
         id: 1,
         accesHandicape: false,
@@ -63,16 +53,15 @@ void main() {
         nbEtage: 2,
         nom: "Entreprise",
         url: "Super",
+        latitude: 1.0,
+        longitude: 2.0,
       );
-      const tListBatimentPosition = [tBatimentPosition];
       when(mockGeolocatorDevice.positions)
           .thenAnswer((_) => Stream.fromIterable([tPosition]));
       when(mockGeolocatorDevice.bearingBetween(any, any, any, any))
           .thenAnswer((_) => pi);
-      when(mockBatimentPositionRepository.fetchBatimentsPosition())
-          .thenAnswer((_) async => tListBatimentPosition);
-      when(mockBatimentRepository.fetchBatiment(tBatimentPosition.idBatiment))
-          .thenAnswer((_) async => tBatiment);
+      when(mockBatimentRepository.fetchAll())
+          .thenAnswer((_) async => [tBatiment]);
 
       // act
       final Future<Position> result = usecase(LoadPageAndPlaceBatimentParams(
@@ -81,11 +70,10 @@ void main() {
       ));
       // assert
       expect(await result, equals(tPosition));
+      verify(mockBatimentRepository.fetchAll());
       verify(mockGeolocatorDevice.positions);
-      verify(mockGeolocatorDevice.bearingBetween(2, 4, 44, 3));
-
-      verify(
-          mockBatimentRepository.fetchBatiment(tBatimentPosition.idBatiment));
+      verify(mockGeolocatorDevice.bearingBetween(tPosition.latitude,
+          tPosition.longitude, tBatiment.latitude, tBatiment.longitude));
       verify<dynamic>(mockUnityWidgetController.postMessage(
         'CompassSpawner',
         'FlutterSpawn',
@@ -95,7 +83,7 @@ void main() {
         'BatimentSpawner',
         'FlutterSpawn',
         any,
-      )).called(1);
+      ));
     },
   );
 }

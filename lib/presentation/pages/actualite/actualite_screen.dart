@@ -1,6 +1,6 @@
 import 'package:app_pym/core/utils/time_formatter.dart';
 import 'package:app_pym/core/utils/url_launcher_utils.dart';
-import 'package:app_pym/domain/entities/blogger/post.dart';
+import 'package:app_pym/domain/entities/app_pym/post.dart';
 import 'package:breakpoint/breakpoint.dart';
 import 'package:flutter/material.dart';
 import 'package:html/dom.dart' as html_dom;

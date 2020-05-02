@@ -17,12 +17,14 @@ class _$BatimentModelTearOff {
 
   _BatimentModel call(
       {@required @HiveField(0) int id,
-      @required @HiveField(1) String nom,
-      @required @HiveField(2) int nbEtage,
-      @required @HiveField(3) String description,
-      @required @HiveField(4) bool accesHandicape,
-      @required @HiveField(5) String url,
-      @required @HiveField(6) String adresse}) {
+      @required @nullable @HiveField(1) String nom,
+      @required @nullable @HiveField(2) int nbEtage,
+      @required @nullable @HiveField(3) String description,
+      @required @nullable @HiveField(4) bool accesHandicape,
+      @required @nullable @HiveField(5) String url,
+      @required @nullable @HiveField(6) String adresse,
+      @required @nullable @HiveField(7) double latitude,
+      @required @nullable @HiveField(8) double longitude}) {
     return _BatimentModel(
       id: id,
       nom: nom,
@@ -31,6 +33,8 @@ class _$BatimentModelTearOff {
       accesHandicape: accesHandicape,
       url: url,
       adresse: adresse,
+      latitude: latitude,
+      longitude: longitude,
     );
   }
 }
@@ -41,18 +45,30 @@ const $BatimentModel = _$BatimentModelTearOff();
 mixin _$BatimentModel {
   @HiveField(0)
   int get id;
+  @nullable
   @HiveField(1)
   String get nom;
+  @nullable
   @HiveField(2)
   int get nbEtage;
+  @nullable
   @HiveField(3)
   String get description;
+  @nullable
   @HiveField(4)
   bool get accesHandicape;
+  @nullable
   @HiveField(5)
   String get url;
+  @nullable
   @HiveField(6)
   String get adresse;
+  @nullable
+  @HiveField(7)
+  double get latitude;
+  @nullable
+  @HiveField(8)
+  double get longitude;
 
   Map<String, dynamic> toJson();
   $BatimentModelCopyWith<BatimentModel> get copyWith;
@@ -64,12 +80,14 @@ abstract class $BatimentModelCopyWith<$Res> {
       _$BatimentModelCopyWithImpl<$Res>;
   $Res call(
       {@HiveField(0) int id,
-      @HiveField(1) String nom,
-      @HiveField(2) int nbEtage,
-      @HiveField(3) String description,
-      @HiveField(4) bool accesHandicape,
-      @HiveField(5) String url,
-      @HiveField(6) String adresse});
+      @nullable @HiveField(1) String nom,
+      @nullable @HiveField(2) int nbEtage,
+      @nullable @HiveField(3) String description,
+      @nullable @HiveField(4) bool accesHandicape,
+      @nullable @HiveField(5) String url,
+      @nullable @HiveField(6) String adresse,
+      @nullable @HiveField(7) double latitude,
+      @nullable @HiveField(8) double longitude});
 }
 
 class _$BatimentModelCopyWithImpl<$Res>
@@ -89,6 +107,8 @@ class _$BatimentModelCopyWithImpl<$Res>
     Object accesHandicape = freezed,
     Object url = freezed,
     Object adresse = freezed,
+    Object latitude = freezed,
+    Object longitude = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -101,6 +121,8 @@ class _$BatimentModelCopyWithImpl<$Res>
           : accesHandicape as bool,
       url: url == freezed ? _value.url : url as String,
       adresse: adresse == freezed ? _value.adresse : adresse as String,
+      latitude: latitude == freezed ? _value.latitude : latitude as double,
+      longitude: longitude == freezed ? _value.longitude : longitude as double,
     ));
   }
 }
@@ -113,12 +135,14 @@ abstract class _$BatimentModelCopyWith<$Res>
   @override
   $Res call(
       {@HiveField(0) int id,
-      @HiveField(1) String nom,
-      @HiveField(2) int nbEtage,
-      @HiveField(3) String description,
-      @HiveField(4) bool accesHandicape,
-      @HiveField(5) String url,
-      @HiveField(6) String adresse});
+      @nullable @HiveField(1) String nom,
+      @nullable @HiveField(2) int nbEtage,
+      @nullable @HiveField(3) String description,
+      @nullable @HiveField(4) bool accesHandicape,
+      @nullable @HiveField(5) String url,
+      @nullable @HiveField(6) String adresse,
+      @nullable @HiveField(7) double latitude,
+      @nullable @HiveField(8) double longitude});
 }
 
 class __$BatimentModelCopyWithImpl<$Res>
@@ -140,6 +164,8 @@ class __$BatimentModelCopyWithImpl<$Res>
     Object accesHandicape = freezed,
     Object url = freezed,
     Object adresse = freezed,
+    Object latitude = freezed,
+    Object longitude = freezed,
   }) {
     return _then(_BatimentModel(
       id: id == freezed ? _value.id : id as int,
@@ -152,6 +178,8 @@ class __$BatimentModelCopyWithImpl<$Res>
           : accesHandicape as bool,
       url: url == freezed ? _value.url : url as String,
       adresse: adresse == freezed ? _value.adresse : adresse as String,
+      latitude: latitude == freezed ? _value.latitude : latitude as double,
+      longitude: longitude == freezed ? _value.longitude : longitude as double,
     ));
   }
 }
@@ -161,19 +189,15 @@ class __$BatimentModelCopyWithImpl<$Res>
 class _$_BatimentModel with DiagnosticableTreeMixin implements _BatimentModel {
   const _$_BatimentModel(
       {@required @HiveField(0) this.id,
-      @required @HiveField(1) this.nom,
-      @required @HiveField(2) this.nbEtage,
-      @required @HiveField(3) this.description,
-      @required @HiveField(4) this.accesHandicape,
-      @required @HiveField(5) this.url,
-      @required @HiveField(6) this.adresse})
-      : assert(id != null),
-        assert(nom != null),
-        assert(nbEtage != null),
-        assert(description != null),
-        assert(accesHandicape != null),
-        assert(url != null),
-        assert(adresse != null);
+      @required @nullable @HiveField(1) this.nom,
+      @required @nullable @HiveField(2) this.nbEtage,
+      @required @nullable @HiveField(3) this.description,
+      @required @nullable @HiveField(4) this.accesHandicape,
+      @required @nullable @HiveField(5) this.url,
+      @required @nullable @HiveField(6) this.adresse,
+      @required @nullable @HiveField(7) this.latitude,
+      @required @nullable @HiveField(8) this.longitude})
+      : assert(id != null);
 
   factory _$_BatimentModel.fromJson(Map<String, dynamic> json) =>
       _$_$_BatimentModelFromJson(json);
@@ -182,27 +206,41 @@ class _$_BatimentModel with DiagnosticableTreeMixin implements _BatimentModel {
   @HiveField(0)
   final int id;
   @override
+  @nullable
   @HiveField(1)
   final String nom;
   @override
+  @nullable
   @HiveField(2)
   final int nbEtage;
   @override
+  @nullable
   @HiveField(3)
   final String description;
   @override
+  @nullable
   @HiveField(4)
   final bool accesHandicape;
   @override
+  @nullable
   @HiveField(5)
   final String url;
   @override
+  @nullable
   @HiveField(6)
   final String adresse;
+  @override
+  @nullable
+  @HiveField(7)
+  final double latitude;
+  @override
+  @nullable
+  @HiveField(8)
+  final double longitude;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'BatimentModel(id: $id, nom: $nom, nbEtage: $nbEtage, description: $description, accesHandicape: $accesHandicape, url: $url, adresse: $adresse)';
+    return 'BatimentModel(id: $id, nom: $nom, nbEtage: $nbEtage, description: $description, accesHandicape: $accesHandicape, url: $url, adresse: $adresse, latitude: $latitude, longitude: $longitude)';
   }
 
   @override
@@ -216,7 +254,9 @@ class _$_BatimentModel with DiagnosticableTreeMixin implements _BatimentModel {
       ..add(DiagnosticsProperty('description', description))
       ..add(DiagnosticsProperty('accesHandicape', accesHandicape))
       ..add(DiagnosticsProperty('url', url))
-      ..add(DiagnosticsProperty('adresse', adresse));
+      ..add(DiagnosticsProperty('adresse', adresse))
+      ..add(DiagnosticsProperty('latitude', latitude))
+      ..add(DiagnosticsProperty('longitude', longitude));
   }
 
   @override
@@ -239,7 +279,14 @@ class _$_BatimentModel with DiagnosticableTreeMixin implements _BatimentModel {
             (identical(other.url, url) ||
                 const DeepCollectionEquality().equals(other.url, url)) &&
             (identical(other.adresse, adresse) ||
-                const DeepCollectionEquality().equals(other.adresse, adresse)));
+                const DeepCollectionEquality()
+                    .equals(other.adresse, adresse)) &&
+            (identical(other.latitude, latitude) ||
+                const DeepCollectionEquality()
+                    .equals(other.latitude, latitude)) &&
+            (identical(other.longitude, longitude) ||
+                const DeepCollectionEquality()
+                    .equals(other.longitude, longitude)));
   }
 
   @override
@@ -251,7 +298,9 @@ class _$_BatimentModel with DiagnosticableTreeMixin implements _BatimentModel {
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(accesHandicape) ^
       const DeepCollectionEquality().hash(url) ^
-      const DeepCollectionEquality().hash(adresse);
+      const DeepCollectionEquality().hash(adresse) ^
+      const DeepCollectionEquality().hash(latitude) ^
+      const DeepCollectionEquality().hash(longitude);
 
   @override
   _$BatimentModelCopyWith<_BatimentModel> get copyWith =>
@@ -266,12 +315,14 @@ class _$_BatimentModel with DiagnosticableTreeMixin implements _BatimentModel {
 abstract class _BatimentModel implements BatimentModel {
   const factory _BatimentModel(
       {@required @HiveField(0) int id,
-      @required @HiveField(1) String nom,
-      @required @HiveField(2) int nbEtage,
-      @required @HiveField(3) String description,
-      @required @HiveField(4) bool accesHandicape,
-      @required @HiveField(5) String url,
-      @required @HiveField(6) String adresse}) = _$_BatimentModel;
+      @required @nullable @HiveField(1) String nom,
+      @required @nullable @HiveField(2) int nbEtage,
+      @required @nullable @HiveField(3) String description,
+      @required @nullable @HiveField(4) bool accesHandicape,
+      @required @nullable @HiveField(5) String url,
+      @required @nullable @HiveField(6) String adresse,
+      @required @nullable @HiveField(7) double latitude,
+      @required @nullable @HiveField(8) double longitude}) = _$_BatimentModel;
 
   factory _BatimentModel.fromJson(Map<String, dynamic> json) =
       _$_BatimentModel.fromJson;
@@ -280,23 +331,37 @@ abstract class _BatimentModel implements BatimentModel {
   @HiveField(0)
   int get id;
   @override
+  @nullable
   @HiveField(1)
   String get nom;
   @override
+  @nullable
   @HiveField(2)
   int get nbEtage;
   @override
+  @nullable
   @HiveField(3)
   String get description;
   @override
+  @nullable
   @HiveField(4)
   bool get accesHandicape;
   @override
+  @nullable
   @HiveField(5)
   String get url;
   @override
+  @nullable
   @HiveField(6)
   String get adresse;
+  @override
+  @nullable
+  @HiveField(7)
+  double get latitude;
+  @override
+  @nullable
+  @HiveField(8)
+  double get longitude;
   @override
   _$BatimentModelCopyWith<_BatimentModel> get copyWith;
 }

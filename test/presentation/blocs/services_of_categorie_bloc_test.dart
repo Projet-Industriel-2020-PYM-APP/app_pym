@@ -1,7 +1,9 @@
+import 'dart:ui';
+
 import 'package:app_pym/core/error/exceptions.dart';
 import 'package:app_pym/domain/entities/app_pym/action.dart';
-import 'package:app_pym/domain/entities/app_pym/categorie.dart';
 import 'package:app_pym/domain/entities/app_pym/service.dart';
+import 'package:app_pym/domain/entities/app_pym/service_categorie.dart';
 import 'package:app_pym/domain/usecases/services/fetch_services_of_categorie.dart';
 import 'package:app_pym/injection_container.dart';
 import 'package:app_pym/presentation/blocs/services/services_of_categorie/services_of_categorie_bloc.dart';
@@ -16,27 +18,34 @@ void main() {
   init(env: Environment.test);
 
   const tAction = Action(
-    id: "1",
     html_url: "html_url",
     name: "name",
   );
-  const tCategorie = Categorie(
-    id: "1",
+  const tCategorie = ServiceCategorie(
+    id: 1,
     action: tAction,
     name: "name",
+    img_url: "img_url",
+    primary_color: Color(0xffffffff),
   );
   const tServiceList = [
     Service(
-      id: "1",
+      id: 1,
       title: "title",
-      categorie_ref: "1",
+      categorie_id: 1,
       subtitle: "subtitle",
       address: "address",
       img_url: "img_url",
       actions: [tAction],
     ),
     Service(
-      categorie_ref: "2",
+      id: 2,
+      title: "title",
+      categorie_id: 2,
+      subtitle: "subtitle",
+      address: "address",
+      img_url: "img_url",
+      actions: [tAction],
     ),
   ];
 
@@ -56,7 +65,7 @@ void main() {
       () async {
         // arrange
         when(mockFetchServicesOfCategorie(any))
-            .thenAnswer((_) => Stream.fromIterable([tServiceList]));
+            .thenAnswer((_) async => tServiceList);
         // act
         bloc.add(const FetchServicesOfCategorieEvent(tCategorie));
         await untilCalled(mockFetchServicesOfCategorie(any));
@@ -70,7 +79,7 @@ void main() {
       () async {
         // arrange
         when(mockFetchServicesOfCategorie(any))
-            .thenAnswer((_) => Stream.fromIterable([tServiceList]));
+            .thenAnswer((_) async => tServiceList);
         // assert later
         const expected = [
           ServicesOfCategorieInitial(),

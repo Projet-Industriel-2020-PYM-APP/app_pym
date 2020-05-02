@@ -39,8 +39,6 @@ void main() {
 
     group('Navigation', () {
       test('Move to Actualite', () async {
-        await driver.tap(find.byValueKey(KeysStringNavigation.mobilite));
-        await driver.tap(find.byValueKey(KeysStringNavigation.actualite));
         await takeScreenshot(driver, ScreenshotsPaths.actualite);
       });
 
@@ -95,7 +93,9 @@ void main() {
 Future<void> takeScreenshot(FlutterDriver driver, String path) async {
   await driver
       .waitUntilNoTransientCallbacks()
-      .timeout(const Duration(seconds: 5));
+      .timeout(const Duration(seconds: 5), onTimeout: () {
+    print("waitUntilNoTransientCallbacks timed out.");
+  });
   final List<int> pixels = await driver.screenshot();
   final File file = File(path);
   file.createSync(recursive: true);
