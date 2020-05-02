@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:app_pym/core/constants/mobility.dart';
 import 'package:app_pym/injection_container.dart';
 import 'package:app_pym/presentation/blocs/mobility/stop_details/stop_details_bloc.dart';
@@ -146,8 +144,8 @@ class MobiliteBody extends StatelessWidget {
               children: <Widget>[
                 if (context.bloc<TripsBloc>().state.isLoading)
                   const LinearProgressIndicator(),
-                MapsScreen(
-                  initialPosition: const LatLng(43.4506539, 5.4459134),
+                const MapsScreen(
+                  initialPosition: LatLng(43.4506539, 5.4459134),
                 ),
                 const MobilityControls(),
               ],
