@@ -186,8 +186,10 @@ class MapPymLocalDataSourceImpl implements MapPymLocalDataSource {
 
   @override
   List<BookingModel> fetchAllBookingsOf(int service_id) {
-    final models =
-        bookingsBox?.values?.where((e) => e.id == service_id)?.toList() ?? [];
+    final models = bookingsBox?.values
+            ?.where((e) => e.service_id == service_id)
+            ?.toList() ??
+        [];
     return models;
   }
 

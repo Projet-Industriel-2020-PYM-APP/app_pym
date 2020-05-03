@@ -62,7 +62,8 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
   const MapPymRemoteDataSourceImpl({@required this.client});
 
   @override
-  Future<void> createBooking(BookingModel booking, {String token}) async {
+  Future<void> createBooking(BookingModel booking,
+      {@required String token}) async {
     final data = json.encode(booking.toJson());
     final response = await client.post(
       'https://admin.map-pym.com/api/bookings/ajouter',
@@ -82,7 +83,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
   }
 
   @override
-  Future<void> deleteBooking(int booking_id, {String token}) async {
+  Future<void> deleteBooking(int booking_id, {@required String token}) async {
     final response = await client.delete(
       'https://admin.map-pym.com/api/bookings/${booking_id}/supprimer',
       headers: {
@@ -280,7 +281,8 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
   }
 
   @override
-  Future<void> updateBooking(BookingModel booking, {String token}) async {
+  Future<void> updateBooking(BookingModel booking,
+      {@required String token}) async {
     final data = json.encode(booking.toJson());
     final response = await client.patch(
       'https://admin.map-pym.com/api/bookings/${booking.id}/modifier',

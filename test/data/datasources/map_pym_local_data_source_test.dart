@@ -301,7 +301,7 @@ void main() {
         final expected = tListBookingModel
             .where((e) => e.service_id == tListBookingModel.first.service_id)
             .toList();
-        verify(mockBatimentsBox.values);
+        verify(mockBookingsBox.values);
         expect(result, equals(expected));
       },
     );

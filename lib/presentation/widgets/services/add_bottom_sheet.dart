@@ -3,7 +3,6 @@ import 'package:app_pym/domain/entities/app_pym/service.dart';
 import 'package:app_pym/injection_container.dart';
 import 'package:app_pym/presentation/blocs/authentication/authentication/authentication_bloc.dart';
 import 'package:app_pym/presentation/blocs/services/booking/booking_of_service/booking_of_service_bloc.dart';
-import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
