@@ -7,8 +7,8 @@ abstract class FetchAllBookingsOfServiceState
       FetchAllBookingsOfServiceInitial;
   const factory FetchAllBookingsOfServiceState.loading() =
       FetchAllBookingsOfServiceLoading;
-  const factory FetchAllBookingsOfServiceState.loaded(List<Booking> bookings) =
-      FetchAllBookingsOfServiceLoaded;
+  const factory FetchAllBookingsOfServiceState.loaded(
+      List<Booking> bookings, DateTime date) = FetchAllBookingsOfServiceLoaded;
   const factory FetchAllBookingsOfServiceState.error(String message) =
       FetchAllBookingsOfServiceError;
 }

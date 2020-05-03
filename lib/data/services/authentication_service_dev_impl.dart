@@ -21,7 +21,7 @@ class AuthenticationServiceDevImpl implements AuthenticationService {
   Future<String> signIn(String email, String password) async {
     print('[dev] AuthenticationService.signIn(${email}, ***) is called !');
     // Normalement on devrait prendre la DB du map_remote_data_source_dev_impl.
-    if (email == 'example@example.com' && password == 'password') {
+    if (email == 'example@example.com' && password == 'pass1234') {
       return token = 'devToken';
     } else {
       throw ServerException('401 Unauthorized');
@@ -36,6 +36,10 @@ class AuthenticationServiceDevImpl implements AuthenticationService {
   @override
   Future<String> signUp(String email, String password) async {
     print('[dev] AuthenticationService.signUp(${email}, ***) is called !');
-    return token = 'devToken';
+    if (email == 'example@example.com' && password == 'pass1234') {
+      return token = 'devToken';
+    } else {
+      throw ServerException('401 Unauthorized');
+    }
   }
 }

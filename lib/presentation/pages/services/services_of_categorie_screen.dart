@@ -1,11 +1,122 @@
+import 'package:app_pym/core/utils/url_launcher_utils.dart';
+import 'package:app_pym/domain/entities/app_pym/action.dart';
+import 'package:app_pym/domain/entities/app_pym/service.dart';
 import 'package:app_pym/domain/entities/app_pym/service_categorie.dart';
 import 'package:app_pym/injection_container.dart';
-import 'package:breakpoint/breakpoint.dart';
-import 'package:flutter/material.dart';
-import 'package:app_pym/domain/entities/app_pym/service.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app_pym/presentation/blocs/services/services_of_categorie/services_of_categorie_bloc.dart';
 import 'package:app_pym/presentation/pages/services/fetch_all_bookings_screen.dart';
+import 'package:breakpoint/breakpoint.dart';
+import 'package:flutter/material.dart' hide Action;
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class ActionButton extends StatelessWidget {
+  final Action action;
+  final Service service;
+
+  const ActionButton(
+    this.action, {
+    Key key,
+    @required this.service,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      onPressed: () async {
+        if (action.name != null &&
+            action.name.toLowerCase().contains('réserver')) {
+          await Navigator.of(context).push<void>(
+            MaterialPageRoute(
+              builder: (context) => FetchAllBookingsPage(service),
+            ),
+          );
+        } else if (action.html_url != null && action.html_url.isNotEmpty) {
+          await UrlLauncherUtils.launch(action.html_url);
+        } else {
+          await Navigator.of(context).push<void>(
+            MaterialPageRoute(
+              builder: (context) => FetchAllBookingsPage(service),
+            ),
+          );
+        }
+      },
+      child: Text(action.name?.toUpperCase() ?? "Action"),
+    );
+  }
+}
+
+class ServiceCard extends StatelessWidget {
+  final Service service;
+
+  const ServiceCard(this.service);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(4.0),
+      height: MediaQuery.of(context).size.height / 5,
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: Row(
+          children: <Widget>[
+            if (service.img_url != null && service.img_url.isNotEmpty)
+              AspectRatio(
+                aspectRatio: 2 / 3,
+                child: Image.network(
+                  service.img_url,
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Flexible(
+                    child: Container(
+                      padding: const EdgeInsets.all(8.0),
+                      alignment: Alignment.centerLeft,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: service.title + '\n',
+                                style: Theme.of(context).textTheme.headline5,
+                              ),
+                              TextSpan(
+                                text: service.subtitle,
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Divider(),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        ButtonBar(
+                          buttonTextTheme: ButtonTextTheme.primary,
+                          children: service.actions
+                              .map((e) => ActionButton(e, service: service))
+                              .toList(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class ServicesOfCategoriePage extends StatelessWidget {
   final ServiceCategorie categorie;
@@ -75,81 +186,6 @@ class ServicesOfCategorieScreen extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class ServiceCard extends StatelessWidget {
-  final Service service;
-
-  const ServiceCard(this.service);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(4.0),
-      height: MediaQuery.of(context).size.height / 5,
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        child: Row(
-          children: <Widget>[
-            if (service.img_url != null && service.img_url.isNotEmpty)
-              AspectRatio(
-                aspectRatio: 2 / 3,
-                child: Image.network(
-                  service.img_url,
-                  fit: BoxFit.fitHeight,
-                ),
-              ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Flexible(
-                    child: Container(
-                      padding: const EdgeInsets.all(8.0),
-                      alignment: Alignment.centerLeft,
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: service.title + '\n',
-                                style: Theme.of(context).textTheme.headline5,
-                              ),
-                              TextSpan(
-                                text: service.subtitle,
-                                style: Theme.of(context).textTheme.subtitle1,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Divider(),
-                  ButtonBar(
-                    buttonTextTheme: ButtonTextTheme.primary,
-                    children: service.actions
-                        .map((e) => FlatButton(
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .push<void>(MaterialPageRoute(
-                                  builder: (context) =>
-                                      FetchAllBookingsPage(service),
-                                ));
-                              },
-                              child: Text(e.name.toUpperCase()),
-                            ))
-                        .toList(),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

@@ -19,6 +19,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   flutter_bloc: ^4.0.0 # bloclibrary.dev
   http: ^0.12.1 # dart.dev
   hive: ^1.4.1+1
@@ -49,6 +51,7 @@ dependencies:
   flutter_markdown: ^0.3.5
   breakpoint: ^1.0.1+2
   archive: ^2.0.13
+  intl: ^0.16.1
 
 dependency_overrides:
   dartx: 0.3.0

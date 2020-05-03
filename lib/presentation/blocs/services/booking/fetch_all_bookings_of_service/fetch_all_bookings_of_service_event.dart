@@ -5,6 +5,6 @@ abstract class FetchAllBookingsOfServiceEvent
     with _$FetchAllBookingsOfServiceEvent {
   const factory FetchAllBookingsOfServiceEvent.fetch(int service_id) =
       FetchAllBookingsOfServiceFetch;
-  const factory FetchAllBookingsOfServiceEvent.refresh(List<Booking> bookings) =
-      FetchAllBookingsOfServiceRefresh;
+  const factory FetchAllBookingsOfServiceEvent.refresh(
+      List<Booking> bookings, DateTime date) = FetchAllBookingsOfServiceRefresh;
 }

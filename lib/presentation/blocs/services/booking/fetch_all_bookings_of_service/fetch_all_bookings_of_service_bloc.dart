@@ -31,13 +31,13 @@ class FetchAllBookingsOfServiceBloc extends Bloc<FetchAllBookingsOfServiceEvent,
         yield const FetchAllBookingsOfServiceState.loading();
         try {
           final data = await fetchAllBookingsOfService(service_id);
-          add(FetchAllBookingsOfServiceEvent.refresh(data));
+          add(FetchAllBookingsOfServiceEvent.refresh(data, DateTime.now()));
         } catch (e) {
           yield FetchAllBookingsOfServiceState.error(e.toString());
         }
       },
-      refresh: (bookings) async* {
-        yield FetchAllBookingsOfServiceState.loaded(bookings);
+      refresh: (bookings, date) async* {
+        yield FetchAllBookingsOfServiceState.loaded(bookings, date);
       },
     );
   }

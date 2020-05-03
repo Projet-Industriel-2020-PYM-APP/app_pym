@@ -18,9 +18,11 @@ class _$FetchAllBookingsOfServiceEventTearOff {
     );
   }
 
-  FetchAllBookingsOfServiceRefresh refresh(List<Booking> bookings) {
+  FetchAllBookingsOfServiceRefresh refresh(
+      List<Booking> bookings, DateTime date) {
     return FetchAllBookingsOfServiceRefresh(
       bookings,
+      date,
     );
   }
 }
@@ -33,12 +35,12 @@ mixin _$FetchAllBookingsOfServiceEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result fetch(int service_id),
-    @required Result refresh(List<Booking> bookings),
+    @required Result refresh(List<Booking> bookings, DateTime date),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result fetch(int service_id),
-    Result refresh(List<Booking> bookings),
+    Result refresh(List<Booking> bookings, DateTime date),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -135,7 +137,7 @@ class _$FetchAllBookingsOfServiceFetch
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result fetch(int service_id),
-    @required Result refresh(List<Booking> bookings),
+    @required Result refresh(List<Booking> bookings, DateTime date),
   }) {
     assert(fetch != null);
     assert(refresh != null);
@@ -146,7 +148,7 @@ class _$FetchAllBookingsOfServiceFetch
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result fetch(int service_id),
-    Result refresh(List<Booking> bookings),
+    Result refresh(List<Booking> bookings, DateTime date),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -197,7 +199,7 @@ abstract class $FetchAllBookingsOfServiceRefreshCopyWith<$Res> {
           FetchAllBookingsOfServiceRefresh value,
           $Res Function(FetchAllBookingsOfServiceRefresh) then) =
       _$FetchAllBookingsOfServiceRefreshCopyWithImpl<$Res>;
-  $Res call({List<Booking> bookings});
+  $Res call({List<Booking> bookings, DateTime date});
 }
 
 class _$FetchAllBookingsOfServiceRefreshCopyWithImpl<$Res>
@@ -215,24 +217,29 @@ class _$FetchAllBookingsOfServiceRefreshCopyWithImpl<$Res>
   @override
   $Res call({
     Object bookings = freezed,
+    Object date = freezed,
   }) {
     return _then(FetchAllBookingsOfServiceRefresh(
       bookings == freezed ? _value.bookings : bookings as List<Booking>,
+      date == freezed ? _value.date : date as DateTime,
     ));
   }
 }
 
 class _$FetchAllBookingsOfServiceRefresh
     implements FetchAllBookingsOfServiceRefresh {
-  const _$FetchAllBookingsOfServiceRefresh(this.bookings)
-      : assert(bookings != null);
+  const _$FetchAllBookingsOfServiceRefresh(this.bookings, this.date)
+      : assert(bookings != null),
+        assert(date != null);
 
   @override
   final List<Booking> bookings;
+  @override
+  final DateTime date;
 
   @override
   String toString() {
-    return 'FetchAllBookingsOfServiceEvent.refresh(bookings: $bookings)';
+    return 'FetchAllBookingsOfServiceEvent.refresh(bookings: $bookings, date: $date)';
   }
 
   @override
@@ -241,12 +248,16 @@ class _$FetchAllBookingsOfServiceRefresh
         (other is FetchAllBookingsOfServiceRefresh &&
             (identical(other.bookings, bookings) ||
                 const DeepCollectionEquality()
-                    .equals(other.bookings, bookings)));
+                    .equals(other.bookings, bookings)) &&
+            (identical(other.date, date) ||
+                const DeepCollectionEquality().equals(other.date, date)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(bookings);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(bookings) ^
+      const DeepCollectionEquality().hash(date);
 
   @override
   $FetchAllBookingsOfServiceRefreshCopyWith<FetchAllBookingsOfServiceRefresh>
@@ -257,23 +268,23 @@ class _$FetchAllBookingsOfServiceRefresh
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result fetch(int service_id),
-    @required Result refresh(List<Booking> bookings),
+    @required Result refresh(List<Booking> bookings, DateTime date),
   }) {
     assert(fetch != null);
     assert(refresh != null);
-    return refresh(bookings);
+    return refresh(bookings, date);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result fetch(int service_id),
-    Result refresh(List<Booking> bookings),
+    Result refresh(List<Booking> bookings, DateTime date),
     @required Result orElse(),
   }) {
     assert(orElse != null);
     if (refresh != null) {
-      return refresh(bookings);
+      return refresh(bookings, date);
     }
     return orElse();
   }
@@ -306,10 +317,12 @@ class _$FetchAllBookingsOfServiceRefresh
 
 abstract class FetchAllBookingsOfServiceRefresh
     implements FetchAllBookingsOfServiceEvent {
-  const factory FetchAllBookingsOfServiceRefresh(List<Booking> bookings) =
+  const factory FetchAllBookingsOfServiceRefresh(
+          List<Booking> bookings, DateTime date) =
       _$FetchAllBookingsOfServiceRefresh;
 
   List<Booking> get bookings;
+  DateTime get date;
   $FetchAllBookingsOfServiceRefreshCopyWith<FetchAllBookingsOfServiceRefresh>
       get copyWith;
 }
@@ -325,9 +338,11 @@ class _$FetchAllBookingsOfServiceStateTearOff {
     return const FetchAllBookingsOfServiceLoading();
   }
 
-  FetchAllBookingsOfServiceLoaded loaded(List<Booking> bookings) {
+  FetchAllBookingsOfServiceLoaded loaded(
+      List<Booking> bookings, DateTime date) {
     return FetchAllBookingsOfServiceLoaded(
       bookings,
+      date,
     );
   }
 
@@ -347,14 +362,14 @@ mixin _$FetchAllBookingsOfServiceState {
   Result when<Result extends Object>({
     @required Result initial(),
     @required Result loading(),
-    @required Result loaded(List<Booking> bookings),
+    @required Result loaded(List<Booking> bookings, DateTime date),
     @required Result error(String message),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
     Result loading(),
-    Result loaded(List<Booking> bookings),
+    Result loaded(List<Booking> bookings, DateTime date),
     Result error(String message),
     @required Result orElse(),
   });
@@ -434,7 +449,7 @@ class _$FetchAllBookingsOfServiceInitial
   Result when<Result extends Object>({
     @required Result initial(),
     @required Result loading(),
-    @required Result loaded(List<Booking> bookings),
+    @required Result loaded(List<Booking> bookings, DateTime date),
     @required Result error(String message),
   }) {
     assert(initial != null);
@@ -449,7 +464,7 @@ class _$FetchAllBookingsOfServiceInitial
   Result maybeWhen<Result extends Object>({
     Result initial(),
     Result loading(),
-    Result loaded(List<Booking> bookings),
+    Result loaded(List<Booking> bookings, DateTime date),
     Result error(String message),
     @required Result orElse(),
   }) {
@@ -541,7 +556,7 @@ class _$FetchAllBookingsOfServiceLoading
   Result when<Result extends Object>({
     @required Result initial(),
     @required Result loading(),
-    @required Result loaded(List<Booking> bookings),
+    @required Result loaded(List<Booking> bookings, DateTime date),
     @required Result error(String message),
   }) {
     assert(initial != null);
@@ -556,7 +571,7 @@ class _$FetchAllBookingsOfServiceLoading
   Result maybeWhen<Result extends Object>({
     Result initial(),
     Result loading(),
-    Result loaded(List<Booking> bookings),
+    Result loaded(List<Booking> bookings, DateTime date),
     Result error(String message),
     @required Result orElse(),
   }) {
@@ -610,7 +625,7 @@ abstract class $FetchAllBookingsOfServiceLoadedCopyWith<$Res> {
           FetchAllBookingsOfServiceLoaded value,
           $Res Function(FetchAllBookingsOfServiceLoaded) then) =
       _$FetchAllBookingsOfServiceLoadedCopyWithImpl<$Res>;
-  $Res call({List<Booking> bookings});
+  $Res call({List<Booking> bookings, DateTime date});
 }
 
 class _$FetchAllBookingsOfServiceLoadedCopyWithImpl<$Res>
@@ -628,24 +643,29 @@ class _$FetchAllBookingsOfServiceLoadedCopyWithImpl<$Res>
   @override
   $Res call({
     Object bookings = freezed,
+    Object date = freezed,
   }) {
     return _then(FetchAllBookingsOfServiceLoaded(
       bookings == freezed ? _value.bookings : bookings as List<Booking>,
+      date == freezed ? _value.date : date as DateTime,
     ));
   }
 }
 
 class _$FetchAllBookingsOfServiceLoaded
     implements FetchAllBookingsOfServiceLoaded {
-  const _$FetchAllBookingsOfServiceLoaded(this.bookings)
-      : assert(bookings != null);
+  const _$FetchAllBookingsOfServiceLoaded(this.bookings, this.date)
+      : assert(bookings != null),
+        assert(date != null);
 
   @override
   final List<Booking> bookings;
+  @override
+  final DateTime date;
 
   @override
   String toString() {
-    return 'FetchAllBookingsOfServiceState.loaded(bookings: $bookings)';
+    return 'FetchAllBookingsOfServiceState.loaded(bookings: $bookings, date: $date)';
   }
 
   @override
@@ -654,12 +674,16 @@ class _$FetchAllBookingsOfServiceLoaded
         (other is FetchAllBookingsOfServiceLoaded &&
             (identical(other.bookings, bookings) ||
                 const DeepCollectionEquality()
-                    .equals(other.bookings, bookings)));
+                    .equals(other.bookings, bookings)) &&
+            (identical(other.date, date) ||
+                const DeepCollectionEquality().equals(other.date, date)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(bookings);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(bookings) ^
+      const DeepCollectionEquality().hash(date);
 
   @override
   $FetchAllBookingsOfServiceLoadedCopyWith<FetchAllBookingsOfServiceLoaded>
@@ -671,14 +695,14 @@ class _$FetchAllBookingsOfServiceLoaded
   Result when<Result extends Object>({
     @required Result initial(),
     @required Result loading(),
-    @required Result loaded(List<Booking> bookings),
+    @required Result loaded(List<Booking> bookings, DateTime date),
     @required Result error(String message),
   }) {
     assert(initial != null);
     assert(loading != null);
     assert(loaded != null);
     assert(error != null);
-    return loaded(bookings);
+    return loaded(bookings, date);
   }
 
   @override
@@ -686,13 +710,13 @@ class _$FetchAllBookingsOfServiceLoaded
   Result maybeWhen<Result extends Object>({
     Result initial(),
     Result loading(),
-    Result loaded(List<Booking> bookings),
+    Result loaded(List<Booking> bookings, DateTime date),
     Result error(String message),
     @required Result orElse(),
   }) {
     assert(orElse != null);
     if (loaded != null) {
-      return loaded(bookings);
+      return loaded(bookings, date);
     }
     return orElse();
   }
@@ -731,10 +755,12 @@ class _$FetchAllBookingsOfServiceLoaded
 
 abstract class FetchAllBookingsOfServiceLoaded
     implements FetchAllBookingsOfServiceState {
-  const factory FetchAllBookingsOfServiceLoaded(List<Booking> bookings) =
+  const factory FetchAllBookingsOfServiceLoaded(
+          List<Booking> bookings, DateTime date) =
       _$FetchAllBookingsOfServiceLoaded;
 
   List<Booking> get bookings;
+  DateTime get date;
   $FetchAllBookingsOfServiceLoadedCopyWith<FetchAllBookingsOfServiceLoaded>
       get copyWith;
 }
@@ -804,7 +830,7 @@ class _$FetchAllBookingsOfServiceError
   Result when<Result extends Object>({
     @required Result initial(),
     @required Result loading(),
-    @required Result loaded(List<Booking> bookings),
+    @required Result loaded(List<Booking> bookings, DateTime date),
     @required Result error(String message),
   }) {
     assert(initial != null);
@@ -819,7 +845,7 @@ class _$FetchAllBookingsOfServiceError
   Result maybeWhen<Result extends Object>({
     Result initial(),
     Result loading(),
-    Result loaded(List<Booking> bookings),
+    Result loaded(List<Booking> bookings, DateTime date),
     Result error(String message),
     @required Result orElse(),
   }) {

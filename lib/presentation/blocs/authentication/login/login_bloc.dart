@@ -17,10 +17,10 @@ part 'login_state.dart';
 @prod
 @injectable
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final AuthSignIn firebaseAuthSignIn;
-  final AuthSignUp firebaseAuthSignUp;
+  final AuthSignIn signIn;
+  final AuthSignUp signUp;
 
-  LoginBloc(this.firebaseAuthSignIn, this.firebaseAuthSignUp);
+  LoginBloc(this.signIn, this.signUp);
 
   @override
   LoginState get initialState => LoginState.empty();
@@ -61,7 +61,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   ) async* {
     yield LoginState.loading();
     try {
-      await firebaseAuthSignIn(SignInCredentials(email, password));
+      await signIn(SignInCredentials(email, password));
       yield LoginState.success();
     } on PlatformException catch (e) {
       yield LoginState.failure(e.message);
@@ -82,7 +82,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   ) async* {
     yield LoginState.loading();
     try {
-      await firebaseAuthSignUp(SignUpCredentials(email, password));
+      await signUp(SignUpCredentials(email, password));
       yield LoginState.success();
     } on PlatformException catch (e) {
       yield LoginState.failure(e.message);

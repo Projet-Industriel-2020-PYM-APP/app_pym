@@ -16,16 +16,6 @@ class _$AuthenticationEventTearOff {
     return const Refresh();
   }
 
-  LoggedIn loggedIn(AppUser user) {
-    return LoggedIn(
-      user,
-    );
-  }
-
-  LoggedOut loggedOut() {
-    return const LoggedOut();
-  }
-
   SignOut signOut() {
     return const SignOut();
   }
@@ -42,16 +32,12 @@ mixin _$AuthenticationEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result refresh(),
-    @required Result loggedIn(AppUser user),
-    @required Result loggedOut(),
     @required Result signOut(),
     @required Result sendEmailVerification(),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result refresh(),
-    Result loggedIn(AppUser user),
-    Result loggedOut(),
     Result signOut(),
     Result sendEmailVerification(),
     @required Result orElse(),
@@ -59,16 +45,12 @@ mixin _$AuthenticationEvent {
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result refresh(Refresh value),
-    @required Result loggedIn(LoggedIn value),
-    @required Result loggedOut(LoggedOut value),
     @required Result signOut(SignOut value),
     @required Result sendEmailVerification(SendEmailVerification value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result refresh(Refresh value),
-    Result loggedIn(LoggedIn value),
-    Result loggedOut(LoggedOut value),
     Result signOut(SignOut value),
     Result sendEmailVerification(SendEmailVerification value),
     @required Result orElse(),
@@ -131,14 +113,10 @@ class _$Refresh with DiagnosticableTreeMixin implements Refresh {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result refresh(),
-    @required Result loggedIn(AppUser user),
-    @required Result loggedOut(),
     @required Result signOut(),
     @required Result sendEmailVerification(),
   }) {
     assert(refresh != null);
-    assert(loggedIn != null);
-    assert(loggedOut != null);
     assert(signOut != null);
     assert(sendEmailVerification != null);
     return refresh();
@@ -148,8 +126,6 @@ class _$Refresh with DiagnosticableTreeMixin implements Refresh {
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result refresh(),
-    Result loggedIn(AppUser user),
-    Result loggedOut(),
     Result signOut(),
     Result sendEmailVerification(),
     @required Result orElse(),
@@ -165,14 +141,10 @@ class _$Refresh with DiagnosticableTreeMixin implements Refresh {
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result refresh(Refresh value),
-    @required Result loggedIn(LoggedIn value),
-    @required Result loggedOut(LoggedOut value),
     @required Result signOut(SignOut value),
     @required Result sendEmailVerification(SendEmailVerification value),
   }) {
     assert(refresh != null);
-    assert(loggedIn != null);
-    assert(loggedOut != null);
     assert(signOut != null);
     assert(sendEmailVerification != null);
     return refresh(this);
@@ -182,8 +154,6 @@ class _$Refresh with DiagnosticableTreeMixin implements Refresh {
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result refresh(Refresh value),
-    Result loggedIn(LoggedIn value),
-    Result loggedOut(LoggedOut value),
     Result signOut(SignOut value),
     Result sendEmailVerification(SendEmailVerification value),
     @required Result orElse(),
@@ -198,265 +168,6 @@ class _$Refresh with DiagnosticableTreeMixin implements Refresh {
 
 abstract class Refresh implements AuthenticationEvent {
   const factory Refresh() = _$Refresh;
-}
-
-abstract class $LoggedInCopyWith<$Res> {
-  factory $LoggedInCopyWith(LoggedIn value, $Res Function(LoggedIn) then) =
-      _$LoggedInCopyWithImpl<$Res>;
-  $Res call({AppUser user});
-
-  $AppUserCopyWith<$Res> get user;
-}
-
-class _$LoggedInCopyWithImpl<$Res>
-    extends _$AuthenticationEventCopyWithImpl<$Res>
-    implements $LoggedInCopyWith<$Res> {
-  _$LoggedInCopyWithImpl(LoggedIn _value, $Res Function(LoggedIn) _then)
-      : super(_value, (v) => _then(v as LoggedIn));
-
-  @override
-  LoggedIn get _value => super._value as LoggedIn;
-
-  @override
-  $Res call({
-    Object user = freezed,
-  }) {
-    return _then(LoggedIn(
-      user == freezed ? _value.user : user as AppUser,
-    ));
-  }
-
-  @override
-  $AppUserCopyWith<$Res> get user {
-    if (_value.user == null) {
-      return null;
-    }
-    return $AppUserCopyWith<$Res>(_value.user, (value) {
-      return _then(_value.copyWith(user: value));
-    });
-  }
-}
-
-class _$LoggedIn with DiagnosticableTreeMixin implements LoggedIn {
-  const _$LoggedIn(this.user) : assert(user != null);
-
-  @override
-  final AppUser user;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AuthenticationEvent.loggedIn(user: $user)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'AuthenticationEvent.loggedIn'))
-      ..add(DiagnosticsProperty('user', user));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is LoggedIn &&
-            (identical(other.user, user) ||
-                const DeepCollectionEquality().equals(other.user, user)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(user);
-
-  @override
-  $LoggedInCopyWith<LoggedIn> get copyWith =>
-      _$LoggedInCopyWithImpl<LoggedIn>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result refresh(),
-    @required Result loggedIn(AppUser user),
-    @required Result loggedOut(),
-    @required Result signOut(),
-    @required Result sendEmailVerification(),
-  }) {
-    assert(refresh != null);
-    assert(loggedIn != null);
-    assert(loggedOut != null);
-    assert(signOut != null);
-    assert(sendEmailVerification != null);
-    return loggedIn(user);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result refresh(),
-    Result loggedIn(AppUser user),
-    Result loggedOut(),
-    Result signOut(),
-    Result sendEmailVerification(),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (loggedIn != null) {
-      return loggedIn(user);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result refresh(Refresh value),
-    @required Result loggedIn(LoggedIn value),
-    @required Result loggedOut(LoggedOut value),
-    @required Result signOut(SignOut value),
-    @required Result sendEmailVerification(SendEmailVerification value),
-  }) {
-    assert(refresh != null);
-    assert(loggedIn != null);
-    assert(loggedOut != null);
-    assert(signOut != null);
-    assert(sendEmailVerification != null);
-    return loggedIn(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result refresh(Refresh value),
-    Result loggedIn(LoggedIn value),
-    Result loggedOut(LoggedOut value),
-    Result signOut(SignOut value),
-    Result sendEmailVerification(SendEmailVerification value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (loggedIn != null) {
-      return loggedIn(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class LoggedIn implements AuthenticationEvent {
-  const factory LoggedIn(AppUser user) = _$LoggedIn;
-
-  AppUser get user;
-  $LoggedInCopyWith<LoggedIn> get copyWith;
-}
-
-abstract class $LoggedOutCopyWith<$Res> {
-  factory $LoggedOutCopyWith(LoggedOut value, $Res Function(LoggedOut) then) =
-      _$LoggedOutCopyWithImpl<$Res>;
-}
-
-class _$LoggedOutCopyWithImpl<$Res>
-    extends _$AuthenticationEventCopyWithImpl<$Res>
-    implements $LoggedOutCopyWith<$Res> {
-  _$LoggedOutCopyWithImpl(LoggedOut _value, $Res Function(LoggedOut) _then)
-      : super(_value, (v) => _then(v as LoggedOut));
-
-  @override
-  LoggedOut get _value => super._value as LoggedOut;
-}
-
-class _$LoggedOut with DiagnosticableTreeMixin implements LoggedOut {
-  const _$LoggedOut();
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AuthenticationEvent.loggedOut()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'AuthenticationEvent.loggedOut'));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is LoggedOut);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result refresh(),
-    @required Result loggedIn(AppUser user),
-    @required Result loggedOut(),
-    @required Result signOut(),
-    @required Result sendEmailVerification(),
-  }) {
-    assert(refresh != null);
-    assert(loggedIn != null);
-    assert(loggedOut != null);
-    assert(signOut != null);
-    assert(sendEmailVerification != null);
-    return loggedOut();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result refresh(),
-    Result loggedIn(AppUser user),
-    Result loggedOut(),
-    Result signOut(),
-    Result sendEmailVerification(),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (loggedOut != null) {
-      return loggedOut();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result refresh(Refresh value),
-    @required Result loggedIn(LoggedIn value),
-    @required Result loggedOut(LoggedOut value),
-    @required Result signOut(SignOut value),
-    @required Result sendEmailVerification(SendEmailVerification value),
-  }) {
-    assert(refresh != null);
-    assert(loggedIn != null);
-    assert(loggedOut != null);
-    assert(signOut != null);
-    assert(sendEmailVerification != null);
-    return loggedOut(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result refresh(Refresh value),
-    Result loggedIn(LoggedIn value),
-    Result loggedOut(LoggedOut value),
-    Result signOut(SignOut value),
-    Result sendEmailVerification(SendEmailVerification value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (loggedOut != null) {
-      return loggedOut(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class LoggedOut implements AuthenticationEvent {
-  const factory LoggedOut() = _$LoggedOut;
 }
 
 abstract class $SignOutCopyWith<$Res> {
@@ -500,14 +211,10 @@ class _$SignOut with DiagnosticableTreeMixin implements SignOut {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result refresh(),
-    @required Result loggedIn(AppUser user),
-    @required Result loggedOut(),
     @required Result signOut(),
     @required Result sendEmailVerification(),
   }) {
     assert(refresh != null);
-    assert(loggedIn != null);
-    assert(loggedOut != null);
     assert(signOut != null);
     assert(sendEmailVerification != null);
     return signOut();
@@ -517,8 +224,6 @@ class _$SignOut with DiagnosticableTreeMixin implements SignOut {
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result refresh(),
-    Result loggedIn(AppUser user),
-    Result loggedOut(),
     Result signOut(),
     Result sendEmailVerification(),
     @required Result orElse(),
@@ -534,14 +239,10 @@ class _$SignOut with DiagnosticableTreeMixin implements SignOut {
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result refresh(Refresh value),
-    @required Result loggedIn(LoggedIn value),
-    @required Result loggedOut(LoggedOut value),
     @required Result signOut(SignOut value),
     @required Result sendEmailVerification(SendEmailVerification value),
   }) {
     assert(refresh != null);
-    assert(loggedIn != null);
-    assert(loggedOut != null);
     assert(signOut != null);
     assert(sendEmailVerification != null);
     return signOut(this);
@@ -551,8 +252,6 @@ class _$SignOut with DiagnosticableTreeMixin implements SignOut {
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result refresh(Refresh value),
-    Result loggedIn(LoggedIn value),
-    Result loggedOut(LoggedOut value),
     Result signOut(SignOut value),
     Result sendEmailVerification(SendEmailVerification value),
     @required Result orElse(),
@@ -616,14 +315,10 @@ class _$SendEmailVerification
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result refresh(),
-    @required Result loggedIn(AppUser user),
-    @required Result loggedOut(),
     @required Result signOut(),
     @required Result sendEmailVerification(),
   }) {
     assert(refresh != null);
-    assert(loggedIn != null);
-    assert(loggedOut != null);
     assert(signOut != null);
     assert(sendEmailVerification != null);
     return sendEmailVerification();
@@ -633,8 +328,6 @@ class _$SendEmailVerification
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result refresh(),
-    Result loggedIn(AppUser user),
-    Result loggedOut(),
     Result signOut(),
     Result sendEmailVerification(),
     @required Result orElse(),
@@ -650,14 +343,10 @@ class _$SendEmailVerification
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result refresh(Refresh value),
-    @required Result loggedIn(LoggedIn value),
-    @required Result loggedOut(LoggedOut value),
     @required Result signOut(SignOut value),
     @required Result sendEmailVerification(SendEmailVerification value),
   }) {
     assert(refresh != null);
-    assert(loggedIn != null);
-    assert(loggedOut != null);
     assert(signOut != null);
     assert(sendEmailVerification != null);
     return sendEmailVerification(this);
@@ -667,8 +356,6 @@ class _$SendEmailVerification
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result refresh(Refresh value),
-    Result loggedIn(LoggedIn value),
-    Result loggedOut(LoggedOut value),
     Result signOut(SignOut value),
     Result sendEmailVerification(SendEmailVerification value),
     @required Result orElse(),

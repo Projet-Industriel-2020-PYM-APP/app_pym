@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:app_pym/core/error/exceptions.dart';
 import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
+import 'package:app_pym/data/models/app_pym/booking_model.dart';
 import 'package:app_pym/data/models/app_pym/contact_categorie_model.dart';
 import 'package:app_pym/data/models/app_pym/contact_model.dart';
 import 'package:app_pym/data/models/app_pym/post_model.dart';
@@ -34,10 +35,14 @@ void main() {
       .map(
           (dynamic data) => ContactModel.fromJson(data as Map<String, dynamic>))
       .toList();
-  final tListServiceModel = (json.decode(fixture('map_pym/services.json'))
+  final tListServiceModel =
+      (json.decode(fixture('map_pym/services.json')) as List).map(
+          (dynamic data) =>
+              ServiceModel.fromJson(data as Map<String, dynamic>));
+  final tListBookingModel = (json.decode(fixture('map_pym/bookings.json'))
           as List)
       .map(
-          (dynamic data) => ServiceModel.fromJson(data as Map<String, dynamic>))
+          (dynamic data) => BookingModel.fromJson(data as Map<String, dynamic>))
       .toList();
   final tListContactCategorieModel =
       (json.decode(fixture('map_pym/contact_categories.json')) as List)
@@ -76,6 +81,24 @@ void main() {
       mockHttpClient.get('https://admin.map-pym.com/api/contacts'),
     ).thenAnswer(
         (_) async => http.Response(fixture('map_pym/contacts.json'), 200));
+    when(
+      mockHttpClient.get('https://admin.map-pym.com/api/bookings'),
+    ).thenAnswer(
+        (_) async => http.Response(fixture('map_pym/bookings.json'), 200));
+    when(
+      mockHttpClient.post(
+        'https://admin.map-pym.com/api/bookings/ajouter',
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      ),
+    ).thenAnswer((_) async => http.Response('Ajouté', 200));
+    when(
+      mockHttpClient.post(
+        argThat(contains('https://admin.map-pym.com/api/bookings/supprimer')),
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      ), // TODO
+    ).thenAnswer((_) async => http.Response('Ajouté', 200));
     when(
       mockHttpClient.get('https://admin.map-pym.com/api/entreprises'),
     ).thenAnswer(
@@ -124,6 +147,46 @@ void main() {
       ),
     ).thenAnswer((_) async => http.Response('Something went wrong', 404));
   }
+
+  group('createBooking', () {
+    test(
+      "should perform a POST request on a URL",
+      () async {
+        // arrange
+        setUpMockHttpClientSuccess200();
+        // act
+        await dataSource.createBooking(tListBookingModel.first);
+        // assert
+        verify(mockHttpClient.get(
+          'https://admin.map-pym.com/api/batiments',
+        ));
+      },
+    );
+
+    test(
+      'should return tListBatimentModel when the response code is 200 (success)',
+      () async {
+        // arrange
+        setUpMockHttpClientSuccess200();
+        // act
+        final result = await dataSource.fetchAllBatiment();
+        // assert
+        expect(result, equals(tListBatimentModel));
+      },
+    );
+
+    test(
+      'should throw a ServerException when the response code is 404 or other',
+      () async {
+        // arrange
+        setUpMockHttpClientFailure404();
+        // act
+        final call = dataSource.fetchAllBatiment;
+        // assert
+        expect(call, throwsA(isA<ServerException>()));
+      },
+    );
+  });
 
   group('fetchAllBatiment', () {
     test(

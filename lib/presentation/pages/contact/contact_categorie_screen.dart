@@ -83,11 +83,17 @@ class ContactCategorieCard extends StatelessWidget {
                     ),
                   ),
                   const Divider(),
-                  ButtonBar(
-                    buttonTextTheme: ButtonTextTheme.primary,
-                    children: categorie.actions
-                        .map((e) => ActionButton(e, categorie: categorie))
-                        .toList(),
+                  SingleChildScrollView(
+                    child: Row(
+                      children: [
+                        ButtonBar(
+                          buttonTextTheme: ButtonTextTheme.primary,
+                          children: categorie.actions
+                              .map((e) => ActionButton(e, categorie: categorie))
+                              .toList(),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

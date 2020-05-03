@@ -17,6 +17,7 @@ import 'package:app_pym/presentation/router.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
@@ -83,6 +84,14 @@ class _MyAppState extends State<MyApp> {
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
         return MaterialApp(
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [
+            const Locale('fr'),
+          ],
           title: 'Application Pôle Yvon Morandat',
           initialRoute: RoutePaths.root,
           onGenerateRoute: Router.generateRoute,

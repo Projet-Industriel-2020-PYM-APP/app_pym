@@ -77,7 +77,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
       return;
     } else {
       throw ServerException(
-          'Failed to create booking : ${response.statusCode}');
+          'Failed to create booking : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -95,7 +95,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
       return;
     } else {
       throw ServerException(
-          'Failed to delete booking : ${response.statusCode}');
+          'Failed to delete booking : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -111,7 +111,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load batiments : ${response.statusCode}');
+          'Failed to load batiments : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -127,7 +127,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load bookings of service ${service_id} : ${response.statusCode}');
+          'Failed to load bookings of service ${service_id} : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -143,7 +143,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load categorie : ${response.statusCode}');
+          'Failed to load categorie : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -157,7 +157,8 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
               PostModel.fromJson(data as Map<String, dynamic>))
           ?.toList();
     } else {
-      throw ServerException('Failed to load Posts : ${response.statusCode}');
+      throw ServerException(
+          'Failed to load Posts : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -173,7 +174,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load categorie : ${response.statusCode}');
+          'Failed to load categorie : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -189,7 +190,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.firstWhere((element) => element.id == id);
     } else {
       throw ServerException(
-          'Failed to load batiments : ${response.statusCode}');
+          'Failed to load batiments : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -204,7 +205,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.firstWhere((e) => e.id == id);
     } else {
       throw ServerException(
-          'Failed to fetch contact $id : ${response.statusCode}');
+          'Failed to fetch contact $id : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -222,7 +223,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load entreprises : ${response.statusCode}');
+          'Failed to load entreprises : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -238,7 +239,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load services of categorie ${categorie_id} : ${response.statusCode}');
+          'Failed to load services of categorie ${categorie_id} : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -253,7 +254,8 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
       final body = json.decode(response.body) as Map<String, dynamic>;
       return AppUserModel.fromJson(body);
     } else {
-      throw ServerException('Failed to load user : ${response.statusCode}');
+      throw ServerException(
+          'Failed to load user : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -272,7 +274,8 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
     if (response.statusCode == 200) {
       return;
     } else {
-      throw ServerException('Failed to update user : ${response.statusCode}');
+      throw ServerException(
+          'Failed to update user : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -291,7 +294,8 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
     if (response.statusCode == 200) {
       return;
     } else {
-      throw ServerException('Failed to edit booking : ${response.statusCode}');
+      throw ServerException(
+          'Failed to edit booking : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 }

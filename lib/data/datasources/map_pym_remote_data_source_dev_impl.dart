@@ -380,7 +380,11 @@ Hébergé sur sur Google Cloud Run !</h4>
 
   @override
   Future<AppUserModel> fetchUser(String token) async {
-    return fakeUserDB.firstWhere((e) => e.token == token);
+    if (token != null) {
+      return fakeUserDB.first;
+    } else {
+      return null;
+    }
   }
 
   @override

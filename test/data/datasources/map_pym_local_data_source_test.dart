@@ -27,6 +27,11 @@ void main() {
           .map((dynamic data) =>
               BatimentModel.fromJson(data as Map<String, dynamic>))
           .toList();
+  final tListBookingModel = (json.decode(fixture('map_pym/bookings.json'))
+          as List)
+      .map(
+          (dynamic data) => BookingModel.fromJson(data as Map<String, dynamic>))
+      .toList();
   final tListServiceModel = (json.decode(fixture('map_pym/services.json'))
           as List)
       .map(
@@ -104,6 +109,20 @@ void main() {
         // assert
         tListBatimentModel.forEach((e) {
           verify(mockBatimentsBox.put('/batiments/${e.id}', e));
+        });
+      },
+    );
+  });
+
+  group('cacheAllBookings', () {
+    test(
+      'should call Box.put to cache the data',
+      () async {
+        // act
+        await dataSource.cacheAllBookings(tListBookingModel);
+        // assert
+        tListBookingModel.forEach((e) {
+          verify(mockBookingsBox.put('/bookings/${e.id}', e));
         });
       },
     );
@@ -196,6 +215,21 @@ void main() {
     );
   });
 
+  group('cacheBooking', () {
+    test(
+      'should call Box.put to cache the data',
+      () async {
+        // act
+        await dataSource.cacheBooking(tListBookingModel.first);
+        // assert
+        verify(mockBookingsBox.put(
+          '/bookings/${tListBookingModel.first.id}',
+          tListBookingModel.first,
+        ));
+      },
+    );
+  });
+
   group('cacheContact', () {
     test(
       'should call Box.put to cache the data',
@@ -226,6 +260,19 @@ void main() {
     );
   });
 
+  group('deleteBooking', () {
+    test(
+      'should call box to delete the data',
+      () async {
+        // act
+        await dataSource.deleteBooking(tListBookingModel.first.id);
+        // assert
+        verify(
+            mockBookingsBox.delete('/bookings/${tListBookingModel.first.id}'));
+      },
+    );
+  });
+
   group('fetchAllBatiment', () {
     test(
       'should return tListBatimentModel from Cache when there is one in the cache',
@@ -237,6 +284,25 @@ void main() {
         // assert
         verify(mockBatimentsBox.values);
         expect(result, equals(tListBatimentModel));
+      },
+    );
+  });
+
+  group('fetchAllBookingsOf', () {
+    test(
+      'should return tListBookingModel filtered by service_id from Cache when there is one in the cache',
+      () async {
+        // arrange
+        when(mockBookingsBox.values).thenReturn(tListBookingModel);
+        // act
+        final result =
+            dataSource.fetchAllBookingsOf(tListBookingModel.first.service_id);
+        // assert
+        final expected = tListBookingModel
+            .where((e) => e.service_id == tListBookingModel.first.service_id)
+            .toList();
+        verify(mockBatimentsBox.values);
+        expect(result, equals(expected));
       },
     );
   });
