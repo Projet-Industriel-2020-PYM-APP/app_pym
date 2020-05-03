@@ -1,6 +1,6 @@
 import 'package:app_pym/core/usecases/usecase.dart';
-import 'package:app_pym/domain/entities/app_pym/categorie.dart';
 import 'package:app_pym/domain/entities/app_pym/service.dart';
+import 'package:app_pym/domain/entities/app_pym/service_categorie.dart';
 import 'package:app_pym/domain/repositories/app_pym/service_repository.dart';
 import 'package:injectable/injectable.dart';
 
@@ -8,12 +8,12 @@ import 'package:injectable/injectable.dart';
 @lazySingleton
 @injectable
 class FetchServicesOfCategorie
-    extends Usecase<Stream<List<Service>>, Categorie> {
+    extends Usecase<Future<List<Service>>, ServiceCategorie> {
   final ServiceRepository repository;
   const FetchServicesOfCategorie(this.repository);
 
   @override
-  Stream<List<Service>> call(Categorie categorie) {
-    return repository.fetchServicesOf(categorie);
+  Future<List<Service>> call(ServiceCategorie categorie) {
+    return repository.fetchServicesOf(categorie.id);
   }
 }

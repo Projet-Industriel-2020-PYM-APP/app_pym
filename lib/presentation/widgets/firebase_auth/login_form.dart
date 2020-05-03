@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:app_pym/presentation/blocs/firebase_auth/authentication/authentication_bloc.dart';
-import 'package:app_pym/presentation/blocs/firebase_auth/login/login_bloc.dart';
+import 'package:app_pym/presentation/blocs/authentication/authentication/authentication_bloc.dart';
+import 'package:app_pym/presentation/blocs/authentication/login/login_bloc.dart';
 import 'package:app_pym/presentation/widgets/firebase_auth/create_account_button.dart';
 import 'package:app_pym/presentation/widgets/firebase_auth/forgot_password_button.dart';
 import 'package:app_pym/presentation/widgets/firebase_auth/login_button.dart';

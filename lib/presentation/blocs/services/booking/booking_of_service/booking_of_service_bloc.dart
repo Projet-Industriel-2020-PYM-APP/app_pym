@@ -1,13 +1,12 @@
 import 'dart:async';
 
 import 'package:app_pym/domain/entities/app_pym/booking.dart';
-import 'package:app_pym/domain/entities/firebase_auth/app_user.dart';
+import 'package:app_pym/domain/entities/authentication/app_user.dart';
 import 'package:app_pym/domain/usecases/services/booking/add_booking_to_service.dart';
 import 'package:app_pym/domain/usecases/services/booking/booking_of_service_params.dart';
 import 'package:app_pym/domain/usecases/services/booking/delete_booking_of_service.dart';
 import 'package:app_pym/domain/usecases/services/booking/update_booking_of_service.dart';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -46,9 +45,12 @@ class BookingOfServiceBloc
   }
 
   @override
-  Stream<BookingOfServiceState> transformEvents(
+  Stream<Transition<BookingOfServiceEvent, BookingOfServiceState>>
+      transformEvents(
     Stream<BookingOfServiceEvent> events,
-    Stream<BookingOfServiceState> Function(BookingOfServiceEvent event) next,
+    Stream<Transition<BookingOfServiceEvent, BookingOfServiceState>> Function(
+            BookingOfServiceEvent)
+        transitionFn,
   ) {
     final nonDebounceStream = events.where((event) {
       return event is! TitleChanged;
@@ -56,19 +58,17 @@ class BookingOfServiceBloc
     final debounceStream = events.where((event) {
       return event is TitleChanged;
     }).debounceTime(const Duration(milliseconds: 100));
-    return super
-        .transformEvents(nonDebounceStream.mergeWith([debounceStream]), next);
+    return super.transformEvents(
+        nonDebounceStream.mergeWith([debounceStream]), transitionFn);
   }
 
   Stream<BookingOfServiceState> _mapAddToState(
-    String service_id,
     Booking booking,
     AppUser appUser,
   ) async* {
     yield BookingOfServiceState.loading();
     try {
       await addBookingToService(BookingOfServiceParams(
-        service_id: service_id,
         booking: booking,
         appUser: appUser,
       ));
@@ -79,14 +79,12 @@ class BookingOfServiceBloc
   }
 
   Stream<BookingOfServiceState> _mapDeleteToState(
-    String service_id,
     Booking booking,
     AppUser appUser,
   ) async* {
     yield BookingOfServiceState.loading();
     try {
       await deleteBookingOfService(BookingOfServiceParams(
-        service_id: service_id,
         booking: booking,
         appUser: appUser,
       ));
@@ -101,14 +99,12 @@ class BookingOfServiceBloc
   }
 
   Stream<BookingOfServiceState> _mapUpdateToState(
-    String service_id,
     Booking booking,
     AppUser appUser,
   ) async* {
     yield BookingOfServiceState.loading();
     try {
       await updateBookingOfService(BookingOfServiceParams(
-        service_id: service_id,
         booking: booking,
         appUser: appUser,
       ));

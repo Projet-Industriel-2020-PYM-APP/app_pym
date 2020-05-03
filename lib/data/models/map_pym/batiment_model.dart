@@ -13,12 +13,14 @@ abstract class BatimentModel with _$BatimentModel {
   @JsonSerializable(explicitToJson: true)
   const factory BatimentModel({
     @required @HiveField(0) int id,
-    @required @HiveField(1) String nom,
-    @required @HiveField(2) int nbEtage,
-    @required @HiveField(3) String description,
-    @required @HiveField(4) bool accesHandicape,
-    @required @HiveField(5) String url,
-    @required @HiveField(6) String adresse,
+    @nullable @required @HiveField(1) String nom,
+    @nullable @required @HiveField(2) int nbEtage,
+    @nullable @required @HiveField(3) String description,
+    @nullable @required @HiveField(4) bool accesHandicape,
+    @nullable @required @HiveField(5) String url,
+    @nullable @required @HiveField(6) String adresse,
+    @nullable @required @HiveField(7) double latitude,
+    @nullable @required @HiveField(8) double longitude,
   }) = _BatimentModel;
 
   factory BatimentModel.fromJson(Map<String, dynamic> json) =>
@@ -37,6 +39,8 @@ extension BatimentModelX on BatimentModel {
       nom: this.nom,
       url: this.url,
       id: this.id,
+      latitude: this.latitude,
+      longitude: this.longitude,
     );
   }
 }

@@ -6,10 +6,11 @@ part 'booking.freezed.dart';
 @freezed
 abstract class Booking with _$Booking {
   const factory Booking({
-    String id,
-    DateTime start_date,
-    DateTime end_date,
-    String title,
+    @required int id,
+    @required int service_id,
+    @required DateTime start_date,
+    @required DateTime end_date,
+    @required String title,
   }) = _Booking;
 }
 
@@ -17,6 +18,7 @@ extension BookingX on Booking {
   BookingModel toModel() {
     return BookingModel(
       id: this.id,
+      service_id: this.service_id,
       start_date: this.start_date,
       end_date: this.end_date,
       title: this.title,

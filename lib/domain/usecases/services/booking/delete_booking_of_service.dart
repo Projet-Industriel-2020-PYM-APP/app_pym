@@ -28,6 +28,6 @@ class DeleteBookingOfService
     } else if (!params.appUser.isEmailVerified) {
       throw EmailNotVerifiedException();
     }
-    return repository.deleteBookingOf(params.service_id, params.booking.id);
+    return repository.delete(params.booking.id);
   }
 }

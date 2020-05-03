@@ -1,6 +1,6 @@
 import 'package:app_pym/core/usecases/usecase.dart';
-import 'package:app_pym/domain/entities/blogger/post.dart';
-import 'package:app_pym/domain/repositories/blogger/post_repository.dart';
+import 'package:app_pym/domain/entities/app_pym/post.dart';
+import 'package:app_pym/domain/repositories/app_pym/post_repository.dart';
 import 'package:app_pym/domain/usecases/fil_actualite/get_posts.dart';
 import 'package:app_pym/injection_container.dart';
 import 'package:injectable/injectable.dart' show Environment;
@@ -21,7 +21,7 @@ void main() {
   final DateTime tDateTime = DateTime.parse("1970-01-01T00:00:00.000Z");
   final tPost = Post(
     content: 'content',
-    id: 'id',
+    id: 0,
     published: tDateTime,
     title: 'title',
     updated: tDateTime,
@@ -32,12 +32,12 @@ void main() {
     'should get user from the repository',
     () async {
       // arrange
-      when(mockRepository.getPosts()).thenAnswer((_) async => [tPost]);
+      when(mockRepository.fetchAll()).thenAnswer((_) async => [tPost]);
       // act
       final result = await usecase(const NoParams());
       // assert
       expect(result, [tPost]);
-      verify(mockRepository.getPosts());
+      verify(mockRepository.fetchAll());
       verifyNoMoreInteractions(mockRepository);
     },
   );

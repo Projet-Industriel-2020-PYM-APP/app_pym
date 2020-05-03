@@ -16,5 +16,5 @@ class GetBatimentDetail extends Usecase<Future<Batiment>, int> {
   });
 
   @override
-  Future<Batiment> call(int id) => batimentRepository.fetchBatiment(id);
+  Future<Batiment> call(int id) => batimentRepository.fetch(id);
 }

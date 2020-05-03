@@ -18,59 +18,116 @@ class MobilitePage extends StatelessWidget {
   }
 
   Widget buildBody(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<TripsBloc>(
-          create: (_) {
-            final bloc = sl<TripsBloc>();
-            //TODO bloc.add(TripsEvent.fetchBus(bloc.state.direction));
-            bloc.add(TripsEvent.fetchTrain(bloc.state.direction));
-            return bloc;
-          },
-        ),
-        BlocProvider<MapsBloc>(
-          create: (_) => sl<MapsBloc>(),
-        ),
-        BlocProvider<StopDetailsBloc>(
-          create: (_) => sl<StopDetailsBloc>(),
-        ),
-      ],
-      child: MultiBlocListener(
-        listeners: [
-          BlocListener<TripsBloc, TripsState>(
-            listener: (context, state) {
-              Direction hideDirection = Direction.Aller;
-              if (context.bloc<TripsBloc>().state.direction ==
-                  Direction.Aller) {
-                hideDirection = Direction.Retour;
-              }
-              context.bloc<MapsBloc>().add(MapsEvent.hide(
-                    isBus: !context.bloc<TripsBloc>().state.isBusLoaded,
-                    isTrain: !context.bloc<TripsBloc>().state.isTrainLoaded,
-                    direction: hideDirection,
-                  ));
-              context.bloc<MapsBloc>().add(MapsEvent.load(
-                    isBus: context.bloc<TripsBloc>().state.isBusLoaded,
-                    isTrain: context.bloc<TripsBloc>().state.isTrainLoaded,
-                    direction: context.bloc<TripsBloc>().state.direction,
-                    trainTrips: context.bloc<TripsBloc>().state.trainTrips,
-                    busTrips: context.bloc<TripsBloc>().state.busTrips,
-                  ));
+    return Scaffold(
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider<TripsBloc>(
+            create: (_) {
+              final bloc = sl<TripsBloc>();
+              //TODO bloc.add(TripsEvent.fetchBus(bloc.state.direction));
+              bloc.add(TripsEvent.fetchTrain(bloc.state.direction));
+              return bloc;
             },
           ),
-          BlocListener<MapsBloc, MapsState>(
-            listener: (context, state) {
-              if (context.bloc<MapsBloc>().state.isBusLoaded) {
-                //TODO add onTap() pour les markers de bus
-              }
-              if (context.bloc<MapsBloc>().state.isTrainLoaded) {
-                //TODO add onTap() pour les markers de train
-              }
-            },
+          BlocProvider<MapsBloc>(
+            create: (_) => sl<MapsBloc>(),
+          ),
+          BlocProvider<StopDetailsBloc>(
+            create: (_) => sl<StopDetailsBloc>(),
           ),
         ],
-        child: const MobiliteBody(),
+        child: const MobiliteListenersWidget(),
       ),
+    );
+  }
+}
+
+class MobiliteListenersWidget extends StatelessWidget {
+  const MobiliteListenersWidget({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<TripsBloc, TripsState>(
+          listener: (context, state) {
+            Direction hideDirection = Direction.Aller;
+            if (state.direction == Direction.Aller) {
+              hideDirection = Direction.Retour;
+            }
+            context.bloc<MapsBloc>().add(MapsEvent.hide(
+                  isBus: !state.isBusLoaded,
+                  isTrain: !state.isTrainLoaded,
+                  direction: state.direction,
+                )); //cache ce qui n'est pas chargé
+            context.bloc<MapsBloc>().add(MapsEvent.hide(
+                  isBus: state.isBusLoaded,
+                  isTrain: state.isTrainLoaded,
+                  direction: hideDirection,
+                )); //cache ce qui est chargé mais dans la mauvaise direction
+            context.bloc<MapsBloc>().add(MapsEvent.load(
+                  isBus: state.isBusLoaded,
+                  isTrain: state.isTrainLoaded,
+                  direction: state.direction,
+                  trainTrips: state.trainTrips,
+                  busTrips: state.busTrips,
+                )); //affiche les polylines et markers
+          },
+        ),
+        BlocListener<MapsBloc, MapsState>(
+          listener: (context, state) {
+            final tripState = context.bloc<TripsBloc>().state;
+            if (state.isBusLoaded) {
+              for (final Marker marker in state.markers) {
+                if (marker.markerId.value.startsWith("bus")) {
+                  final Marker newMarker = Marker(
+                    markerId: MarkerId("!" + marker.markerId.value),
+                    consumeTapEvents: true,
+                    onTap: () {
+                      context.bloc<StopDetailsBloc>().add(StopDetailsEvent.show(
+                            id: marker.markerId.value,
+                            trips: tripState.busTrips,
+                            isBus: true,
+                          ));
+                      Scaffold.of(context).showBottomSheet<dynamic>((context) {
+                        return const Details();
+                      });
+                    },
+                    position: marker.position,
+                    visible: true,
+                  );
+                  state.markers.remove(marker);
+                  state.markers.add(newMarker);
+                }
+              }
+            }
+            if (state.isTrainLoaded) {
+              for (final Marker marker in state.markers) {
+                if (marker.markerId.value.startsWith("train")) {
+                  final Marker newMarker = Marker(
+                    markerId: MarkerId("!" + marker.markerId.value),
+                    consumeTapEvents: true,
+                    onTap: () {
+                      context.bloc<StopDetailsBloc>().add(StopDetailsEvent.show(
+                            id: marker.markerId.value,
+                            trips: tripState.trainTrips,
+                            isBus: false,
+                          ));
+                    },
+                    position: marker.position,
+                    visible: true,
+                  );
+                  state.markers.remove(marker);
+                  state.markers.add(newMarker);
+                }
+              }
+            }
+          },
+        ),
+      ],
+      child: const MobiliteBody(),
     );
   }
 }
@@ -90,8 +147,8 @@ class MobiliteBody extends StatelessWidget {
               children: <Widget>[
                 if (context.bloc<TripsBloc>().state.isLoading)
                   const LinearProgressIndicator(),
-                MapsScreen(
-                  initialPosition: const LatLng(43.4506539, 5.4459134),
+                const MapsScreen(
+                  initialPosition: LatLng(43.4506539, 5.4459134),
                 ),
                 const MobilityControls(),
               ],
@@ -109,7 +166,9 @@ class MobiliteBody extends StatelessWidget {
                     Wrap(
                       children: <Widget>[
                         Column(
-                          children: <Widget>[],
+                          children: <Widget>[
+                            //TODO autres transports
+                          ],
                         ),
                       ],
                     ),
@@ -120,6 +179,91 @@ class MobiliteBody extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class Details extends StatelessWidget {
+  const Details({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomSheet(
+      onClosing: () =>
+          context.bloc<StopDetailsBloc>().add(const StopDetailsEvent.hide()),
+      builder: (BuildContext context) {
+        final stopDetailsState = context.bloc<StopDetailsBloc>().state;
+        if (stopDetailsState.isLoading) {
+          return const CircularProgressIndicator();
+        } else if (stopDetailsState.isError) {
+          return Text(stopDetailsState.exception.toString());
+        } else {
+          IconData icone;
+          String ligne_name;
+          if (stopDetailsState.isBus) {
+            icone = Icons.directions_bus;
+            ligne_name = MobilityConstants.busLines[0];
+          } else {
+            icone = Icons.train;
+            ligne_name = MobilityConstants.trainLines[0];
+          }
+          return Column(
+            children: [
+              Row(
+                children: [
+                  Icon(icone),
+                  Text(ligne_name),
+                ],
+              ),
+              Row(
+                children: [
+                  const Icon(Icons.arrow_forward),
+                  Text("Direction " + stopDetailsState.last_stop),
+                ],
+              ),
+              Text(stopDetailsState.stop_name),
+              Row(
+                children: [
+                  const Icon(Icons.arrow_right),
+                  Text(stopDetailsState.stop_times[0]),
+                ],
+              ),
+              Text(stopDetailsState.stop_times[1]),
+              Text(stopDetailsState.stop_times[2]),
+              ListView.builder(itemBuilder: (context, index) {
+                Color couleur = Colors.black;
+                IconData icone = Icons.arrow_drop_down;
+                if (stopDetailsState.trip[index].stop.stop_name ==
+                    stopDetailsState.last_stop) {
+                  icone = Icons.fiber_manual_record;
+                }
+                if (stopDetailsState.trip[index].stop.stop_name ==
+                    stopDetailsState.destination) {
+                  couleur = Colors.red;
+                }
+                final TextStyle style =
+                    TextStyle(inherit: true, color: couleur);
+                return Row(
+                  children: [
+                    Icon(
+                      icone,
+                      color: couleur,
+                    ),
+                    Text(
+                      stopDetailsState.trip[index].stop.stop_name,
+                      style: style,
+                    ),
+                    Text(
+                      stopDetailsState.trip[index].arrival_time,
+                      style: style,
+                    ),
+                  ],
+                );
+              }),
+            ],
+          );
+        }
+      },
     );
   }
 }

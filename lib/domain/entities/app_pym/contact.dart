@@ -5,12 +5,11 @@ part 'contact.freezed.dart';
 @freezed
 abstract class Contact with _$Contact {
   const factory Contact({
-    String id,
-    String html_url,
-    String address,
-    String email,
-    String name,
-    String telephone,
-    String user_id,
+    @required int id,
+    @nullable @required String nom,
+    @nullable @required String prenom,
+    @nullable @required String mail,
+    @nullable @required String telephone,
+    @nullable @required int idEntreprise,
   }) = _Contact;
 }

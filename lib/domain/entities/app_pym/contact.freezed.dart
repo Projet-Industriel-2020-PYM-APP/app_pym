@@ -13,21 +13,19 @@ class _$ContactTearOff {
   const _$ContactTearOff();
 
   _Contact call(
-      {String id,
-      String html_url,
-      String address,
-      String email,
-      String name,
-      String telephone,
-      String user_id}) {
+      {@required int id,
+      @required @nullable String nom,
+      @required @nullable String prenom,
+      @required @nullable String mail,
+      @required @nullable String telephone,
+      @required @nullable int idEntreprise}) {
     return _Contact(
       id: id,
-      html_url: html_url,
-      address: address,
-      email: email,
-      name: name,
+      nom: nom,
+      prenom: prenom,
+      mail: mail,
       telephone: telephone,
-      user_id: user_id,
+      idEntreprise: idEntreprise,
     );
   }
 }
@@ -36,13 +34,17 @@ class _$ContactTearOff {
 const $Contact = _$ContactTearOff();
 
 mixin _$Contact {
-  String get id;
-  String get html_url;
-  String get address;
-  String get email;
-  String get name;
+  int get id;
+  @nullable
+  String get nom;
+  @nullable
+  String get prenom;
+  @nullable
+  String get mail;
+  @nullable
   String get telephone;
-  String get user_id;
+  @nullable
+  int get idEntreprise;
 
   $ContactCopyWith<Contact> get copyWith;
 }
@@ -51,13 +53,12 @@ abstract class $ContactCopyWith<$Res> {
   factory $ContactCopyWith(Contact value, $Res Function(Contact) then) =
       _$ContactCopyWithImpl<$Res>;
   $Res call(
-      {String id,
-      String html_url,
-      String address,
-      String email,
-      String name,
-      String telephone,
-      String user_id});
+      {int id,
+      @nullable String nom,
+      @nullable String prenom,
+      @nullable String mail,
+      @nullable String telephone,
+      @nullable int idEntreprise});
 }
 
 class _$ContactCopyWithImpl<$Res> implements $ContactCopyWith<$Res> {
@@ -70,21 +71,20 @@ class _$ContactCopyWithImpl<$Res> implements $ContactCopyWith<$Res> {
   @override
   $Res call({
     Object id = freezed,
-    Object html_url = freezed,
-    Object address = freezed,
-    Object email = freezed,
-    Object name = freezed,
+    Object nom = freezed,
+    Object prenom = freezed,
+    Object mail = freezed,
     Object telephone = freezed,
-    Object user_id = freezed,
+    Object idEntreprise = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed ? _value.id : id as String,
-      html_url: html_url == freezed ? _value.html_url : html_url as String,
-      address: address == freezed ? _value.address : address as String,
-      email: email == freezed ? _value.email : email as String,
-      name: name == freezed ? _value.name : name as String,
+      id: id == freezed ? _value.id : id as int,
+      nom: nom == freezed ? _value.nom : nom as String,
+      prenom: prenom == freezed ? _value.prenom : prenom as String,
+      mail: mail == freezed ? _value.mail : mail as String,
       telephone: telephone == freezed ? _value.telephone : telephone as String,
-      user_id: user_id == freezed ? _value.user_id : user_id as String,
+      idEntreprise:
+          idEntreprise == freezed ? _value.idEntreprise : idEntreprise as int,
     ));
   }
 }
@@ -94,13 +94,12 @@ abstract class _$ContactCopyWith<$Res> implements $ContactCopyWith<$Res> {
       __$ContactCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String id,
-      String html_url,
-      String address,
-      String email,
-      String name,
-      String telephone,
-      String user_id});
+      {int id,
+      @nullable String nom,
+      @nullable String prenom,
+      @nullable String mail,
+      @nullable String telephone,
+      @nullable int idEntreprise});
 }
 
 class __$ContactCopyWithImpl<$Res> extends _$ContactCopyWithImpl<$Res>
@@ -114,53 +113,55 @@ class __$ContactCopyWithImpl<$Res> extends _$ContactCopyWithImpl<$Res>
   @override
   $Res call({
     Object id = freezed,
-    Object html_url = freezed,
-    Object address = freezed,
-    Object email = freezed,
-    Object name = freezed,
+    Object nom = freezed,
+    Object prenom = freezed,
+    Object mail = freezed,
     Object telephone = freezed,
-    Object user_id = freezed,
+    Object idEntreprise = freezed,
   }) {
     return _then(_Contact(
-      id: id == freezed ? _value.id : id as String,
-      html_url: html_url == freezed ? _value.html_url : html_url as String,
-      address: address == freezed ? _value.address : address as String,
-      email: email == freezed ? _value.email : email as String,
-      name: name == freezed ? _value.name : name as String,
+      id: id == freezed ? _value.id : id as int,
+      nom: nom == freezed ? _value.nom : nom as String,
+      prenom: prenom == freezed ? _value.prenom : prenom as String,
+      mail: mail == freezed ? _value.mail : mail as String,
       telephone: telephone == freezed ? _value.telephone : telephone as String,
-      user_id: user_id == freezed ? _value.user_id : user_id as String,
+      idEntreprise:
+          idEntreprise == freezed ? _value.idEntreprise : idEntreprise as int,
     ));
   }
 }
 
 class _$_Contact implements _Contact {
   const _$_Contact(
-      {this.id,
-      this.html_url,
-      this.address,
-      this.email,
-      this.name,
-      this.telephone,
-      this.user_id});
+      {@required this.id,
+      @required @nullable this.nom,
+      @required @nullable this.prenom,
+      @required @nullable this.mail,
+      @required @nullable this.telephone,
+      @required @nullable this.idEntreprise})
+      : assert(id != null);
 
   @override
-  final String id;
+  final int id;
   @override
-  final String html_url;
+  @nullable
+  final String nom;
   @override
-  final String address;
+  @nullable
+  final String prenom;
   @override
-  final String email;
+  @nullable
+  final String mail;
   @override
-  final String name;
-  @override
+  @nullable
   final String telephone;
   @override
-  final String user_id;
+  @nullable
+  final int idEntreprise;
 
   @override
   String toString() {
-    return 'Contact(id: $id, html_url: $html_url, address: $address, email: $email, name: $name, telephone: $telephone, user_id: $user_id)';
+    return 'Contact(id: $id, nom: $nom, prenom: $prenom, mail: $mail, telephone: $telephone, idEntreprise: $idEntreprise)';
   }
 
   @override
@@ -169,33 +170,29 @@ class _$_Contact implements _Contact {
         (other is _Contact &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
-            (identical(other.html_url, html_url) ||
-                const DeepCollectionEquality()
-                    .equals(other.html_url, html_url)) &&
-            (identical(other.address, address) ||
-                const DeepCollectionEquality()
-                    .equals(other.address, address)) &&
-            (identical(other.email, email) ||
-                const DeepCollectionEquality().equals(other.email, email)) &&
-            (identical(other.name, name) ||
-                const DeepCollectionEquality().equals(other.name, name)) &&
+            (identical(other.nom, nom) ||
+                const DeepCollectionEquality().equals(other.nom, nom)) &&
+            (identical(other.prenom, prenom) ||
+                const DeepCollectionEquality().equals(other.prenom, prenom)) &&
+            (identical(other.mail, mail) ||
+                const DeepCollectionEquality().equals(other.mail, mail)) &&
             (identical(other.telephone, telephone) ||
                 const DeepCollectionEquality()
                     .equals(other.telephone, telephone)) &&
-            (identical(other.user_id, user_id) ||
-                const DeepCollectionEquality().equals(other.user_id, user_id)));
+            (identical(other.idEntreprise, idEntreprise) ||
+                const DeepCollectionEquality()
+                    .equals(other.idEntreprise, idEntreprise)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(html_url) ^
-      const DeepCollectionEquality().hash(address) ^
-      const DeepCollectionEquality().hash(email) ^
-      const DeepCollectionEquality().hash(name) ^
+      const DeepCollectionEquality().hash(nom) ^
+      const DeepCollectionEquality().hash(prenom) ^
+      const DeepCollectionEquality().hash(mail) ^
       const DeepCollectionEquality().hash(telephone) ^
-      const DeepCollectionEquality().hash(user_id);
+      const DeepCollectionEquality().hash(idEntreprise);
 
   @override
   _$ContactCopyWith<_Contact> get copyWith =>
@@ -204,28 +201,30 @@ class _$_Contact implements _Contact {
 
 abstract class _Contact implements Contact {
   const factory _Contact(
-      {String id,
-      String html_url,
-      String address,
-      String email,
-      String name,
-      String telephone,
-      String user_id}) = _$_Contact;
+      {@required int id,
+      @required @nullable String nom,
+      @required @nullable String prenom,
+      @required @nullable String mail,
+      @required @nullable String telephone,
+      @required @nullable int idEntreprise}) = _$_Contact;
 
   @override
-  String get id;
+  int get id;
   @override
-  String get html_url;
+  @nullable
+  String get nom;
   @override
-  String get address;
+  @nullable
+  String get prenom;
   @override
-  String get email;
+  @nullable
+  String get mail;
   @override
-  String get name;
-  @override
+  @nullable
   String get telephone;
   @override
-  String get user_id;
+  @nullable
+  int get idEntreprise;
   @override
   _$ContactCopyWith<_Contact> get copyWith;
 }

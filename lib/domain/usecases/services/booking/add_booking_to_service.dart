@@ -28,6 +28,6 @@ class AddBookingToService
     } else if (!params.appUser.isEmailVerified) {
       throw EmailNotVerifiedException();
     }
-    return repository.addBookingTo(params.service_id, params.booking);
+    return repository.create(params.booking);
   }
 }

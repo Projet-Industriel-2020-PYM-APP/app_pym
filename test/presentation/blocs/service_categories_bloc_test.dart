@@ -1,7 +1,9 @@
+import 'dart:ui';
+
 import 'package:app_pym/core/error/exceptions.dart';
 import 'package:app_pym/core/usecases/usecase.dart';
 import 'package:app_pym/domain/entities/app_pym/action.dart';
-import 'package:app_pym/domain/entities/app_pym/categorie.dart';
+import 'package:app_pym/domain/entities/app_pym/service_categorie.dart';
 import 'package:app_pym/domain/usecases/services/fetch_service_categories.dart';
 import 'package:app_pym/injection_container.dart';
 import 'package:app_pym/presentation/blocs/services/service_categories/service_categories_bloc.dart';
@@ -16,14 +18,15 @@ void main() {
   init(env: Environment.test);
 
   const tAction = Action(
-    id: "1",
     html_url: "html_url",
     name: "name",
   );
-  const tCategorie = Categorie(
-    id: "1",
+  const tCategorie = ServiceCategorie(
+    id: 1,
     action: tAction,
     name: "name",
+    img_url: "img_url",
+    primary_color: Color(0xffffffff),
   );
 
   setUp(() {
@@ -42,9 +45,7 @@ void main() {
       () async {
         // arrange
         when(mockFetchServiceCategories(any))
-            .thenAnswer((_) => Stream.fromIterable([
-                  [tCategorie]
-                ]));
+            .thenAnswer((_) async => [tCategorie]);
         // act
         bloc.add(const FetchServiceCategoriesEvent());
         await untilCalled(mockFetchServiceCategories(any));
@@ -58,9 +59,7 @@ void main() {
       () async {
         // arrange
         when(mockFetchServiceCategories(any))
-            .thenAnswer((_) => Stream.fromIterable([
-                  [tCategorie]
-                ]));
+            .thenAnswer((_) async => [tCategorie]);
         // assert later
         const expected = [
           CategoriesInitial(),

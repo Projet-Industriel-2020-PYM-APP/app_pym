@@ -15,7 +15,6 @@ part 'fetch_all_bookings_of_service_state.dart';
 class FetchAllBookingsOfServiceBloc extends Bloc<FetchAllBookingsOfServiceEvent,
     FetchAllBookingsOfServiceState> {
   final FetchAllBookingsOfService fetchAllBookingsOfService;
-  StreamSubscription<List<Booking>> subscription;
 
   FetchAllBookingsOfServiceBloc(this.fetchAllBookingsOfService);
 
@@ -31,10 +30,8 @@ class FetchAllBookingsOfServiceBloc extends Bloc<FetchAllBookingsOfServiceEvent,
       fetch: (service_id) async* {
         yield const FetchAllBookingsOfServiceState.loading();
         try {
-          await subscription?.cancel();
-
-          subscription = fetchAllBookingsOfService(service_id).listen(
-              (data) => add(FetchAllBookingsOfServiceEvent.refresh(data)));
+          final data = await fetchAllBookingsOfService(service_id);
+          add(FetchAllBookingsOfServiceEvent.refresh(data));
         } catch (e) {
           yield FetchAllBookingsOfServiceState.error(e.toString());
         }

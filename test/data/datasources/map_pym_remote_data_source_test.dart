@@ -1,22 +1,64 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:app_pym/core/error/exceptions.dart';
 import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
+import 'package:app_pym/data/models/app_pym/contact_categorie_model.dart';
+import 'package:app_pym/data/models/app_pym/contact_model.dart';
+import 'package:app_pym/data/models/app_pym/post_model.dart';
+import 'package:app_pym/data/models/app_pym/service_categorie_model.dart';
+import 'package:app_pym/data/models/app_pym/service_model.dart';
+import 'package:app_pym/data/models/authentication/app_user_model.dart';
 import 'package:app_pym/data/models/map_pym/batiment_model.dart';
-import 'package:app_pym/data/models/map_pym/batiment_position_model.dart';
 import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
 import 'package:app_pym/injection_container.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:injectable/injectable.dart' show Environment;
 import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
-import 'package:app_pym/core/error/exceptions.dart';
-import 'package:injectable/injectable.dart' show Environment;
 
 import '../../fixtures/fixture_reader.dart';
 
 void main() {
   MapPymRemoteDataSourceImpl dataSource;
   http.Client mockHttpClient;
+
+  final tListBatimentModel =
+      (json.decode(fixture('map_pym/batiments.json')) as List)
+          .map((dynamic data) =>
+              BatimentModel.fromJson(data as Map<String, dynamic>))
+          .toList();
+  final tListContactModel = (json.decode(fixture('map_pym/contacts.json'))
+          as List)
+      .map(
+          (dynamic data) => ContactModel.fromJson(data as Map<String, dynamic>))
+      .toList();
+  final tListServiceModel = (json.decode(fixture('map_pym/services.json'))
+          as List)
+      .map(
+          (dynamic data) => ServiceModel.fromJson(data as Map<String, dynamic>))
+      .toList();
+  final tListContactCategorieModel =
+      (json.decode(fixture('map_pym/contact_categories.json')) as List)
+          .map((dynamic data) =>
+              ContactCategorieModel.fromJson(data as Map<String, dynamic>))
+          .toList();
+  final tListServiceCategorieModel =
+      (json.decode(fixture('map_pym/service_categories.json')) as List)
+          .map((dynamic data) =>
+              ServiceCategorieModel.fromJson(data as Map<String, dynamic>))
+          .toList();
+  final tListEntrepriseModel =
+      (json.decode(fixture('map_pym/entreprises.json')) as List)
+          .map((dynamic data) =>
+              EntrepriseModel.fromJson(data as Map<String, dynamic>))
+          .toList();
+  final tListPostModel = (json.decode(fixture('map_pym/posts.json')) as List)
+      .map((dynamic data) => PostModel.fromJson(data as Map<String, dynamic>))
+      .toList();
+  final tAppUserModel = AppUserModel.fromJson(
+      json.decode(fixture('map_pym/app_user.json')) as Map<String, dynamic>);
 
   init(env: Environment.test);
 
@@ -27,54 +69,86 @@ void main() {
 
   void setUpMockHttpClientSuccess200() {
     when(
-      mockHttpClient.get('https://admin.map-pym.com/api/batiment_position'),
-    ).thenAnswer((_) async =>
-        http.Response(fixture('map_pym/batiment_position.json'), 200));
-    when(
       mockHttpClient.get('https://admin.map-pym.com/api/batiments'),
     ).thenAnswer(
         (_) async => http.Response(fixture('map_pym/batiments.json'), 200));
     when(
+      mockHttpClient.get('https://admin.map-pym.com/api/contacts'),
+    ).thenAnswer(
+        (_) async => http.Response(fixture('map_pym/contacts.json'), 200));
+    when(
       mockHttpClient.get('https://admin.map-pym.com/api/entreprises'),
     ).thenAnswer(
         (_) async => http.Response(fixture('map_pym/entreprises.json'), 200));
+    when(
+      mockHttpClient.get('https://admin.map-pym.com/api/contact_categories'),
+    ).thenAnswer((_) async =>
+        http.Response(fixture('map_pym/contact_categories.json'), 200));
+    when(
+      mockHttpClient.get('https://admin.map-pym.com/api/service_categories'),
+    ).thenAnswer((_) async =>
+        http.Response(fixture('map_pym/service_categories.json'), 200));
+    when(
+      mockHttpClient.get('https://admin.map-pym.com/api/services'),
+    ).thenAnswer(
+        (_) async => http.Response(fixture('map_pym/services.json'), 200));
+    when(
+      mockHttpClient.get('https://admin.map-pym.com/api/posts'),
+    ).thenAnswer(
+        (_) async => http.Response(fixture('map_pym/posts.json'), 200));
+    when(
+      mockHttpClient.get('https://admin.map-pym.com/api/user',
+          headers: anyNamed('headers')),
+    ).thenAnswer(
+        (_) async => http.Response(fixture('map_pym/app_user.json'), 200));
+    when(
+      mockHttpClient.post(
+        'https://admin.map-pym.com/api/user',
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      ),
+    ).thenAnswer((_) async => http.Response('Done.', 200));
   }
 
   void setUpMockHttpClientFailure404() {
     when(mockHttpClient.get(any))
         .thenAnswer((_) async => http.Response('Something went wrong', 404));
+    when(
+      mockHttpClient.get(any, headers: anyNamed('headers')),
+    ).thenAnswer((_) async => http.Response('Something went wrong', 404));
+    when(
+      mockHttpClient.post(
+        any,
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      ),
+    ).thenAnswer((_) async => http.Response('Something went wrong', 404));
   }
 
-  group('fetchBatimentPosition', () {
-    final tListBatimentPositionModel =
-        (json.decode(fixture('map_pym/batiment_position.json')) as List)
-            .map((dynamic data) =>
-                BatimentPositionModel.fromJson(data as Map<String, dynamic>))
-            .toList();
-
+  group('fetchAllBatiment', () {
     test(
       "should perform a GET request on a URL",
       () async {
         // arrange
         setUpMockHttpClientSuccess200();
         // act
-        await dataSource.fetchBatimentsPosition();
+        await dataSource.fetchAllBatiment();
         // assert
         verify(mockHttpClient.get(
-          'https://admin.map-pym.com/api/batiment_position',
+          'https://admin.map-pym.com/api/batiments',
         ));
       },
     );
 
     test(
-      'should return tListBatimentPositionModel when the response code is 200 (success)',
+      'should return tListBatimentModel when the response code is 200 (success)',
       () async {
         // arrange
         setUpMockHttpClientSuccess200();
         // act
-        final result = await dataSource.fetchBatimentsPosition();
+        final result = await dataSource.fetchAllBatiment();
         // assert
-        expect(result, equals(tListBatimentPositionModel));
+        expect(result, equals(tListBatimentModel));
       },
     );
 
@@ -84,24 +158,101 @@ void main() {
         // arrange
         setUpMockHttpClientFailure404();
         // act
-        final call = dataSource.fetchBatimentsPosition;
+        final call = dataSource.fetchAllBatiment;
         // assert
-        expect(call, throwsA(const TypeMatcher<ServerException>()));
+        expect(call, throwsA(isA<ServerException>()));
       },
     );
   });
 
-  group('fetchBatiment', () {
-    final tBatimentModel = BatimentModel.fromJson(
-        json.decode(fixture('map_pym/batiment.json')) as Map<String, dynamic>);
-
+  group('fetchAllContactCategories', () {
     test(
       "should perform a GET request on a URL",
       () async {
         // arrange
         setUpMockHttpClientSuccess200();
         // act
-        await dataSource.fetchBatiment(1);
+        await dataSource.fetchAllContactCategories();
+        // assert
+        verify(mockHttpClient.get(
+          'https://admin.map-pym.com/api/contact_categories',
+        ));
+      },
+    );
+
+    test(
+      'should return tListContactCategorieModel when the response code is 200 (success)',
+      () async {
+        // arrange
+        setUpMockHttpClientSuccess200();
+        // act
+        final result = await dataSource.fetchAllContactCategories();
+        // assert
+        expect(result, equals(tListContactCategorieModel));
+      },
+    );
+
+    test(
+      'should throw a ServerException when the response code is 404 or other',
+      () async {
+        // arrange
+        setUpMockHttpClientFailure404();
+        // act
+        final call = dataSource.fetchAllContactCategories;
+        // assert
+        expect(call, throwsA(isA<ServerException>()));
+      },
+    );
+  });
+
+  group('fetchAllServiceCategories', () {
+    test(
+      "should perform a GET request on a URL",
+      () async {
+        // arrange
+        setUpMockHttpClientSuccess200();
+        // act
+        await dataSource.fetchAllServiceCategories();
+        // assert
+        verify(mockHttpClient.get(
+          'https://admin.map-pym.com/api/service_categories',
+        ));
+      },
+    );
+
+    test(
+      'should return tListServiceCategorieModel when the response code is 200 (success)',
+      () async {
+        // arrange
+        setUpMockHttpClientSuccess200();
+        // act
+        final result = await dataSource.fetchAllServiceCategories();
+        // assert
+        expect(result, equals(tListServiceCategorieModel));
+      },
+    );
+
+    test(
+      'should throw a ServerException when the response code is 404 or other',
+      () async {
+        // arrange
+        setUpMockHttpClientFailure404();
+        // act
+        final call = dataSource.fetchAllServiceCategories;
+        // assert
+        expect(call, throwsA(isA<ServerException>()));
+      },
+    );
+  });
+
+  group('fetchBatiment', () {
+    test(
+      "should perform a GET request on a URL",
+      () async {
+        // arrange
+        setUpMockHttpClientSuccess200();
+        // act
+        await dataSource.fetchBatiment(tListBatimentModel.first.id);
         // assert
         verify(mockHttpClient.get(
           'https://admin.map-pym.com/api/batiments',
@@ -115,9 +266,10 @@ void main() {
         // arrange
         setUpMockHttpClientSuccess200();
         // act
-        final result = await dataSource.fetchBatiment(1);
+        final result =
+            await dataSource.fetchBatiment(tListBatimentModel.first.id);
         // assert
-        expect(result, equals(tBatimentModel));
+        expect(result, equals(tListBatimentModel.first));
       },
     );
 
@@ -129,22 +281,63 @@ void main() {
         // act
         final call = dataSource.fetchBatiment;
         // assert
-        expect(() => call(1), throwsA(const TypeMatcher<ServerException>()));
+        expect(() => call(tListBatimentModel.first.id),
+            throwsA(isA<ServerException>()));
       },
     );
   });
 
-  group('fetchEntreprisesOfBatiment', () {
-    final tEntrepriseModel = EntrepriseModel.fromJson(json
-        .decode(fixture('map_pym/entreprise.json')) as Map<String, dynamic>);
-
+  group('fetchContact', () {
     test(
       "should perform a GET request on a URL",
       () async {
         // arrange
         setUpMockHttpClientSuccess200();
         // act
-        await dataSource.fetchEntreprisesOfBatiment(38);
+        await dataSource.fetchContact(tListContactModel.first.id);
+        // assert
+        verify(mockHttpClient.get(
+          'https://admin.map-pym.com/api/contacts',
+        ));
+      },
+    );
+
+    test(
+      'should return tContactModel when the response code is 200 (success)',
+      () async {
+        // arrange
+        setUpMockHttpClientSuccess200();
+        // act
+        final result =
+            await dataSource.fetchContact(tListContactModel.first.id);
+        // assert
+        expect(result, equals(tListContactModel.first));
+      },
+    );
+
+    test(
+      'should throw a ServerException when the response code is 404 or other',
+      () async {
+        // arrange
+        setUpMockHttpClientFailure404();
+        // act
+        final call = dataSource.fetchContact;
+        // assert
+        expect(() => call(tListContactModel.first.id),
+            throwsA(isA<ServerException>()));
+      },
+    );
+  });
+
+  group('fetchEntreprisesOfBatiment', () {
+    test(
+      "should perform a GET request on a URL",
+      () async {
+        // arrange
+        setUpMockHttpClientSuccess200();
+        // act
+        await dataSource
+            .fetchEntreprisesOfBatiment(tListEntrepriseModel.first.idBatiment);
         // assert
         verify(mockHttpClient.get(
           'https://admin.map-pym.com/api/entreprises',
@@ -158,9 +351,13 @@ void main() {
         // arrange
         setUpMockHttpClientSuccess200();
         // act
-        final result = await dataSource.fetchEntreprisesOfBatiment(38);
+        final result = await dataSource
+            .fetchEntreprisesOfBatiment(tListEntrepriseModel.first.idBatiment);
         // assert
-        expect(result, equals([tEntrepriseModel]));
+        final expected = tListEntrepriseModel
+            .where((e) => e.idBatiment == tListEntrepriseModel.first.idBatiment)
+            .toList();
+        expect(result, equals(expected));
       },
     );
 
@@ -172,7 +369,182 @@ void main() {
         // act
         final call = dataSource.fetchEntreprisesOfBatiment;
         // assert
-        expect(() => call(38), throwsA(const TypeMatcher<ServerException>()));
+        expect(() => call(tListEntrepriseModel.first.idBatiment),
+            throwsA(isA<ServerException>()));
+      },
+    );
+  });
+
+  group('fetchPosts', () {
+    test(
+      "should perform a GET request on a URL",
+      () async {
+        // arrange
+        setUpMockHttpClientSuccess200();
+        // act
+        await dataSource.fetchAllPosts();
+        // assert
+        verify(mockHttpClient.get(
+          'https://admin.map-pym.com/api/posts',
+        ));
+      },
+    );
+
+    test(
+      'should return filtered tListPostModel when the response code is 200 (success)',
+      () async {
+        // arrange
+        setUpMockHttpClientSuccess200();
+        // act
+        final result = await dataSource.fetchAllPosts();
+        // assert
+        expect(result, equals(tListPostModel));
+      },
+    );
+
+    test(
+      'should throw a ServerException when the response code is 404 or other',
+      () async {
+        // arrange
+        setUpMockHttpClientFailure404();
+        // act
+        final call = dataSource.fetchAllPosts;
+        // assert
+        expect(call, throwsA(isA<ServerException>()));
+      },
+    );
+  });
+
+  group('fetchServicesOf', () {
+    test(
+      "should perform a GET request on a URL",
+      () async {
+        // arrange
+        setUpMockHttpClientSuccess200();
+        // act
+        await dataSource.fetchServicesOf(tListServiceModel.first.categorie_id);
+        // assert
+        verify(mockHttpClient.get(
+          'https://admin.map-pym.com/api/services',
+        ));
+      },
+    );
+
+    test(
+      'should return filtered tListServiceModel when the response code is 200 (success)',
+      () async {
+        // arrange
+        setUpMockHttpClientSuccess200();
+        // act
+        final result = await dataSource
+            .fetchServicesOf(tListServiceModel.first.categorie_id);
+        // assert
+        final expected = tListServiceModel
+            .where(
+                (e) => e.categorie_id == tListServiceModel.first.categorie_id)
+            .toList();
+        expect(result, equals(expected));
+      },
+    );
+
+    test(
+      'should throw a ServerException when the response code is 404 or other',
+      () async {
+        // arrange
+        setUpMockHttpClientFailure404();
+        // act
+        final call = dataSource.fetchServicesOf;
+        // assert
+        expect(() => call(tListServiceModel.first.categorie_id),
+            throwsA(isA<ServerException>()));
+      },
+    );
+  });
+
+  group('fetchUser', () {
+    test(
+      "should perform a GET request on a URL",
+      () async {
+        // arrange
+        setUpMockHttpClientSuccess200();
+        // act
+        await dataSource.fetchUser(tAppUserModel.token);
+        // assert
+        final captured = verify(mockHttpClient.get(
+                'https://admin.map-pym.com/api/user',
+                headers: captureAnyNamed('headers')))
+            .captured;
+
+        final headers = captured.first as Map<String, String>;
+        expect(headers[HttpHeaders.authorizationHeader],
+            startsWith("Bearing ${tAppUserModel.token}"));
+      },
+    );
+
+    test(
+      'should return AppUser when the response code is 200 (success)',
+      () async {
+        // arrange
+        setUpMockHttpClientSuccess200();
+        // act
+        final result = await dataSource.fetchUser(tAppUserModel.token);
+        // assert
+        expect(result, equals(tAppUserModel));
+      },
+    );
+
+    test(
+      'should throw a ServerException when the response code is 404 or other',
+      () async {
+        // arrange
+        setUpMockHttpClientFailure404();
+        // act
+        final call = dataSource.fetchUser;
+        // assert
+        expect(
+            () => call(tAppUserModel.token), throwsA(isA<ServerException>()));
+      },
+    );
+  });
+
+  group('setUserData', () {
+    test(
+      "should perform a POST request on a URL",
+      () async {
+        // arrange
+        setUpMockHttpClientSuccess200();
+        // act
+        await dataSource.setUserData(tAppUserModel);
+        // assert
+        final captured = verify(mockHttpClient.post(
+          'https://admin.map-pym.com/api/user',
+          headers: captureAnyNamed('headers'),
+          body: captureAnyNamed('body'),
+        )).captured;
+
+        final headers = captured[0] as Map<String, String>;
+        final body = captured[1] as Map<String, dynamic>;
+        expect(headers[HttpHeaders.authorizationHeader],
+            startsWith("Bearing ${tAppUserModel.token}"));
+        expect(
+          body,
+          equals({
+            'id': tAppUserModel.id,
+            'user': tAppUserModel.toJson(),
+          }),
+        );
+      },
+    );
+
+    test(
+      'should throw a ServerException when the response code is 404 or other',
+      () async {
+        // arrange
+        setUpMockHttpClientFailure404();
+        // act
+        final call = dataSource.setUserData;
+        // assert
+        expect(() => call(tAppUserModel), throwsA(isA<ServerException>()));
       },
     );
   });

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_pym/presentation/blocs/firebase_auth/forgot/forgot_bloc.dart';
+import 'package:app_pym/presentation/blocs/authentication/forgot/forgot_bloc.dart';
 import 'package:app_pym/presentation/widgets/firebase_auth/forgot_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

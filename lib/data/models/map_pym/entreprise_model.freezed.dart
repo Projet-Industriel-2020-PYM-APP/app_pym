@@ -17,13 +17,13 @@ class _$EntrepriseModelTearOff {
 
   _EntrepriseModel call(
       {@required @HiveField(0) int id,
-      @required @HiveField(1) String nom,
-      @required @HiveField(2) String site_internet,
-      @required @HiveField(3) int nb_salaries,
-      @required @HiveField(4) String telephone,
-      @required @HiveField(5) String mail,
-      @required @HiveField(6) String logo,
-      @required @HiveField(7) int idBatiment}) {
+      @required @nullable @HiveField(1) String nom,
+      @required @nullable @HiveField(2) String site_internet,
+      @required @nullable @HiveField(3) int nb_salaries,
+      @required @nullable @HiveField(4) String telephone,
+      @required @nullable @HiveField(5) String mail,
+      @required @nullable @HiveField(6) String logo,
+      @required @nullable @HiveField(7) int idBatiment}) {
     return _EntrepriseModel(
       id: id,
       nom: nom,
@@ -43,18 +43,25 @@ const $EntrepriseModel = _$EntrepriseModelTearOff();
 mixin _$EntrepriseModel {
   @HiveField(0)
   int get id;
+  @nullable
   @HiveField(1)
   String get nom;
+  @nullable
   @HiveField(2)
   String get site_internet;
+  @nullable
   @HiveField(3)
   int get nb_salaries;
+  @nullable
   @HiveField(4)
   String get telephone;
+  @nullable
   @HiveField(5)
   String get mail;
+  @nullable
   @HiveField(6)
   String get logo;
+  @nullable
   @HiveField(7)
   int get idBatiment;
 
@@ -68,13 +75,13 @@ abstract class $EntrepriseModelCopyWith<$Res> {
       _$EntrepriseModelCopyWithImpl<$Res>;
   $Res call(
       {@HiveField(0) int id,
-      @HiveField(1) String nom,
-      @HiveField(2) String site_internet,
-      @HiveField(3) int nb_salaries,
-      @HiveField(4) String telephone,
-      @HiveField(5) String mail,
-      @HiveField(6) String logo,
-      @HiveField(7) int idBatiment});
+      @nullable @HiveField(1) String nom,
+      @nullable @HiveField(2) String site_internet,
+      @nullable @HiveField(3) int nb_salaries,
+      @nullable @HiveField(4) String telephone,
+      @nullable @HiveField(5) String mail,
+      @nullable @HiveField(6) String logo,
+      @nullable @HiveField(7) int idBatiment});
 }
 
 class _$EntrepriseModelCopyWithImpl<$Res>
@@ -120,13 +127,13 @@ abstract class _$EntrepriseModelCopyWith<$Res>
   @override
   $Res call(
       {@HiveField(0) int id,
-      @HiveField(1) String nom,
-      @HiveField(2) String site_internet,
-      @HiveField(3) int nb_salaries,
-      @HiveField(4) String telephone,
-      @HiveField(5) String mail,
-      @HiveField(6) String logo,
-      @HiveField(7) int idBatiment});
+      @nullable @HiveField(1) String nom,
+      @nullable @HiveField(2) String site_internet,
+      @nullable @HiveField(3) int nb_salaries,
+      @nullable @HiveField(4) String telephone,
+      @nullable @HiveField(5) String mail,
+      @nullable @HiveField(6) String logo,
+      @nullable @HiveField(7) int idBatiment});
 }
 
 class __$EntrepriseModelCopyWithImpl<$Res>
@@ -173,21 +180,14 @@ class _$_EntrepriseModel
     implements _EntrepriseModel {
   const _$_EntrepriseModel(
       {@required @HiveField(0) this.id,
-      @required @HiveField(1) this.nom,
-      @required @HiveField(2) this.site_internet,
-      @required @HiveField(3) this.nb_salaries,
-      @required @HiveField(4) this.telephone,
-      @required @HiveField(5) this.mail,
-      @required @HiveField(6) this.logo,
-      @required @HiveField(7) this.idBatiment})
-      : assert(id != null),
-        assert(nom != null),
-        assert(site_internet != null),
-        assert(nb_salaries != null),
-        assert(telephone != null),
-        assert(mail != null),
-        assert(logo != null),
-        assert(idBatiment != null);
+      @required @nullable @HiveField(1) this.nom,
+      @required @nullable @HiveField(2) this.site_internet,
+      @required @nullable @HiveField(3) this.nb_salaries,
+      @required @nullable @HiveField(4) this.telephone,
+      @required @nullable @HiveField(5) this.mail,
+      @required @nullable @HiveField(6) this.logo,
+      @required @nullable @HiveField(7) this.idBatiment})
+      : assert(id != null);
 
   factory _$_EntrepriseModel.fromJson(Map<String, dynamic> json) =>
       _$_$_EntrepriseModelFromJson(json);
@@ -196,24 +196,31 @@ class _$_EntrepriseModel
   @HiveField(0)
   final int id;
   @override
+  @nullable
   @HiveField(1)
   final String nom;
   @override
+  @nullable
   @HiveField(2)
   final String site_internet;
   @override
+  @nullable
   @HiveField(3)
   final int nb_salaries;
   @override
+  @nullable
   @HiveField(4)
   final String telephone;
   @override
+  @nullable
   @HiveField(5)
   final String mail;
   @override
+  @nullable
   @HiveField(6)
   final String logo;
   @override
+  @nullable
   @HiveField(7)
   final int idBatiment;
 
@@ -288,13 +295,13 @@ class _$_EntrepriseModel
 abstract class _EntrepriseModel implements EntrepriseModel {
   const factory _EntrepriseModel(
       {@required @HiveField(0) int id,
-      @required @HiveField(1) String nom,
-      @required @HiveField(2) String site_internet,
-      @required @HiveField(3) int nb_salaries,
-      @required @HiveField(4) String telephone,
-      @required @HiveField(5) String mail,
-      @required @HiveField(6) String logo,
-      @required @HiveField(7) int idBatiment}) = _$_EntrepriseModel;
+      @required @nullable @HiveField(1) String nom,
+      @required @nullable @HiveField(2) String site_internet,
+      @required @nullable @HiveField(3) int nb_salaries,
+      @required @nullable @HiveField(4) String telephone,
+      @required @nullable @HiveField(5) String mail,
+      @required @nullable @HiveField(6) String logo,
+      @required @nullable @HiveField(7) int idBatiment}) = _$_EntrepriseModel;
 
   factory _EntrepriseModel.fromJson(Map<String, dynamic> json) =
       _$_EntrepriseModel.fromJson;
@@ -303,24 +310,31 @@ abstract class _EntrepriseModel implements EntrepriseModel {
   @HiveField(0)
   int get id;
   @override
+  @nullable
   @HiveField(1)
   String get nom;
   @override
+  @nullable
   @HiveField(2)
   String get site_internet;
   @override
+  @nullable
   @HiveField(3)
   int get nb_salaries;
   @override
+  @nullable
   @HiveField(4)
   String get telephone;
   @override
+  @nullable
   @HiveField(5)
   String get mail;
   @override
+  @nullable
   @HiveField(6)
   String get logo;
   @override
+  @nullable
   @HiveField(7)
   int get idBatiment;
   @override

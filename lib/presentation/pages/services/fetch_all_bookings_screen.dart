@@ -4,7 +4,6 @@ import 'package:app_pym/domain/entities/app_pym/service.dart';
 import 'package:app_pym/domain/entities/app_pym/booking.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app_pym/presentation/blocs/services/booking/fetch_all_bookings_of_service/fetch_all_bookings_of_service_bloc.dart';
-import 'package:app_pym/presentation/blocs/services/booking/booking_of_service/booking_of_service_bloc.dart';
 
 class FetchAllBookingsPage extends StatelessWidget {
   final Service service;
@@ -27,12 +26,8 @@ class FetchAllBookingsPage extends StatelessWidget {
   BlocProvider<FetchAllBookingsOfServiceBloc> buildBooked(
       BuildContext context, Service service) {
     return BlocProvider<FetchAllBookingsOfServiceBloc>(
-      create: (_) {
-        final FetchAllBookingsOfServiceBloc bloc =
-            sl<FetchAllBookingsOfServiceBloc>();
-        bloc.add(FetchAllBookingsOfServiceEvent.fetch(service.id));
-        return bloc;
-      },
+      create: (_) => sl<FetchAllBookingsOfServiceBloc>()
+        ..add(FetchAllBookingsOfServiceEvent.fetch(service.id)),
       child: Center(
         child: BlocBuilder<FetchAllBookingsOfServiceBloc,
             FetchAllBookingsOfServiceState>(

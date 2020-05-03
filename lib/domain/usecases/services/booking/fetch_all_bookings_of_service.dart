@@ -6,13 +6,13 @@ import 'package:injectable/injectable.dart';
 @prod
 @lazySingleton
 @injectable
-class FetchAllBookingsOfService extends Usecase<Stream<List<Booking>>, String> {
+class FetchAllBookingsOfService extends Usecase<Future<List<Booking>>, int> {
   final BookingRepository repository;
 
   const FetchAllBookingsOfService(this.repository);
 
   @override
-  Stream<List<Booking>> call(String service_id) {
-    return repository.fetchAllBookingsOf(service_id);
+  Future<List<Booking>> call(int service_id) {
+    return repository.fetchAllOf(service_id);
   }
 }

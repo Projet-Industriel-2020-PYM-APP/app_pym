@@ -25,19 +25,21 @@ void main() {
     nbEtage: 2,
     nom: "Entreprise",
     url: "Super",
+    latitude: 1.0,
+    longitude: 2.0,
   );
 
   test(
     'should get from the repository',
     () async {
       // arrange
-      when(mockBatimentRepository.fetchBatiment(any))
+      when(mockBatimentRepository.fetch(any))
           .thenAnswer((_) async => tBatiment);
       // act
       final result = await usecase(1);
       // assert
       expect(result, tBatiment);
-      verify(mockBatimentRepository.fetchBatiment(1));
+      verify(mockBatimentRepository.fetch(1));
       verifyNoMoreInteractions(mockBatimentRepository);
     },
   );

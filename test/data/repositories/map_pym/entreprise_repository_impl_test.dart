@@ -6,7 +6,6 @@ import 'package:app_pym/data/datasources/map_pym_local_data_source.dart';
 import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
 import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
 import 'package:app_pym/data/repositories/map_pym/entreprise_repository_impl.dart';
-import 'package:app_pym/domain/entities/map_pym/entreprise.dart';
 import 'package:app_pym/injection_container.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,6 +19,12 @@ void main() {
   MapPymRemoteDataSource mockRemoteDataSource;
   NetworkInfo mockNetworkInfo;
   MapPymLocalDataSource mockLocalDataSource;
+
+  final tListEntrepriseModel =
+      (json.decode(fixture('map_pym/entreprises.json')) as List)
+          .map((dynamic data) =>
+              EntrepriseModel.fromJson(data as Map<String, dynamic>))
+          .toList();
 
   init(env: Environment.test);
 
@@ -57,31 +62,15 @@ void main() {
   }
 
   group('fetchEntrepriseOfBatiment', () {
-    final tEntrepriseModel = EntrepriseModel.fromJson(json
-        .decode(fixture('map_pym/entreprise.json')) as Map<String, dynamic>);
-    final tListEntrepriseModel = [tEntrepriseModel];
-    const tEntreprise = Entreprise(
-      id: 13,
-      idBatiment: 38,
-      logo: "SEMAG.png",
-      mail: "contact@semag13.com",
-      nb_salaries: 15,
-      nom: 'SEMAG',
-      site_internet: "http:\/\/www.ville-gardanne.fr\/La-Semag",
-      telephone: "04 42 65 77 20",
-    );
-    const tListEntreprise = [tEntreprise];
-
     test(
       'should check if the device is online',
       () async {
         // arrange
         when(mockNetworkInfo.result)
             .thenAnswer((_) async => ConnectivityResult.wifi);
-        when(mockRemoteDataSource.fetchEntreprisesOfBatiment(any))
-            .thenAnswer((_) async => tListEntrepriseModel);
         // act
-        await repository.fetchEntreprisesOfBatiment(38);
+        await repository
+            .fetchEntreprisesOfBatiment(tListEntrepriseModel.first.idBatiment);
         // assert
         verify(mockNetworkInfo.result);
       },
@@ -92,13 +81,21 @@ void main() {
         'should return remote data when the call to remote data source is successful',
         () async {
           // arrange
-          when(mockRemoteDataSource.fetchEntreprisesOfBatiment(any))
-              .thenAnswer((_) async => tListEntrepriseModel);
+          final expectedData = tListEntrepriseModel
+              .where(
+                  (e) => e.idBatiment == tListEntrepriseModel.first.idBatiment)
+              .toList();
+          when(mockRemoteDataSource.fetchEntreprisesOfBatiment(
+                  tListEntrepriseModel.first.idBatiment))
+              .thenAnswer((_) async => expectedData);
           // act
-          final result = await repository.fetchEntreprisesOfBatiment(38);
+          final result = await repository.fetchEntreprisesOfBatiment(
+              tListEntrepriseModel.first.idBatiment);
           // assert
-          verify(mockRemoteDataSource.fetchEntreprisesOfBatiment(any));
-          expect(result, equals(tListEntreprise));
+          verify(mockRemoteDataSource.fetchEntreprisesOfBatiment(
+              tListEntrepriseModel.first.idBatiment));
+          expect(
+              result, equals(expectedData.map((e) => e.toEntity()).toList()));
         },
       );
 
@@ -106,13 +103,20 @@ void main() {
         'should cache the data locally when the call to remote data source is successful',
         () async {
           // arrange
-          when(mockRemoteDataSource.fetchEntreprisesOfBatiment(any))
-              .thenAnswer((_) async => tListEntrepriseModel);
+          final expectedData = tListEntrepriseModel
+              .where(
+                  (e) => e.idBatiment == tListEntrepriseModel.first.idBatiment)
+              .toList();
+          when(mockRemoteDataSource.fetchEntreprisesOfBatiment(
+                  tListEntrepriseModel.first.idBatiment))
+              .thenAnswer((_) async => expectedData);
           // act
-          await repository.fetchEntreprisesOfBatiment(38);
+          await repository.fetchEntreprisesOfBatiment(
+              tListEntrepriseModel.first.idBatiment);
           // assert
-          verify(mockRemoteDataSource.fetchEntreprisesOfBatiment(any));
-          verify(mockLocalDataSource.cacheAllEntreprise(tListEntrepriseModel));
+          verify(mockRemoteDataSource.fetchEntreprisesOfBatiment(
+              tListEntrepriseModel.first.idBatiment));
+          verify(mockLocalDataSource.cacheAllEntreprise(expectedData));
         },
       );
 
@@ -121,15 +125,12 @@ void main() {
         () async {
           // arrange
           when(mockRemoteDataSource.fetchEntreprisesOfBatiment(any))
-              .thenThrow(ServerException());
+              .thenAnswer((_) => throw ServerException());
           // act
           final call = repository.fetchEntreprisesOfBatiment;
-          try {
-            await call(38);
-            fail("exception not thrown");
-          } catch (e) {
-            expect(e, isInstanceOf<ServerException>());
-          }
+          // assert
+          expect(() => call(tListEntrepriseModel.first.idBatiment),
+              throwsA(isA<ServerException>()));
         },
       );
     });
@@ -139,14 +140,22 @@ void main() {
         'should return last locally cached data when the cached data is present',
         () async {
           // arrange
-          when(mockLocalDataSource.fetchEntreprisesOfBatiment(any))
-              .thenAnswer((_) => tListEntrepriseModel);
+          final expectedData = tListEntrepriseModel
+              .where(
+                  (e) => e.idBatiment == tListEntrepriseModel.first.idBatiment)
+              .toList();
+          when(mockLocalDataSource.fetchEntreprisesOfBatiment(
+                  tListEntrepriseModel.first.idBatiment))
+              .thenAnswer((_) => expectedData);
           // act
-          final result = await repository.fetchEntreprisesOfBatiment(1);
+          final result = await repository.fetchEntreprisesOfBatiment(
+              tListEntrepriseModel.first.idBatiment);
           // assert
           verifyZeroInteractions(mockRemoteDataSource);
-          verify(mockLocalDataSource.fetchEntreprisesOfBatiment(any));
-          expect(result, equals(tListEntreprise));
+          verify(mockLocalDataSource.fetchEntreprisesOfBatiment(
+              tListEntrepriseModel.first.idBatiment));
+          expect(
+              result, equals(expectedData.map((e) => e.toEntity()).toList()));
         },
       );
 
@@ -155,16 +164,12 @@ void main() {
         () async {
           // arrange
           when(mockLocalDataSource.fetchEntreprisesOfBatiment(any))
-              .thenThrow(CacheException());
+              .thenAnswer((_) => throw CacheException());
           // act
           final call = repository.fetchEntreprisesOfBatiment;
           // assert
-          try {
-            await call(38);
-            fail("exception not thrown");
-          } catch (e) {
-            expect(e, isInstanceOf<CacheException>());
-          }
+          expect(() => call(tListEntrepriseModel.first.idBatiment),
+              throwsA(isA<CacheException>()));
         },
       );
     });

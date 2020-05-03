@@ -16,7 +16,7 @@ class _$ServiceCategoriesEventTearOff {
     return const FetchServiceCategoriesEvent();
   }
 
-  RefreshServiceCategoriesEvent refresh(List<Categorie> categories) {
+  RefreshServiceCategoriesEvent refresh(List<ServiceCategorie> categories) {
     return RefreshServiceCategoriesEvent(
       categories,
     );
@@ -30,12 +30,12 @@ mixin _$ServiceCategoriesEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result fetch(),
-    @required Result refresh(List<Categorie> categories),
+    @required Result refresh(List<ServiceCategorie> categories),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result fetch(),
-    Result refresh(List<Categorie> categories),
+    Result refresh(List<ServiceCategorie> categories),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -114,7 +114,7 @@ class _$FetchServiceCategoriesEvent
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result fetch(),
-    @required Result refresh(List<Categorie> categories),
+    @required Result refresh(List<ServiceCategorie> categories),
   }) {
     assert(fetch != null);
     assert(refresh != null);
@@ -125,7 +125,7 @@ class _$FetchServiceCategoriesEvent
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result fetch(),
-    Result refresh(List<Categorie> categories),
+    Result refresh(List<ServiceCategorie> categories),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -170,7 +170,7 @@ abstract class $RefreshServiceCategoriesEventCopyWith<$Res> {
           RefreshServiceCategoriesEvent value,
           $Res Function(RefreshServiceCategoriesEvent) then) =
       _$RefreshServiceCategoriesEventCopyWithImpl<$Res>;
-  $Res call({List<Categorie> categories});
+  $Res call({List<ServiceCategorie> categories});
 }
 
 class _$RefreshServiceCategoriesEventCopyWithImpl<$Res>
@@ -190,7 +190,9 @@ class _$RefreshServiceCategoriesEventCopyWithImpl<$Res>
     Object categories = freezed,
   }) {
     return _then(RefreshServiceCategoriesEvent(
-      categories == freezed ? _value.categories : categories as List<Categorie>,
+      categories == freezed
+          ? _value.categories
+          : categories as List<ServiceCategorie>,
     ));
   }
 }
@@ -202,7 +204,7 @@ class _$RefreshServiceCategoriesEvent
       : assert(categories != null);
 
   @override
-  final List<Categorie> categories;
+  final List<ServiceCategorie> categories;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -239,7 +241,7 @@ class _$RefreshServiceCategoriesEvent
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result fetch(),
-    @required Result refresh(List<Categorie> categories),
+    @required Result refresh(List<ServiceCategorie> categories),
   }) {
     assert(fetch != null);
     assert(refresh != null);
@@ -250,7 +252,7 @@ class _$RefreshServiceCategoriesEvent
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result fetch(),
-    Result refresh(List<Categorie> categories),
+    Result refresh(List<ServiceCategorie> categories),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -287,10 +289,10 @@ class _$RefreshServiceCategoriesEvent
 }
 
 abstract class RefreshServiceCategoriesEvent implements ServiceCategoriesEvent {
-  const factory RefreshServiceCategoriesEvent(List<Categorie> categories) =
-      _$RefreshServiceCategoriesEvent;
+  const factory RefreshServiceCategoriesEvent(
+      List<ServiceCategorie> categories) = _$RefreshServiceCategoriesEvent;
 
-  List<Categorie> get categories;
+  List<ServiceCategorie> get categories;
   $RefreshServiceCategoriesEventCopyWith<RefreshServiceCategoriesEvent>
       get copyWith;
 }
@@ -306,7 +308,7 @@ class _$ServiceCategoriesStateTearOff {
     return const CategoriesLoading();
   }
 
-  CategoriesLoaded loaded(List<Categorie> categories) {
+  CategoriesLoaded loaded(List<ServiceCategorie> categories) {
     return CategoriesLoaded(
       categories,
     );
@@ -327,14 +329,14 @@ mixin _$ServiceCategoriesState {
   Result when<Result extends Object>({
     @required Result initial(),
     @required Result loading(),
-    @required Result loaded(List<Categorie> categories),
+    @required Result loaded(List<ServiceCategorie> categories),
     @required Result error(String message),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
     Result loading(),
-    Result loaded(List<Categorie> categories),
+    Result loaded(List<ServiceCategorie> categories),
     Result error(String message),
     @required Result orElse(),
   });
@@ -417,7 +419,7 @@ class _$CategoriesInitial
   Result when<Result extends Object>({
     @required Result initial(),
     @required Result loading(),
-    @required Result loaded(List<Categorie> categories),
+    @required Result loaded(List<ServiceCategorie> categories),
     @required Result error(String message),
   }) {
     assert(initial != null);
@@ -432,7 +434,7 @@ class _$CategoriesInitial
   Result maybeWhen<Result extends Object>({
     Result initial(),
     Result loading(),
-    Result loaded(List<Categorie> categories),
+    Result loaded(List<ServiceCategorie> categories),
     Result error(String message),
     @required Result orElse(),
   }) {
@@ -526,7 +528,7 @@ class _$CategoriesLoading
   Result when<Result extends Object>({
     @required Result initial(),
     @required Result loading(),
-    @required Result loaded(List<Categorie> categories),
+    @required Result loaded(List<ServiceCategorie> categories),
     @required Result error(String message),
   }) {
     assert(initial != null);
@@ -541,7 +543,7 @@ class _$CategoriesLoading
   Result maybeWhen<Result extends Object>({
     Result initial(),
     Result loading(),
-    Result loaded(List<Categorie> categories),
+    Result loaded(List<ServiceCategorie> categories),
     Result error(String message),
     @required Result orElse(),
   }) {
@@ -592,7 +594,7 @@ abstract class $CategoriesLoadedCopyWith<$Res> {
   factory $CategoriesLoadedCopyWith(
           CategoriesLoaded value, $Res Function(CategoriesLoaded) then) =
       _$CategoriesLoadedCopyWithImpl<$Res>;
-  $Res call({List<Categorie> categories});
+  $Res call({List<ServiceCategorie> categories});
 }
 
 class _$CategoriesLoadedCopyWithImpl<$Res>
@@ -610,7 +612,9 @@ class _$CategoriesLoadedCopyWithImpl<$Res>
     Object categories = freezed,
   }) {
     return _then(CategoriesLoaded(
-      categories == freezed ? _value.categories : categories as List<Categorie>,
+      categories == freezed
+          ? _value.categories
+          : categories as List<ServiceCategorie>,
     ));
   }
 }
@@ -621,7 +625,7 @@ class _$CategoriesLoaded
   const _$CategoriesLoaded(this.categories) : assert(categories != null);
 
   @override
-  final List<Categorie> categories;
+  final List<ServiceCategorie> categories;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -658,7 +662,7 @@ class _$CategoriesLoaded
   Result when<Result extends Object>({
     @required Result initial(),
     @required Result loading(),
-    @required Result loaded(List<Categorie> categories),
+    @required Result loaded(List<ServiceCategorie> categories),
     @required Result error(String message),
   }) {
     assert(initial != null);
@@ -673,7 +677,7 @@ class _$CategoriesLoaded
   Result maybeWhen<Result extends Object>({
     Result initial(),
     Result loading(),
-    Result loaded(List<Categorie> categories),
+    Result loaded(List<ServiceCategorie> categories),
     Result error(String message),
     @required Result orElse(),
   }) {
@@ -717,10 +721,10 @@ class _$CategoriesLoaded
 }
 
 abstract class CategoriesLoaded implements ServiceCategoriesState {
-  const factory CategoriesLoaded(List<Categorie> categories) =
+  const factory CategoriesLoaded(List<ServiceCategorie> categories) =
       _$CategoriesLoaded;
 
-  List<Categorie> get categories;
+  List<ServiceCategorie> get categories;
   $CategoriesLoadedCopyWith<CategoriesLoaded> get copyWith;
 }
 
@@ -793,7 +797,7 @@ class _$CategoriesError
   Result when<Result extends Object>({
     @required Result initial(),
     @required Result loading(),
-    @required Result loaded(List<Categorie> categories),
+    @required Result loaded(List<ServiceCategorie> categories),
     @required Result error(String message),
   }) {
     assert(initial != null);
@@ -808,7 +812,7 @@ class _$CategoriesError
   Result maybeWhen<Result extends Object>({
     Result initial(),
     Result loading(),
-    Result loaded(List<Categorie> categories),
+    Result loaded(List<ServiceCategorie> categories),
     Result error(String message),
     @required Result orElse(),
   }) {

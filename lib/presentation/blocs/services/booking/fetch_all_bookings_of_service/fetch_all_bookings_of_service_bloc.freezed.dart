@@ -12,7 +12,7 @@ T _$identity<T>(T value) => value;
 class _$FetchAllBookingsOfServiceEventTearOff {
   const _$FetchAllBookingsOfServiceEventTearOff();
 
-  FetchAllBookingsOfServiceFetch fetch(String service_id) {
+  FetchAllBookingsOfServiceFetch fetch(int service_id) {
     return FetchAllBookingsOfServiceFetch(
       service_id,
     );
@@ -32,12 +32,12 @@ const $FetchAllBookingsOfServiceEvent =
 mixin _$FetchAllBookingsOfServiceEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result fetch(String service_id),
+    @required Result fetch(int service_id),
     @required Result refresh(List<Booking> bookings),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result fetch(String service_id),
+    Result fetch(int service_id),
     Result refresh(List<Booking> bookings),
     @required Result orElse(),
   });
@@ -75,7 +75,7 @@ abstract class $FetchAllBookingsOfServiceFetchCopyWith<$Res> {
           FetchAllBookingsOfServiceFetch value,
           $Res Function(FetchAllBookingsOfServiceFetch) then) =
       _$FetchAllBookingsOfServiceFetchCopyWithImpl<$Res>;
-  $Res call({String service_id});
+  $Res call({int service_id});
 }
 
 class _$FetchAllBookingsOfServiceFetchCopyWithImpl<$Res>
@@ -95,7 +95,7 @@ class _$FetchAllBookingsOfServiceFetchCopyWithImpl<$Res>
     Object service_id = freezed,
   }) {
     return _then(FetchAllBookingsOfServiceFetch(
-      service_id == freezed ? _value.service_id : service_id as String,
+      service_id == freezed ? _value.service_id : service_id as int,
     ));
   }
 }
@@ -106,7 +106,7 @@ class _$FetchAllBookingsOfServiceFetch
       : assert(service_id != null);
 
   @override
-  final String service_id;
+  final int service_id;
 
   @override
   String toString() {
@@ -134,7 +134,7 @@ class _$FetchAllBookingsOfServiceFetch
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result fetch(String service_id),
+    @required Result fetch(int service_id),
     @required Result refresh(List<Booking> bookings),
   }) {
     assert(fetch != null);
@@ -145,7 +145,7 @@ class _$FetchAllBookingsOfServiceFetch
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result fetch(String service_id),
+    Result fetch(int service_id),
     Result refresh(List<Booking> bookings),
     @required Result orElse(),
   }) {
@@ -184,10 +184,10 @@ class _$FetchAllBookingsOfServiceFetch
 
 abstract class FetchAllBookingsOfServiceFetch
     implements FetchAllBookingsOfServiceEvent {
-  const factory FetchAllBookingsOfServiceFetch(String service_id) =
+  const factory FetchAllBookingsOfServiceFetch(int service_id) =
       _$FetchAllBookingsOfServiceFetch;
 
-  String get service_id;
+  int get service_id;
   $FetchAllBookingsOfServiceFetchCopyWith<FetchAllBookingsOfServiceFetch>
       get copyWith;
 }
@@ -256,7 +256,7 @@ class _$FetchAllBookingsOfServiceRefresh
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result fetch(String service_id),
+    @required Result fetch(int service_id),
     @required Result refresh(List<Booking> bookings),
   }) {
     assert(fetch != null);
@@ -267,7 +267,7 @@ class _$FetchAllBookingsOfServiceRefresh
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result fetch(String service_id),
+    Result fetch(int service_id),
     Result refresh(List<Booking> bookings),
     @required Result orElse(),
   }) {

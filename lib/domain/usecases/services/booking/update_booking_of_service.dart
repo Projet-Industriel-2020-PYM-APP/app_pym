@@ -28,6 +28,6 @@ class UpdateBookingOfService
     } else if (!params.appUser.isEmailVerified) {
       throw EmailNotVerifiedException();
     }
-    return repository.updateBookingOf(params.service_id, params.booking);
+    return repository.update(params.booking);
   }
 }

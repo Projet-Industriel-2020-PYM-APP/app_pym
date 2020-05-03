@@ -4,7 +4,6 @@ import 'package:app_pym/data/datasources/map_pym_local_data_source.dart';
 import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
 import 'package:app_pym/data/models/map_pym/batiment_model.dart';
 import 'package:app_pym/data/repositories/map_pym/batiment_repository_impl.dart';
-import 'package:app_pym/domain/entities/map_pym/batiment.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:app_pym/core/network/network_info.dart';
 import 'package:app_pym/injection_container.dart';
@@ -22,6 +21,12 @@ void main() {
   MapPymLocalDataSource mockLocalDataSource;
 
   init(env: Environment.test);
+
+  final tListBatimentModel =
+      (json.decode(fixture('map_pym/batiments.json')) as List)
+          .map((dynamic data) =>
+              BatimentModel.fromJson(data as Map<String, dynamic>))
+          .toList();
 
   setUp(() {
     mockRemoteDataSource = sl<MapPymRemoteDataSource>();
@@ -56,28 +61,15 @@ void main() {
     });
   }
 
-  group('fetchBatiment', () {
-    final tBatimentModel = BatimentModel.fromJson(
-        json.decode(fixture('map_pym/batiment.json')) as Map<String, dynamic>);
-    const tBatiment = Batiment(
-        id: 1,
-        accesHandicape: false,
-        adresse: "Rue",
-        description: "Description",
-        nbEtage: 2,
-        nom: "Entreprise",
-        url: "Super");
-
+  group('fetch', () {
     test(
       'should check if the device is online',
       () async {
         // arrange
         when(mockNetworkInfo.result)
             .thenAnswer((_) async => ConnectivityResult.wifi);
-        when(mockRemoteDataSource.fetchBatiment(any))
-            .thenAnswer((_) async => tBatimentModel);
         // act
-        await repository.fetchBatiment(1);
+        await repository.fetch(tListBatimentModel.first.id);
         // assert
         verify(mockNetworkInfo.result);
       },
@@ -88,13 +80,14 @@ void main() {
         'should return remote data when the call to remote data source is successful',
         () async {
           // arrange
-          when(mockRemoteDataSource.fetchBatiment(any))
-              .thenAnswer((_) async => tBatimentModel);
+          when(mockRemoteDataSource.fetchBatiment(tListBatimentModel.first.id))
+              .thenAnswer((_) async => tListBatimentModel.first);
           // act
-          final result = await repository.fetchBatiment(1);
+          final result = await repository.fetch(tListBatimentModel.first.id);
           // assert
-          verify(mockRemoteDataSource.fetchBatiment(any));
-          expect(result, equals(tBatiment));
+          verify(
+              mockRemoteDataSource.fetchBatiment(tListBatimentModel.first.id));
+          expect(result, equals(tListBatimentModel.first.toEntity()));
         },
       );
 
@@ -102,13 +95,14 @@ void main() {
         'should cache the data locally when the call to remote data source is successful',
         () async {
           // arrange
-          when(mockRemoteDataSource.fetchBatiment(any))
-              .thenAnswer((_) async => tBatimentModel);
+          when(mockRemoteDataSource.fetchBatiment(tListBatimentModel.first.id))
+              .thenAnswer((_) async => tListBatimentModel.first);
           // act
-          await repository.fetchBatiment(1);
+          await repository.fetch(tListBatimentModel.first.id);
           // assert
-          verify(mockRemoteDataSource.fetchBatiment(any));
-          verify(mockLocalDataSource.cacheBatiment(tBatimentModel));
+          verify(
+              mockRemoteDataSource.fetchBatiment(tListBatimentModel.first.id));
+          verify(mockLocalDataSource.cacheBatiment(tListBatimentModel.first));
         },
       );
 
@@ -117,15 +111,12 @@ void main() {
         () async {
           // arrange
           when(mockRemoteDataSource.fetchBatiment(any))
-              .thenThrow(ServerException());
+              .thenAnswer((_) async => throw ServerException());
           // act
-          final call = repository.fetchBatiment;
-          try {
-            await call(1);
-            fail("exception not thrown");
-          } catch (e) {
-            expect(e, isInstanceOf<ServerException>());
-          }
+          final call = repository.fetch;
+          // assert
+          expect(() => call(tListBatimentModel.first.id),
+              throwsA(isA<ServerException>()));
         },
       );
     });
@@ -135,14 +126,15 @@ void main() {
         'should return last locally cached data when the cached data is present',
         () async {
           // arrange
-          when(mockLocalDataSource.fetchBatiment(any))
-              .thenAnswer((_) => tBatimentModel);
+          when(mockLocalDataSource.fetchBatiment(tListBatimentModel.first.id))
+              .thenAnswer((_) => tListBatimentModel.first);
           // act
-          final result = await repository.fetchBatiment(1);
+          final result = await repository.fetch(tListBatimentModel.first.id);
           // assert
           verifyZeroInteractions(mockRemoteDataSource);
-          verify(mockLocalDataSource.fetchBatiment(any));
-          expect(result, equals(tBatiment));
+          verify(
+              mockLocalDataSource.fetchBatiment(tListBatimentModel.first.id));
+          expect(result, equals(tListBatimentModel.first.toEntity()));
         },
       );
 
@@ -151,16 +143,102 @@ void main() {
         () async {
           // arrange
           when(mockLocalDataSource.fetchBatiment(any))
-              .thenThrow(CacheException());
+              .thenAnswer((_) => throw CacheException());
           // act
-          final call = repository.fetchBatiment;
+          final call = repository.fetch;
           // assert
-          try {
-            await call(1);
-            fail("exception not thrown");
-          } catch (e) {
-            expect(e, isInstanceOf<CacheException>());
-          }
+          expect(() => call(tListBatimentModel.first.id),
+              throwsA(isA<CacheException>()));
+        },
+      );
+    });
+  });
+
+  group('fetchAll', () {
+    test(
+      'should check if the device is online',
+      () async {
+        // arrange
+        when(mockNetworkInfo.result)
+            .thenAnswer((_) async => ConnectivityResult.wifi);
+        // act
+        await repository.fetchAll();
+        // assert
+        verify(mockNetworkInfo.result);
+      },
+    );
+
+    runTestsOnline(() {
+      test(
+        'should return remote data when the call to remote data source is successful',
+        () async {
+          // arrange
+          when(mockRemoteDataSource.fetchAllBatiment())
+              .thenAnswer((_) async => tListBatimentModel);
+          // act
+          final result = await repository.fetchAll();
+          // assert
+          verify(mockRemoteDataSource.fetchAllBatiment());
+          expect(result,
+              equals(tListBatimentModel.map((e) => e.toEntity()).toList()));
+        },
+      );
+
+      test(
+        'should cache the data locally when the call to remote data source is successful',
+        () async {
+          // arrange
+          when(mockRemoteDataSource.fetchAllBatiment())
+              .thenAnswer((_) async => tListBatimentModel);
+          // act
+          await repository.fetchAll();
+          // assert
+          verify(mockRemoteDataSource.fetchAllBatiment());
+          verify(mockLocalDataSource.cacheAllBatiment(tListBatimentModel));
+        },
+      );
+
+      test(
+        'should return server failure when the call to remote data source is unsuccessful',
+        () async {
+          // arrange
+          when(mockRemoteDataSource.fetchAllBatiment())
+              .thenAnswer((_) async => throw ServerException());
+          // act
+          final call = repository.fetchAll();
+          // assert
+          expect(call, throwsA(isA<ServerException>()));
+        },
+      );
+    });
+
+    runTestsOffline(() {
+      test(
+        'should return last locally cached data when the cached data is present',
+        () async {
+          // arrange
+          when(mockLocalDataSource.fetchAllBatiment())
+              .thenAnswer((_) => tListBatimentModel);
+          // act
+          final result = await repository.fetchAll();
+          // assert
+          verifyZeroInteractions(mockRemoteDataSource);
+          verify(mockLocalDataSource.fetchAllBatiment());
+          expect(result,
+              equals(tListBatimentModel.map((e) => e.toEntity()).toList()));
+        },
+      );
+
+      test(
+        'should return CacheFailure when there is no cached data present',
+        () async {
+          // arrange
+          when(mockLocalDataSource.fetchAllBatiment())
+              .thenAnswer((_) => throw CacheException());
+          // act
+          final call = repository.fetchAll();
+          // assert
+          expect(call, throwsA(isA<CacheException>()));
         },
       );
     });

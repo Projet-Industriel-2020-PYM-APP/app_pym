@@ -1,5 +1,5 @@
-import 'package:app_pym/domain/entities/blogger/post.dart';
-import 'package:app_pym/domain/repositories/blogger/post_repository.dart';
+import 'package:app_pym/domain/entities/app_pym/post.dart';
+import 'package:app_pym/domain/repositories/app_pym/post_repository.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../core/usecases/usecase.dart';
@@ -14,6 +14,6 @@ class GetPosts extends Usecase<Future<List<Post>>, NoParams> {
 
   @override
   Future<List<Post>> call(NoParams _) {
-    return repository.getPosts();
+    return repository.fetchAll();
   }
 }

@@ -1,14 +1,14 @@
+import 'package:app_pym/domain/entities/app_pym/service_categorie.dart';
 import 'package:app_pym/injection_container.dart';
 import 'package:breakpoint/breakpoint.dart';
 import 'package:flutter/material.dart';
 import 'package:app_pym/domain/entities/app_pym/service.dart';
-import 'package:app_pym/domain/entities/app_pym/categorie.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app_pym/presentation/blocs/services/services_of_categorie/services_of_categorie_bloc.dart';
 import 'package:app_pym/presentation/pages/services/fetch_all_bookings_screen.dart';
 
 class ServicesOfCategoriePage extends StatelessWidget {
-  final Categorie categorie;
+  final ServiceCategorie categorie;
 
   const ServicesOfCategoriePage(this.categorie, {Key key}) : super(key: key);
 
@@ -21,7 +21,7 @@ class ServicesOfCategoriePage extends StatelessWidget {
   }
 
   BlocProvider<ServicesOfCategorieBloc> buildServices(
-      BuildContext context, Categorie categorie) {
+      BuildContext context, ServiceCategorie categorie) {
     return BlocProvider<ServicesOfCategorieBloc>(
       create: (_) {
         final ServicesOfCategorieBloc bloc = sl<ServicesOfCategorieBloc>();
@@ -52,7 +52,7 @@ class ServicesOfCategoriePage extends StatelessWidget {
 }
 
 class ServicesOfCategorieScreen extends StatelessWidget {
-  final Categorie categorie;
+  final ServiceCategorie categorie;
   final List<Service> services;
 
   const ServicesOfCategorieScreen(this.services, this.categorie);

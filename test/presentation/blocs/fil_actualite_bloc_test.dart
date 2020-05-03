@@ -1,5 +1,5 @@
 import 'package:app_pym/core/usecases/usecase.dart';
-import 'package:app_pym/domain/entities/blogger/post.dart';
+import 'package:app_pym/domain/entities/app_pym/post.dart';
 import 'package:app_pym/domain/usecases/fil_actualite/get_posts.dart';
 import 'package:app_pym/injection_container.dart';
 import 'package:app_pym/presentation/blocs/fil_actualite/fil_actualite_bloc.dart';
@@ -29,7 +29,7 @@ void main() {
     final DateTime tDateTime = DateTime.parse("1970-01-01T00:00:00.000Z");
     final tPost = Post(
       content: 'content',
-      id: 'id',
+      id: 0,
       published: tDateTime,
       title: 'title',
       updated: tDateTime,

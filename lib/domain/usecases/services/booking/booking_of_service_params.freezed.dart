@@ -13,11 +13,9 @@ class _$BookingOfServiceParamsTearOff {
   const _$BookingOfServiceParamsTearOff();
 
   _BookingOfServiceParams call(
-      {@required @nullable String service_id,
-      @required @nullable Booking booking,
+      {@required @nullable Booking booking,
       @required @nullable AppUser appUser}) {
     return _BookingOfServiceParams(
-      service_id: service_id,
       booking: booking,
       appUser: appUser,
     );
@@ -28,8 +26,6 @@ class _$BookingOfServiceParamsTearOff {
 const $BookingOfServiceParams = _$BookingOfServiceParamsTearOff();
 
 mixin _$BookingOfServiceParams {
-  @nullable
-  String get service_id;
   @nullable
   Booking get booking;
   @nullable
@@ -42,10 +38,7 @@ abstract class $BookingOfServiceParamsCopyWith<$Res> {
   factory $BookingOfServiceParamsCopyWith(BookingOfServiceParams value,
           $Res Function(BookingOfServiceParams) then) =
       _$BookingOfServiceParamsCopyWithImpl<$Res>;
-  $Res call(
-      {@nullable String service_id,
-      @nullable Booking booking,
-      @nullable AppUser appUser});
+  $Res call({@nullable Booking booking, @nullable AppUser appUser});
 
   $BookingCopyWith<$Res> get booking;
   $AppUserCopyWith<$Res> get appUser;
@@ -61,13 +54,10 @@ class _$BookingOfServiceParamsCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object service_id = freezed,
     Object booking = freezed,
     Object appUser = freezed,
   }) {
     return _then(_value.copyWith(
-      service_id:
-          service_id == freezed ? _value.service_id : service_id as String,
       booking: booking == freezed ? _value.booking : booking as Booking,
       appUser: appUser == freezed ? _value.appUser : appUser as AppUser,
     ));
@@ -100,10 +90,7 @@ abstract class _$BookingOfServiceParamsCopyWith<$Res>
           $Res Function(_BookingOfServiceParams) then) =
       __$BookingOfServiceParamsCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {@nullable String service_id,
-      @nullable Booking booking,
-      @nullable AppUser appUser});
+  $Res call({@nullable Booking booking, @nullable AppUser appUser});
 
   @override
   $BookingCopyWith<$Res> get booking;
@@ -123,13 +110,10 @@ class __$BookingOfServiceParamsCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object service_id = freezed,
     Object booking = freezed,
     Object appUser = freezed,
   }) {
     return _then(_BookingOfServiceParams(
-      service_id:
-          service_id == freezed ? _value.service_id : service_id as String,
       booking: booking == freezed ? _value.booking : booking as Booking,
       appUser: appUser == freezed ? _value.appUser : appUser as AppUser,
     ));
@@ -138,13 +122,8 @@ class __$BookingOfServiceParamsCopyWithImpl<$Res>
 
 class _$_BookingOfServiceParams implements _BookingOfServiceParams {
   const _$_BookingOfServiceParams(
-      {@required @nullable this.service_id,
-      @required @nullable this.booking,
-      @required @nullable this.appUser});
+      {@required @nullable this.booking, @required @nullable this.appUser});
 
-  @override
-  @nullable
-  final String service_id;
   @override
   @nullable
   final Booking booking;
@@ -154,16 +133,13 @@ class _$_BookingOfServiceParams implements _BookingOfServiceParams {
 
   @override
   String toString() {
-    return 'BookingOfServiceParams(service_id: $service_id, booking: $booking, appUser: $appUser)';
+    return 'BookingOfServiceParams(booking: $booking, appUser: $appUser)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _BookingOfServiceParams &&
-            (identical(other.service_id, service_id) ||
-                const DeepCollectionEquality()
-                    .equals(other.service_id, service_id)) &&
             (identical(other.booking, booking) ||
                 const DeepCollectionEquality()
                     .equals(other.booking, booking)) &&
@@ -174,7 +150,6 @@ class _$_BookingOfServiceParams implements _BookingOfServiceParams {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(service_id) ^
       const DeepCollectionEquality().hash(booking) ^
       const DeepCollectionEquality().hash(appUser);
 
@@ -186,13 +161,9 @@ class _$_BookingOfServiceParams implements _BookingOfServiceParams {
 
 abstract class _BookingOfServiceParams implements BookingOfServiceParams {
   const factory _BookingOfServiceParams(
-      {@required @nullable String service_id,
-      @required @nullable Booking booking,
+      {@required @nullable Booking booking,
       @required @nullable AppUser appUser}) = _$_BookingOfServiceParams;
 
-  @override
-  @nullable
-  String get service_id;
   @override
   @nullable
   Booking get booking;

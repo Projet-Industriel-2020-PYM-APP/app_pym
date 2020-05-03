@@ -12,9 +12,9 @@ T _$identity<T>(T value) => value;
 class _$ActionTearOff {
   const _$ActionTearOff();
 
-  _Action call({String id, String name, String html_url}) {
+  _Action call(
+      {@required @nullable String name, @required @nullable String html_url}) {
     return _Action(
-      id: id,
       name: name,
       html_url: html_url,
     );
@@ -25,8 +25,9 @@ class _$ActionTearOff {
 const $Action = _$ActionTearOff();
 
 mixin _$Action {
-  String get id;
+  @nullable
   String get name;
+  @nullable
   String get html_url;
 
   $ActionCopyWith<Action> get copyWith;
@@ -35,7 +36,7 @@ mixin _$Action {
 abstract class $ActionCopyWith<$Res> {
   factory $ActionCopyWith(Action value, $Res Function(Action) then) =
       _$ActionCopyWithImpl<$Res>;
-  $Res call({String id, String name, String html_url});
+  $Res call({@nullable String name, @nullable String html_url});
 }
 
 class _$ActionCopyWithImpl<$Res> implements $ActionCopyWith<$Res> {
@@ -47,12 +48,10 @@ class _$ActionCopyWithImpl<$Res> implements $ActionCopyWith<$Res> {
 
   @override
   $Res call({
-    Object id = freezed,
     Object name = freezed,
     Object html_url = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed ? _value.id : id as String,
       name: name == freezed ? _value.name : name as String,
       html_url: html_url == freezed ? _value.html_url : html_url as String,
     ));
@@ -63,7 +62,7 @@ abstract class _$ActionCopyWith<$Res> implements $ActionCopyWith<$Res> {
   factory _$ActionCopyWith(_Action value, $Res Function(_Action) then) =
       __$ActionCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String name, String html_url});
+  $Res call({@nullable String name, @nullable String html_url});
 }
 
 class __$ActionCopyWithImpl<$Res> extends _$ActionCopyWithImpl<$Res>
@@ -76,12 +75,10 @@ class __$ActionCopyWithImpl<$Res> extends _$ActionCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object id = freezed,
     Object name = freezed,
     Object html_url = freezed,
   }) {
     return _then(_Action(
-      id: id == freezed ? _value.id : id as String,
       name: name == freezed ? _value.name : name as String,
       html_url: html_url == freezed ? _value.html_url : html_url as String,
     ));
@@ -89,26 +86,25 @@ class __$ActionCopyWithImpl<$Res> extends _$ActionCopyWithImpl<$Res>
 }
 
 class _$_Action implements _Action {
-  const _$_Action({this.id, this.name, this.html_url});
+  const _$_Action(
+      {@required @nullable this.name, @required @nullable this.html_url});
 
   @override
-  final String id;
-  @override
+  @nullable
   final String name;
   @override
+  @nullable
   final String html_url;
 
   @override
   String toString() {
-    return 'Action(id: $id, name: $name, html_url: $html_url)';
+    return 'Action(name: $name, html_url: $html_url)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _Action &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.html_url, html_url) ||
@@ -119,7 +115,6 @@ class _$_Action implements _Action {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(html_url);
 
@@ -129,13 +124,15 @@ class _$_Action implements _Action {
 }
 
 abstract class _Action implements Action {
-  const factory _Action({String id, String name, String html_url}) = _$_Action;
+  const factory _Action(
+      {@required @nullable String name,
+      @required @nullable String html_url}) = _$_Action;
 
   @override
-  String get id;
-  @override
+  @nullable
   String get name;
   @override
+  @nullable
   String get html_url;
   @override
   _$ActionCopyWith<_Action> get copyWith;

@@ -1,37 +1,27 @@
 import 'package:app_pym/data/models/app_pym/action_model.dart';
 import 'package:app_pym/domain/entities/app_pym/service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hive/hive.dart';
 
 part 'service_model.freezed.dart';
+part 'service_model.g.dart';
 
 @freezed
 abstract class ServiceModel with _$ServiceModel {
+  @JsonSerializable(explicitToJson: true)
+  @HiveType(typeId: 8)
   const factory ServiceModel({
-    String id,
-    String title,
-    DocumentReference categorie_ref,
-    String subtitle,
-    String address,
-    String img_url,
-    List<ActionModel> actions,
+    @required @HiveField(0) int id,
+    @required @nullable @HiveField(1) String title,
+    @required @nullable @HiveField(2) int categorie_id,
+    @required @nullable @HiveField(3) String subtitle,
+    @required @nullable @HiveField(4) String address,
+    @required @nullable @HiveField(5) String img_url,
+    @required @nullable @HiveField(6) List<ActionModel> actions,
   }) = _ServiceModel;
 
-  factory ServiceModel.fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data;
-
-    return ServiceModel(
-      id: doc.documentID,
-      title: data['title'] as String,
-      categorie_ref: data['categorie_ref'] as DocumentReference,
-      subtitle: data['subtitle'] as String,
-      address: data['address'] as String,
-      img_url: data['img_url'] as String,
-      actions: (data["actions"] as List)
-          ?.map((dynamic e) => ActionModel.fromMap(e as Map<String, dynamic>))
-          ?.toList(),
-    );
-  }
+  factory ServiceModel.fromJson(Map<String, dynamic> json) =>
+      _$ServiceModelFromJson(json);
 }
 
 extension ServiceModelX on ServiceModel {
@@ -39,7 +29,7 @@ extension ServiceModelX on ServiceModel {
     return Service(
       id: this.id,
       title: this.title,
-      categorie_ref: this.categorie_ref.toString(),
+      categorie_id: this.categorie_id,
       subtitle: this.subtitle,
       address: this.address,
       img_url: this.img_url,
@@ -47,3 +37,5 @@ extension ServiceModelX on ServiceModel {
     );
   }
 }
+
+TypeAdapter<ServiceModel> ServiceModelAdapter() => _$_ServiceModelAdapter();
