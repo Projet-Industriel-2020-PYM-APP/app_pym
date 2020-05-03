@@ -31,187 +31,216 @@ class BookingEditDeleteBottomSheetState
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  controller: _titleController,
-                  decoration: const InputDecoration(
-                    hintText: 'Titre',
-                  ),
-                  style: Theme.of(context).textTheme.headline6,
-                  validator: (_) {
-                    return !_bloc.state.isTitleValid
-                        ? 'Ne doit pas être vide'
-                        : null;
-                  },
-                  autovalidate: true,
+    return BlocListener<BookingOfServiceBloc, BookingOfServiceState>(
+      bloc: _bloc,
+      listener: (context, state) {
+        if (state.isFailure) {
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Text(state.error.toString()),
+                backgroundColor: Colors.red,
+              ),
+            );
+        }
+        if (state.isSubmitting) {
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Envoi...'),
+                    const CircularProgressIndicator(),
+                  ],
                 ),
               ),
-              OutlineButton(
-                color: Colors.red,
-                onPressed: () {
-                  final state = context.bloc<AuthenticationBloc>().state;
-                  if (state is Authenticated) {
-                    _bloc.add(
-                      BookingOfServiceEvent.delete(
-                        booking: widget.booking,
-                        appUser: state.user,
-                      ),
-                    );
-                    Navigator.pop<bool>(context, true);
-                  } else {
-                    Scaffold.of(context).showSnackBar(const SnackBar(
-                      content: Text("Nécéssite d'être connecté"),
-                    ));
-                  }
-                },
-                child: const Text('SUPPRIMER'),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  context
-                      .bloc<AuthenticationBloc>()
-                      .add(const AuthenticationEvent.refresh());
-                  final state = context.bloc<AuthenticationBloc>().state;
-                  _bloc.add(TitleChanged(_titleController.text));
-                  if (state is Authenticated) {
-                    if (_bloc.state.isTitleValid) {
-                      final start_date = DateTime(
-                        _startDate.value.year,
-                        _startDate.value.month,
-                        _startDate.value.day,
-                        _startHour.value.hour,
-                        _startHour.value.minute,
-                      );
-
-                      final end_time = DateTime(
-                        _endDate.value.year,
-                        _endDate.value.month,
-                        _endDate.value.day,
-                        _endHour.value.hour,
-                        _endHour.value.minute,
-                      );
+            );
+        }
+        if (state.isSuccess) {
+          Navigator.pop<bool>(context, true);
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: _titleController,
+                    decoration: const InputDecoration(
+                      hintText: 'Titre',
+                    ),
+                    style: Theme.of(context).textTheme.headline6,
+                    validator: (_) {
+                      return !_bloc.state.isTitleValid
+                          ? 'Ne doit pas être vide'
+                          : null;
+                    },
+                    autovalidate: true,
+                  ),
+                ),
+                OutlineButton(
+                  color: Colors.red,
+                  onPressed: () {
+                    final state = context.bloc<AuthenticationBloc>().state;
+                    if (state is Authenticated) {
                       _bloc.add(
-                        BookingOfServiceEvent.update(
-                          booking: Booking(
-                            id: widget.booking.id,
-                            title: _titleController.text,
-                            start_date: start_date,
-                            end_date: end_time,
-                            service_id: widget.booking.service_id,
-                          ),
+                        BookingOfServiceEvent.delete(
+                          booking: widget.booking,
                           appUser: state.user,
                         ),
                       );
-                      Navigator.pop<bool>(context, true);
                     } else {
-                      Scaffold.of(context).showSnackBar(const SnackBar(
-                        content: Text("Veuillez ajouter un titre"),
-                      ));
+                      Navigator.pushNamed(context, RoutePaths.login);
                     }
-                  } else {
-                    Navigator.pushNamed(context, RoutePaths.login);
-                  }
-                },
-                child: const Text('MODIFIER'),
-              ),
-            ],
-          ),
-          const Divider(),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                const Icon(Icons.access_time),
-                ValueListenableBuilder<DateTime>(
-                  valueListenable: _startDate,
-                  builder: (BuildContext context, DateTime value, Widget _) {
-                    return FlatButton(
-                      onPressed: () {
-                        showDatePicker(
-                          context: context,
-                          initialDate: _startDate.value,
-                          firstDate: DateTime(2010),
-                          lastDate: _endDate.value,
-                        ).then((date) {
-                          if (date != null) {
-                            _startDate.value = date;
-                          }
-                        });
-                      },
-                      child: Text(DateFormat.yMMMd('fr_FR').format(value)),
-                    );
                   },
+                  child: const Text('SUPPRIMER'),
                 ),
-                ValueListenableBuilder<TimeOfDay>(
-                  valueListenable: _startHour,
-                  builder: (BuildContext context, TimeOfDay value, Widget _) {
-                    return FlatButton(
-                      onPressed: () {
-                        showTimePicker(
-                          context: context,
-                          initialTime: _startHour.value,
-                        ).then((date) {
-                          if (date != null) {
-                            _startHour.value = date;
-                          }
-                        });
-                      },
-                      child: Text(MaterialLocalizations.of(context)
-                          .formatTimeOfDay(value)),
-                    );
+                RaisedButton(
+                  onPressed: () {
+                    context
+                        .bloc<AuthenticationBloc>()
+                        .add(const AuthenticationEvent.refresh());
+                    final state = context.bloc<AuthenticationBloc>().state;
+                    _bloc.add(TitleChanged(_titleController.text));
+                    if (state is Authenticated) {
+                      if (_bloc.state.isTitleValid) {
+                        final start_date = DateTime(
+                          _startDate.value.year,
+                          _startDate.value.month,
+                          _startDate.value.day,
+                          _startHour.value.hour,
+                          _startHour.value.minute,
+                        );
+
+                        final end_time = DateTime(
+                          _endDate.value.year,
+                          _endDate.value.month,
+                          _endDate.value.day,
+                          _endHour.value.hour,
+                          _endHour.value.minute,
+                        );
+                        _bloc.add(
+                          BookingOfServiceEvent.update(
+                            booking: Booking(
+                              id: widget.booking.id,
+                              title: _titleController.text,
+                              start_date: start_date,
+                              end_date: end_time,
+                              service_id: widget.booking.service_id,
+                            ),
+                            appUser: state.user,
+                          ),
+                        );
+                      } else {
+                        Scaffold.of(context).showSnackBar(const SnackBar(
+                          content: Text("Veuillez ajouter un titre"),
+                        ));
+                      }
+                    } else {
+                      Navigator.pushNamed(context, RoutePaths.login);
+                    }
                   },
-                ),
-                const Text('-'),
-                ValueListenableBuilder<TimeOfDay>(
-                  valueListenable: _endHour,
-                  builder: (BuildContext context, TimeOfDay value, Widget _) {
-                    return FlatButton(
-                      onPressed: () {
-                        showTimePicker(
-                          context: context,
-                          initialTime: _endHour.value,
-                        ).then((date) {
-                          if (date != null) {
-                            _endHour.value = date;
-                          }
-                        });
-                      },
-                      child: Text(MaterialLocalizations.of(context)
-                          .formatTimeOfDay(value)),
-                    );
-                  },
-                ),
-                ValueListenableBuilder<DateTime>(
-                  valueListenable: _endDate,
-                  builder: (BuildContext context, DateTime value, Widget _) {
-                    return FlatButton(
-                      onPressed: () {
-                        showDatePicker(
-                          context: context,
-                          initialDate: _endDate.value,
-                          firstDate: _startDate.value,
-                          lastDate: DateTime(2101),
-                        ).then((date) {
-                          if (date != null) {
-                            _endDate.value = date;
-                          }
-                        });
-                      },
-                      child: Text(DateFormat.yMMMd('fr_FR').format(value)),
-                    );
-                  },
+                  child: const Text('MODIFIER'),
                 ),
               ],
             ),
-          ),
-        ],
+            const Divider(),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  const Icon(Icons.access_time),
+                  ValueListenableBuilder<DateTime>(
+                    valueListenable: _startDate,
+                    builder: (BuildContext context, DateTime value, Widget _) {
+                      return FlatButton(
+                        onPressed: () {
+                          showDatePicker(
+                            context: context,
+                            initialDate: _startDate.value,
+                            firstDate: DateTime(2010),
+                            lastDate: _endDate.value,
+                          ).then((date) {
+                            if (date != null) {
+                              _startDate.value = date;
+                            }
+                          });
+                        },
+                        child: Text(DateFormat.yMMMd('fr_FR').format(value)),
+                      );
+                    },
+                  ),
+                  ValueListenableBuilder<TimeOfDay>(
+                    valueListenable: _startHour,
+                    builder: (BuildContext context, TimeOfDay value, Widget _) {
+                      return FlatButton(
+                        onPressed: () {
+                          showTimePicker(
+                            context: context,
+                            initialTime: _startHour.value,
+                          ).then((date) {
+                            if (date != null) {
+                              _startHour.value = date;
+                            }
+                          });
+                        },
+                        child: Text(MaterialLocalizations.of(context)
+                            .formatTimeOfDay(value)),
+                      );
+                    },
+                  ),
+                  const Text('-'),
+                  ValueListenableBuilder<TimeOfDay>(
+                    valueListenable: _endHour,
+                    builder: (BuildContext context, TimeOfDay value, Widget _) {
+                      return FlatButton(
+                        onPressed: () {
+                          showTimePicker(
+                            context: context,
+                            initialTime: _endHour.value,
+                          ).then((date) {
+                            if (date != null) {
+                              _endHour.value = date;
+                            }
+                          });
+                        },
+                        child: Text(MaterialLocalizations.of(context)
+                            .formatTimeOfDay(value)),
+                      );
+                    },
+                  ),
+                  ValueListenableBuilder<DateTime>(
+                    valueListenable: _endDate,
+                    builder: (BuildContext context, DateTime value, Widget _) {
+                      return FlatButton(
+                        onPressed: () {
+                          showDatePicker(
+                            context: context,
+                            initialDate: _endDate.value,
+                            firstDate: _startDate.value,
+                            lastDate: DateTime(2101),
+                          ).then((date) {
+                            if (date != null) {
+                              _endDate.value = date;
+                            }
+                          });
+                        },
+                        child: Text(DateFormat.yMMMd('fr_FR').format(value)),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

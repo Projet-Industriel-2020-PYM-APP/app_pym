@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:app_pym/core/error/exceptions.dart';
 import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
 import 'package:app_pym/data/models/app_pym/booking_model.dart';
 import 'package:app_pym/data/models/app_pym/contact_categorie_model.dart';

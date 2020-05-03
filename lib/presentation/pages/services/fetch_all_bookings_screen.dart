@@ -68,8 +68,6 @@ class BookingCard extends StatelessWidget {
       ),
       builder: (newContext) {
         return Scaffold(
-          resizeToAvoidBottomInset: false,
-          resizeToAvoidBottomPadding: false,
           backgroundColor: Colors.transparent,
           body: BookingEditDeleteBottomSheet(
             booking: booking,
@@ -137,7 +135,23 @@ class FetchAllBookingsPage extends StatelessWidget {
                 key: Key(date.toString()), // Allow animation
               ),
               error: (e) => Center(
-                child: Text(e.toString()),
+                child: Wrap(
+                  direction: Axis.vertical,
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    Text(e),
+                    RaisedButton(
+                      onPressed: () => context
+                          .bloc<FetchAllBookingsOfServiceBloc>()
+                          .add(
+                              FetchAllBookingsOfServiceEvent.fetch(service.id)),
+                      child: Text(
+                        "Rafraîchir".toUpperCase(),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
@@ -157,8 +171,6 @@ class FetchAllBookingsPage extends StatelessWidget {
       ),
       builder: (newContext) {
         return Scaffold(
-          resizeToAvoidBottomInset: false,
-          resizeToAvoidBottomPadding: false,
           backgroundColor: Colors.transparent,
           body: BookingAddBottomSheet(
             hintDate: hintDate,
