@@ -22,7 +22,9 @@ class _$ServiceModelTearOff {
       @required @nullable @HiveField(3) String subtitle,
       @required @nullable @HiveField(4) String address,
       @required @nullable @HiveField(5) String img_url,
-      @required @nullable @HiveField(6) List<ActionModel> actions}) {
+      @required @nullable @HiveField(6) List<ActionModel> actions,
+      @required @nullable @HiveField(7) @nullable String telephone,
+      @required @nullable @HiveField(8) @nullable String website}) {
     return _ServiceModel(
       id: id,
       title: title,
@@ -31,6 +33,8 @@ class _$ServiceModelTearOff {
       address: address,
       img_url: img_url,
       actions: actions,
+      telephone: telephone,
+      website: website,
     );
   }
 }
@@ -59,6 +63,14 @@ mixin _$ServiceModel {
   @nullable
   @HiveField(6)
   List<ActionModel> get actions;
+  @nullable
+  @HiveField(7)
+  @nullable
+  String get telephone;
+  @nullable
+  @HiveField(8)
+  @nullable
+  String get website;
 
   Map<String, dynamic> toJson();
   $ServiceModelCopyWith<ServiceModel> get copyWith;
@@ -75,7 +87,9 @@ abstract class $ServiceModelCopyWith<$Res> {
       @nullable @HiveField(3) String subtitle,
       @nullable @HiveField(4) String address,
       @nullable @HiveField(5) String img_url,
-      @nullable @HiveField(6) List<ActionModel> actions});
+      @nullable @HiveField(6) List<ActionModel> actions,
+      @nullable @HiveField(7) @nullable String telephone,
+      @nullable @HiveField(8) @nullable String website});
 }
 
 class _$ServiceModelCopyWithImpl<$Res> implements $ServiceModelCopyWith<$Res> {
@@ -94,6 +108,8 @@ class _$ServiceModelCopyWithImpl<$Res> implements $ServiceModelCopyWith<$Res> {
     Object address = freezed,
     Object img_url = freezed,
     Object actions = freezed,
+    Object telephone = freezed,
+    Object website = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -105,6 +121,8 @@ class _$ServiceModelCopyWithImpl<$Res> implements $ServiceModelCopyWith<$Res> {
       img_url: img_url == freezed ? _value.img_url : img_url as String,
       actions:
           actions == freezed ? _value.actions : actions as List<ActionModel>,
+      telephone: telephone == freezed ? _value.telephone : telephone as String,
+      website: website == freezed ? _value.website : website as String,
     ));
   }
 }
@@ -122,7 +140,9 @@ abstract class _$ServiceModelCopyWith<$Res>
       @nullable @HiveField(3) String subtitle,
       @nullable @HiveField(4) String address,
       @nullable @HiveField(5) String img_url,
-      @nullable @HiveField(6) List<ActionModel> actions});
+      @nullable @HiveField(6) List<ActionModel> actions,
+      @nullable @HiveField(7) @nullable String telephone,
+      @nullable @HiveField(8) @nullable String website});
 }
 
 class __$ServiceModelCopyWithImpl<$Res> extends _$ServiceModelCopyWithImpl<$Res>
@@ -143,6 +163,8 @@ class __$ServiceModelCopyWithImpl<$Res> extends _$ServiceModelCopyWithImpl<$Res>
     Object address = freezed,
     Object img_url = freezed,
     Object actions = freezed,
+    Object telephone = freezed,
+    Object website = freezed,
   }) {
     return _then(_ServiceModel(
       id: id == freezed ? _value.id : id as int,
@@ -154,6 +176,8 @@ class __$ServiceModelCopyWithImpl<$Res> extends _$ServiceModelCopyWithImpl<$Res>
       img_url: img_url == freezed ? _value.img_url : img_url as String,
       actions:
           actions == freezed ? _value.actions : actions as List<ActionModel>,
+      telephone: telephone == freezed ? _value.telephone : telephone as String,
+      website: website == freezed ? _value.website : website as String,
     ));
   }
 }
@@ -168,7 +192,9 @@ class _$_ServiceModel implements _ServiceModel {
       @required @nullable @HiveField(3) this.subtitle,
       @required @nullable @HiveField(4) this.address,
       @required @nullable @HiveField(5) this.img_url,
-      @required @nullable @HiveField(6) this.actions})
+      @required @nullable @HiveField(6) this.actions,
+      @required @nullable @HiveField(7) @nullable this.telephone,
+      @required @nullable @HiveField(8) @nullable this.website})
       : assert(id != null);
 
   factory _$_ServiceModel.fromJson(Map<String, dynamic> json) =>
@@ -201,10 +227,20 @@ class _$_ServiceModel implements _ServiceModel {
   @nullable
   @HiveField(6)
   final List<ActionModel> actions;
+  @override
+  @nullable
+  @HiveField(7)
+  @nullable
+  final String telephone;
+  @override
+  @nullable
+  @HiveField(8)
+  @nullable
+  final String website;
 
   @override
   String toString() {
-    return 'ServiceModel(id: $id, title: $title, categorie_id: $categorie_id, subtitle: $subtitle, address: $address, img_url: $img_url, actions: $actions)';
+    return 'ServiceModel(id: $id, title: $title, categorie_id: $categorie_id, subtitle: $subtitle, address: $address, img_url: $img_url, actions: $actions, telephone: $telephone, website: $website)';
   }
 
   @override
@@ -228,7 +264,13 @@ class _$_ServiceModel implements _ServiceModel {
                 const DeepCollectionEquality()
                     .equals(other.img_url, img_url)) &&
             (identical(other.actions, actions) ||
-                const DeepCollectionEquality().equals(other.actions, actions)));
+                const DeepCollectionEquality()
+                    .equals(other.actions, actions)) &&
+            (identical(other.telephone, telephone) ||
+                const DeepCollectionEquality()
+                    .equals(other.telephone, telephone)) &&
+            (identical(other.website, website) ||
+                const DeepCollectionEquality().equals(other.website, website)));
   }
 
   @override
@@ -240,7 +282,9 @@ class _$_ServiceModel implements _ServiceModel {
       const DeepCollectionEquality().hash(subtitle) ^
       const DeepCollectionEquality().hash(address) ^
       const DeepCollectionEquality().hash(img_url) ^
-      const DeepCollectionEquality().hash(actions);
+      const DeepCollectionEquality().hash(actions) ^
+      const DeepCollectionEquality().hash(telephone) ^
+      const DeepCollectionEquality().hash(website);
 
   @override
   _$ServiceModelCopyWith<_ServiceModel> get copyWith =>
@@ -260,7 +304,9 @@ abstract class _ServiceModel implements ServiceModel {
           @required @nullable @HiveField(3) String subtitle,
           @required @nullable @HiveField(4) String address,
           @required @nullable @HiveField(5) String img_url,
-          @required @nullable @HiveField(6) List<ActionModel> actions}) =
+          @required @nullable @HiveField(6) List<ActionModel> actions,
+          @required @nullable @HiveField(7) @nullable String telephone,
+          @required @nullable @HiveField(8) @nullable String website}) =
       _$_ServiceModel;
 
   factory _ServiceModel.fromJson(Map<String, dynamic> json) =
@@ -293,6 +339,16 @@ abstract class _ServiceModel implements ServiceModel {
   @nullable
   @HiveField(6)
   List<ActionModel> get actions;
+  @override
+  @nullable
+  @HiveField(7)
+  @nullable
+  String get telephone;
+  @override
+  @nullable
+  @HiveField(8)
+  @nullable
+  String get website;
   @override
   _$ServiceModelCopyWith<_ServiceModel> get copyWith;
 }

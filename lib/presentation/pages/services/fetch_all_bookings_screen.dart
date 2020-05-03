@@ -20,7 +20,7 @@ class BookingCard extends StatelessWidget {
         ? DateFormat.Hm('fr_FR').format(booking.start_date)
         : '00:00';
     final shownEndDate = booking.end_date.day == this.date.day
-        ? DateFormat.Hm('fr_FR').format(booking.start_date)
+        ? DateFormat.Hm('fr_FR').format(booking.end_date)
         : '23:59';
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -38,8 +38,12 @@ class BookingCard extends StatelessWidget {
                 text: "${booking.title}\n",
                 children: [
                   TextSpan(
-                      text: "${shownStartDate} - ${shownEndDate}",
-                      style: Theme.of(context).textTheme.headline6),
+                    text: "${shownStartDate} - ${shownEndDate}",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        .apply(color: Colors.white),
+                  ),
                 ],
                 style: Theme.of(context)
                     .textTheme
@@ -64,6 +68,8 @@ class BookingCard extends StatelessWidget {
       ),
       builder: (newContext) {
         return Scaffold(
+          resizeToAvoidBottomInset: false,
+          resizeToAvoidBottomPadding: false,
           backgroundColor: Colors.transparent,
           body: BookingEditDeleteBottomSheet(
             booking: booking,
@@ -151,6 +157,8 @@ class FetchAllBookingsPage extends StatelessWidget {
       ),
       builder: (newContext) {
         return Scaffold(
+          resizeToAvoidBottomInset: false,
+          resizeToAvoidBottomPadding: false,
           backgroundColor: Colors.transparent,
           body: BookingAddBottomSheet(
             hintDate: hintDate,

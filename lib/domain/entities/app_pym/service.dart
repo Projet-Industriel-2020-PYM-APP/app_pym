@@ -11,6 +11,8 @@ abstract class Service with _$Service {
     @nullable @required int categorie_id,
     @nullable @required String subtitle,
     @nullable @required String address,
+    @nullable @required String telephone,
+    @nullable @required String website,
     @nullable @required String img_url,
     @nullable @required List<Action> actions,
   }) = _Service;

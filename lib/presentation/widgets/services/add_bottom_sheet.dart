@@ -1,3 +1,4 @@
+import 'package:app_pym/core/routes/routes.dart';
 import 'package:app_pym/domain/entities/app_pym/booking.dart';
 import 'package:app_pym/domain/entities/app_pym/service.dart';
 import 'package:app_pym/injection_container.dart';
@@ -37,12 +38,12 @@ class BookingAddBottomSheetState extends State<BookingAddBottomSheet> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
                 child: TextFormField(
                   controller: _titleController,
                   decoration: const InputDecoration(
-                    border: InputBorder.none,
                     hintText: 'Titre',
                   ),
                   style: Theme.of(context).textTheme.headline6,
@@ -51,10 +52,15 @@ class BookingAddBottomSheetState extends State<BookingAddBottomSheet> {
                         ? 'Ne doit pas être vide'
                         : null;
                   },
+                  autovalidate: true,
                 ),
               ),
               RaisedButton(
+                color: Theme.of(context).buttonColor,
                 onPressed: () {
+                  context
+                      .bloc<AuthenticationBloc>()
+                      .add(const AuthenticationEvent.refresh());
                   final state = context.bloc<AuthenticationBloc>().state;
                   if (state is Authenticated) {
                     if (_bloc.state.isTitleValid) {
@@ -93,9 +99,7 @@ class BookingAddBottomSheetState extends State<BookingAddBottomSheet> {
                       ));
                     }
                   } else {
-                    Scaffold.of(context).showSnackBar(const SnackBar(
-                      content: Text("Nécéssite d'être connecté"),
-                    ));
+                    Navigator.pushNamed(context, RoutePaths.login);
                   }
                 },
                 child: const Text('AJOUTER'),
@@ -103,89 +107,92 @@ class BookingAddBottomSheetState extends State<BookingAddBottomSheet> {
             ],
           ),
           const Divider(),
-          Row(
-            children: [
-              const Icon(Icons.access_time),
-              ValueListenableBuilder<DateTime>(
-                valueListenable: _startDate,
-                builder: (BuildContext context, DateTime value, Widget _) {
-                  return FlatButton(
-                    onPressed: () {
-                      showDatePicker(
-                        context: context,
-                        initialDate: _startDate.value,
-                        firstDate: DateTime(2010),
-                        lastDate: _endDate.value,
-                      ).then((date) {
-                        if (date != null) {
-                          _startDate.value = date;
-                        }
-                      });
-                    },
-                    child: Text(DateFormat.yMMMd('fr_FR').format(value)),
-                  );
-                },
-              ),
-              ValueListenableBuilder<TimeOfDay>(
-                valueListenable: _startHour,
-                builder: (BuildContext context, TimeOfDay value, Widget _) {
-                  return FlatButton(
-                    onPressed: () {
-                      showTimePicker(
-                        context: context,
-                        initialTime: _startHour.value,
-                      ).then((date) {
-                        if (date != null) {
-                          _startHour.value = date;
-                        }
-                      });
-                    },
-                    child: Text(MaterialLocalizations.of(context)
-                        .formatTimeOfDay(value)),
-                  );
-                },
-              ),
-              const Text('-'),
-              ValueListenableBuilder<TimeOfDay>(
-                valueListenable: _endHour,
-                builder: (BuildContext context, TimeOfDay value, Widget _) {
-                  return FlatButton(
-                    onPressed: () {
-                      showTimePicker(
-                        context: context,
-                        initialTime: _endHour.value,
-                      ).then((date) {
-                        if (date != null) {
-                          _endHour.value = date;
-                        }
-                      });
-                    },
-                    child: Text(MaterialLocalizations.of(context)
-                        .formatTimeOfDay(value)),
-                  );
-                },
-              ),
-              ValueListenableBuilder<DateTime>(
-                valueListenable: _endDate,
-                builder: (BuildContext context, DateTime value, Widget _) {
-                  return FlatButton(
-                    onPressed: () {
-                      showDatePicker(
-                        context: context,
-                        initialDate: _endDate.value,
-                        firstDate: _startDate.value,
-                        lastDate: DateTime(2101),
-                      ).then((date) {
-                        if (date != null) {
-                          _endDate.value = date;
-                        }
-                      });
-                    },
-                    child: Text(DateFormat.yMMMd('fr_FR').format(value)),
-                  );
-                },
-              ),
-            ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                const Icon(Icons.access_time),
+                ValueListenableBuilder<DateTime>(
+                  valueListenable: _startDate,
+                  builder: (BuildContext context, DateTime value, Widget _) {
+                    return FlatButton(
+                      onPressed: () {
+                        showDatePicker(
+                          context: context,
+                          initialDate: _startDate.value,
+                          firstDate: DateTime(2010),
+                          lastDate: _endDate.value,
+                        ).then((date) {
+                          if (date != null) {
+                            _startDate.value = date;
+                          }
+                        });
+                      },
+                      child: Text(DateFormat.yMMMd('fr_FR').format(value)),
+                    );
+                  },
+                ),
+                ValueListenableBuilder<TimeOfDay>(
+                  valueListenable: _startHour,
+                  builder: (BuildContext context, TimeOfDay value, Widget _) {
+                    return FlatButton(
+                      onPressed: () {
+                        showTimePicker(
+                          context: context,
+                          initialTime: _startHour.value,
+                        ).then((date) {
+                          if (date != null) {
+                            _startHour.value = date;
+                          }
+                        });
+                      },
+                      child: Text(MaterialLocalizations.of(context)
+                          .formatTimeOfDay(value)),
+                    );
+                  },
+                ),
+                const Text('-'),
+                ValueListenableBuilder<TimeOfDay>(
+                  valueListenable: _endHour,
+                  builder: (BuildContext context, TimeOfDay value, Widget _) {
+                    return FlatButton(
+                      onPressed: () {
+                        showTimePicker(
+                          context: context,
+                          initialTime: _endHour.value,
+                        ).then((date) {
+                          if (date != null) {
+                            _endHour.value = date;
+                          }
+                        });
+                      },
+                      child: Text(MaterialLocalizations.of(context)
+                          .formatTimeOfDay(value)),
+                    );
+                  },
+                ),
+                ValueListenableBuilder<DateTime>(
+                  valueListenable: _endDate,
+                  builder: (BuildContext context, DateTime value, Widget _) {
+                    return FlatButton(
+                      onPressed: () {
+                        showDatePicker(
+                          context: context,
+                          initialDate: _endDate.value,
+                          firstDate: _startDate.value,
+                          lastDate: DateTime(2101),
+                        ).then((date) {
+                          if (date != null) {
+                            _endDate.value = date;
+                          }
+                        });
+                      },
+                      child: Text(DateFormat.yMMMd('fr_FR').format(value)),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ],
       ),

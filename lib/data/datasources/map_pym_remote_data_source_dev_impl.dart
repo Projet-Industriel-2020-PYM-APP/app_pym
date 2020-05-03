@@ -269,6 +269,8 @@ Hébergé sur sur Google Cloud Run !</h4>
       'categorie_id': 2,
       'subtitle': 'Sous-title lorem ipsum',
       'address': '8 Rue sur la terre au hasard',
+      'website': 'https://bing.com',
+      'telephone': '0123456789',
       'img_url': '',
       'actions': [
         {
@@ -396,7 +398,7 @@ Hébergé sur sur Google Cloud Run !</h4>
   Future<void> updateBooking(BookingModel booking, {String token}) async {
     final oldBooking = fakeBookingsDB.firstWhere((e) => e.id == booking.id);
     final newBooking = oldBooking.copyWith(
-      start_date: booking.start_date ?? oldBooking.end_date,
+      start_date: booking.start_date ?? oldBooking.start_date,
       end_date: booking.end_date ?? oldBooking.end_date,
       title: booking.title ?? oldBooking.title,
     );

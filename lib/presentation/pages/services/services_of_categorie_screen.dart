@@ -23,13 +23,21 @@ class ActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlatButton(
       onPressed: () async {
-        if (action.name != null &&
-            action.name.toLowerCase().contains('réserver')) {
-          await Navigator.of(context).push<void>(
-            MaterialPageRoute(
-              builder: (context) => FetchAllBookingsPage(service),
-            ),
-          );
+        if (action.name != null) {
+          if (action.name.toLowerCase().contains('réserve')) {
+            await Navigator.of(context).push<void>(
+              MaterialPageRoute(
+                builder: (context) => FetchAllBookingsPage(service),
+              ),
+            );
+          } else if (action.name.toLowerCase().contains('téléphone')) {
+            await UrlLauncherUtils.launch('tel:${service.telephone}');
+          } else if (action.name.toLowerCase().contains('web')) {
+            await UrlLauncherUtils.launch(service.website);
+          } else if (action.name.toLowerCase().contains('localise')) {
+            await UrlLauncherUtils.launch(
+                'https://maps.google.com/?q=${service.address}');
+          }
         } else if (action.html_url != null && action.html_url.isNotEmpty) {
           await UrlLauncherUtils.launch(action.html_url);
         } else {
