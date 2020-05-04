@@ -21,7 +21,6 @@ class AuthenticationBloc
   final GetAppUser getAppUser;
   final AuthSignOut signOut;
   final SendEmailConfirmation sendEmailConfirmation;
-  StreamSubscription<AppUser> subscription;
 
   AuthenticationBloc({
     @required this.getAppUser,
@@ -38,21 +37,19 @@ class AuthenticationBloc
     AuthenticationEvent event,
   ) async* {
     yield* event.when(
-        refresh: _mapRefreshToState,
-        loggedIn: _mapLoggedInToState,
-        loggedOut: _mapLoggedOutToState,
-        signOut: _mapSignOutToState,
-        sendEmailVerification: _mapSendEmailVerificationToState);
+      refresh: _mapRefreshToState,
+      signOut: _mapSignOutToState,
+      sendEmailVerification: _mapSendEmailVerificationToState,
+    );
   }
 
   Stream<AuthenticationState> _mapRefreshToState() async* {
     try {
-      await subscription?.cancel();
       final user = await getAppUser(const NoParams());
       if (user != null) {
-        add(AuthenticationEvent.loggedIn(user));
+        yield AuthenticationState.authenticated(user);
       } else {
-        add(const AuthenticationEvent.loggedOut());
+        yield const AuthenticationState.unauthenticated();
       }
     } catch (_) {
       print("Error");
@@ -60,25 +57,12 @@ class AuthenticationBloc
     }
   }
 
-  Stream<AuthenticationState> _mapLoggedInToState(AppUser user) async* {
-    yield AuthenticationState.authenticated(user);
-  }
-
-  Stream<AuthenticationState> _mapLoggedOutToState() async* {
-    yield const AuthenticationState.unauthenticated();
-  }
-
   Stream<AuthenticationState> _mapSignOutToState() async* {
     signOut(const NoParams());
+    add(const AuthenticationEvent.refresh());
   }
 
   Stream<AuthenticationState> _mapSendEmailVerificationToState() async* {
     await sendEmailConfirmation(const NoParams());
-  }
-
-  @override
-  Future<void> close() async {
-    await subscription?.cancel();
-    return super.close();
   }
 }

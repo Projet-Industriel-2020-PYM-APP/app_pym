@@ -29,6 +29,7 @@ class AppUserRepositoryImpl implements AppUserRepository {
 
   @override
   Future<AppUser> fetch() async {
+    print("TOKEN ${auth.token}");
     if (auth.token != null) {
       if (await networkInfo.result != ConnectivityResult.none) {
         final data = await remoteDataSource.fetchUser(auth.token);

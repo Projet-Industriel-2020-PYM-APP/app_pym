@@ -77,17 +77,41 @@ void main() {
         await driver.tap(find.byValueKey(KeysStringNavigation.more));
         await driver.tap(find.byValueKey(KeysStringNavigation.parameters));
         await takeScreenshot(driver, ScreenshotsPaths.parameters);
-        await driver.tap(find.pageBack());
+        try {
+          await driver.tap(find.pageBack()).timeout(const Duration(seconds: 5),
+              onTimeout: () {
+            throw Exception("pageBack failed. Using french tooltip...");
+          });
+        } catch (e) {
+          print(e);
+          await driver
+              .tap(find.byTooltip('Retour'))
+              .timeout(const Duration(seconds: 5), onTimeout: () {
+            throw Exception("tooltip 'Retour' failed.");
+          });
+        }
       });
 
       test('Move to Contact', () async {
         await driver.tap(find.byValueKey(KeysStringNavigation.more));
         await driver.tap(find.byValueKey(KeysStringNavigation.contacts));
         await takeScreenshot(driver, ScreenshotsPaths.contacts);
-        await driver.tap(find.pageBack());
+        try {
+          await driver.tap(find.pageBack()).timeout(const Duration(seconds: 5),
+              onTimeout: () {
+            throw Exception("pageBack failed. Using french tooltip...");
+          });
+        } catch (e) {
+          print(e);
+          await driver
+              .tap(find.byTooltip('Retour'))
+              .timeout(const Duration(seconds: 5), onTimeout: () {
+            throw Exception("tooltip 'Retour' failed.");
+          });
+        }
       });
-    }, timeout: const Timeout(Duration(minutes: 30)));
-  }, timeout: const Timeout(Duration(minutes: 30)));
+    }, timeout: const Timeout(Duration(minutes: 15)));
+  }, timeout: const Timeout(Duration(minutes: 15)));
 }
 
 Future<void> takeScreenshot(FlutterDriver driver, String path) async {

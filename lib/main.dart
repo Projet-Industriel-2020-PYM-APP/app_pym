@@ -1,5 +1,6 @@
 import 'package:app_pym/core/routes/routes.dart';
 import 'package:app_pym/data/models/app_pym/action_model.dart';
+import 'package:app_pym/data/models/app_pym/booking_model.dart';
 import 'package:app_pym/data/models/app_pym/contact_categorie_model.dart';
 import 'package:app_pym/data/models/app_pym/contact_model.dart';
 import 'package:app_pym/data/models/app_pym/service_categorie_model.dart';
@@ -16,6 +17,7 @@ import 'package:app_pym/presentation/router.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
@@ -40,6 +42,8 @@ Future<void> main() async {
   Hive.registerAdapter<ContactModel>(ContactModelAdapter());
   // HiveTypeId: 8
   Hive.registerAdapter<ServiceModel>(ServiceModelAdapter());
+  // HiveTypeId: 9
+  Hive.registerAdapter<BookingModel>(BookingModelAdapter());
 
   await Hive.openBox<ServiceCategorieModel>('/service_categories');
   await Hive.openBox<ServiceModel>('/services');
@@ -48,6 +52,7 @@ Future<void> main() async {
   await Hive.openBox<BatimentModel>('/batiments');
   await Hive.openBox<PostModel>('/posts');
   await Hive.openBox<EntrepriseModel>('/entreprises');
+  await Hive.openBox<BookingModel>('/bookings');
   await di.init(env: Environment.dev);
   runApp(const MyApp());
 }
@@ -79,6 +84,14 @@ class _MyAppState extends State<MyApp> {
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
         return MaterialApp(
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [
+            const Locale('fr'),
+          ],
           title: 'Application Pôle Yvon Morandat',
           initialRoute: RoutePaths.root,
           onGenerateRoute: Router.generateRoute,

@@ -47,6 +47,9 @@ class AuthenticationStatus extends StatelessWidget {
           title: const Text("Non authentifié"),
           trailing: RaisedButton(
             onPressed: () {
+              context
+                  .bloc<AuthenticationBloc>()
+                  .add(const AuthenticationEvent.refresh());
               Navigator.pushNamed<void>(
                 context,
                 RoutePaths.login,

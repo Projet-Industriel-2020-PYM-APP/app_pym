@@ -18,6 +18,8 @@ abstract class ServiceModel with _$ServiceModel {
     @required @nullable @HiveField(4) String address,
     @required @nullable @HiveField(5) String img_url,
     @required @nullable @HiveField(6) List<ActionModel> actions,
+    @required @nullable @HiveField(7) @nullable @required String telephone,
+    @required @nullable @HiveField(8) @nullable @required String website,
   }) = _ServiceModel;
 
   factory ServiceModel.fromJson(Map<String, dynamic> json) =>
@@ -33,6 +35,8 @@ extension ServiceModelX on ServiceModel {
       subtitle: this.subtitle,
       address: this.address,
       img_url: this.img_url,
+      telephone: this.telephone,
+      website: this.website,
       actions: this.actions.map((e) => e.toEntity()).toList(),
     );
   }

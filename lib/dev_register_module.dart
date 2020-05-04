@@ -10,6 +10,7 @@ import 'package:app_pym/data/datasources/sncf_local_data_source.dart';
 import 'package:app_pym/data/datasources/sncf_remote_data_source.dart';
 import 'package:app_pym/data/devices/compass_device.dart';
 import 'package:app_pym/data/devices/geolocator_device.dart';
+import 'package:app_pym/data/models/app_pym/booking_model.dart';
 import 'package:app_pym/data/models/app_pym/contact_categorie_model.dart';
 import 'package:app_pym/data/models/app_pym/contact_model.dart';
 import 'package:app_pym/data/models/app_pym/post_model.dart';
@@ -29,6 +30,7 @@ import 'package:app_pym/data/repositories/mobility/metropole_route_repository_im
 import 'package:app_pym/data/repositories/mobility/sncf_route_repository_impl.dart';
 import 'package:app_pym/data/services/authentication_service.dart';
 import 'package:app_pym/data/services/authentication_service_dev_impl.dart';
+import 'package:app_pym/domain/repositories/app_pym/booking_repository.dart';
 import 'package:app_pym/domain/repositories/app_pym/contact_categorie_repository.dart';
 import 'package:app_pym/domain/repositories/app_pym/contact_repository.dart';
 import 'package:app_pym/domain/repositories/app_pym/post_repository.dart';
@@ -56,6 +58,10 @@ import 'package:app_pym/domain/usecases/mobility/fetch_bus_trips.dart';
 import 'package:app_pym/domain/usecases/mobility/fetch_train_route.dart';
 import 'package:app_pym/domain/usecases/mobility/fetch_train_stops.dart';
 import 'package:app_pym/domain/usecases/mobility/fetch_train_trips.dart';
+import 'package:app_pym/domain/usecases/services/booking/add_booking_to_service.dart';
+import 'package:app_pym/domain/usecases/services/booking/delete_booking_of_service.dart';
+import 'package:app_pym/domain/usecases/services/booking/fetch_all_bookings_of_service.dart';
+import 'package:app_pym/domain/usecases/services/booking/update_booking_of_service.dart';
 import 'package:app_pym/domain/usecases/services/fetch_service_categories.dart';
 import 'package:app_pym/domain/usecases/services/fetch_services_of_categorie.dart';
 import 'package:app_pym/presentation/blocs/authentication/authentication/authentication_bloc.dart';
@@ -72,6 +78,8 @@ import 'package:app_pym/presentation/blocs/main/main_page_bloc.dart';
 import 'package:app_pym/presentation/blocs/mobility/maps/maps_bloc.dart';
 import 'package:app_pym/presentation/blocs/mobility/stop_details/stop_details_bloc.dart';
 import 'package:app_pym/presentation/blocs/mobility/trips/trips_bloc.dart';
+import 'package:app_pym/presentation/blocs/services/booking/booking_of_service/booking_of_service_bloc.dart';
+import 'package:app_pym/presentation/blocs/services/booking/fetch_all_bookings_of_service/fetch_all_bookings_of_service_bloc.dart';
 import 'package:app_pym/presentation/blocs/services/service_categories/service_categories_bloc.dart';
 import 'package:app_pym/presentation/blocs/services/services_of_categorie/services_of_categorie_bloc.dart';
 import 'package:archive/archive.dart';
@@ -83,6 +91,8 @@ import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'data/repositories/app_pym/booking_repository_impl.dart';
+
 /// Register module pour l'environnement dev
 ///
 /// Mettez ici toute les dépendances devant apparaître en environnement dev.
@@ -93,6 +103,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// -  Les dépendances en production qui fonctionnent
 @registerModule
 abstract class DevRegisterModule {
+  @dev
+  @lazySingleton
+  AddBookingToService get addBookingToService;
+
   @dev
   @lazySingleton
   @RegisterAs(AppUserRepository)
@@ -133,6 +147,17 @@ abstract class DevRegisterModule {
   Box<BatimentModel> get batimentsBox => Hive.box<BatimentModel>('/batiments');
 
   @dev
+  BookingOfServiceBloc get bookingOfServiceBloc;
+
+  @dev
+  @lazySingleton
+  @RegisterAs(BookingRepository)
+  BookingRepositoryImpl get bookingRepository;
+
+  @dev
+  Box<BookingModel> get bookingsBox => Hive.box<BookingModel>('/bookings');
+
+  @dev
   CompassBloc get compassBloc;
 
   @dev
@@ -166,6 +191,10 @@ abstract class DevRegisterModule {
 
   @dev
   @lazySingleton
+  DeleteBookingOfService get deleteBookingOfService;
+
+  @dev
+  @lazySingleton
   @RegisterAs(DirectoryManager)
   DirectoryManagerImpl get directoryManager;
 
@@ -180,6 +209,13 @@ abstract class DevRegisterModule {
   @dev
   Box<EntrepriseModel> get entreprisesBox =>
       Hive.box<EntrepriseModel>('/entreprises');
+
+  @dev
+  @lazySingleton
+  FetchAllBookingsOfService get fetchAllBookingsOfService;
+
+  @dev
+  FetchAllBookingsOfServiceBloc get fetchAllBookingsOfServiceBloc;
 
   @dev
   @lazySingleton
@@ -335,9 +371,9 @@ abstract class DevRegisterModule {
   @lazySingleton
   @RegisterAs(ServiceRepository)
   ServiceRepositoryImpl get serviceRepository;
+
   @dev
   Box<ServiceModel> get servicesBox => Hive.box<ServiceModel>('/services');
-
   @dev
   ServicesOfCategorieBloc get servicesOfCategorieBloc;
 
@@ -370,6 +406,10 @@ abstract class DevRegisterModule {
 
   @dev
   TripsBloc get tripsBloc;
+
+  @dev
+  @lazySingleton
+  UpdateBookingOfService get updateBookingOfService;
 
   @dev
   UserDataBloc get userDataBloc;

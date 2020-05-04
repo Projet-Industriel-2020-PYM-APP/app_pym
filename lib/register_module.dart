@@ -1,3 +1,4 @@
+import 'package:app_pym/data/models/app_pym/booking_model.dart';
 import 'package:app_pym/data/models/app_pym/contact_categorie_model.dart';
 import 'package:app_pym/data/models/app_pym/contact_model.dart';
 import 'package:app_pym/data/models/app_pym/post_model.dart';
@@ -19,6 +20,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 @RegisterAs(Box)
 @injectable
 class MockBatimentsBox extends Mock implements Box<BatimentModel> {}
+
+@test
+@RegisterAs(Box)
+@injectable
+class MockBookingsBox extends Mock implements Box<BookingModel> {}
 
 @test
 @RegisterAs(Box)
@@ -81,6 +87,9 @@ class MockZipDecoder extends Mock implements ZipDecoder {}
 abstract class RegisterModule {
   @prod
   Box<BatimentModel> get batimentsBox => Hive.box<BatimentModel>('/batiments');
+
+  @prod
+  Box<BookingModel> get bookingsBox => Hive.box<BookingModel>('/bookings');
 
   @prod
   @lazySingleton

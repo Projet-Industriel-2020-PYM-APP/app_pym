@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:app_pym/core/error/exceptions.dart';
+import 'package:app_pym/data/models/app_pym/booking_model.dart';
 import 'package:app_pym/data/models/app_pym/contact_categorie_model.dart';
 import 'package:app_pym/data/models/app_pym/contact_model.dart';
 import 'package:app_pym/data/models/app_pym/post_model.dart';
@@ -15,7 +16,14 @@ import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
 abstract class MapPymRemoteDataSource {
+  Future<void> createBooking(BookingModel booking, {@required String token});
+
+  Future<void> deleteBooking(int booking_id, {@required String token});
+
   Future<List<BatimentModel>> fetchAllBatiment();
+
+  /// Récupère toute les réservations du [service_id]
+  Future<List<BookingModel>> fetchAllBookingsOf(int service_id);
 
   /// Retourne les catégories de contact_type
   Future<List<ContactCategorieModel>> fetchAllContactCategories();
@@ -40,6 +48,8 @@ abstract class MapPymRemoteDataSource {
 
   /// Met à jour un utilisateur
   Future<void> setUserData(AppUserModel user);
+
+  Future<void> updateBooking(BookingModel booking, {@required String token});
 }
 
 @RegisterAs(MapPymRemoteDataSource)
@@ -50,6 +60,45 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
   final http.Client client;
 
   const MapPymRemoteDataSourceImpl({@required this.client});
+
+  @override
+  Future<void> createBooking(BookingModel booking,
+      {@required String token}) async {
+    final data = json.encode(booking.toJson());
+    final response = await client.post(
+      'https://admin.map-pym.com/api/bookings/ajouter',
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearing ${token}",
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+      },
+      body: data,
+    );
+
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      throw ServerException(
+          'Failed to create booking : ${response.statusCode} ${response.reasonPhrase}');
+    }
+  }
+
+  @override
+  Future<void> deleteBooking(int booking_id, {@required String token}) async {
+    final response = await client.delete(
+      'https://admin.map-pym.com/api/bookings/${booking_id}/supprimer',
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearing ${token}",
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      throw ServerException(
+          'Failed to delete booking : ${response.statusCode} ${response.reasonPhrase}');
+    }
+  }
 
   @override
   Future<List<BatimentModel>> fetchAllBatiment() async {
@@ -63,7 +112,23 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load batiments : ${response.statusCode}');
+          'Failed to load batiments : ${response.statusCode} ${response.reasonPhrase}');
+    }
+  }
+
+  @override
+  Future<List<BookingModel>> fetchAllBookingsOf(int service_id) async {
+    final response = await client.get('https://admin.map-pym.com/api/bookings');
+
+    if (response.statusCode == 200) {
+      return (json.decode(response.body) as List)
+          ?.map((dynamic data) =>
+              BookingModel.fromJson(data as Map<String, dynamic>))
+          ?.where((e) => e.service_id == service_id)
+          ?.toList();
+    } else {
+      throw ServerException(
+          'Failed to load bookings of service ${service_id} : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -79,7 +144,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load categorie : ${response.statusCode}');
+          'Failed to load categorie : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -93,7 +158,8 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
               PostModel.fromJson(data as Map<String, dynamic>))
           ?.toList();
     } else {
-      throw ServerException('Failed to load Posts : ${response.statusCode}');
+      throw ServerException(
+          'Failed to load Posts : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -109,7 +175,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load categorie : ${response.statusCode}');
+          'Failed to load categorie : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -125,7 +191,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.firstWhere((element) => element.id == id);
     } else {
       throw ServerException(
-          'Failed to load batiments : ${response.statusCode}');
+          'Failed to load batiments : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -140,7 +206,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.firstWhere((e) => e.id == id);
     } else {
       throw ServerException(
-          'Failed to fetch contact $id : ${response.statusCode}');
+          'Failed to fetch contact $id : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -158,7 +224,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load entreprises : ${response.statusCode}');
+          'Failed to load entreprises : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -174,7 +240,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load services of categorie ${categorie_id} : ${response.statusCode}');
+          'Failed to load services of categorie ${categorie_id} : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -189,26 +255,49 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
       final body = json.decode(response.body) as Map<String, dynamic>;
       return AppUserModel.fromJson(body);
     } else {
-      throw ServerException('Failed to load user : ${response.statusCode}');
+      throw ServerException(
+          'Failed to load user : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
   @override
   Future<void> setUserData(AppUserModel user) async {
-    final data = {
-      'id': user.id,
-      'user': user.toJson(),
-    };
-    final response = await client.post(
-      'https://admin.map-pym.com/api/user',
-      headers: {HttpHeaders.authorizationHeader: "Bearing ${user.token}"},
+    final data = json.encode(user.toJson());
+    final response = await client.patch(
+      'https://admin.map-pym.com/api/user/${user.id}',
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearing ${user.token}",
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+      },
       body: data,
     );
 
     if (response.statusCode == 200) {
       return;
     } else {
-      throw ServerException('Failed to update user : ${response.statusCode}');
+      throw ServerException(
+          'Failed to update user : ${response.statusCode} ${response.reasonPhrase}');
+    }
+  }
+
+  @override
+  Future<void> updateBooking(BookingModel booking,
+      {@required String token}) async {
+    final data = json.encode(booking.toJson());
+    final response = await client.patch(
+      'https://admin.map-pym.com/api/bookings/${booking.id}/modifier',
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearing ${token}",
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+      },
+      body: data,
+    );
+
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      throw ServerException(
+          'Failed to edit booking : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 }

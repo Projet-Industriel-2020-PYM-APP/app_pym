@@ -19,13 +19,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   flutter_bloc: ^4.0.0 # bloclibrary.dev
   http: ^0.12.1 # dart.dev
   hive: ^1.4.1+1
   hive_flutter: ^0.3.0+2
   connectivity: ^0.4.8+2 # flutter.dev
   get_it: ^4.0.2 # fluttercommunity.dev
-  json_serializable: ^3.3.0 # dart.dev
   json_annotation: any # dart.dev
   firebase_core: ^0.4.4+3
   firebase_messaging: ^6.0.13
@@ -50,6 +51,7 @@ dependencies:
   flutter_markdown: ^0.3.5
   breakpoint: ^1.0.1+2
   archive: ^2.0.13
+  intl: ^0.16.1
 
 dependency_overrides:
   dartx: 0.3.0
@@ -63,6 +65,7 @@ dev_dependencies:
   test: any
   hive_generator: ^0.7.0+2
   build_runner: any
+  json_serializable: ^3.3.0 # dart.dev
   injectable_generator: ^0.3.5
   extra_pedantic: 1.2.0
   freezed: ^0.10.7

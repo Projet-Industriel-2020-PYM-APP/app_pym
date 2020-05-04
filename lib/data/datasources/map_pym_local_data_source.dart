@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:app_pym/core/error/exceptions.dart';
+import 'package:app_pym/data/models/app_pym/booking_model.dart';
 import 'package:app_pym/data/models/app_pym/contact_categorie_model.dart';
 import 'package:app_pym/data/models/app_pym/contact_model.dart';
 import 'package:app_pym/data/models/app_pym/post_model.dart';
@@ -17,6 +18,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class MapPymLocalDataSource {
   Future<void> cacheAllBatiment(Iterable<BatimentModel> batimentModels);
 
+  Future<void> cacheAllBookings(Iterable<BookingModel> bookings);
+
   Future<void> cacheAllContactCategories(
       Iterable<ContactCategorieModel> categories);
 
@@ -31,11 +34,21 @@ abstract class MapPymLocalDataSource {
 
   Future<void> cacheBatiment(BatimentModel batiment);
 
+  Future<void> cacheBooking(BookingModel booking);
+
   Future<void> cacheContact(ContactModel contact);
 
   Future<void> cacheUser(AppUserModel user);
 
+  /// Delete Booking. Do nothing if not found.
+  Future<void> deleteBooking(int booking_id);
+
   List<BatimentModel> fetchAllBatiment();
+
+  /// Fetch Services from cache. Filtered by [categorie_id].
+  ///
+  /// Empty list if not found.
+  List<BookingModel> fetchAllBookingsOf(int service_id);
 
   List<ContactCategorieModel> fetchAllContactCategories();
 
@@ -81,6 +94,7 @@ class MapPymLocalDataSourceImpl implements MapPymLocalDataSource {
   final Box<ServiceModel> servicesBox;
   final Box<ContactCategorieModel> contactCategoriesBox;
   final Box<ContactModel> contactsBox;
+  final Box<BookingModel> bookingsBox;
   final SharedPreferences prefs;
 
   const MapPymLocalDataSourceImpl({
@@ -91,12 +105,18 @@ class MapPymLocalDataSourceImpl implements MapPymLocalDataSource {
     @required this.entreprisesBox,
     @required this.postsBox,
     @required this.contactsBox,
+    @required this.bookingsBox,
     @required this.prefs,
   });
 
   @override
   Future<void> cacheAllBatiment(Iterable<BatimentModel> batiments) async {
     return batiments.forEach(cacheBatiment);
+  }
+
+  @override
+  Future<void> cacheAllBookings(Iterable<BookingModel> bookings) async {
+    return bookings.forEach(cacheBooking);
   }
 
   @override
@@ -135,6 +155,11 @@ class MapPymLocalDataSourceImpl implements MapPymLocalDataSource {
   }
 
   @override
+  Future<void> cacheBooking(BookingModel booking) {
+    return bookingsBox.put('/bookings/${booking.id}', booking);
+  }
+
+  @override
   Future<void> cacheContact(ContactModel contact) {
     return contactsBox.put(
       '/contacts/${contact.id}',
@@ -148,10 +173,24 @@ class MapPymLocalDataSourceImpl implements MapPymLocalDataSource {
   }
 
   @override
+  Future<void> deleteBooking(int booking_id) {
+    return bookingsBox.delete('/bookings/${booking_id}');
+  }
+
+  @override
   List<BatimentModel> fetchAllBatiment() {
     final List<BatimentModel> batimentModels =
         batimentsBox?.values?.toList() ?? [];
     return batimentModels;
+  }
+
+  @override
+  List<BookingModel> fetchAllBookingsOf(int service_id) {
+    final models = bookingsBox?.values
+            ?.where((e) => e.service_id == service_id)
+            ?.toList() ??
+        [];
+    return models;
   }
 
   @override

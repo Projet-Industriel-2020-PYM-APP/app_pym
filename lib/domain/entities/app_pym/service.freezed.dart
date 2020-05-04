@@ -18,6 +18,8 @@ class _$ServiceTearOff {
       @required @nullable int categorie_id,
       @required @nullable String subtitle,
       @required @nullable String address,
+      @required @nullable String telephone,
+      @required @nullable String website,
       @required @nullable String img_url,
       @required @nullable List<Action> actions}) {
     return _Service(
@@ -26,6 +28,8 @@ class _$ServiceTearOff {
       categorie_id: categorie_id,
       subtitle: subtitle,
       address: address,
+      telephone: telephone,
+      website: website,
       img_url: img_url,
       actions: actions,
     );
@@ -46,6 +50,10 @@ mixin _$Service {
   @nullable
   String get address;
   @nullable
+  String get telephone;
+  @nullable
+  String get website;
+  @nullable
   String get img_url;
   @nullable
   List<Action> get actions;
@@ -62,6 +70,8 @@ abstract class $ServiceCopyWith<$Res> {
       @nullable int categorie_id,
       @nullable String subtitle,
       @nullable String address,
+      @nullable String telephone,
+      @nullable String website,
       @nullable String img_url,
       @nullable List<Action> actions});
 }
@@ -80,6 +90,8 @@ class _$ServiceCopyWithImpl<$Res> implements $ServiceCopyWith<$Res> {
     Object categorie_id = freezed,
     Object subtitle = freezed,
     Object address = freezed,
+    Object telephone = freezed,
+    Object website = freezed,
     Object img_url = freezed,
     Object actions = freezed,
   }) {
@@ -90,6 +102,8 @@ class _$ServiceCopyWithImpl<$Res> implements $ServiceCopyWith<$Res> {
           categorie_id == freezed ? _value.categorie_id : categorie_id as int,
       subtitle: subtitle == freezed ? _value.subtitle : subtitle as String,
       address: address == freezed ? _value.address : address as String,
+      telephone: telephone == freezed ? _value.telephone : telephone as String,
+      website: website == freezed ? _value.website : website as String,
       img_url: img_url == freezed ? _value.img_url : img_url as String,
       actions: actions == freezed ? _value.actions : actions as List<Action>,
     ));
@@ -106,6 +120,8 @@ abstract class _$ServiceCopyWith<$Res> implements $ServiceCopyWith<$Res> {
       @nullable int categorie_id,
       @nullable String subtitle,
       @nullable String address,
+      @nullable String telephone,
+      @nullable String website,
       @nullable String img_url,
       @nullable List<Action> actions});
 }
@@ -125,6 +141,8 @@ class __$ServiceCopyWithImpl<$Res> extends _$ServiceCopyWithImpl<$Res>
     Object categorie_id = freezed,
     Object subtitle = freezed,
     Object address = freezed,
+    Object telephone = freezed,
+    Object website = freezed,
     Object img_url = freezed,
     Object actions = freezed,
   }) {
@@ -135,6 +153,8 @@ class __$ServiceCopyWithImpl<$Res> extends _$ServiceCopyWithImpl<$Res>
           categorie_id == freezed ? _value.categorie_id : categorie_id as int,
       subtitle: subtitle == freezed ? _value.subtitle : subtitle as String,
       address: address == freezed ? _value.address : address as String,
+      telephone: telephone == freezed ? _value.telephone : telephone as String,
+      website: website == freezed ? _value.website : website as String,
       img_url: img_url == freezed ? _value.img_url : img_url as String,
       actions: actions == freezed ? _value.actions : actions as List<Action>,
     ));
@@ -148,6 +168,8 @@ class _$_Service implements _Service {
       @required @nullable this.categorie_id,
       @required @nullable this.subtitle,
       @required @nullable this.address,
+      @required @nullable this.telephone,
+      @required @nullable this.website,
       @required @nullable this.img_url,
       @required @nullable this.actions})
       : assert(id != null);
@@ -168,6 +190,12 @@ class _$_Service implements _Service {
   final String address;
   @override
   @nullable
+  final String telephone;
+  @override
+  @nullable
+  final String website;
+  @override
+  @nullable
   final String img_url;
   @override
   @nullable
@@ -175,7 +203,7 @@ class _$_Service implements _Service {
 
   @override
   String toString() {
-    return 'Service(id: $id, title: $title, categorie_id: $categorie_id, subtitle: $subtitle, address: $address, img_url: $img_url, actions: $actions)';
+    return 'Service(id: $id, title: $title, categorie_id: $categorie_id, subtitle: $subtitle, address: $address, telephone: $telephone, website: $website, img_url: $img_url, actions: $actions)';
   }
 
   @override
@@ -195,6 +223,12 @@ class _$_Service implements _Service {
             (identical(other.address, address) ||
                 const DeepCollectionEquality()
                     .equals(other.address, address)) &&
+            (identical(other.telephone, telephone) ||
+                const DeepCollectionEquality()
+                    .equals(other.telephone, telephone)) &&
+            (identical(other.website, website) ||
+                const DeepCollectionEquality()
+                    .equals(other.website, website)) &&
             (identical(other.img_url, img_url) ||
                 const DeepCollectionEquality()
                     .equals(other.img_url, img_url)) &&
@@ -210,6 +244,8 @@ class _$_Service implements _Service {
       const DeepCollectionEquality().hash(categorie_id) ^
       const DeepCollectionEquality().hash(subtitle) ^
       const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(telephone) ^
+      const DeepCollectionEquality().hash(website) ^
       const DeepCollectionEquality().hash(img_url) ^
       const DeepCollectionEquality().hash(actions);
 
@@ -225,6 +261,8 @@ abstract class _Service implements Service {
       @required @nullable int categorie_id,
       @required @nullable String subtitle,
       @required @nullable String address,
+      @required @nullable String telephone,
+      @required @nullable String website,
       @required @nullable String img_url,
       @required @nullable List<Action> actions}) = _$_Service;
 
@@ -242,6 +280,12 @@ abstract class _Service implements Service {
   @override
   @nullable
   String get address;
+  @override
+  @nullable
+  String get telephone;
+  @override
+  @nullable
+  String get website;
   @override
   @nullable
   String get img_url;

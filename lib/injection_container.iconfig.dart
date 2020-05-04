@@ -16,9 +16,12 @@ import 'package:app_pym/dev_register_module.dart';
 import 'package:app_pym/data/services/mock_authentication_service.dart';
 import 'package:app_pym/domain/repositories/map_pym/mock_batiment_repository.dart';
 import 'package:app_pym/domain/repositories/map_pym/batiment_repository.dart';
+import 'package:app_pym/domain/repositories/app_pym/mock_booking_repository.dart';
+import 'package:app_pym/domain/repositories/app_pym/booking_repository.dart';
 import 'package:app_pym/data/models/map_pym/batiment_model.dart';
 import 'package:hive/hive.dart';
 import 'package:app_pym/register_module.dart';
+import 'package:app_pym/data/models/app_pym/booking_model.dart';
 import 'package:app_pym/data/models/app_pym/contact_categorie_model.dart';
 import 'package:app_pym/data/models/app_pym/contact_model.dart';
 import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
@@ -33,12 +36,15 @@ import 'package:app_pym/domain/repositories/app_pym/mock_contact_categorie_repos
 import 'package:app_pym/domain/repositories/app_pym/contact_categorie_repository.dart';
 import 'package:app_pym/domain/repositories/app_pym/mock_contact_repository.dart';
 import 'package:app_pym/domain/repositories/app_pym/contact_repository.dart';
+import 'package:app_pym/domain/usecases/services/booking/delete_booking_of_service.dart';
 import 'package:app_pym/core/directory_manager/directory_manager.dart';
 import 'package:app_pym/core/directory_manager/mock_directory_manager.dart';
 import 'package:app_pym/domain/repositories/map_pym/mock_entreprise_repository.dart';
 import 'package:app_pym/domain/repositories/map_pym/entreprise_repository.dart';
-import 'package:app_pym/domain/usecases/contacts/mock_fetch_contact_categories.dart';
+import 'package:app_pym/domain/usecases/services/booking/fetch_all_bookings_of_service.dart';
+import 'package:app_pym/presentation/blocs/services/booking/fetch_all_bookings_of_service/fetch_all_bookings_of_service_bloc.dart';
 import 'package:app_pym/domain/usecases/contacts/fetch_contact_categories.dart';
+import 'package:app_pym/domain/usecases/contacts/mock_fetch_contact_categories.dart';
 import 'package:app_pym/domain/usecases/contacts/fetch_contact_of_categorie.dart';
 import 'package:app_pym/domain/usecases/contacts/mock_fetch_contact_of_categorie.dart';
 import 'package:app_pym/domain/usecases/services/mock_fetch_service_categories.dart';
@@ -48,13 +54,13 @@ import 'package:app_pym/domain/usecases/services/fetch_services_of_categorie.dar
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:app_pym/domain/usecases/authentication/forgot_password.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:app_pym/data/devices/geolocator_device.dart';
 import 'package:app_pym/data/devices/geolocator_device_mock.dart';
+import 'package:app_pym/data/devices/geolocator_device.dart';
 import 'package:app_pym/domain/usecases/authentication/get_app_user.dart';
 import 'package:app_pym/domain/usecases/cartographie/get_batiment_detail.dart';
 import 'package:app_pym/domain/usecases/cartographie/mock_get_batiment_detail.dart';
-import 'package:app_pym/domain/usecases/cartographie/get_entreprises_of_batiment.dart';
 import 'package:app_pym/domain/usecases/cartographie/mock_get_entreprises_of_batiment.dart';
+import 'package:app_pym/domain/usecases/cartographie/get_entreprises_of_batiment.dart';
 import 'package:app_pym/domain/usecases/fil_actualite/mock_get_posts.dart';
 import 'package:app_pym/domain/usecases/fil_actualite/get_posts.dart';
 import 'package:app_pym/domain/usecases/cartographie/load_page_and_place_batiments.dart';
@@ -63,18 +69,18 @@ import 'package:app_pym/presentation/blocs/authentication/login/login_bloc.dart'
 import 'package:app_pym/presentation/blocs/main/main_page_bloc.dart';
 import 'package:app_pym/data/datasources/mock_map_pym_local_data_source.dart';
 import 'package:app_pym/data/datasources/map_pym_local_data_source.dart';
-import 'package:app_pym/data/datasources/map_pym_remote_data_source_dev_impl.dart';
-import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
 import 'package:app_pym/data/datasources/mock_map_pym_remote_data_source.dart';
+import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
+import 'package:app_pym/data/datasources/map_pym_remote_data_source_dev_impl.dart';
 import 'package:app_pym/presentation/blocs/mobility/maps/maps_bloc.dart';
 import 'package:app_pym/data/datasources/metropole_remote_data_source.dart';
 import 'package:app_pym/core/network/mock_network_info.dart';
 import 'package:app_pym/core/network/network_info.dart';
 import 'package:app_pym/core/permission_handler/mock_permission_handler.dart';
 import 'package:app_pym/core/permission_handler/permission_handler.dart';
-import 'package:app_pym/data/repositories/app_pym/post_repository_impl.dart';
-import 'package:app_pym/domain/repositories/app_pym/post_repository.dart';
 import 'package:app_pym/domain/repositories/app_pym/mock_post_repository.dart';
+import 'package:app_pym/domain/repositories/app_pym/post_repository.dart';
+import 'package:app_pym/data/repositories/app_pym/post_repository_impl.dart';
 import 'package:app_pym/data/datasources/sncf_remote_data_source.dart';
 import 'package:app_pym/domain/usecases/authentication/send_email_confirmation.dart';
 import 'package:app_pym/data/repositories/app_pym/service_categorie_repository_impl.dart';
@@ -88,13 +94,17 @@ import 'package:app_pym/presentation/blocs/services/services_of_categorie/servic
 import 'package:app_pym/domain/usecases/authentication/set_user_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app_pym/presentation/blocs/mobility/stop_details/stop_details_bloc.dart';
+import 'package:app_pym/domain/usecases/services/booking/update_booking_of_service.dart';
 import 'package:app_pym/presentation/blocs/authentication/user_data/user_data_bloc.dart';
 import 'package:archive/archive.dart';
+import 'package:app_pym/domain/usecases/services/booking/add_booking_to_service.dart';
 import 'package:app_pym/data/repositories/authentication/app_user_repository_impl.dart';
 import 'package:app_pym/presentation/blocs/cartographie/ar_view/ar_view_bloc.dart';
 import 'package:app_pym/presentation/blocs/authentication/authentication/authentication_bloc.dart';
 import 'package:app_pym/presentation/blocs/cartographie/batiment/batiment_bloc.dart';
 import 'package:app_pym/data/repositories/map_pym/batiment_repository_impl.dart';
+import 'package:app_pym/presentation/blocs/services/booking/booking_of_service/booking_of_service_bloc.dart';
+import 'package:app_pym/data/repositories/app_pym/booking_repository_impl.dart';
 import 'package:app_pym/presentation/blocs/cartographie/compass/compass_bloc.dart';
 import 'package:app_pym/data/repositories/app_pym/contact_categorie_repository_impl.dart';
 import 'package:app_pym/presentation/blocs/contacts/contact_categories/contact_categories_bloc.dart';
@@ -129,7 +139,9 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerLazySingleton<AuthenticationService>(
         () => MockAuthenticationService());
     g.registerFactory<BatimentRepository>(() => MockBatimentRepository());
+    g.registerFactory<BookingRepository>(() => MockBookingRepository());
     g.registerFactory<Box<BatimentModel>>(() => MockBatimentsBox());
+    g.registerFactory<Box<BookingModel>>(() => MockBookingsBox());
     g.registerFactory<Box<ContactCategorieModel>>(
         () => MockContactCategoriesBox());
     g.registerFactory<Box<ContactModel>>(() => MockContactsBox());
@@ -184,6 +196,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerLazySingleton<AuthenticationService>(
         () => devRegisterModule.authenticationService);
     g.registerFactory<Box<BatimentModel>>(() => devRegisterModule.batimentsBox);
+    g.registerFactory<Box<BookingModel>>(() => devRegisterModule.bookingsBox);
     g.registerFactory<Box<ContactCategorieModel>>(
         () => devRegisterModule.contactCategoriesBox);
     g.registerFactory<Box<ContactModel>>(() => devRegisterModule.contactsBox);
@@ -197,8 +210,14 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerLazySingleton<CompassDevice>(
         () => devRegisterModule.compassDevice);
     g.registerLazySingleton<Connectivity>(() => devRegisterModule.connectivity);
+    g.registerLazySingleton<DeleteBookingOfService>(
+        () => devRegisterModule.deleteBookingOfService);
     g.registerLazySingleton<DirectoryManager>(
         () => devRegisterModule.directoryManager);
+    g.registerLazySingleton<FetchAllBookingsOfService>(
+        () => devRegisterModule.fetchAllBookingsOfService);
+    g.registerFactory<FetchAllBookingsOfServiceBloc>(
+        () => devRegisterModule.fetchAllBookingsOfServiceBloc);
     g.registerLazySingleton<FetchContactCategories>(
         () => devRegisterModule.fetchContactCategories);
     g.registerLazySingleton<FetchContactOfCategorie>(
@@ -245,8 +264,12 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     final sharedPreferences = await devRegisterModule.sharedPreferences;
     g.registerFactory<SharedPreferences>(() => sharedPreferences);
     g.registerFactory<StopDetailsBloc>(() => devRegisterModule.stopDetailsBloc);
+    g.registerLazySingleton<UpdateBookingOfService>(
+        () => devRegisterModule.updateBookingOfService);
     g.registerFactory<UserDataBloc>(() => devRegisterModule.userDataBloc);
     g.registerFactory<ZipDecoder>(() => devRegisterModule.zipDecoder);
+    g.registerLazySingleton<AddBookingToService>(
+        () => devRegisterModule.addBookingToService);
     g.registerLazySingleton<AppUserRepository>(
         () => devRegisterModule.appUserRepository);
     g.registerFactory<ArViewBloc>(() => devRegisterModule.arViewBloc);
@@ -258,6 +281,10 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerFactory<BatimentBloc>(() => devRegisterModule.batimentBloc);
     g.registerLazySingleton<BatimentRepository>(
         () => devRegisterModule.batimentRepository);
+    g.registerFactory<BookingOfServiceBloc>(
+        () => devRegisterModule.bookingOfServiceBloc);
+    g.registerLazySingleton<BookingRepository>(
+        () => devRegisterModule.bookingRepository);
     g.registerFactory<CompassBloc>(() => devRegisterModule.compassBloc);
     g.registerLazySingleton<ContactCategorieRepository>(
         () => devRegisterModule.contactCategorieRepository);
@@ -302,6 +329,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   //Register prod Dependencies --------
   if (environment == 'prod') {
     g.registerFactory<Box<BatimentModel>>(() => registerModule.batimentsBox);
+    g.registerFactory<Box<BookingModel>>(() => registerModule.bookingsBox);
     g.registerFactory<Box<ContactCategorieModel>>(
         () => registerModule.contactCategoriesBox);
     g.registerFactory<Box<ContactModel>>(() => registerModule.contactsBox);
@@ -314,7 +342,13 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerLazySingleton<Client>(() => registerModule.httpClient);
     g.registerLazySingleton<CompassDevice>(() => CompassDeviceImpl());
     g.registerLazySingleton<Connectivity>(() => registerModule.connectivity);
+    g.registerLazySingleton<DeleteBookingOfService>(
+        () => DeleteBookingOfService(g<BookingRepository>()));
     g.registerLazySingleton<DirectoryManager>(() => DirectoryManagerImpl());
+    g.registerLazySingleton<FetchAllBookingsOfService>(
+        () => FetchAllBookingsOfService(g<BookingRepository>()));
+    g.registerFactory<FetchAllBookingsOfServiceBloc>(
+        () => FetchAllBookingsOfServiceBloc(g<FetchAllBookingsOfService>()));
     g.registerLazySingleton<FetchContactCategories>(
         () => FetchContactCategories(g<ContactCategorieRepository>()));
     g.registerLazySingleton<FetchContactOfCategorie>(
@@ -378,8 +412,12 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     final sharedPreferences1 = await registerModule.sharedPreferences;
     g.registerFactory<SharedPreferences>(() => sharedPreferences1);
     g.registerFactory<StopDetailsBloc>(() => StopDetailsBloc());
+    g.registerLazySingleton<UpdateBookingOfService>(
+        () => UpdateBookingOfService(g<BookingRepository>()));
     g.registerFactory<UserDataBloc>(() => UserDataBloc(g<SetUserData>()));
     g.registerFactory<ZipDecoder>(() => registerModule.zipDecoder);
+    g.registerLazySingleton<AddBookingToService>(
+        () => AddBookingToService(g<BookingRepository>()));
     g.registerLazySingleton<AppUserRepository>(() => AppUserRepositoryImpl(
           auth: g<AuthenticationService>(),
           localDataSource: g<MapPymLocalDataSource>(),
@@ -404,6 +442,17 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
             client: g<Client>(), prefs: g<SharedPreferences>()));
     g.registerFactory<BatimentBloc>(() => BatimentBloc(g<GetBatimentDetail>()));
     g.registerLazySingleton<BatimentRepository>(() => BatimentRepositoryImpl(
+          localDataSource: g<MapPymLocalDataSource>(),
+          remoteDataSource: g<MapPymRemoteDataSource>(),
+          networkInfo: g<NetworkInfo>(),
+        ));
+    g.registerFactory<BookingOfServiceBloc>(() => BookingOfServiceBloc(
+          g<AddBookingToService>(),
+          g<DeleteBookingOfService>(),
+          g<UpdateBookingOfService>(),
+        ));
+    g.registerLazySingleton<BookingRepository>(() => BookingRepositoryImpl(
+          auth: g<AuthenticationService>(),
           localDataSource: g<MapPymLocalDataSource>(),
           remoteDataSource: g<MapPymRemoteDataSource>(),
           networkInfo: g<NetworkInfo>(),
@@ -448,6 +497,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
               entreprisesBox: g<Box<EntrepriseModel>>(),
               postsBox: g<Box<PostModel>>(),
               contactsBox: g<Box<ContactModel>>(),
+              bookingsBox: g<Box<BookingModel>>(),
               prefs: g<SharedPreferences>(),
             ));
     g.registerLazySingleton<MetropoleLocalDataSource>(() =>
@@ -494,7 +544,16 @@ class _$DevRegisterModule extends DevRegisterModule {
   @override
   Connectivity get connectivity => Connectivity();
   @override
+  DeleteBookingOfService get deleteBookingOfService =>
+      DeleteBookingOfService(_g<BookingRepository>());
+  @override
   DirectoryManagerImpl get directoryManager => DirectoryManagerImpl();
+  @override
+  FetchAllBookingsOfService get fetchAllBookingsOfService =>
+      FetchAllBookingsOfService(_g<BookingRepository>());
+  @override
+  FetchAllBookingsOfServiceBloc get fetchAllBookingsOfServiceBloc =>
+      FetchAllBookingsOfServiceBloc(_g<FetchAllBookingsOfService>());
   @override
   FetchContactCategories get fetchContactCategories =>
       FetchContactCategories(_g<ContactCategorieRepository>());
@@ -573,9 +632,15 @@ class _$DevRegisterModule extends DevRegisterModule {
   @override
   StopDetailsBloc get stopDetailsBloc => StopDetailsBloc();
   @override
+  UpdateBookingOfService get updateBookingOfService =>
+      UpdateBookingOfService(_g<BookingRepository>());
+  @override
   UserDataBloc get userDataBloc => UserDataBloc(_g<SetUserData>());
   @override
   ZipDecoder get zipDecoder => ZipDecoder();
+  @override
+  AddBookingToService get addBookingToService =>
+      AddBookingToService(_g<BookingRepository>());
   @override
   AppUserRepositoryImpl get appUserRepository => AppUserRepositoryImpl(
         auth: _g<AuthenticationService>(),
@@ -601,6 +666,19 @@ class _$DevRegisterModule extends DevRegisterModule {
   BatimentBloc get batimentBloc => BatimentBloc(_g<GetBatimentDetail>());
   @override
   BatimentRepositoryImpl get batimentRepository => BatimentRepositoryImpl(
+        localDataSource: _g<MapPymLocalDataSource>(),
+        remoteDataSource: _g<MapPymRemoteDataSource>(),
+        networkInfo: _g<NetworkInfo>(),
+      );
+  @override
+  BookingOfServiceBloc get bookingOfServiceBloc => BookingOfServiceBloc(
+        _g<AddBookingToService>(),
+        _g<DeleteBookingOfService>(),
+        _g<UpdateBookingOfService>(),
+      );
+  @override
+  BookingRepositoryImpl get bookingRepository => BookingRepositoryImpl(
+        auth: _g<AuthenticationService>(),
         localDataSource: _g<MapPymLocalDataSource>(),
         remoteDataSource: _g<MapPymRemoteDataSource>(),
         networkInfo: _g<NetworkInfo>(),
@@ -656,6 +734,7 @@ class _$DevRegisterModule extends DevRegisterModule {
         entreprisesBox: _g<Box<EntrepriseModel>>(),
         postsBox: _g<Box<PostModel>>(),
         contactsBox: _g<Box<ContactModel>>(),
+        bookingsBox: _g<Box<BookingModel>>(),
         prefs: _g<SharedPreferences>(),
       );
   @override

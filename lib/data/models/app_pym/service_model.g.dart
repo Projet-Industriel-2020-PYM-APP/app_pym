@@ -24,13 +24,15 @@ class _$_ServiceModelAdapter extends TypeAdapter<_$_ServiceModel> {
       address: fields[4] as String,
       img_url: fields[5] as String,
       actions: (fields[6] as List)?.cast<ActionModel>(),
+      telephone: fields[7] as String,
+      website: fields[8] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, _$_ServiceModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -44,7 +46,11 @@ class _$_ServiceModelAdapter extends TypeAdapter<_$_ServiceModel> {
       ..writeByte(5)
       ..write(obj.img_url)
       ..writeByte(6)
-      ..write(obj.actions);
+      ..write(obj.actions)
+      ..writeByte(7)
+      ..write(obj.telephone)
+      ..writeByte(8)
+      ..write(obj.website);
   }
 }
 
@@ -64,6 +70,8 @@ _$_ServiceModel _$_$_ServiceModelFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : ActionModel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    telephone: json['telephone'] as String,
+    website: json['website'] as String,
   );
 }
 
@@ -76,4 +84,6 @@ Map<String, dynamic> _$_$_ServiceModelToJson(_$_ServiceModel instance) =>
       'address': instance.address,
       'img_url': instance.img_url,
       'actions': instance.actions?.map((e) => e?.toJson())?.toList(),
+      'telephone': instance.telephone,
+      'website': instance.website,
     };

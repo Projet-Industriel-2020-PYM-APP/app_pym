@@ -1,12 +1,17 @@
+import 'dart:collection';
+
+import 'package:app_pym/core/error/exceptions.dart';
 import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
-import 'package:app_pym/data/models/app_pym/contact_model.dart';
-import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
-import 'package:app_pym/data/models/map_pym/batiment_model.dart';
-import 'package:app_pym/data/models/authentication/app_user_model.dart';
-import 'package:app_pym/data/models/app_pym/service_model.dart';
-import 'package:app_pym/data/models/app_pym/service_categorie_model.dart';
-import 'package:app_pym/data/models/app_pym/post_model.dart';
+import 'package:app_pym/data/models/app_pym/booking_model.dart';
 import 'package:app_pym/data/models/app_pym/contact_categorie_model.dart';
+import 'package:app_pym/data/models/app_pym/contact_model.dart';
+import 'package:app_pym/data/models/app_pym/post_model.dart';
+import 'package:app_pym/data/models/app_pym/service_categorie_model.dart';
+import 'package:app_pym/data/models/app_pym/service_model.dart';
+import 'package:app_pym/data/models/authentication/app_user_model.dart';
+import 'package:app_pym/data/models/map_pym/batiment_model.dart';
+import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
+import 'package:dartx/dartx.dart';
 
 /// Implementation of [MapPymRemoteDataSource]
 ///
@@ -22,6 +27,39 @@ class MapPymRemoteDataSourceDevImpl implements MapPymRemoteDataSource {
       "idEntreprise": 13
     }),
   ];
+
+  final SplayTreeSet<BookingModel> fakeBookingsDB =
+      SplayTreeSet<BookingModel>((a, b) => a.id - b.id)
+        ..addAll([
+          BookingModel(
+            id: 0,
+            title: 'Réservation 2000 -> now+1d',
+            start_date: DateTime(2000),
+            end_date: DateTime.now() + 1.days,
+            service_id: 0,
+          ),
+          BookingModel(
+            id: 1,
+            title: 'Réservation now+1d -> now+1w',
+            start_date: DateTime.now() + 1.days,
+            end_date: DateTime.now() + 1.weeks,
+            service_id: 0,
+          ),
+          BookingModel(
+            id: 2,
+            title: 'Réservation now-2d -> now-1d',
+            start_date: DateTime.now() - 2.days,
+            end_date: DateTime.now() - 1.days,
+            service_id: 0,
+          ),
+          BookingModel(
+            id: 3,
+            title: 'Réservation now+1h -> now+2h',
+            start_date: DateTime.now() + 1.hours,
+            end_date: DateTime.now() + 2.hours,
+            service_id: 0,
+          ),
+        ]);
 
   final List<BatimentModel> fakeBatimentDB = [
     const BatimentModel(
@@ -232,6 +270,8 @@ Hébergé sur sur Google Cloud Run !</h4>
       'categorie_id': 2,
       'subtitle': 'Sous-title lorem ipsum',
       'address': '8 Rue sur la terre au hasard',
+      'website': 'https://bing.com',
+      'telephone': '0123456789',
       'img_url': '',
       'actions': [
         {
@@ -284,8 +324,25 @@ Hébergé sur sur Google Cloud Run !</h4>
   ];
 
   @override
+  Future<void> createBooking(BookingModel booking, {String token}) async {
+    final id = fakeBookingsDB.last.id + 1;
+    final newBooking = booking.copyWith(id: id);
+    return fakeBookingsDB.add(newBooking);
+  }
+
+  @override
+  Future<void> deleteBooking(int booking_id, {String token}) async {
+    return fakeBookingsDB.removeWhere((e) => e.id == booking_id);
+  }
+
+  @override
   Future<List<BatimentModel>> fetchAllBatiment() async {
     return fakeBatimentDB;
+  }
+
+  @override
+  Future<List<BookingModel>> fetchAllBookingsOf(int service_id) async {
+    return fakeBookingsDB.where((e) => e.service_id == service_id).toList();
   }
 
   @override
@@ -309,6 +366,11 @@ Hébergé sur sur Google Cloud Run !</h4>
   }
 
   @override
+  Future<ContactModel> fetchContact(int id) async {
+    return fakeContactsDB.firstWhere((e) => e.id == id);
+  }
+
+  @override
   Future<List<EntrepriseModel>> fetchEntreprisesOfBatiment(
       int idBatiment) async {
     return fakeEntrepriseDB.where((e) => e.idBatiment == idBatiment).toList();
@@ -321,7 +383,11 @@ Hébergé sur sur Google Cloud Run !</h4>
 
   @override
   Future<AppUserModel> fetchUser(String token) async {
-    return fakeUserDB.firstWhere((e) => e.token == token);
+    if (token != null) {
+      return fakeUserDB.first;
+    } else {
+      return null;
+    }
   }
 
   @override
@@ -330,7 +396,15 @@ Hébergé sur sur Google Cloud Run !</h4>
   }
 
   @override
-  Future<ContactModel> fetchContact(int id) async {
-    return fakeContactsDB.firstWhere((e) => e.id == id);
+  Future<void> updateBooking(BookingModel booking, {String token}) async {
+    final oldBooking = fakeBookingsDB.firstWhere((e) => e.id == booking.id);
+    final newBooking = oldBooking.copyWith(
+      start_date: booking.start_date ?? oldBooking.start_date,
+      end_date: booking.end_date ?? oldBooking.end_date,
+      title: booking.title ?? oldBooking.title,
+    );
+
+    fakeBookingsDB.remove(oldBooking);
+    fakeBookingsDB.add(newBooking);
   }
 }

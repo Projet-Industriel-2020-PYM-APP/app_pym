@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+
 class CacheException implements Exception {
   final dynamic message;
 
@@ -44,4 +46,26 @@ class PermissionException implements Exception {
     if (message == null) return "PermissionException";
     return "PermissionException: $message";
   }
+}
+
+class NotAuthenticatedException implements PlatformException {
+  @override
+  String get code => "NotAuthenticatedException";
+
+  @override
+  dynamic get details => null;
+
+  @override
+  String get message => "Veuillez vous authentifier.";
+}
+
+class EmailNotVerifiedException implements PlatformException {
+  @override
+  String get code => "EmailNotVerifiedException";
+
+  @override
+  dynamic get details => null;
+
+  @override
+  String get message => "Veuillez vous confirmer votre email.";
 }
