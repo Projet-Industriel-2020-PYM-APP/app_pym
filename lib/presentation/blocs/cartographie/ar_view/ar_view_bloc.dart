@@ -17,7 +17,7 @@ part 'ar_view_state.dart';
 @injectable
 class ArViewBloc extends Bloc<ArViewEvent, ArViewState> {
   UnityWidgetController unityWidgetController;
-  final LoadPageAndPlaceBatiment loadPageAndPlaceBatiment;
+  final LoadPageAndPlaceBatiments loadPageAndPlaceBatiment;
 
   ArViewBloc(this.loadPageAndPlaceBatiment);
 

@@ -59,16 +59,15 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           print("Settings registered: $settings");
         });
         await firebaseMessaging.getToken().then((String token) {
-          assert(token != null);
           print("Push Messaging token: $token");
         });
 
         final initial = prefs.getBool('notification_enabled');
         if (initial != null) {
           if (initial) {
-            yield const NotificationState.enabled();
+            add(const NotificationEvent.enable());
           } else {
-            yield const NotificationState.disabled();
+            add(const NotificationEvent.disable());
           }
         } else {
           add(const NotificationEvent.enable());
@@ -76,12 +75,16 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       },
       enable: () async* {
         await prefs.setBool('notification_enabled', true);
-        await firebaseMessaging.subscribeToTopic("actualite");
+        await firebaseMessaging
+            .subscribeToTopic("actualite")
+            .timeout(const Duration(seconds: 10), onTimeout: () {});
         yield const NotificationState.enabled();
       },
       disable: () async* {
         await prefs.setBool('notification_enabled', false);
-        await firebaseMessaging.unsubscribeFromTopic("actualite");
+        await firebaseMessaging
+            .unsubscribeFromTopic("actualite")
+            .timeout(const Duration(seconds: 10), onTimeout: () {});
         yield const NotificationState.disabled();
       },
     );

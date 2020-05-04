@@ -1,52 +1,50 @@
 import 'package:app_pym/core/usecases/usecase.dart';
 import 'package:app_pym/domain/entities/app_pym/action.dart';
-import 'package:app_pym/domain/entities/app_pym/categorie.dart';
-import 'package:app_pym/domain/entities/app_pym/contact_type.dart';
-import 'package:app_pym/domain/repositories/app_pym/categorie_repository.dart';
-import 'package:app_pym/domain/usecases/contacts/fetch_contact_type_categories.dart';
+import 'package:app_pym/domain/entities/app_pym/contact_categorie.dart';
+import 'package:app_pym/domain/repositories/app_pym/contact_categorie_repository.dart';
+import 'package:app_pym/domain/usecases/contacts/fetch_contact_categories.dart';
 import 'package:app_pym/injection_container.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:injectable/injectable.dart' show Environment;
 import 'package:mockito/mockito.dart';
-import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  FetchContactTypeCategories usecase;
-  CategorieRepository<ContactType> mockCategorieRepository;
+  FetchContactCategories usecase;
+  ContactCategorieRepository mockContactCategorieRepository;
 
   init(env: Environment.test);
 
   setUp(() {
-    mockCategorieRepository = sl<CategorieRepository<ContactType>>();
-    usecase = FetchContactTypeCategories(mockCategorieRepository);
+    mockContactCategorieRepository = sl<ContactCategorieRepository>();
+    usecase = FetchContactCategories(mockContactCategorieRepository);
   });
 
   const tAction = Action(
-    id: "1",
     html_url: "html_url",
     name: "name",
   );
-  const tCategorie = Categorie(
-    id: "1",
-    action: tAction,
-    name: "name",
+  const tContactCategorie = ContactCategorie(
+    id: 0,
+    title: "title",
+    subtitle: "subtitle",
+    address: "address",
+    img_url: "img_url",
+    actions: [tAction],
+    contact_id: 1,
   );
 
   test(
     'should get category from the repository',
     () async {
       // arrange
-      when(mockCategorieRepository.fetchCategories())
-          .thenAnswer((_) => Stream.fromIterable([
-                [tCategorie]
-              ]));
+      when(mockContactCategorieRepository.fetchAll())
+          .thenAnswer((_) async => [tContactCategorie]);
       // act
-      final result = await usecase(const NoParams()).toList();
+      final result = await usecase(const NoParams());
       // assert
-      expect(result, [
-        [tCategorie]
-      ]);
-      verify(mockCategorieRepository.fetchCategories());
-      verifyNoMoreInteractions(mockCategorieRepository);
+      expect(result, [tContactCategorie]);
+      verify(mockContactCategorieRepository.fetchAll());
+      verifyNoMoreInteractions(mockContactCategorieRepository);
     },
   );
 }

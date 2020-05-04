@@ -1,27 +1,24 @@
 import 'package:app_pym/data/models/app_pym/action_model.dart';
+import 'package:app_pym/domain/entities/app_pym/action.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  const tActionModel = ActionModel(
-    id: "1",
+  const ActionModel model = ActionModel(
     html_url: "html_url",
     name: "name",
   );
-
-  group('fromMap', () {
+  const Action entity = Action(
+    html_url: "html_url",
+    name: "name",
+  );
+  group('toEntity', () {
     test(
-      'should return a valid model',
+      'should return a valid entity',
       () async {
-        // arrange
-        final map = <String, dynamic>{
-          "id": "1",
-          "html_url": "html_url",
-          "name": "name",
-        };
         // act
-        final result = ActionModel.fromMap(map);
+        final result = model.toEntity();
         // assert
-        expect(result, tActionModel);
+        expect(result, equals(entity));
       },
     );
   });

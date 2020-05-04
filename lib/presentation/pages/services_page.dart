@@ -1,4 +1,4 @@
-import 'package:app_pym/domain/entities/app_pym/categorie.dart';
+import 'package:app_pym/domain/entities/app_pym/service_categorie.dart';
 import 'package:app_pym/presentation/blocs/services/service_categories/service_categories_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,7 +30,7 @@ class ServicesPage extends StatelessWidget {
               loading: () => const Center(
                 child: CircularProgressIndicator(),
               ),
-              loaded: (List<Categorie> categories) =>
+              loaded: (List<ServiceCategorie> categories) =>
                   CategoriesScreen(categories),
               error: (e) => Center(
                 child: Text(e.toString()),

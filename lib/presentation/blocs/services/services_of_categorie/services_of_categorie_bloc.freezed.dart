@@ -12,7 +12,7 @@ T _$identity<T>(T value) => value;
 class _$ServicesOfCategorieEventTearOff {
   const _$ServicesOfCategorieEventTearOff();
 
-  FetchServicesOfCategorieEvent fetch(Categorie categorie) {
+  FetchServicesOfCategorieEvent fetch(ServiceCategorie categorie) {
     return FetchServicesOfCategorieEvent(
       categorie,
     );
@@ -31,12 +31,12 @@ const $ServicesOfCategorieEvent = _$ServicesOfCategorieEventTearOff();
 mixin _$ServicesOfCategorieEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result fetch(Categorie categorie),
+    @required Result fetch(ServiceCategorie categorie),
     @required Result refresh(List<Service> services),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result fetch(Categorie categorie),
+    Result fetch(ServiceCategorie categorie),
     Result refresh(List<Service> services),
     @required Result orElse(),
   });
@@ -73,9 +73,9 @@ abstract class $FetchServicesOfCategorieEventCopyWith<$Res> {
           FetchServicesOfCategorieEvent value,
           $Res Function(FetchServicesOfCategorieEvent) then) =
       _$FetchServicesOfCategorieEventCopyWithImpl<$Res>;
-  $Res call({Categorie categorie});
+  $Res call({ServiceCategorie categorie});
 
-  $CategorieCopyWith<$Res> get categorie;
+  $ServiceCategorieCopyWith<$Res> get categorie;
 }
 
 class _$FetchServicesOfCategorieEventCopyWithImpl<$Res>
@@ -95,16 +95,16 @@ class _$FetchServicesOfCategorieEventCopyWithImpl<$Res>
     Object categorie = freezed,
   }) {
     return _then(FetchServicesOfCategorieEvent(
-      categorie == freezed ? _value.categorie : categorie as Categorie,
+      categorie == freezed ? _value.categorie : categorie as ServiceCategorie,
     ));
   }
 
   @override
-  $CategorieCopyWith<$Res> get categorie {
+  $ServiceCategorieCopyWith<$Res> get categorie {
     if (_value.categorie == null) {
       return null;
     }
-    return $CategorieCopyWith<$Res>(_value.categorie, (value) {
+    return $ServiceCategorieCopyWith<$Res>(_value.categorie, (value) {
       return _then(_value.copyWith(categorie: value));
     });
   }
@@ -117,7 +117,7 @@ class _$FetchServicesOfCategorieEvent
       : assert(categorie != null);
 
   @override
-  final Categorie categorie;
+  final ServiceCategorie categorie;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -153,7 +153,7 @@ class _$FetchServicesOfCategorieEvent
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result fetch(Categorie categorie),
+    @required Result fetch(ServiceCategorie categorie),
     @required Result refresh(List<Service> services),
   }) {
     assert(fetch != null);
@@ -164,7 +164,7 @@ class _$FetchServicesOfCategorieEvent
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result fetch(Categorie categorie),
+    Result fetch(ServiceCategorie categorie),
     Result refresh(List<Service> services),
     @required Result orElse(),
   }) {
@@ -203,10 +203,10 @@ class _$FetchServicesOfCategorieEvent
 
 abstract class FetchServicesOfCategorieEvent
     implements ServicesOfCategorieEvent {
-  const factory FetchServicesOfCategorieEvent(Categorie categorie) =
+  const factory FetchServicesOfCategorieEvent(ServiceCategorie categorie) =
       _$FetchServicesOfCategorieEvent;
 
-  Categorie get categorie;
+  ServiceCategorie get categorie;
   $FetchServicesOfCategorieEventCopyWith<FetchServicesOfCategorieEvent>
       get copyWith;
 }
@@ -284,7 +284,7 @@ class _$RefreshServicesOfCategorieEvent
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result fetch(Categorie categorie),
+    @required Result fetch(ServiceCategorie categorie),
     @required Result refresh(List<Service> services),
   }) {
     assert(fetch != null);
@@ -295,7 +295,7 @@ class _$RefreshServicesOfCategorieEvent
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result fetch(Categorie categorie),
+    Result fetch(ServiceCategorie categorie),
     Result refresh(List<Service> services),
     @required Result orElse(),
   }) {

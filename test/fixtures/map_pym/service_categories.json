@@ -1,0 +1,24 @@
+[
+  {
+    "id": 0,
+    "name": "name",
+    "primary_color": "primary_color",
+    "img_url": "img_url",
+    "action": {
+      "id": "id",
+      "name": "name",
+      "html_url": "html_url"
+    }
+  },
+  {
+    "id": 1,
+    "name": "name",
+    "primary_color": "primary_color",
+    "img_url": "img_url",
+    "action": {
+      "id": "id",
+      "name": "name",
+      "html_url": "html_url"
+    }
+  }
+]

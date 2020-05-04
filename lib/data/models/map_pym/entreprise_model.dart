@@ -13,13 +13,13 @@ abstract class EntrepriseModel with _$EntrepriseModel {
   @JsonSerializable(explicitToJson: true)
   const factory EntrepriseModel({
     @required @HiveField(0) int id,
-    @required @HiveField(1) String nom,
-    @required @HiveField(2) String site_internet,
-    @required @HiveField(3) int nb_salaries,
-    @required @HiveField(4) String telephone,
-    @required @HiveField(5) String mail,
-    @required @HiveField(6) String logo,
-    @required @HiveField(7) int idBatiment,
+    @nullable @required @HiveField(1) String nom,
+    @nullable @required @HiveField(2) String site_internet,
+    @nullable @required @HiveField(3) int nb_salaries,
+    @nullable @required @HiveField(4) String telephone,
+    @nullable @required @HiveField(5) String mail,
+    @nullable @required @HiveField(6) String logo,
+    @nullable @required @HiveField(7) int idBatiment,
   }) = _EntrepriseModel;
 
   factory EntrepriseModel.fromJson(Map<String, dynamic> json) =>

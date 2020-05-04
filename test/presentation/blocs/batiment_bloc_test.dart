@@ -33,6 +33,8 @@ void main() {
       nbEtage: 2,
       nom: "Entreprise",
       url: "Super",
+      latitude: 1.0,
+      longitude: 2.0,
     );
 
     test(

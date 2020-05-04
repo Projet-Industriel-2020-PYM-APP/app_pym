@@ -36,95 +36,98 @@ class MobilitePage extends StatelessWidget {
             create: (_) => sl<StopDetailsBloc>(),
           ),
         ],
-        child: MultiBlocListener(
-          listeners: [
-            BlocListener<TripsBloc, TripsState>(
-              listener: (context, state) {
-                Direction hideDirection = Direction.Aller;
-                if (context.bloc<TripsBloc>().state.direction ==
-                    Direction.Aller) {
-                  hideDirection = Direction.Retour;
-                }
-                context.bloc<MapsBloc>().add(MapsEvent.hide(
-                      isBus: !context.bloc<TripsBloc>().state.isBusLoaded,
-                      isTrain: !context.bloc<TripsBloc>().state.isTrainLoaded,
-                      direction: context.bloc<TripsBloc>().state.direction,
-                    )); //cache ce qui n'est pas chargé
-                context.bloc<MapsBloc>().add(MapsEvent.hide(
-                      isBus: context.bloc<TripsBloc>().state.isBusLoaded,
-                      isTrain: context.bloc<TripsBloc>().state.isTrainLoaded,
-                      direction: hideDirection,
-                    )); //cache ce qui est chargé mais dans la mauvaise direction
-                context.bloc<MapsBloc>().add(MapsEvent.load(
-                      isBus: context.bloc<TripsBloc>().state.isBusLoaded,
-                      isTrain: context.bloc<TripsBloc>().state.isTrainLoaded,
-                      direction: context.bloc<TripsBloc>().state.direction,
-                      trainTrips: context.bloc<TripsBloc>().state.trainTrips,
-                      busTrips: context.bloc<TripsBloc>().state.busTrips,
-                    )); //affiche les polylines et markers
-              },
-            ),
-            BlocListener<MapsBloc, MapsState>(
-              listener: (context, state) {
-                if (context.bloc<MapsBloc>().state.isBusLoaded) {
-                  for (final Marker marker
-                      in context.bloc<MapsBloc>().state.markers) {
-                    if (marker.markerId.value.startsWith("bus")) {
-                      final Marker newMarker = Marker(
-                        markerId: MarkerId("!" + marker.markerId.value),
-                        consumeTapEvents: true,
-                        onTap: () {
-                          context
-                              .bloc<StopDetailsBloc>()
-                              .add(StopDetailsEvent.show(
-                                id: marker.markerId.value,
-                                trips: context.bloc<TripsBloc>().state.busTrips,
-                                isBus: true,
-                              ));
-                          Scaffold.of(context)
-                              .showBottomSheet<dynamic>((context) {
-                            return const Details();
-                          });
-                        },
-                        position: marker.position,
-                        visible: true,
-                      );
-                      context.bloc<MapsBloc>().state.markers.remove(marker);
-                      context.bloc<MapsBloc>().state.markers.add(newMarker);
-                    }
-                  }
-                }
-                if (context.bloc<MapsBloc>().state.isTrainLoaded) {
-                  for (final Marker marker
-                      in context.bloc<MapsBloc>().state.markers) {
-                    if (marker.markerId.value.startsWith("train")) {
-                      final Marker newMarker = Marker(
-                        markerId: MarkerId("!" + marker.markerId.value),
-                        consumeTapEvents: true,
-                        onTap: () {
-                          context
-                              .bloc<StopDetailsBloc>()
-                              .add(StopDetailsEvent.show(
-                                id: marker.markerId.value,
-                                trips:
-                                    context.bloc<TripsBloc>().state.trainTrips,
-                                isBus: false,
-                              ));
-                        },
-                        position: marker.position,
-                        visible: true,
-                      );
-                      context.bloc<MapsBloc>().state.markers.remove(marker);
-                      context.bloc<MapsBloc>().state.markers.add(newMarker);
-                    }
-                  }
-                }
-              },
-            ),
-          ],
-          child: const MobiliteBody(),
-        ),
+        child: const MobiliteListenersWidget(),
       ),
+    );
+  }
+}
+
+class MobiliteListenersWidget extends StatelessWidget {
+  const MobiliteListenersWidget({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<TripsBloc, TripsState>(
+          listener: (context, state) {
+            Direction hideDirection = Direction.Aller;
+            if (state.direction == Direction.Aller) {
+              hideDirection = Direction.Retour;
+            }
+            context.bloc<MapsBloc>().add(MapsEvent.hide(
+                  isBus: !state.isBusLoaded,
+                  isTrain: !state.isTrainLoaded,
+                  direction: state.direction,
+                )); //cache ce qui n'est pas chargé
+            context.bloc<MapsBloc>().add(MapsEvent.hide(
+                  isBus: state.isBusLoaded,
+                  isTrain: state.isTrainLoaded,
+                  direction: hideDirection,
+                )); //cache ce qui est chargé mais dans la mauvaise direction
+            context.bloc<MapsBloc>().add(MapsEvent.load(
+                  isBus: state.isBusLoaded,
+                  isTrain: state.isTrainLoaded,
+                  direction: state.direction,
+                  trainTrips: state.trainTrips,
+                  busTrips: state.busTrips,
+                )); //affiche les polylines et markers
+          },
+        ),
+        BlocListener<MapsBloc, MapsState>(
+          listener: (context, state) {
+            final tripState = context.bloc<TripsBloc>().state;
+            if (state.isBusLoaded) {
+              for (final Marker marker in state.markers) {
+                if (marker.markerId.value.startsWith("bus")) {
+                  final Marker newMarker = Marker(
+                    markerId: MarkerId("!" + marker.markerId.value),
+                    consumeTapEvents: true,
+                    onTap: () {
+                      context.bloc<StopDetailsBloc>().add(StopDetailsEvent.show(
+                            id: marker.markerId.value,
+                            trips: tripState.busTrips,
+                            isBus: true,
+                          ));
+                      Scaffold.of(context).showBottomSheet<dynamic>((context) {
+                        return const Details();
+                      });
+                    },
+                    position: marker.position,
+                    visible: true,
+                  );
+                  state.markers.remove(marker);
+                  state.markers.add(newMarker);
+                }
+              }
+            }
+            if (state.isTrainLoaded) {
+              for (final Marker marker in state.markers) {
+                if (marker.markerId.value.startsWith("train")) {
+                  final Marker newMarker = Marker(
+                    markerId: MarkerId("!" + marker.markerId.value),
+                    consumeTapEvents: true,
+                    onTap: () {
+                      context.bloc<StopDetailsBloc>().add(StopDetailsEvent.show(
+                            id: marker.markerId.value,
+                            trips: tripState.trainTrips,
+                            isBus: false,
+                          ));
+                    },
+                    position: marker.position,
+                    visible: true,
+                  );
+                  state.markers.remove(marker);
+                  state.markers.add(newMarker);
+                }
+              }
+            }
+          },
+        ),
+      ],
+      child: const MobiliteBody(),
     );
   }
 }
@@ -189,15 +192,15 @@ class Details extends StatelessWidget {
       onClosing: () =>
           context.bloc<StopDetailsBloc>().add(const StopDetailsEvent.hide()),
       builder: (BuildContext context) {
-        if (context.bloc<StopDetailsBloc>().state.isLoading) {
+        final stopDetailsState = context.bloc<StopDetailsBloc>().state;
+        if (stopDetailsState.isLoading) {
           return const CircularProgressIndicator();
-        } else if (context.bloc<StopDetailsBloc>().state.isError) {
-          return Text(
-              context.bloc<StopDetailsBloc>().state.exception.toString());
+        } else if (stopDetailsState.isError) {
+          return Text(stopDetailsState.exception.toString());
         } else {
           IconData icone;
           String ligne_name;
-          if (context.bloc<StopDetailsBloc>().state.isBus) {
+          if (stopDetailsState.isBus) {
             icone = Icons.directions_bus;
             ligne_name = MobilityConstants.busLines[0];
           } else {
@@ -215,38 +218,27 @@ class Details extends StatelessWidget {
               Row(
                 children: [
                   const Icon(Icons.arrow_forward),
-                  Text("Direction " +
-                      context.bloc<StopDetailsBloc>().state.last_stop),
+                  Text("Direction " + stopDetailsState.last_stop),
                 ],
               ),
-              Text(context.bloc<StopDetailsBloc>().state.stop_name),
+              Text(stopDetailsState.stop_name),
               Row(
                 children: [
                   const Icon(Icons.arrow_right),
-                  Text(context.bloc<StopDetailsBloc>().state.stop_times[0]),
+                  Text(stopDetailsState.stop_times[0]),
                 ],
               ),
-              Text(context.bloc<StopDetailsBloc>().state.stop_times[1]),
-              Text(context.bloc<StopDetailsBloc>().state.stop_times[2]),
+              Text(stopDetailsState.stop_times[1]),
+              Text(stopDetailsState.stop_times[2]),
               ListView.builder(itemBuilder: (context, index) {
                 Color couleur = Colors.black;
                 IconData icone = Icons.arrow_drop_down;
-                if (context
-                        .bloc<StopDetailsBloc>()
-                        .state
-                        .trip[index]
-                        .stop
-                        .stop_name ==
-                    context.bloc<StopDetailsBloc>().state.last_stop) {
+                if (stopDetailsState.trip[index].stop.stop_name ==
+                    stopDetailsState.last_stop) {
                   icone = Icons.fiber_manual_record;
                 }
-                if (context
-                        .bloc<StopDetailsBloc>()
-                        .state
-                        .trip[index]
-                        .stop
-                        .stop_name ==
-                    context.bloc<StopDetailsBloc>().state.destination) {
+                if (stopDetailsState.trip[index].stop.stop_name ==
+                    stopDetailsState.destination) {
                   couleur = Colors.red;
                 }
                 final TextStyle style =
@@ -258,20 +250,11 @@ class Details extends StatelessWidget {
                       color: couleur,
                     ),
                     Text(
-                      context
-                          .bloc<StopDetailsBloc>()
-                          .state
-                          .trip[index]
-                          .stop
-                          .stop_name,
+                      stopDetailsState.trip[index].stop.stop_name,
                       style: style,
                     ),
                     Text(
-                      context
-                          .bloc<StopDetailsBloc>()
-                          .state
-                          .trip[index]
-                          .arrival_time,
+                      stopDetailsState.trip[index].arrival_time,
                       style: style,
                     ),
                   ],

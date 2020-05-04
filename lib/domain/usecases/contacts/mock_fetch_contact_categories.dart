@@ -1,9 +1,9 @@
-import 'package:app_pym/domain/usecases/contacts/fetch_contact_type_categories.dart';
+import 'package:app_pym/domain/usecases/contacts/fetch_contact_categories.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mockito/mockito.dart';
 
 @test
-@RegisterAs(FetchContactTypeCategories)
+@RegisterAs(FetchContactCategories)
 @injectable
 class MockFetchContactCategories extends Mock
-    implements FetchContactTypeCategories {}
+    implements FetchContactCategories {}

@@ -1,0 +1,18 @@
+[
+  {
+    "id": 2,
+    "nom": "FORTUIT",
+    "prenom": "Nicolas",
+    "telephone": "04 42 65 77 20",
+    "mail": "nicolas.fortuit@semag13.com",
+    "idEntreprise": 13
+  },
+  {
+    "id": 3,
+    "nom": "CALIFANO",
+    "prenom": "Mehdi",
+    "telephone": "06 01 59 01 34",
+    "mail": "m.califano@my-kiwi.fr",
+    "idEntreprise": 14
+  }
+]

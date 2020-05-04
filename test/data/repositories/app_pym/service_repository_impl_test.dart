@@ -1,85 +1,178 @@
-import 'package:app_pym/data/datasources/firestore_data_source.dart';
-import 'package:app_pym/data/models/app_pym/action_model.dart';
+import 'dart:convert';
+
+import 'package:app_pym/core/error/exceptions.dart';
+import 'package:app_pym/core/network/network_info.dart';
+import 'package:app_pym/data/datasources/map_pym_local_data_source.dart';
+import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
 import 'package:app_pym/data/models/app_pym/service_model.dart';
 import 'package:app_pym/data/repositories/app_pym/service_repository_impl.dart';
-import 'package:app_pym/domain/entities/app_pym/action.dart';
-import 'package:app_pym/domain/entities/app_pym/categorie.dart';
-import 'package:app_pym/domain/entities/app_pym/service.dart';
+import 'package:app_pym/domain/repositories/app_pym/service_repository.dart';
 import 'package:app_pym/injection_container.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:injectable/injectable.dart' show Environment;
 import 'package:mockito/mockito.dart';
 
-// ignore: avoid_implementing_value_types
-class MockDocumentReference extends Mock implements DocumentReference {
-  @override
-  String toString() => "categorie_ref";
-}
+import '../../../fixtures/fixture_reader.dart';
 
 void main() {
-  ServiceRepositoryImpl repository;
-  FirestoreDataSource mockDataSource;
+  ServiceRepository repository;
+  MapPymRemoteDataSource mockRemoteDataSource;
+  MapPymLocalDataSource mockLocalDataSource;
+  NetworkInfo mockNetworkInfo;
+
+  final tListServiceModel = (json.decode(fixture('map_pym/services.json'))
+          as List)
+      .map(
+          (dynamic data) => ServiceModel.fromJson(data as Map<String, dynamic>))
+      .toList();
 
   init(env: Environment.test);
 
   setUp(() {
-    mockDataSource = sl<FirestoreDataSource>();
+    mockRemoteDataSource = sl<MapPymRemoteDataSource>();
+    mockLocalDataSource = sl<MapPymLocalDataSource>();
+    mockNetworkInfo = sl<NetworkInfo>();
     repository = ServiceRepositoryImpl(
-      dataSource: mockDataSource,
+      remoteDataSource: mockRemoteDataSource,
+      localDataSource: mockLocalDataSource,
+      networkInfo: mockNetworkInfo,
     );
   });
 
+  void runTestsOnline(Function body) {
+    group('device is online', () {
+      setUp(() {
+        when(mockNetworkInfo.result)
+            .thenAnswer((_) async => ConnectivityResult.wifi);
+      });
+
+      body();
+    });
+  }
+
+  void runTestsOffline(Function body) {
+    group('device is offline', () {
+      setUp(() {
+        when(mockNetworkInfo.result)
+            .thenAnswer((_) async => ConnectivityResult.none);
+      });
+
+      body();
+    });
+  }
+
   group('fetchServicesOf', () {
-    const tActionModel = ActionModel(
-      id: "1",
-      html_url: "html_url",
-      name: "name",
-    );
-    const tAction = Action(
-      id: "1",
-      html_url: "html_url",
-      name: "name",
-    );
-    final tServiceModel = ServiceModel(
-      id: "1",
-      title: "title",
-      categorie_ref: MockDocumentReference(),
-      subtitle: "subtitle",
-      address: "address",
-      img_url: "img_url",
-      actions: [tActionModel],
-    );
-    final tListServiceModel = [tServiceModel];
-    const tService = Service(
-      id: "1",
-      title: "title",
-      categorie_ref: "categorie_ref",
-      subtitle: "subtitle",
-      address: "address",
-      img_url: "img_url",
-      actions: [tAction],
-    );
-    const tListService = [tService];
-
-    const tCategorie = Categorie(
-      id: "1",
-      action: tAction,
-      name: "name",
-    );
-
     test(
-      'should return data when the call to data source is successful',
+      'should check if the device is online',
       () async {
         // arrange
-        when(mockDataSource.fetchServicesOf(any))
-            .thenAnswer((_) => Stream.fromIterable([tListServiceModel]));
+        when(mockNetworkInfo.result)
+            .thenAnswer((_) async => ConnectivityResult.wifi);
         // act
-        final result = await repository.fetchServicesOf(tCategorie).toList();
+        await repository.fetchServicesOf(tListServiceModel.first.categorie_id);
         // assert
-        verify(mockDataSource.fetchServicesOf(tCategorie.id));
-        expect(result, equals([tListService]));
+        verify(mockNetworkInfo.result);
       },
     );
+
+    runTestsOnline(() {
+      test(
+        'should return remote data when the call to remote data source is successful',
+        () async {
+          // arrange
+          final expectedData = tListServiceModel
+              .where(
+                  (e) => e.categorie_id == tListServiceModel.first.categorie_id)
+              .toList();
+          when(mockRemoteDataSource
+                  .fetchServicesOf(tListServiceModel.first.categorie_id))
+              .thenAnswer((_) async => expectedData);
+          // act
+          final result = await repository
+              .fetchServicesOf(tListServiceModel.first.categorie_id);
+          // assert
+          verify(mockRemoteDataSource
+              .fetchServicesOf(tListServiceModel.first.categorie_id));
+          expect(
+              result, equals(expectedData.map((e) => e.toEntity()).toList()));
+        },
+      );
+
+      test(
+        'should cache the data locally when the call to remote data source is successful',
+        () async {
+          // arrange
+          final expectedData = tListServiceModel
+              .where(
+                  (e) => e.categorie_id == tListServiceModel.first.categorie_id)
+              .toList();
+          when(mockRemoteDataSource
+                  .fetchServicesOf(tListServiceModel.first.categorie_id))
+              .thenAnswer((_) async => expectedData);
+          // act
+          await repository
+              .fetchServicesOf(tListServiceModel.first.categorie_id);
+          // assert
+          verify(mockRemoteDataSource
+              .fetchServicesOf(tListServiceModel.first.categorie_id));
+          verify(mockLocalDataSource.cacheAllServices(expectedData));
+        },
+      );
+
+      test(
+        'should return server failure when the call to remote data source is unsuccessful',
+        () async {
+          // arrange
+          when(mockRemoteDataSource.fetchServicesOf(any))
+              .thenAnswer((_) async => throw ServerException());
+          // act
+          final call = repository.fetchServicesOf;
+          // assert
+          expect(() => call(tListServiceModel.first.categorie_id),
+              throwsA(isA<ServerException>()));
+        },
+      );
+    });
+
+    runTestsOffline(() {
+      test(
+        'should return last locally cached data when the cached data is present',
+        () async {
+          // arrange
+          final expectedData = tListServiceModel
+              .where(
+                  (e) => e.categorie_id == tListServiceModel.first.categorie_id)
+              .toList();
+          when(mockLocalDataSource
+                  .fetchServicesOf(tListServiceModel.first.categorie_id))
+              .thenAnswer((_) => expectedData);
+          // act
+          final result = await repository
+              .fetchServicesOf(tListServiceModel.first.categorie_id);
+          // assert
+          verifyZeroInteractions(mockRemoteDataSource);
+          verify(mockLocalDataSource
+              .fetchServicesOf(tListServiceModel.first.categorie_id));
+          expect(
+              result, equals(expectedData.map((e) => e.toEntity()).toList()));
+        },
+      );
+
+      test(
+        'should return CacheFailure when there is no cached data present',
+        () async {
+          // arrange
+          when(mockLocalDataSource
+                  .fetchServicesOf(tListServiceModel.first.categorie_id))
+              .thenAnswer((_) => throw CacheException());
+          // act
+          final call = repository.fetchServicesOf;
+          // assert
+          expect(() => call(tListServiceModel.first.categorie_id),
+              throwsA(isA<CacheException>()));
+        },
+      );
+    });
   });
 }

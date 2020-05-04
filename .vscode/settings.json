@@ -1,3 +1,11 @@
 {
-  "dart.analysisExcludedFolders": ["**/*.g.dart", "**/*.freezed.dart", "**/*.iconfig.dart"]
+  "dart.analysisExcludedFolders": [
+    "**/*.g.dart",
+    "**/*.freezed.dart",
+    "**/*.iconfig.dart",
+    "unity",
+    "ios",
+    "android",
+    "gen"
+  ]
 }

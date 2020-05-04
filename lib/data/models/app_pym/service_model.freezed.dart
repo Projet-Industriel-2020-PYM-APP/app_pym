@@ -8,26 +8,33 @@ part of 'service_model.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+ServiceModel _$ServiceModelFromJson(Map<String, dynamic> json) {
+  return _ServiceModel.fromJson(json);
+}
 
 class _$ServiceModelTearOff {
   const _$ServiceModelTearOff();
 
   _ServiceModel call(
-      {String id,
-      String title,
-      DocumentReference categorie_ref,
-      String subtitle,
-      String address,
-      String img_url,
-      List<ActionModel> actions}) {
+      {@required @HiveField(0) int id,
+      @required @nullable @HiveField(1) String title,
+      @required @nullable @HiveField(2) int categorie_id,
+      @required @nullable @HiveField(3) String subtitle,
+      @required @nullable @HiveField(4) String address,
+      @required @nullable @HiveField(5) String img_url,
+      @required @nullable @HiveField(6) List<ActionModel> actions,
+      @required @nullable @HiveField(7) @nullable String telephone,
+      @required @nullable @HiveField(8) @nullable String website}) {
     return _ServiceModel(
       id: id,
       title: title,
-      categorie_ref: categorie_ref,
+      categorie_id: categorie_id,
       subtitle: subtitle,
       address: address,
       img_url: img_url,
       actions: actions,
+      telephone: telephone,
+      website: website,
     );
   }
 }
@@ -36,14 +43,36 @@ class _$ServiceModelTearOff {
 const $ServiceModel = _$ServiceModelTearOff();
 
 mixin _$ServiceModel {
-  String get id;
+  @HiveField(0)
+  int get id;
+  @nullable
+  @HiveField(1)
   String get title;
-  DocumentReference get categorie_ref;
+  @nullable
+  @HiveField(2)
+  int get categorie_id;
+  @nullable
+  @HiveField(3)
   String get subtitle;
+  @nullable
+  @HiveField(4)
   String get address;
+  @nullable
+  @HiveField(5)
   String get img_url;
+  @nullable
+  @HiveField(6)
   List<ActionModel> get actions;
+  @nullable
+  @HiveField(7)
+  @nullable
+  String get telephone;
+  @nullable
+  @HiveField(8)
+  @nullable
+  String get website;
 
+  Map<String, dynamic> toJson();
   $ServiceModelCopyWith<ServiceModel> get copyWith;
 }
 
@@ -52,13 +81,15 @@ abstract class $ServiceModelCopyWith<$Res> {
           ServiceModel value, $Res Function(ServiceModel) then) =
       _$ServiceModelCopyWithImpl<$Res>;
   $Res call(
-      {String id,
-      String title,
-      DocumentReference categorie_ref,
-      String subtitle,
-      String address,
-      String img_url,
-      List<ActionModel> actions});
+      {@HiveField(0) int id,
+      @nullable @HiveField(1) String title,
+      @nullable @HiveField(2) int categorie_id,
+      @nullable @HiveField(3) String subtitle,
+      @nullable @HiveField(4) String address,
+      @nullable @HiveField(5) String img_url,
+      @nullable @HiveField(6) List<ActionModel> actions,
+      @nullable @HiveField(7) @nullable String telephone,
+      @nullable @HiveField(8) @nullable String website});
 }
 
 class _$ServiceModelCopyWithImpl<$Res> implements $ServiceModelCopyWith<$Res> {
@@ -72,23 +103,26 @@ class _$ServiceModelCopyWithImpl<$Res> implements $ServiceModelCopyWith<$Res> {
   $Res call({
     Object id = freezed,
     Object title = freezed,
-    Object categorie_ref = freezed,
+    Object categorie_id = freezed,
     Object subtitle = freezed,
     Object address = freezed,
     Object img_url = freezed,
     Object actions = freezed,
+    Object telephone = freezed,
+    Object website = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed ? _value.id : id as String,
+      id: id == freezed ? _value.id : id as int,
       title: title == freezed ? _value.title : title as String,
-      categorie_ref: categorie_ref == freezed
-          ? _value.categorie_ref
-          : categorie_ref as DocumentReference,
+      categorie_id:
+          categorie_id == freezed ? _value.categorie_id : categorie_id as int,
       subtitle: subtitle == freezed ? _value.subtitle : subtitle as String,
       address: address == freezed ? _value.address : address as String,
       img_url: img_url == freezed ? _value.img_url : img_url as String,
       actions:
           actions == freezed ? _value.actions : actions as List<ActionModel>,
+      telephone: telephone == freezed ? _value.telephone : telephone as String,
+      website: website == freezed ? _value.website : website as String,
     ));
   }
 }
@@ -100,13 +134,15 @@ abstract class _$ServiceModelCopyWith<$Res>
       __$ServiceModelCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String id,
-      String title,
-      DocumentReference categorie_ref,
-      String subtitle,
-      String address,
-      String img_url,
-      List<ActionModel> actions});
+      {@HiveField(0) int id,
+      @nullable @HiveField(1) String title,
+      @nullable @HiveField(2) int categorie_id,
+      @nullable @HiveField(3) String subtitle,
+      @nullable @HiveField(4) String address,
+      @nullable @HiveField(5) String img_url,
+      @nullable @HiveField(6) List<ActionModel> actions,
+      @nullable @HiveField(7) @nullable String telephone,
+      @nullable @HiveField(8) @nullable String website});
 }
 
 class __$ServiceModelCopyWithImpl<$Res> extends _$ServiceModelCopyWithImpl<$Res>
@@ -122,55 +158,89 @@ class __$ServiceModelCopyWithImpl<$Res> extends _$ServiceModelCopyWithImpl<$Res>
   $Res call({
     Object id = freezed,
     Object title = freezed,
-    Object categorie_ref = freezed,
+    Object categorie_id = freezed,
     Object subtitle = freezed,
     Object address = freezed,
     Object img_url = freezed,
     Object actions = freezed,
+    Object telephone = freezed,
+    Object website = freezed,
   }) {
     return _then(_ServiceModel(
-      id: id == freezed ? _value.id : id as String,
+      id: id == freezed ? _value.id : id as int,
       title: title == freezed ? _value.title : title as String,
-      categorie_ref: categorie_ref == freezed
-          ? _value.categorie_ref
-          : categorie_ref as DocumentReference,
+      categorie_id:
+          categorie_id == freezed ? _value.categorie_id : categorie_id as int,
       subtitle: subtitle == freezed ? _value.subtitle : subtitle as String,
       address: address == freezed ? _value.address : address as String,
       img_url: img_url == freezed ? _value.img_url : img_url as String,
       actions:
           actions == freezed ? _value.actions : actions as List<ActionModel>,
+      telephone: telephone == freezed ? _value.telephone : telephone as String,
+      website: website == freezed ? _value.website : website as String,
     ));
   }
 }
 
+@JsonSerializable(explicitToJson: true)
+@HiveType(typeId: 8)
 class _$_ServiceModel implements _ServiceModel {
   const _$_ServiceModel(
-      {this.id,
-      this.title,
-      this.categorie_ref,
-      this.subtitle,
-      this.address,
-      this.img_url,
-      this.actions});
+      {@required @HiveField(0) this.id,
+      @required @nullable @HiveField(1) this.title,
+      @required @nullable @HiveField(2) this.categorie_id,
+      @required @nullable @HiveField(3) this.subtitle,
+      @required @nullable @HiveField(4) this.address,
+      @required @nullable @HiveField(5) this.img_url,
+      @required @nullable @HiveField(6) this.actions,
+      @required @nullable @HiveField(7) @nullable this.telephone,
+      @required @nullable @HiveField(8) @nullable this.website})
+      : assert(id != null);
+
+  factory _$_ServiceModel.fromJson(Map<String, dynamic> json) =>
+      _$_$_ServiceModelFromJson(json);
 
   @override
-  final String id;
+  @HiveField(0)
+  final int id;
   @override
+  @nullable
+  @HiveField(1)
   final String title;
   @override
-  final DocumentReference categorie_ref;
+  @nullable
+  @HiveField(2)
+  final int categorie_id;
   @override
+  @nullable
+  @HiveField(3)
   final String subtitle;
   @override
+  @nullable
+  @HiveField(4)
   final String address;
   @override
+  @nullable
+  @HiveField(5)
   final String img_url;
   @override
+  @nullable
+  @HiveField(6)
   final List<ActionModel> actions;
+  @override
+  @nullable
+  @HiveField(7)
+  @nullable
+  final String telephone;
+  @override
+  @nullable
+  @HiveField(8)
+  @nullable
+  final String website;
 
   @override
   String toString() {
-    return 'ServiceModel(id: $id, title: $title, categorie_ref: $categorie_ref, subtitle: $subtitle, address: $address, img_url: $img_url, actions: $actions)';
+    return 'ServiceModel(id: $id, title: $title, categorie_id: $categorie_id, subtitle: $subtitle, address: $address, img_url: $img_url, actions: $actions, telephone: $telephone, website: $website)';
   }
 
   @override
@@ -181,9 +251,9 @@ class _$_ServiceModel implements _ServiceModel {
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.title, title) ||
                 const DeepCollectionEquality().equals(other.title, title)) &&
-            (identical(other.categorie_ref, categorie_ref) ||
+            (identical(other.categorie_id, categorie_id) ||
                 const DeepCollectionEquality()
-                    .equals(other.categorie_ref, categorie_ref)) &&
+                    .equals(other.categorie_id, categorie_id)) &&
             (identical(other.subtitle, subtitle) ||
                 const DeepCollectionEquality()
                     .equals(other.subtitle, subtitle)) &&
@@ -194,7 +264,13 @@ class _$_ServiceModel implements _ServiceModel {
                 const DeepCollectionEquality()
                     .equals(other.img_url, img_url)) &&
             (identical(other.actions, actions) ||
-                const DeepCollectionEquality().equals(other.actions, actions)));
+                const DeepCollectionEquality()
+                    .equals(other.actions, actions)) &&
+            (identical(other.telephone, telephone) ||
+                const DeepCollectionEquality()
+                    .equals(other.telephone, telephone)) &&
+            (identical(other.website, website) ||
+                const DeepCollectionEquality().equals(other.website, website)));
   }
 
   @override
@@ -202,41 +278,77 @@ class _$_ServiceModel implements _ServiceModel {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(title) ^
-      const DeepCollectionEquality().hash(categorie_ref) ^
+      const DeepCollectionEquality().hash(categorie_id) ^
       const DeepCollectionEquality().hash(subtitle) ^
       const DeepCollectionEquality().hash(address) ^
       const DeepCollectionEquality().hash(img_url) ^
-      const DeepCollectionEquality().hash(actions);
+      const DeepCollectionEquality().hash(actions) ^
+      const DeepCollectionEquality().hash(telephone) ^
+      const DeepCollectionEquality().hash(website);
 
   @override
   _$ServiceModelCopyWith<_ServiceModel> get copyWith =>
       __$ServiceModelCopyWithImpl<_ServiceModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$_ServiceModelToJson(this);
+  }
 }
 
 abstract class _ServiceModel implements ServiceModel {
   const factory _ServiceModel(
-      {String id,
-      String title,
-      DocumentReference categorie_ref,
-      String subtitle,
-      String address,
-      String img_url,
-      List<ActionModel> actions}) = _$_ServiceModel;
+          {@required @HiveField(0) int id,
+          @required @nullable @HiveField(1) String title,
+          @required @nullable @HiveField(2) int categorie_id,
+          @required @nullable @HiveField(3) String subtitle,
+          @required @nullable @HiveField(4) String address,
+          @required @nullable @HiveField(5) String img_url,
+          @required @nullable @HiveField(6) List<ActionModel> actions,
+          @required @nullable @HiveField(7) @nullable String telephone,
+          @required @nullable @HiveField(8) @nullable String website}) =
+      _$_ServiceModel;
+
+  factory _ServiceModel.fromJson(Map<String, dynamic> json) =
+      _$_ServiceModel.fromJson;
 
   @override
-  String get id;
+  @HiveField(0)
+  int get id;
   @override
+  @nullable
+  @HiveField(1)
   String get title;
   @override
-  DocumentReference get categorie_ref;
+  @nullable
+  @HiveField(2)
+  int get categorie_id;
   @override
+  @nullable
+  @HiveField(3)
   String get subtitle;
   @override
+  @nullable
+  @HiveField(4)
   String get address;
   @override
+  @nullable
+  @HiveField(5)
   String get img_url;
   @override
+  @nullable
+  @HiveField(6)
   List<ActionModel> get actions;
+  @override
+  @nullable
+  @HiveField(7)
+  @nullable
+  String get telephone;
+  @override
+  @nullable
+  @HiveField(8)
+  @nullable
+  String get website;
   @override
   _$ServiceModelCopyWith<_ServiceModel> get copyWith;
 }

@@ -24,14 +24,26 @@ class BatimentRepositoryImpl implements BatimentRepository {
   });
 
   @override
-  Future<Batiment> fetchBatiment(int id) async {
+  Future<Batiment> fetch(int id) async {
     if (await networkInfo.result != ConnectivityResult.none) {
       final data = await remoteDataSource.fetchBatiment(id);
       await localDataSource.cacheBatiment(data);
-      return data.toEntity();
+      return data?.toEntity();
     } else {
       final data = localDataSource.fetchBatiment(id);
-      return data.toEntity();
+      return data?.toEntity();
+    }
+  }
+
+  @override
+  Future<List<Batiment>> fetchAll() async {
+    if (await networkInfo.result != ConnectivityResult.none) {
+      final data = await remoteDataSource.fetchAllBatiment() ?? [];
+      await localDataSource.cacheAllBatiment(data);
+      return data.map((e) => e?.toEntity()).toList();
+    } else {
+      final data = localDataSource.fetchAllBatiment();
+      return data.map((e) => e?.toEntity()).toList();
     }
   }
 }

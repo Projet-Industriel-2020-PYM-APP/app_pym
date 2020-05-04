@@ -1,79 +1,54 @@
-import 'package:app_pym/injection_container.dart';
-import 'package:breakpoint/breakpoint.dart';
-import 'package:flutter/material.dart';
+import 'package:app_pym/core/utils/url_launcher_utils.dart';
+import 'package:app_pym/domain/entities/app_pym/action.dart';
 import 'package:app_pym/domain/entities/app_pym/service.dart';
-import 'package:app_pym/domain/entities/app_pym/categorie.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:app_pym/domain/entities/app_pym/service_categorie.dart';
+import 'package:app_pym/injection_container.dart';
 import 'package:app_pym/presentation/blocs/services/services_of_categorie/services_of_categorie_bloc.dart';
+import 'package:app_pym/presentation/pages/services/fetch_all_bookings_screen.dart';
+import 'package:breakpoint/breakpoint.dart';
+import 'package:flutter/material.dart' hide Action;
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ServicesOfCategoriePage extends StatelessWidget {
-  final Categorie categorie;
+class ActionButton extends StatelessWidget {
+  final Action action;
+  final Service service;
 
-  const ServicesOfCategoriePage(this.categorie, {Key key}) : super(key: key);
+  const ActionButton(
+    this.action, {
+    Key key,
+    @required this.service,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(categorie.name)),
-      body: buildServices(context, categorie),
-    );
-  }
-
-  BlocProvider<ServicesOfCategorieBloc> buildServices(
-      BuildContext context, Categorie categorie) {
-    return BlocProvider<ServicesOfCategorieBloc>(
-      create: (_) {
-        final ServicesOfCategorieBloc bloc = sl<ServicesOfCategorieBloc>();
-        bloc.add(FetchServicesOfCategorieEvent(categorie));
-        return bloc;
-      },
-      child: Center(
-        child: BlocBuilder<ServicesOfCategorieBloc, ServicesOfCategorieState>(
-          builder: (BuildContext context, ServicesOfCategorieState state) {
-            return state.when(
-              initial: () => const Center(
-                child: CircularProgressIndicator(),
-              ),
-              loading: () => const Center(
-                child: CircularProgressIndicator(),
-              ),
-              loaded: (List<Service> services) =>
-                  ServicesOfCategorieScreen(services, categorie),
-              error: (e) => Center(
-                child: Text(e.toString()),
+    return FlatButton(
+      onPressed: () async {
+        if (action.name != null) {
+          if (action.name.toLowerCase().contains('réserve')) {
+            await Navigator.of(context).push<void>(
+              MaterialPageRoute(
+                builder: (context) => FetchAllBookingsPage(service),
               ),
             );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class ServicesOfCategorieScreen extends StatelessWidget {
-  final Categorie categorie;
-  final List<Service> services;
-
-  const ServicesOfCategorieScreen(this.services, this.categorie);
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final _breakpoint = Breakpoint.fromConstraints(constraints);
-        return Scrollbar(
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: (_breakpoint.columns / 8).ceil(),
-              childAspectRatio: 5 / 2,
+          } else if (action.name.toLowerCase().contains('téléphone')) {
+            await UrlLauncherUtils.launch('tel:${service.telephone}');
+          } else if (action.name.toLowerCase().contains('web')) {
+            await UrlLauncherUtils.launch(service.website);
+          } else if (action.name.toLowerCase().contains('localise')) {
+            await UrlLauncherUtils.launch(
+                'https://maps.google.com/?q=${service.address}');
+          }
+        } else if (action.html_url != null && action.html_url.isNotEmpty) {
+          await UrlLauncherUtils.launch(action.html_url);
+        } else {
+          await Navigator.of(context).push<void>(
+            MaterialPageRoute(
+              builder: (context) => FetchAllBookingsPage(service),
             ),
-            itemCount: services.length,
-            itemBuilder: (context, id) {
-              return ServiceCard(services[id]);
-            },
-          ),
-        );
+          );
+        }
       },
+      child: Text(action.name?.toUpperCase() ?? "Action"),
     );
   }
 }
@@ -128,14 +103,18 @@ class ServiceCard extends StatelessWidget {
                     ),
                   ),
                   const Divider(),
-                  ButtonBar(
-                    buttonTextTheme: ButtonTextTheme.primary,
-                    children: service.actions
-                        .map((e) => FlatButton(
-                              onPressed: () {},
-                              child: Text(e.name.toUpperCase()),
-                            ))
-                        .toList(),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        ButtonBar(
+                          buttonTextTheme: ButtonTextTheme.primary,
+                          children: service.actions
+                              .map((e) => ActionButton(e, service: service))
+                              .toList(),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -143,6 +122,78 @@ class ServiceCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ServicesOfCategoriePage extends StatelessWidget {
+  final ServiceCategorie categorie;
+
+  const ServicesOfCategoriePage(this.categorie, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(categorie.name)),
+      body: buildServices(context, categorie),
+    );
+  }
+
+  BlocProvider<ServicesOfCategorieBloc> buildServices(
+      BuildContext context, ServiceCategorie categorie) {
+    return BlocProvider<ServicesOfCategorieBloc>(
+      create: (_) {
+        final ServicesOfCategorieBloc bloc = sl<ServicesOfCategorieBloc>();
+        bloc.add(FetchServicesOfCategorieEvent(categorie));
+        return bloc;
+      },
+      child: Center(
+        child: BlocBuilder<ServicesOfCategorieBloc, ServicesOfCategorieState>(
+          builder: (BuildContext context, ServicesOfCategorieState state) {
+            return state.when(
+              initial: () => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              loading: () => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              loaded: (List<Service> services) =>
+                  ServicesOfCategorieScreen(services, categorie),
+              error: (e) => Center(
+                child: Text(e.toString()),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class ServicesOfCategorieScreen extends StatelessWidget {
+  final ServiceCategorie categorie;
+  final List<Service> services;
+
+  const ServicesOfCategorieScreen(this.services, this.categorie);
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final _breakpoint = Breakpoint.fromConstraints(constraints);
+        return Scrollbar(
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: (_breakpoint.columns / 8).ceil(),
+              childAspectRatio: 5 / 2,
+            ),
+            itemCount: services.length,
+            itemBuilder: (context, id) {
+              return ServiceCard(services[id]);
+            },
+          ),
+        );
+      },
     );
   }
 }

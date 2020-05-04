@@ -13,19 +13,23 @@ class _$ServiceTearOff {
   const _$ServiceTearOff();
 
   _Service call(
-      {String id,
-      String title,
-      String categorie_ref,
-      String subtitle,
-      String address,
-      String img_url,
-      List<Action> actions}) {
+      {@required int id,
+      @required @nullable String title,
+      @required @nullable int categorie_id,
+      @required @nullable String subtitle,
+      @required @nullable String address,
+      @required @nullable String telephone,
+      @required @nullable String website,
+      @required @nullable String img_url,
+      @required @nullable List<Action> actions}) {
     return _Service(
       id: id,
       title: title,
-      categorie_ref: categorie_ref,
+      categorie_id: categorie_id,
       subtitle: subtitle,
       address: address,
+      telephone: telephone,
+      website: website,
       img_url: img_url,
       actions: actions,
     );
@@ -36,12 +40,22 @@ class _$ServiceTearOff {
 const $Service = _$ServiceTearOff();
 
 mixin _$Service {
-  String get id;
+  int get id;
+  @nullable
   String get title;
-  String get categorie_ref;
+  @nullable
+  int get categorie_id;
+  @nullable
   String get subtitle;
+  @nullable
   String get address;
+  @nullable
+  String get telephone;
+  @nullable
+  String get website;
+  @nullable
   String get img_url;
+  @nullable
   List<Action> get actions;
 
   $ServiceCopyWith<Service> get copyWith;
@@ -51,13 +65,15 @@ abstract class $ServiceCopyWith<$Res> {
   factory $ServiceCopyWith(Service value, $Res Function(Service) then) =
       _$ServiceCopyWithImpl<$Res>;
   $Res call(
-      {String id,
-      String title,
-      String categorie_ref,
-      String subtitle,
-      String address,
-      String img_url,
-      List<Action> actions});
+      {int id,
+      @nullable String title,
+      @nullable int categorie_id,
+      @nullable String subtitle,
+      @nullable String address,
+      @nullable String telephone,
+      @nullable String website,
+      @nullable String img_url,
+      @nullable List<Action> actions});
 }
 
 class _$ServiceCopyWithImpl<$Res> implements $ServiceCopyWith<$Res> {
@@ -71,20 +87,23 @@ class _$ServiceCopyWithImpl<$Res> implements $ServiceCopyWith<$Res> {
   $Res call({
     Object id = freezed,
     Object title = freezed,
-    Object categorie_ref = freezed,
+    Object categorie_id = freezed,
     Object subtitle = freezed,
     Object address = freezed,
+    Object telephone = freezed,
+    Object website = freezed,
     Object img_url = freezed,
     Object actions = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed ? _value.id : id as String,
+      id: id == freezed ? _value.id : id as int,
       title: title == freezed ? _value.title : title as String,
-      categorie_ref: categorie_ref == freezed
-          ? _value.categorie_ref
-          : categorie_ref as String,
+      categorie_id:
+          categorie_id == freezed ? _value.categorie_id : categorie_id as int,
       subtitle: subtitle == freezed ? _value.subtitle : subtitle as String,
       address: address == freezed ? _value.address : address as String,
+      telephone: telephone == freezed ? _value.telephone : telephone as String,
+      website: website == freezed ? _value.website : website as String,
       img_url: img_url == freezed ? _value.img_url : img_url as String,
       actions: actions == freezed ? _value.actions : actions as List<Action>,
     ));
@@ -96,13 +115,15 @@ abstract class _$ServiceCopyWith<$Res> implements $ServiceCopyWith<$Res> {
       __$ServiceCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String id,
-      String title,
-      String categorie_ref,
-      String subtitle,
-      String address,
-      String img_url,
-      List<Action> actions});
+      {int id,
+      @nullable String title,
+      @nullable int categorie_id,
+      @nullable String subtitle,
+      @nullable String address,
+      @nullable String telephone,
+      @nullable String website,
+      @nullable String img_url,
+      @nullable List<Action> actions});
 }
 
 class __$ServiceCopyWithImpl<$Res> extends _$ServiceCopyWithImpl<$Res>
@@ -117,20 +138,23 @@ class __$ServiceCopyWithImpl<$Res> extends _$ServiceCopyWithImpl<$Res>
   $Res call({
     Object id = freezed,
     Object title = freezed,
-    Object categorie_ref = freezed,
+    Object categorie_id = freezed,
     Object subtitle = freezed,
     Object address = freezed,
+    Object telephone = freezed,
+    Object website = freezed,
     Object img_url = freezed,
     Object actions = freezed,
   }) {
     return _then(_Service(
-      id: id == freezed ? _value.id : id as String,
+      id: id == freezed ? _value.id : id as int,
       title: title == freezed ? _value.title : title as String,
-      categorie_ref: categorie_ref == freezed
-          ? _value.categorie_ref
-          : categorie_ref as String,
+      categorie_id:
+          categorie_id == freezed ? _value.categorie_id : categorie_id as int,
       subtitle: subtitle == freezed ? _value.subtitle : subtitle as String,
       address: address == freezed ? _value.address : address as String,
+      telephone: telephone == freezed ? _value.telephone : telephone as String,
+      website: website == freezed ? _value.website : website as String,
       img_url: img_url == freezed ? _value.img_url : img_url as String,
       actions: actions == freezed ? _value.actions : actions as List<Action>,
     ));
@@ -139,32 +163,47 @@ class __$ServiceCopyWithImpl<$Res> extends _$ServiceCopyWithImpl<$Res>
 
 class _$_Service implements _Service {
   const _$_Service(
-      {this.id,
-      this.title,
-      this.categorie_ref,
-      this.subtitle,
-      this.address,
-      this.img_url,
-      this.actions});
+      {@required this.id,
+      @required @nullable this.title,
+      @required @nullable this.categorie_id,
+      @required @nullable this.subtitle,
+      @required @nullable this.address,
+      @required @nullable this.telephone,
+      @required @nullable this.website,
+      @required @nullable this.img_url,
+      @required @nullable this.actions})
+      : assert(id != null);
 
   @override
-  final String id;
+  final int id;
   @override
+  @nullable
   final String title;
   @override
-  final String categorie_ref;
+  @nullable
+  final int categorie_id;
   @override
+  @nullable
   final String subtitle;
   @override
+  @nullable
   final String address;
   @override
+  @nullable
+  final String telephone;
+  @override
+  @nullable
+  final String website;
+  @override
+  @nullable
   final String img_url;
   @override
+  @nullable
   final List<Action> actions;
 
   @override
   String toString() {
-    return 'Service(id: $id, title: $title, categorie_ref: $categorie_ref, subtitle: $subtitle, address: $address, img_url: $img_url, actions: $actions)';
+    return 'Service(id: $id, title: $title, categorie_id: $categorie_id, subtitle: $subtitle, address: $address, telephone: $telephone, website: $website, img_url: $img_url, actions: $actions)';
   }
 
   @override
@@ -175,15 +214,21 @@ class _$_Service implements _Service {
                 const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.title, title) ||
                 const DeepCollectionEquality().equals(other.title, title)) &&
-            (identical(other.categorie_ref, categorie_ref) ||
+            (identical(other.categorie_id, categorie_id) ||
                 const DeepCollectionEquality()
-                    .equals(other.categorie_ref, categorie_ref)) &&
+                    .equals(other.categorie_id, categorie_id)) &&
             (identical(other.subtitle, subtitle) ||
                 const DeepCollectionEquality()
                     .equals(other.subtitle, subtitle)) &&
             (identical(other.address, address) ||
                 const DeepCollectionEquality()
                     .equals(other.address, address)) &&
+            (identical(other.telephone, telephone) ||
+                const DeepCollectionEquality()
+                    .equals(other.telephone, telephone)) &&
+            (identical(other.website, website) ||
+                const DeepCollectionEquality()
+                    .equals(other.website, website)) &&
             (identical(other.img_url, img_url) ||
                 const DeepCollectionEquality()
                     .equals(other.img_url, img_url)) &&
@@ -196,9 +241,11 @@ class _$_Service implements _Service {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(title) ^
-      const DeepCollectionEquality().hash(categorie_ref) ^
+      const DeepCollectionEquality().hash(categorie_id) ^
       const DeepCollectionEquality().hash(subtitle) ^
       const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(telephone) ^
+      const DeepCollectionEquality().hash(website) ^
       const DeepCollectionEquality().hash(img_url) ^
       const DeepCollectionEquality().hash(actions);
 
@@ -209,27 +256,41 @@ class _$_Service implements _Service {
 
 abstract class _Service implements Service {
   const factory _Service(
-      {String id,
-      String title,
-      String categorie_ref,
-      String subtitle,
-      String address,
-      String img_url,
-      List<Action> actions}) = _$_Service;
+      {@required int id,
+      @required @nullable String title,
+      @required @nullable int categorie_id,
+      @required @nullable String subtitle,
+      @required @nullable String address,
+      @required @nullable String telephone,
+      @required @nullable String website,
+      @required @nullable String img_url,
+      @required @nullable List<Action> actions}) = _$_Service;
 
   @override
-  String get id;
+  int get id;
   @override
+  @nullable
   String get title;
   @override
-  String get categorie_ref;
+  @nullable
+  int get categorie_id;
   @override
+  @nullable
   String get subtitle;
   @override
+  @nullable
   String get address;
   @override
+  @nullable
+  String get telephone;
+  @override
+  @nullable
+  String get website;
+  @override
+  @nullable
   String get img_url;
   @override
+  @nullable
   List<Action> get actions;
   @override
   _$ServiceCopyWith<_Service> get copyWith;

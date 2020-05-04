@@ -10,13 +10,13 @@ import 'package:mockito/mockito.dart';
 
 void main() {
   ArViewBloc bloc;
-  LoadPageAndPlaceBatiment mockLoadPageAndPlaceBatiment;
+  LoadPageAndPlaceBatiments mockLoadPageAndPlaceBatiment;
   MockUnityWidgetController mockController;
 
   init(env: Environment.test);
 
   setUp(() {
-    mockLoadPageAndPlaceBatiment = sl<LoadPageAndPlaceBatiment>();
+    mockLoadPageAndPlaceBatiment = sl<LoadPageAndPlaceBatiments>();
     mockController = MockUnityWidgetController();
     bloc = ArViewBloc(mockLoadPageAndPlaceBatiment);
   });

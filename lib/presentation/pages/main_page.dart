@@ -27,37 +27,33 @@ class _MainPageState extends State<MainPage> {
     "Plus",
   ];
 
-  PageController pageController;
+  static const List<Widget> pages = <Widget>[
+    ActualitePage(),
+    MobilitePage(),
+    CartographiePage(),
+    ServicesPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<MainPageBloc>(
       create: (_) => sl<MainPageBloc>(),
-      child: BlocBuilder<MainPageBloc, MainPageState>(
-        builder: (context, state) => Scaffold(
-          body: buildBody(context),
-          bottomNavigationBar: buildBottomNavBar(context, state),
-          floatingActionButton: buildFloatingActionButton(context, state),
+      child: SafeArea(
+        child: BlocBuilder<MainPageBloc, MainPageState>(
+          builder: (context, state) => Scaffold(
+            body: buildBody(context, state),
+            bottomNavigationBar: buildBottomNavBar(context, state),
+            floatingActionButton: buildFloatingActionButton(context, state),
+          ),
         ),
       ),
     );
   }
 
-  Widget buildBody(BuildContext context) {
-    return SafeArea(
-      child: PageView(
-        onPageChanged: (int newIndex) {
-          context.bloc<MainPageBloc>().add(GoToPageEvent(newIndex));
-        },
-        physics: const NeverScrollableScrollPhysics(),
-        controller: pageController,
-        children: const <Widget>[
-          ActualitePage(),
-          MobilitePage(),
-          CartographiePage(),
-          ServicesPage(),
-        ],
-      ),
+  Widget buildBody(BuildContext context, MainPageState state) {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 200),
+      child: pages[state.currentIndex],
     );
   }
 
@@ -171,18 +167,6 @@ class _MainPageState extends State<MainPage> {
     return position;
   }
 
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    pageController = PageController();
-    super.initState();
-  }
-
   Future<void> onTabTapped(BuildContext context, int newIndex) async {
     if (newIndex == 4) {
       final position = buttonMenuPosition(context);
@@ -205,12 +189,8 @@ class _MainPageState extends State<MainPage> {
       if (result != null) {
         await Navigator.of(context).pushNamed(result);
       }
-    } else if (newIndex != pageController.page.round()) {
-      await pageController.animateToPage(
-        newIndex,
-        curve: Curves.easeInOut,
-        duration: const Duration(milliseconds: 300),
-      );
+    } else if (newIndex != context.bloc<MainPageBloc>().state.currentIndex) {
+      context.bloc<MainPageBloc>().add(GoToPageEvent(newIndex));
     }
   }
 }
