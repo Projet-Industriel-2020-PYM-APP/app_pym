@@ -28,8 +28,10 @@ class FetchBusTrips extends Usecase<Future<List<Trip>>, NoParams> {
     final int today = now.weekday - 1;
     final int tomorrow = (today + 1) % 7;
 
+    //initialisation du temps à minimiser
     final DateTime minTime = DateTime(now.year, now.month, now.day, 23, 59, 59);
     final DateTime minTimeTomorrow = minTime + 1.days;
+
     final List<DateTime> minTimes = List.generate(6, (int index) => minTime);
     final List<DateTime> minTimesTomorrow =
         List.generate(6, (int index) => minTimeTomorrow);
@@ -37,9 +39,9 @@ class FetchBusTrips extends Usecase<Future<List<Trip>>, NoParams> {
     final List<Trip> nextTripsTomorrow = List.generate(6, (int index) => null);
 
     for (final trip in route.trips) {
-      // On veut afficher le prochain.
+      // On veut afficher les 3 prochains
       if (trip.calendar.weekdays[today]) {
-        //StopTime de l'arrêt à Gardanne
+        //StopTime de l'arrêt au pôle
         final stopTimeOfTrip = trip.stop_time
             .where((stop_time) =>
                 stop_time.stop.stop_name == MobilityConstants.pymStop)
@@ -71,7 +73,7 @@ class FetchBusTrips extends Usecase<Future<List<Trip>>, NoParams> {
           }
         }
       }
-      //on veut le prochain de demain
+      //on veut les 3 prochains de demain
       if (trip.calendar.weekdays[tomorrow]) {
         //StopTime de l'arrêt à Gardanne
         final stopTimeOfTrip = trip.stop_time
@@ -107,13 +109,14 @@ class FetchBusTrips extends Usecase<Future<List<Trip>>, NoParams> {
       }
     }
     if (nextTrips[4] != null && nextTrips[5] != null) {
+      //si assez de trips pour remplir la liste
       return nextTrips;
     } else if (nextTrips[0] == null && nextTrips[1] == null) {
       // Aucun trip aujourd'hui
       return nextTripsTomorrow;
     } else {
       //pas assez de trips aujourd'hui
-      //prochain trip de demain à récupérer si trip null
+      //indices du prochain trip de demain à récupérer pour chaque direction
       final List<int> indicesARecuperer = [0, 1];
       for (int i = 0; i < 3; i++) {
         //pour trip aller

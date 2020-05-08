@@ -45,8 +45,9 @@ class SNCFRouteRepositoryImpl implements SNCFRouteRepository {
     final stopTimeModels = localDataSource.fetchStopTimes();
     final stopModels = localDataSource.fetchStops();
 
+    //la seule route qui nous intéresse
     final routeModel = (await routeModels).firstWhere((routeModel) =>
-        routeModel.route_id.compareTo(MobilityConstants.trainLines.first) == 0);
+        routeModel.route_id.compareTo(MobilityConstants.trainLine) == 0);
     final route = routeModel.toEntity(
       calendarModels: await calendarModels,
       stopModels: await stopModels,

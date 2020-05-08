@@ -46,7 +46,7 @@ class MobilityControls extends StatelessWidget {
           //     TripsEvent.fetchBus(tripsState.direction)),
           onFlatPressed: () =>
               context.bloc<TripsBloc>().add(const TripsEvent.hideBus()),
-          child: const Text(" Bus "),
+          child: const Text(" BUS "),
         ),
         SwitchButton(
           isRaised: !tripsState.isTrainLoaded,
@@ -55,7 +55,7 @@ class MobilityControls extends StatelessWidget {
               .add(TripsEvent.fetchTrain(tripsState.direction)),
           onFlatPressed: () =>
               context.bloc<TripsBloc>().add(const TripsEvent.hideTrain()),
-          child: const Text(" Train "),
+          child: const Text(" TER "),
         ),
         SwitchButton(
           isRaised: tripsState.isBusLoaded || tripsState.isTrainLoaded,
@@ -65,7 +65,7 @@ class MobilityControls extends StatelessWidget {
               ..add(const TripsEvent.hideTrain());
           },
           onFlatPressed: () => null,
-          child: const Text(" Cacher "),
+          child: const Text("CACHER"),
         ),
       ],
     );

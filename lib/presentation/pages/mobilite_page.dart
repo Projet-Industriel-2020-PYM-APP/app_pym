@@ -8,6 +8,7 @@ import 'package:app_pym/presentation/widgets/mobility/mobility_controls.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MobilitePage extends StatelessWidget {
   const MobilitePage({Key key}) : super(key: key);
@@ -83,14 +84,17 @@ class MobiliteListenersWidget extends StatelessWidget {
               for (final Marker marker in state.markers) {
                 if (marker.markerId.value.startsWith("bus")) {
                   final Marker newMarker = Marker(
-                    markerId: MarkerId("!" + marker.markerId.value),
+                    markerId: MarkerId("!" +
+                        marker.markerId.value), //pour ne traiter qu'une fois
                     consumeTapEvents: true,
                     onTap: () {
+                      //ajoute les infos dans state
                       context.bloc<StopDetailsBloc>().add(StopDetailsEvent.show(
                             id: marker.markerId.value,
                             trips: tripState.busTrips,
                             isBus: true,
                           ));
+                      //affiche la BottomSheet
                       Scaffold.of(context).showBottomSheet<dynamic>((context) {
                         return const Details();
                       });
@@ -98,6 +102,7 @@ class MobiliteListenersWidget extends StatelessWidget {
                     position: marker.position,
                     visible: true,
                   );
+                  //remplace le marqueur sans action par le nouveau
                   state.markers.remove(marker);
                   state.markers.add(newMarker);
                 }
@@ -107,18 +112,25 @@ class MobiliteListenersWidget extends StatelessWidget {
               for (final Marker marker in state.markers) {
                 if (marker.markerId.value.startsWith("train")) {
                   final Marker newMarker = Marker(
-                    markerId: MarkerId("!" + marker.markerId.value),
+                    markerId: MarkerId("!" +
+                        marker.markerId.value), //pour ne traiter qu'une fois
                     consumeTapEvents: true,
                     onTap: () {
+                      //ajoute les infos dans state
                       context.bloc<StopDetailsBloc>().add(StopDetailsEvent.show(
                             id: marker.markerId.value,
                             trips: tripState.trainTrips,
                             isBus: false,
                           ));
+                      //affiche la BottomSheet
+                      Scaffold.of(context).showBottomSheet<dynamic>((context) {
+                        return const Details();
+                      });
                     },
                     position: marker.position,
                     visible: true,
                   );
+                  //remplace le marqueur sans action par le nouveau
                   state.markers.remove(marker);
                   state.markers.add(newMarker);
                 }
@@ -151,6 +163,8 @@ class MobiliteBody extends StatelessWidget {
                   initialPosition: LatLng(43.4506539, 5.4459134),
                 ),
                 const MobilityControls(),
+                if (context.bloc<TripsBloc>().state.isError)
+                  Text(context.bloc<TripsBloc>().state.exception.toString()),
               ],
             ),
           ),
@@ -165,11 +179,19 @@ class MobiliteBody extends StatelessWidget {
                     const Text("Autres transports"),
                     Wrap(
                       children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            //TODO autres transports
-                          ],
+                        FlatButton(
+                          onPressed: () =>
+                              _launchURL("https://www.blablacar.fr/"),
+                          child: const Image(
+                              image: AssetImage(
+                                  "images/mobilite/Logo_BlaBlaCar.png")),
                         ),
+                        FlatButton(
+                          onPressed: () => _launchURL("https://www.uber.com/"),
+                          child: const Image(
+                              image:
+                                  AssetImage("images/mobilite/Logo_Uber.png")),
+                        )
                       ],
                     ),
                   ],
@@ -180,6 +202,14 @@ class MobiliteBody extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+void _launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw Exception('Could not launch $url');
   }
 }
 
@@ -202,60 +232,101 @@ class Details extends StatelessWidget {
           String ligne_name;
           if (stopDetailsState.isBus) {
             icone = Icons.directions_bus;
-            ligne_name = MobilityConstants.busLines[0];
+            ligne_name = MobilityConstants.busLine;
           } else {
             icone = Icons.train;
-            ligne_name = MobilityConstants.trainLines[0];
+            ligne_name = MobilityConstants.trainLine;
           }
           return Column(
             children: [
               Row(
                 children: [
                   Icon(icone),
-                  Text(ligne_name),
+                  Text(
+                    ligne_name,
+                    style: DefaultTextStyle.of(context)
+                        .style
+                        .apply(fontSizeFactor: 2.0),
+                  )
                 ],
               ),
               Row(
                 children: [
-                  const Icon(Icons.arrow_forward),
-                  Text("Direction " + stopDetailsState.last_stop),
+                  Icon(
+                    Icons.arrow_forward,
+                    color: Colors.black.withOpacity(0.5),
+                  ),
+                  Text(
+                    "Direction " + stopDetailsState.last_stop,
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                  ),
                 ],
               ),
-              Text(stopDetailsState.stop_name),
+              Text(
+                stopDetailsState.stop_name,
+                style: TextStyle(
+                  color: Colors.black.withOpacity(0.5),
+                ),
+              ),
               Row(
                 children: [
                   const Icon(Icons.arrow_right),
-                  Text(stopDetailsState.stop_times[0]),
+                  Text(
+                    stopDetailsState.stop_times[0],
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
               Text(stopDetailsState.stop_times[1]),
               Text(stopDetailsState.stop_times[2]),
               ListView.builder(itemBuilder: (context, index) {
+                //valeurs par défaut
                 Color couleur = Colors.black;
                 IconData icone = Icons.arrow_drop_down;
+
                 if (stopDetailsState.trip[index].stop.stop_name ==
                     stopDetailsState.last_stop) {
+                  icone = Icons.fiber_manual_record;
+                }
+                if (stopDetailsState.trip[index].stop.stop_name ==
+                    stopDetailsState.stop_name) {
                   icone = Icons.fiber_manual_record;
                 }
                 if (stopDetailsState.trip[index].stop.stop_name ==
                     stopDetailsState.destination) {
                   couleur = Colors.red;
                 }
-                final TextStyle style =
-                    TextStyle(inherit: true, color: couleur);
+                //création des styles
+                final TextStyle name_style = TextStyle(
+                  color: couleur,
+                  fontWeight: FontWeight.bold,
+                );
+                final TextStyle hour_style = TextStyle(color: couleur);
+
                 return Row(
                   children: [
-                    Icon(
-                      icone,
-                      color: couleur,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Icon(
+                        icone,
+                        color: couleur,
+                      ),
                     ),
                     Text(
                       stopDetailsState.trip[index].stop.stop_name,
-                      style: style,
+                      style: name_style,
                     ),
-                    Text(
-                      stopDetailsState.trip[index].arrival_time,
-                      style: style,
+                    Container(
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Text(
+                        stopDetailsState.trip[index].arrival_time,
+                        style: hour_style,
+                      ),
                     ),
                   ],
                 );

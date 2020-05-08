@@ -10,10 +10,10 @@ import 'package:app_pym/domain/usecases/authentication/mock_firebase_auth.dart';
 import 'package:app_pym/domain/usecases/authentication/signin.dart';
 import 'package:app_pym/domain/usecases/authentication/signout.dart';
 import 'package:app_pym/domain/usecases/authentication/signup.dart';
-import 'package:app_pym/data/services/authentication_service_dev_impl.dart';
-import 'package:app_pym/data/services/authentication_service.dart';
-import 'package:app_pym/dev_register_module.dart';
 import 'package:app_pym/data/services/mock_authentication_service.dart';
+import 'package:app_pym/data/services/authentication_service.dart';
+import 'package:app_pym/data/services/authentication_service_dev_impl.dart';
+import 'package:app_pym/dev_register_module.dart';
 import 'package:app_pym/domain/repositories/map_pym/mock_batiment_repository.dart';
 import 'package:app_pym/domain/repositories/map_pym/batiment_repository.dart';
 import 'package:app_pym/domain/repositories/app_pym/mock_booking_repository.dart';
@@ -54,13 +54,13 @@ import 'package:app_pym/domain/usecases/services/fetch_services_of_categorie.dar
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:app_pym/domain/usecases/authentication/forgot_password.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:app_pym/data/devices/geolocator_device_mock.dart';
 import 'package:app_pym/data/devices/geolocator_device.dart';
+import 'package:app_pym/data/devices/geolocator_device_mock.dart';
 import 'package:app_pym/domain/usecases/authentication/get_app_user.dart';
 import 'package:app_pym/domain/usecases/cartographie/get_batiment_detail.dart';
 import 'package:app_pym/domain/usecases/cartographie/mock_get_batiment_detail.dart';
-import 'package:app_pym/domain/usecases/cartographie/mock_get_entreprises_of_batiment.dart';
 import 'package:app_pym/domain/usecases/cartographie/get_entreprises_of_batiment.dart';
+import 'package:app_pym/domain/usecases/cartographie/mock_get_entreprises_of_batiment.dart';
 import 'package:app_pym/domain/usecases/fil_actualite/mock_get_posts.dart';
 import 'package:app_pym/domain/usecases/fil_actualite/get_posts.dart';
 import 'package:app_pym/domain/usecases/cartographie/load_page_and_place_batiments.dart';
@@ -123,7 +123,6 @@ import 'package:app_pym/domain/usecases/mobility/fetch_bus_trips.dart';
 import 'package:app_pym/domain/usecases/mobility/fetch_train_route.dart';
 import 'package:app_pym/domain/usecases/mobility/fetch_train_trips.dart';
 import 'package:app_pym/presentation/blocs/mobility/trips/trips_bloc.dart';
-import 'package:app_pym/domain/usecases/mobility/fetch_train_stops.dart';
 import 'package:get_it/get_it.dart';
 
 Future<void> $initGetIt(GetIt g, {String environment}) async {
@@ -322,8 +321,6 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerLazySingleton<FetchTrainTrips>(
         () => devRegisterModule.fetchTrainTrips);
     g.registerFactory<TripsBloc>(() => devRegisterModule.tripsBloc);
-    g.registerLazySingleton<FetchTrainStops>(
-        () => devRegisterModule.fetchTrainStops);
   }
 
   //Register prod Dependencies --------
@@ -528,8 +525,6 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerFactory<TripsBloc>(() => TripsBloc(
         fetchBusTrips: g<FetchBusTrips>(),
         fetchTrainTrips: g<FetchTrainTrips>()));
-    g.registerLazySingleton<FetchTrainStops>(
-        () => FetchTrainStops(g<FetchTrainTrips>()));
   }
 }
 
@@ -772,8 +767,6 @@ class _$DevRegisterModule extends DevRegisterModule {
   TripsBloc get tripsBloc => TripsBloc(
       fetchBusTrips: _g<FetchBusTrips>(),
       fetchTrainTrips: _g<FetchTrainTrips>());
-  @override
-  FetchTrainStops get fetchTrainStops => FetchTrainStops(_g<FetchTrainTrips>());
 }
 
 class _$RegisterModule extends RegisterModule {

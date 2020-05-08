@@ -24,7 +24,7 @@ class _DirectionControlsState extends State<DirectionControls> {
               .bloc<TripsBloc>()
               .add(const TripsEvent.changeDirection(Direction.Aller)),
           onFlatPressed: () => null,
-          child: const Text("Aller"),
+          child: const Text("ALLER"),
         ),
         SwitchButton(
           isRaised:
@@ -33,7 +33,7 @@ class _DirectionControlsState extends State<DirectionControls> {
               .bloc<TripsBloc>()
               .add(const TripsEvent.changeDirection(Direction.Retour)),
           onFlatPressed: () => null,
-          child: const Text("Retour"),
+          child: const Text("PARTIR"),
         ),
       ],
     );

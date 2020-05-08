@@ -24,7 +24,8 @@ class StopDetailsBloc extends Bloc<StopDetailsEvent, StopDetailsState> {
       show: (id, trips, isBus) async* {
         yield state.loading();
         try {
-          final List<String> infos = id.split("_");
+          final List<String> infos = id.split(
+              "_"); // id au format bus_direction(aller/partir)_sens(aller/retour)_nom
           final String stop_name = infos[3];
           String destination;
           if (isBus) {
@@ -38,37 +39,17 @@ class StopDetailsBloc extends Bloc<StopDetailsEvent, StopDetailsState> {
           } else {
             direction = Direction.Retour;
           }
+
           final List<StopTime> trip = trips[direction.index].stop_time;
           final String last_stop = trip.last.stop.stop_name;
           final List<String> stop_times = [];
+          //les horaires des arrêts à la destination dans la direction voulue
           for (int i = 0; i < 3; i++) {
-            for (final StopTime stop_time
-                in trips[i + direction.index].stop_time) {
-              if (stop_time.stop.stop_name == destination) {
-                stop_times.add(stop_time.arrival_time);
-              }
-            }
-          }
-          if (direction == Direction.Aller) {
-            bool supprime = true;
-            for (final StopTime stop_time in trip) {
-              if (stop_time.stop.stop_name == stop_name) {
-                supprime = false;
-              }
-              if (supprime) {
-                trip.remove(stop_time);
-              }
-            }
-          } else {
-            bool supprime = true;
-            for (final StopTime stop_time in trip) {
-              if (stop_time.stop.stop_name == destination) {
-                supprime = false;
-              }
-              if (supprime) {
-                trip.remove(stop_time);
-              }
-            }
+            stop_times.add(trips[i + direction.index]
+                .stop_time
+                .firstWhere(
+                    (stop_time) => stop_time.stop.stop_name == destination)
+                .arrival_time);
           }
           yield state.loaded(
               isBus, stop_name, last_stop, stop_times, trip, destination);

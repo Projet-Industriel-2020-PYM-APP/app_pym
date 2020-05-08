@@ -20,7 +20,6 @@ part 'maps_state.dart';
 class MapsBloc extends Bloc<MapsEvent, MapsState> {
   final GeolocatorDevice geolocatorDevice;
   GoogleMapController controller;
-  StreamSubscription<LatLng> streamSubscription;
 
   MapsBloc({@required this.geolocatorDevice});
 
@@ -81,30 +80,26 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
     );
   }
 
-  @override
-  Future<void> close() async {
-    await streamSubscription?.cancel();
-    return super.close();
-  }
-
   Polyline polylineFromTrip(
       Trip trip, Direction direction, String id, Color couleur) {
     final List<LatLng> list = <LatLng>[];
     bool ajoute = direction == Direction.Aller;
+
     for (final StopTime stopTime in trip.stop_time) {
       final LatLng position = LatLng(double.parse(stopTime.stop.stop_lat),
           double.parse(stopTime.stop.stop_long));
       if (id.startsWith("bus")) {
         if (stopTime.stop.stop_name == MobilityConstants.pymStop) {
           list.add(position);
-          ajoute = !ajoute;
+          ajoute = !ajoute; //comence/arrête d'ajouter quand on arrive au pôle
         } else if (ajoute) {
           list.add(position);
         }
       } else {
         if (stopTime.stop.stop_name == MobilityConstants.gareGardanne) {
           list.add(position);
-          ajoute = !ajoute;
+          ajoute =
+              !ajoute; //comence/arrête d'ajouter quand on arrive à Gardanne
         } else if (ajoute) {
           list.add(position);
         }
@@ -122,6 +117,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
   Set<Marker> markersFromTrip(Trip trip, Direction direction, String id) {
     final Set<Marker> markers = {};
     bool ajoute = direction == Direction.Aller;
+
     for (final StopTime stopTime in trip.stop_time) {
       final Marker marker = Marker(
         markerId: MarkerId(id + stopTime.stop.stop_name),
@@ -132,14 +128,15 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
       if (id.startsWith("bus")) {
         if (stopTime.stop.stop_name == MobilityConstants.pymStop) {
           markers.add(marker);
-          ajoute = !ajoute;
+          ajoute = !ajoute; //comence/arrête d'ajouter quand on arrive au pôle
         } else if (ajoute) {
           markers.add(marker);
         }
       } else {
         if (stopTime.stop.stop_name == MobilityConstants.gareGardanne) {
           markers.add(marker);
-          ajoute = !ajoute;
+          ajoute =
+              !ajoute; //comence/arrête d'ajouter quand on arrive à Gardanne
         } else if (ajoute) {
           markers.add(marker);
         }
