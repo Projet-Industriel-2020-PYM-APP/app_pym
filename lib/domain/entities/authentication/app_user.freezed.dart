@@ -18,7 +18,7 @@ class _$AppUserTearOff {
       @required @nullable String username,
       @required @nullable String password,
       @required @nullable String role,
-      @required @nullable bool isEmailVerified,
+      @required @nullable bool is_email_verified,
       @required @nullable String token}) {
     return _AppUser(
       id: id,
@@ -26,7 +26,7 @@ class _$AppUserTearOff {
       username: username,
       password: password,
       role: role,
-      isEmailVerified: isEmailVerified,
+      is_email_verified: is_email_verified,
       token: token,
     );
   }
@@ -46,7 +46,7 @@ mixin _$AppUser {
   @nullable
   String get role;
   @nullable
-  bool get isEmailVerified;
+  bool get is_email_verified;
   @nullable
   String get token;
 
@@ -62,7 +62,7 @@ abstract class $AppUserCopyWith<$Res> {
       @nullable String username,
       @nullable String password,
       @nullable String role,
-      @nullable bool isEmailVerified,
+      @nullable bool is_email_verified,
       @nullable String token});
 }
 
@@ -80,7 +80,7 @@ class _$AppUserCopyWithImpl<$Res> implements $AppUserCopyWith<$Res> {
     Object username = freezed,
     Object password = freezed,
     Object role = freezed,
-    Object isEmailVerified = freezed,
+    Object is_email_verified = freezed,
     Object token = freezed,
   }) {
     return _then(_value.copyWith(
@@ -89,9 +89,9 @@ class _$AppUserCopyWithImpl<$Res> implements $AppUserCopyWith<$Res> {
       username: username == freezed ? _value.username : username as String,
       password: password == freezed ? _value.password : password as String,
       role: role == freezed ? _value.role : role as String,
-      isEmailVerified: isEmailVerified == freezed
-          ? _value.isEmailVerified
-          : isEmailVerified as bool,
+      is_email_verified: is_email_verified == freezed
+          ? _value.is_email_verified
+          : is_email_verified as bool,
       token: token == freezed ? _value.token : token as String,
     ));
   }
@@ -107,7 +107,7 @@ abstract class _$AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       @nullable String username,
       @nullable String password,
       @nullable String role,
-      @nullable bool isEmailVerified,
+      @nullable bool is_email_verified,
       @nullable String token});
 }
 
@@ -126,7 +126,7 @@ class __$AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
     Object username = freezed,
     Object password = freezed,
     Object role = freezed,
-    Object isEmailVerified = freezed,
+    Object is_email_verified = freezed,
     Object token = freezed,
   }) {
     return _then(_AppUser(
@@ -135,9 +135,9 @@ class __$AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
       username: username == freezed ? _value.username : username as String,
       password: password == freezed ? _value.password : password as String,
       role: role == freezed ? _value.role : role as String,
-      isEmailVerified: isEmailVerified == freezed
-          ? _value.isEmailVerified
-          : isEmailVerified as bool,
+      is_email_verified: is_email_verified == freezed
+          ? _value.is_email_verified
+          : is_email_verified as bool,
       token: token == freezed ? _value.token : token as String,
     ));
   }
@@ -150,7 +150,7 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
       @required @nullable this.username,
       @required @nullable this.password,
       @required @nullable this.role,
-      @required @nullable this.isEmailVerified,
+      @required @nullable this.is_email_verified,
       @required @nullable this.token})
       : assert(id != null);
 
@@ -170,14 +170,14 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
   final String role;
   @override
   @nullable
-  final bool isEmailVerified;
+  final bool is_email_verified;
   @override
   @nullable
   final String token;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AppUser(id: $id, email: $email, username: $username, password: $password, role: $role, isEmailVerified: $isEmailVerified, token: $token)';
+    return 'AppUser(id: $id, email: $email, username: $username, password: $password, role: $role, is_email_verified: $is_email_verified, token: $token)';
   }
 
   @override
@@ -190,7 +190,7 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
       ..add(DiagnosticsProperty('username', username))
       ..add(DiagnosticsProperty('password', password))
       ..add(DiagnosticsProperty('role', role))
-      ..add(DiagnosticsProperty('isEmailVerified', isEmailVerified))
+      ..add(DiagnosticsProperty('is_email_verified', is_email_verified))
       ..add(DiagnosticsProperty('token', token));
   }
 
@@ -210,9 +210,9 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
                     .equals(other.password, password)) &&
             (identical(other.role, role) ||
                 const DeepCollectionEquality().equals(other.role, role)) &&
-            (identical(other.isEmailVerified, isEmailVerified) ||
+            (identical(other.is_email_verified, is_email_verified) ||
                 const DeepCollectionEquality()
-                    .equals(other.isEmailVerified, isEmailVerified)) &&
+                    .equals(other.is_email_verified, is_email_verified)) &&
             (identical(other.token, token) ||
                 const DeepCollectionEquality().equals(other.token, token)));
   }
@@ -225,7 +225,7 @@ class _$_AppUser with DiagnosticableTreeMixin implements _AppUser {
       const DeepCollectionEquality().hash(username) ^
       const DeepCollectionEquality().hash(password) ^
       const DeepCollectionEquality().hash(role) ^
-      const DeepCollectionEquality().hash(isEmailVerified) ^
+      const DeepCollectionEquality().hash(is_email_verified) ^
       const DeepCollectionEquality().hash(token);
 
   @override
@@ -240,7 +240,7 @@ abstract class _AppUser implements AppUser {
       @required @nullable String username,
       @required @nullable String password,
       @required @nullable String role,
-      @required @nullable bool isEmailVerified,
+      @required @nullable bool is_email_verified,
       @required @nullable String token}) = _$_AppUser;
 
   @override
@@ -259,7 +259,7 @@ abstract class _AppUser implements AppUser {
   String get role;
   @override
   @nullable
-  bool get isEmailVerified;
+  bool get is_email_verified;
   @override
   @nullable
   String get token;

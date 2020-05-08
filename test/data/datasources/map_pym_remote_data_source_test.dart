@@ -79,57 +79,57 @@ void main() {
         headers: anyNamed('headers'),
         body: anyNamed('body'),
       ),
-    ).thenAnswer((_) async => http.Response('Ajouté', 200));
+    ).thenAnswer((_) async => http.Response('Ajouté', HttpStatus.ok));
     when(
       mockHttpClient.delete(
         any,
         headers: anyNamed('headers'),
       ),
-    ).thenAnswer((_) async => http.Response('Supprimé', 200));
+    ).thenAnswer((_) async => http.Response('Supprimé', HttpStatus.ok));
     when(
       mockHttpClient.patch(
         any,
         headers: anyNamed('headers'),
         body: anyNamed('body'),
       ),
-    ).thenAnswer((_) async => http.Response('Modifié', 200));
+    ).thenAnswer((_) async => http.Response('Modifié', HttpStatus.ok));
     when(
       mockHttpClient.get('https://admin.map-pym.com/api/batiments'),
-    ).thenAnswer(
-        (_) async => http.Response(fixture('map_pym/batiments.json'), 200));
+    ).thenAnswer((_) async =>
+        http.Response(fixture('map_pym/batiments.json'), HttpStatus.ok));
     when(
       mockHttpClient.get('https://admin.map-pym.com/api/contacts'),
-    ).thenAnswer(
-        (_) async => http.Response(fixture('map_pym/contacts.json'), 200));
+    ).thenAnswer((_) async =>
+        http.Response(fixture('map_pym/contacts.json'), HttpStatus.ok));
     when(
       mockHttpClient.get('https://admin.map-pym.com/api/bookings'),
-    ).thenAnswer(
-        (_) async => http.Response(fixture('map_pym/bookings.json'), 200));
+    ).thenAnswer((_) async =>
+        http.Response(fixture('map_pym/bookings.json'), HttpStatus.ok));
     when(
       mockHttpClient.get('https://admin.map-pym.com/api/entreprises'),
-    ).thenAnswer(
-        (_) async => http.Response(fixture('map_pym/entreprises.json'), 200));
+    ).thenAnswer((_) async =>
+        http.Response(fixture('map_pym/entreprises.json'), HttpStatus.ok));
     when(
       mockHttpClient.get('https://admin.map-pym.com/api/contact_categories'),
-    ).thenAnswer((_) async =>
-        http.Response(fixture('map_pym/contact_categories.json'), 200));
+    ).thenAnswer((_) async => http.Response(
+        fixture('map_pym/contact_categories.json'), HttpStatus.ok));
     when(
       mockHttpClient.get('https://admin.map-pym.com/api/service_categories'),
-    ).thenAnswer((_) async =>
-        http.Response(fixture('map_pym/service_categories.json'), 200));
+    ).thenAnswer((_) async => http.Response(
+        fixture('map_pym/service_categories.json'), HttpStatus.ok));
     when(
       mockHttpClient.get('https://admin.map-pym.com/api/services'),
-    ).thenAnswer(
-        (_) async => http.Response(fixture('map_pym/services.json'), 200));
+    ).thenAnswer((_) async =>
+        http.Response(fixture('map_pym/services.json'), HttpStatus.ok));
     when(
       mockHttpClient.get('https://admin.map-pym.com/api/posts'),
-    ).thenAnswer(
-        (_) async => http.Response(fixture('map_pym/posts.json'), 200));
+    ).thenAnswer((_) async =>
+        http.Response(fixture('map_pym/posts.json'), HttpStatus.ok));
     when(
-      mockHttpClient.get('https://admin.map-pym.com/api/user',
+      mockHttpClient.get('https://admin.map-pym.com/api/users/me',
           headers: anyNamed('headers')),
-    ).thenAnswer(
-        (_) async => http.Response(fixture('map_pym/app_user.json'), 200));
+    ).thenAnswer((_) async =>
+        http.Response(fixture('map_pym/app_user.json'), HttpStatus.ok));
   }
 
   void setUpMockHttpClientFailure404() {
@@ -170,9 +170,9 @@ void main() {
         await dataSource.createBooking(tListBookingModel.first, token: 'token');
         // assert
         verify(mockHttpClient.post(
-          'https://admin.map-pym.com/api/bookings/ajouter',
+          'https://admin.map-pym.com/api/bookings',
           headers: {
-            HttpHeaders.authorizationHeader: "Bearing token",
+            HttpHeaders.authorizationHeader: "Bearer token",
             HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
           },
           body: json.encode(tListBookingModel.first.toJson()),
@@ -205,9 +205,9 @@ void main() {
             token: 'token');
         // assert
         verify(mockHttpClient.delete(
-          'https://admin.map-pym.com/api/bookings/${tListBookingModel.first.id}/supprimer',
+          'https://admin.map-pym.com/api/bookings/${tListBookingModel.first.id}',
           headers: {
-            HttpHeaders.authorizationHeader: "Bearing token",
+            HttpHeaders.authorizationHeader: "Bearer token",
             HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
           },
         ));
@@ -244,7 +244,7 @@ void main() {
     );
 
     test(
-      'should return tListBatimentModel when the response code is 200 (success)',
+      'should return tListBatimentModel when the response code is HttpStatus.ok (success)',
       () async {
         // arrange
         setUpMockHttpClientSuccess200();
@@ -284,7 +284,7 @@ void main() {
     );
 
     test(
-      'should return tListBatimentModel when the response code is 200 (success)',
+      'should return tListBatimentModel when the response code is HttpStatus.ok (success)',
       () async {
         // arrange
         setUpMockHttpClientSuccess200();
@@ -329,7 +329,7 @@ void main() {
     );
 
     test(
-      'should return tListContactCategorieModel when the response code is 200 (success)',
+      'should return tListContactCategorieModel when the response code is HttpStatus.ok (success)',
       () async {
         // arrange
         setUpMockHttpClientSuccess200();
@@ -369,7 +369,7 @@ void main() {
     );
 
     test(
-      'should return tListServiceCategorieModel when the response code is 200 (success)',
+      'should return tListServiceCategorieModel when the response code is HttpStatus.ok (success)',
       () async {
         // arrange
         setUpMockHttpClientSuccess200();
@@ -409,7 +409,7 @@ void main() {
     );
 
     test(
-      'should return tBatimentModel when the response code is 200 (success)',
+      'should return tBatimentModel when the response code is HttpStatus.ok (success)',
       () async {
         // arrange
         setUpMockHttpClientSuccess200();
@@ -451,7 +451,7 @@ void main() {
     );
 
     test(
-      'should return tContactModel when the response code is 200 (success)',
+      'should return tContactModel when the response code is HttpStatus.ok (success)',
       () async {
         // arrange
         setUpMockHttpClientSuccess200();
@@ -494,7 +494,7 @@ void main() {
     );
 
     test(
-      'should return tEntrepriseModel when the response code is 200 (success)',
+      'should return tEntrepriseModel when the response code is HttpStatus.ok (success)',
       () async {
         // arrange
         setUpMockHttpClientSuccess200();
@@ -539,7 +539,7 @@ void main() {
     );
 
     test(
-      'should return filtered tListPostModel when the response code is 200 (success)',
+      'should return filtered tListPostModel when the response code is HttpStatus.ok (success)',
       () async {
         // arrange
         setUpMockHttpClientSuccess200();
@@ -579,7 +579,7 @@ void main() {
     );
 
     test(
-      'should return filtered tListServiceModel when the response code is 200 (success)',
+      'should return filtered tListServiceModel when the response code is HttpStatus.ok (success)',
       () async {
         // arrange
         setUpMockHttpClientSuccess200();
@@ -619,18 +619,18 @@ void main() {
         await dataSource.fetchUser(tAppUserModel.token);
         // assert
         final captured = verify(mockHttpClient.get(
-                'https://admin.map-pym.com/api/user',
+                'https://admin.map-pym.com/api/users/me',
                 headers: captureAnyNamed('headers')))
             .captured;
 
         final headers = captured.first as Map<String, String>;
         expect(headers[HttpHeaders.authorizationHeader],
-            startsWith("Bearing ${tAppUserModel.token}"));
+            startsWith("Bearer ${tAppUserModel.token}"));
       },
     );
 
     test(
-      'should return AppUser when the response code is 200 (success)',
+      'should return AppUser when the response code is HttpStatus.ok (success)',
       () async {
         // arrange
         setUpMockHttpClientSuccess200();
@@ -655,39 +655,6 @@ void main() {
     );
   });
 
-  group('setUserData', () {
-    test(
-      "should perform a PATCH request on a URL",
-      () async {
-        // arrange
-        setUpMockHttpClientSuccess200();
-        // act
-        await dataSource.setUserData(tAppUserModel);
-        // assert
-        verify(mockHttpClient.patch(
-          'https://admin.map-pym.com/api/user/${tAppUserModel.id}',
-          headers: {
-            HttpHeaders.authorizationHeader: "Bearing ${tAppUserModel.token}",
-            HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-          },
-          body: json.encode(tAppUserModel.toJson()),
-        ));
-      },
-    );
-
-    test(
-      'should throw a ServerException when the response code is 404 or other',
-      () async {
-        // arrange
-        setUpMockHttpClientFailure404();
-        // act
-        final call = dataSource.setUserData;
-        // assert
-        expect(() => call(tAppUserModel), throwsA(isA<ServerException>()));
-      },
-    );
-  });
-
   group('updateBooking', () {
     test(
       "should perform a PATCH request on a URL",
@@ -698,9 +665,9 @@ void main() {
         await dataSource.updateBooking(tListBookingModel.first, token: 'token');
         // assert
         verify(mockHttpClient.patch(
-          'https://admin.map-pym.com/api/bookings/${tListBookingModel.first.id}/modifier',
+          'https://admin.map-pym.com/api/bookings/${tListBookingModel.first.id}',
           headers: {
-            HttpHeaders.authorizationHeader: "Bearing token",
+            HttpHeaders.authorizationHeader: "Bearer token",
             HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
           },
           body: json.encode(tListBookingModel.first.toJson()),

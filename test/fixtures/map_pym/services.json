@@ -6,6 +6,8 @@
     "subtitle": "subtitle",
     "address": "address",
     "img_url": "img_url",
+    "telephone": "telephone",
+    "website": "website",
     "actions": [
       {
         "name": "name",
@@ -24,6 +26,8 @@
     "subtitle": "subtitle",
     "address": "address",
     "img_url": "img_url",
+    "telephone": "telephone",
+    "website": "website",
     "actions": [
       {
         "name": "name",

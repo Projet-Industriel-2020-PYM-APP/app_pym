@@ -12,7 +12,7 @@ abstract class AppUser with _$AppUser {
     @nullable @required String username,
     @nullable @required String password,
     @nullable @required String role,
-    @nullable @required bool isEmailVerified,
+    @nullable @required bool is_email_verified,
     @nullable @required String token,
   }) = _AppUser;
 }
@@ -25,7 +25,7 @@ extension AppUserX on AppUser {
       username: this.username,
       password: this.password,
       role: this.role,
-      isEmailVerified: this.isEmailVerified,
+      is_email_verified: this.is_email_verified,
       token: this.token,
     );
   }

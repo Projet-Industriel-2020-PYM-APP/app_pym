@@ -25,7 +25,7 @@ class AddBookingToService
   Future<void> call(BookingOfServiceParams params) {
     if (params.appUser == null) {
       throw NotAuthenticatedException();
-    } else if (!params.appUser.isEmailVerified) {
+    } else if (!params.appUser.is_email_verified) {
       throw EmailNotVerifiedException();
     }
     return repository.create(params.booking);

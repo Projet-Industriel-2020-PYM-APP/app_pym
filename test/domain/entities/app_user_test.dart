@@ -9,7 +9,7 @@ void main() {
     username: "username",
     password: "password",
     role: "role",
-    isEmailVerified: true,
+    is_email_verified: true,
     token: "token",
   );
   const AppUser entity = AppUser(
@@ -18,7 +18,7 @@ void main() {
     username: "username",
     password: "password",
     role: "role",
-    isEmailVerified: true,
+    is_email_verified: true,
     token: "token",
   );
   group('toModel', () {

@@ -51,7 +51,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
       body: data,
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok) {
       return;
     } else {
       throw ServerException('Forget Password Failed : ${response.statusCode}');
@@ -61,11 +61,11 @@ class AuthenticationServiceImpl implements AuthenticationService {
   @override
   Future<void> sendEmailVerification() async {
     final response = await client.post(
-      'https://admin.map-pym.com/auth/email_verification',
-      headers: {HttpHeaders.authorizationHeader: "Bearing $_token"},
+      'https://admin.map-pym.com/api/auth/email_verification',
+      headers: {HttpHeaders.authorizationHeader: "Bearer $_token"},
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok) {
       return;
     } else {
       throw ServerException(
@@ -83,11 +83,11 @@ class AuthenticationServiceImpl implements AuthenticationService {
       'password': password,
     };
     final response = await client.post(
-      'https://admin.map-pym.com/auth/token',
+      'https://admin.map-pym.com/api/auth/login',
       body: data,
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok) {
       return _token = response.body;
     } else {
       throw ServerException('Cannot log in : ${response.statusCode}');
@@ -97,8 +97,8 @@ class AuthenticationServiceImpl implements AuthenticationService {
   @override
   void signOut() {
     client.post(
-      'https://admin.map-pym.com/auth/signout',
-      headers: {HttpHeaders.authorizationHeader: "Bearing $_token"},
+      'https://admin.map-pym.com/api/auth/logout',
+      headers: {HttpHeaders.authorizationHeader: "Bearer $_token"},
     ).catchError((dynamic e) {
       print("CAUGHT $e"); // Ignore errors
     });
@@ -113,14 +113,14 @@ class AuthenticationServiceImpl implements AuthenticationService {
       'password': password,
     };
     final response = await client.post(
-      'https://admin.map-pym.com/auth/register',
+      'https://admin.map-pym.com/api/auth/register',
       body: data,
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok) {
       return _token = response.body;
     } else {
-      throw ServerException('Cannot log in : ${response.statusCode}');
+      throw ServerException('Cannot register : ${response.statusCode}');
     }
   }
 }

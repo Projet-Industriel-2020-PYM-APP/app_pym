@@ -46,9 +46,6 @@ abstract class MapPymRemoteDataSource {
   /// Récupère un utilisateur
   Future<AppUserModel> fetchUser(String token);
 
-  /// Met à jour un utilisateur
-  Future<void> setUserData(AppUserModel user);
-
   Future<void> updateBooking(BookingModel booking, {@required String token});
 }
 
@@ -66,15 +63,16 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
       {@required String token}) async {
     final data = json.encode(booking.toJson());
     final response = await client.post(
-      'https://admin.map-pym.com/api/bookings/ajouter',
+      'https://admin.map-pym.com/api/bookings',
       headers: {
-        HttpHeaders.authorizationHeader: "Bearing ${token}",
+        HttpHeaders.authorizationHeader: "Bearer ${token}",
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
       body: data,
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok ||
+        response.statusCode == HttpStatus.created) {
       return;
     } else {
       throw ServerException(
@@ -85,14 +83,14 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
   @override
   Future<void> deleteBooking(int booking_id, {@required String token}) async {
     final response = await client.delete(
-      'https://admin.map-pym.com/api/bookings/${booking_id}/supprimer',
+      'https://admin.map-pym.com/api/bookings/${booking_id}',
       headers: {
-        HttpHeaders.authorizationHeader: "Bearing ${token}",
+        HttpHeaders.authorizationHeader: "Bearer ${token}",
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok) {
       return;
     } else {
       throw ServerException(
@@ -105,7 +103,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
     final response =
         await client.get('https://admin.map-pym.com/api/batiments');
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok) {
       return (json.decode(response.body) as List)
           ?.map((dynamic data) =>
               BatimentModel.fromJson(data as Map<String, dynamic>))
@@ -120,7 +118,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
   Future<List<BookingModel>> fetchAllBookingsOf(int service_id) async {
     final response = await client.get('https://admin.map-pym.com/api/bookings');
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok) {
       return (json.decode(response.body) as List)
           ?.map((dynamic data) =>
               BookingModel.fromJson(data as Map<String, dynamic>))
@@ -137,7 +135,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
     final response =
         await client.get('https://admin.map-pym.com/api/contact_categories');
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok) {
       return (json.decode(response.body) as List)
           ?.map((dynamic data) =>
               ContactCategorieModel.fromJson(data as Map<String, dynamic>))
@@ -152,7 +150,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
   Future<List<PostModel>> fetchAllPosts() async {
     final response = await client.get('https://admin.map-pym.com/api/posts');
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok) {
       return (json.decode(response.body) as List)
           ?.map((dynamic data) =>
               PostModel.fromJson(data as Map<String, dynamic>))
@@ -168,7 +166,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
     final response =
         await client.get('https://admin.map-pym.com/api/service_categories');
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok) {
       return (json.decode(response.body) as List)
           ?.map((dynamic data) =>
               ServiceCategorieModel.fromJson(data as Map<String, dynamic>))
@@ -184,7 +182,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
     final response =
         await client.get('https://admin.map-pym.com/api/batiments');
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok) {
       return (json.decode(response.body) as List)
           ?.map((dynamic data) =>
               BatimentModel.fromJson(data as Map<String, dynamic>))
@@ -199,7 +197,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
   Future<ContactModel> fetchContact(int id) async {
     final response = await client.get('https://admin.map-pym.com/api/contacts');
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok) {
       return (json.decode(response.body) as List)
           ?.map((dynamic data) =>
               ContactModel.fromJson(data as Map<String, dynamic>))
@@ -216,7 +214,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
     final response =
         await client.get('https://admin.map-pym.com/api/entreprises');
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok) {
       return (json.decode(response.body) as List)
           ?.map((dynamic data) =>
               EntrepriseModel.fromJson(data as Map<String, dynamic>))
@@ -232,7 +230,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
   Future<List<ServiceModel>> fetchServicesOf(int categorie_id) async {
     final response = await client.get('https://admin.map-pym.com/api/services');
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok) {
       return (json.decode(response.body) as List)
           ?.map((dynamic data) =>
               ServiceModel.fromJson(data as Map<String, dynamic>))
@@ -247,11 +245,11 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
   @override
   Future<AppUserModel> fetchUser(String token) async {
     final response = await client.get(
-      'https://admin.map-pym.com/api/user',
-      headers: {HttpHeaders.authorizationHeader: "Bearing $token"},
+      'https://admin.map-pym.com/api/users/me',
+      headers: {HttpHeaders.authorizationHeader: "Bearer $token"},
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok) {
       final body = json.decode(response.body) as Map<String, dynamic>;
       return AppUserModel.fromJson(body);
     } else {
@@ -261,39 +259,19 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
   }
 
   @override
-  Future<void> setUserData(AppUserModel user) async {
-    final data = json.encode(user.toJson());
-    final response = await client.patch(
-      'https://admin.map-pym.com/api/user/${user.id}',
-      headers: {
-        HttpHeaders.authorizationHeader: "Bearing ${user.token}",
-        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-      },
-      body: data,
-    );
-
-    if (response.statusCode == 200) {
-      return;
-    } else {
-      throw ServerException(
-          'Failed to update user : ${response.statusCode} ${response.reasonPhrase}');
-    }
-  }
-
-  @override
   Future<void> updateBooking(BookingModel booking,
       {@required String token}) async {
     final data = json.encode(booking.toJson());
     final response = await client.patch(
-      'https://admin.map-pym.com/api/bookings/${booking.id}/modifier',
+      'https://admin.map-pym.com/api/bookings/${booking.id}',
       headers: {
-        HttpHeaders.authorizationHeader: "Bearing ${token}",
+        HttpHeaders.authorizationHeader: "Bearer ${token}",
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       },
       body: data,
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == HttpStatus.ok) {
       return;
     } else {
       throw ServerException(

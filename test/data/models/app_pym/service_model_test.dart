@@ -20,6 +20,8 @@ void main() {
     img_url: "img_url",
     categorie_id: 1,
     address: "address",
+    telephone: 'telephone',
+    website: 'website',
     actions: [tActionModel],
   );
   const Service entity = Service(
@@ -29,6 +31,8 @@ void main() {
     img_url: "img_url",
     categorie_id: 1,
     address: "address",
+    telephone: 'telephone',
+    website: 'website',
     actions: [tAction],
   );
   group('toEntity', () {

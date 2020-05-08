@@ -7,13 +7,13 @@ part 'batiment.freezed.dart';
 abstract class Batiment with _$Batiment {
   const factory Batiment({
     @required int id,
-    @required String nom,
-    @required int nbEtage,
-    @required String description,
-    @required bool accesHandicape,
-    @required String url,
-    @required String adresse,
-    @required double latitude,
-    @required double longitude,
+    @nullable @required String nom,
+    @nullable @required int nbEtage,
+    @nullable @required String description,
+    @nullable @required bool accesHandicape,
+    @nullable @required String url,
+    @nullable @required String adresse,
+    @nullable @required double latitude,
+    @nullable @required double longitude,
   }) = _Batiment;
 }

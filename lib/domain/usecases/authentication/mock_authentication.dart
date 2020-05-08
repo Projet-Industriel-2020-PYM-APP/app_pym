@@ -1,7 +1,6 @@
 import 'package:app_pym/domain/usecases/authentication/forgot_password.dart';
 import 'package:app_pym/domain/usecases/authentication/get_app_user.dart';
 import 'package:app_pym/domain/usecases/authentication/send_email_confirmation.dart';
-import 'package:app_pym/domain/usecases/authentication/set_user_data.dart';
 import 'package:app_pym/domain/usecases/authentication/signin.dart';
 import 'package:app_pym/domain/usecases/authentication/signout.dart';
 import 'package:app_pym/domain/usecases/authentication/signup.dart';
@@ -22,11 +21,6 @@ class MockGetAppUser extends Mock implements GetAppUser {}
 @RegisterAs(SendEmailConfirmation)
 @injectable
 class MockSendEmailConfirmation extends Mock implements SendEmailConfirmation {}
-
-@test
-@RegisterAs(SetUserData)
-@injectable
-class MockSetUserData extends Mock implements SetUserData {}
 
 @test
 @RegisterAs(AuthSignIn)
