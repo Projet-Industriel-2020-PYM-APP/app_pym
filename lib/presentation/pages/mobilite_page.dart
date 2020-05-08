@@ -1,4 +1,5 @@
 import 'package:app_pym/core/constants/mobility.dart';
+import 'package:app_pym/core/utils/url_launcher_utils.dart';
 import 'package:app_pym/injection_container.dart';
 import 'package:app_pym/presentation/blocs/mobility/stop_details/stop_details_bloc.dart';
 import 'package:app_pym/presentation/pages/mobility/maps_screen.dart';
@@ -8,7 +9,6 @@ import 'package:app_pym/presentation/widgets/mobility/mobility_controls.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MobilitePage extends StatelessWidget {
   const MobilitePage({Key key}) : super(key: key);
@@ -170,29 +170,56 @@ class MobiliteBody extends StatelessWidget {
           ),
           Expanded(
             flex: 1,
-            child: Container(
-              padding: const EdgeInsets.all(5.0),
-              child: Card(
-                margin: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Card(
+              elevation: 4.0,
+              margin: const EdgeInsets.all(10.0),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const Text("Autres transports"),
-                    Wrap(
-                      children: <Widget>[
-                        FlatButton(
-                          onPressed: () =>
-                              _launchURL("https://www.blablacar.fr/"),
-                          child: const Image(
-                              image: AssetImage(
-                                  "images/mobilite/Logo_BlaBlaCar.png")),
-                        ),
-                        FlatButton(
-                          onPressed: () => _launchURL("https://www.uber.com/"),
-                          child: const Image(
-                              image:
-                                  AssetImage("images/mobilite/Logo_Uber.png")),
-                        )
-                      ],
+                    Text(
+                      "Autres transports",
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
+                    SingleChildScrollView(
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            margin: const EdgeInsets.all(10.0),
+                            height: 40.0,
+                            width: 40.0,
+                            child: Tooltip(
+                              message: "BlaBlaCar",
+                              child: InkWell(
+                                onTap: () => UrlLauncherUtils.launch(
+                                    "https://www.blablacar.fr/"),
+                                child: Image.asset(
+                                  "assets/images/mobilite/Logo_BlaBlaCar.png",
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.all(10.0),
+                            height: 40.0,
+                            width: 40.0,
+                            child: Tooltip(
+                              message: "Uber",
+                              child: InkWell(
+                                onTap: () => UrlLauncherUtils.launch(
+                                    "https://www.uber.com/"),
+                                child: Image.asset(
+                                  "assets/images/mobilite/Logo_Uber.png",
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -202,14 +229,6 @@ class MobiliteBody extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-void _launchURL(String url) async {
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw Exception('Could not launch $url');
   }
 }
 
