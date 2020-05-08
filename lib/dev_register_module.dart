@@ -43,7 +43,6 @@ import 'package:app_pym/domain/repositories/mobility/route_repository.dart';
 import 'package:app_pym/domain/usecases/authentication/forgot_password.dart';
 import 'package:app_pym/domain/usecases/authentication/get_app_user.dart';
 import 'package:app_pym/domain/usecases/authentication/send_email_confirmation.dart';
-import 'package:app_pym/domain/usecases/authentication/set_user_data.dart';
 import 'package:app_pym/domain/usecases/authentication/signin.dart';
 import 'package:app_pym/domain/usecases/authentication/signout.dart';
 import 'package:app_pym/domain/usecases/authentication/signup.dart';
@@ -66,7 +65,6 @@ import 'package:app_pym/domain/usecases/services/fetch_services_of_categorie.dar
 import 'package:app_pym/presentation/blocs/authentication/authentication/authentication_bloc.dart';
 import 'package:app_pym/presentation/blocs/authentication/forgot/forgot_bloc.dart';
 import 'package:app_pym/presentation/blocs/authentication/login/login_bloc.dart';
-import 'package:app_pym/presentation/blocs/authentication/user_data/user_data_bloc.dart';
 import 'package:app_pym/presentation/blocs/cartographie/ar_view/ar_view_bloc.dart';
 import 'package:app_pym/presentation/blocs/cartographie/batiment/batiment_bloc.dart';
 import 'package:app_pym/presentation/blocs/cartographie/compass/compass_bloc.dart';
@@ -371,11 +369,6 @@ abstract class DevRegisterModule {
   Box<ServiceModel> get servicesBox => Hive.box<ServiceModel>('/services');
   @dev
   ServicesOfCategorieBloc get servicesOfCategorieBloc;
-
-  @dev
-  @lazySingleton
-  SetUserData get setUserData;
-
   @dev
   @preResolve
   Future<SharedPreferences> get sharedPreferences =>
@@ -405,9 +398,6 @@ abstract class DevRegisterModule {
   @dev
   @lazySingleton
   UpdateBookingOfService get updateBookingOfService;
-
-  @dev
-  UserDataBloc get userDataBloc;
 
   @dev
   ZipDecoder get zipDecoder;

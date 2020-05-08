@@ -13,7 +13,7 @@ _$_AppUserModel _$_$_AppUserModelFromJson(Map<String, dynamic> json) {
     username: json['username'] as String,
     password: json['password'] as String,
     role: json['role'] as String,
-    isEmailVerified: json['isEmailVerified'] as bool,
+    is_email_verified: json['is_email_verified'] as bool,
     token: json['token'] as String,
   );
 }
@@ -25,6 +25,6 @@ Map<String, dynamic> _$_$_AppUserModelToJson(_$_AppUserModel instance) =>
       'username': instance.username,
       'password': instance.password,
       'role': instance.role,
-      'isEmailVerified': instance.isEmailVerified,
+      'is_email_verified': instance.is_email_verified,
       'token': instance.token,
     };

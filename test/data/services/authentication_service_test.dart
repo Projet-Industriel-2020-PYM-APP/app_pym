@@ -29,23 +29,23 @@ void main() {
     when(mockHttpClient.post(
       'https://admin.map-pym.com/auth/forgot_password',
       body: anyNamed('body'),
-    )).thenAnswer((_) async => http.Response('Done.', 200));
+    )).thenAnswer((_) async => http.Response('Done.', HttpStatus.ok));
     when(mockHttpClient.post(
       'https://admin.map-pym.com/auth/email_verification',
       headers: anyNamed('headers'),
-    )).thenAnswer((_) async => http.Response('Done.', 200));
+    )).thenAnswer((_) async => http.Response('Done.', HttpStatus.ok));
     when(mockHttpClient.post(
       'https://admin.map-pym.com/auth/token',
       body: anyNamed('body'),
-    )).thenAnswer((_) async => http.Response('token', 200));
+    )).thenAnswer((_) async => http.Response('token', HttpStatus.ok));
     when(mockHttpClient.post(
       'https://admin.map-pym.com/auth/signout',
       headers: anyNamed('headers'),
-    )).thenAnswer((_) async => http.Response('Done.', 200));
+    )).thenAnswer((_) async => http.Response('Done.', HttpStatus.ok));
     when(mockHttpClient.post(
       'https://admin.map-pym.com/auth/register',
       body: anyNamed('body'),
-    )).thenAnswer((_) async => http.Response('token', 200));
+    )).thenAnswer((_) async => http.Response('token', HttpStatus.ok));
   }
 
   void setUpMockHttpClientFailure404() {
@@ -127,7 +127,7 @@ void main() {
         // assert
         verify(mockHttpClient.post(
           'https://admin.map-pym.com/auth/email_verification',
-          headers: {HttpHeaders.authorizationHeader: "Bearing token"},
+          headers: {HttpHeaders.authorizationHeader: "Bearer token"},
         ));
       },
     );
@@ -178,7 +178,7 @@ void main() {
     );
 
     test(
-      'should return the token with response code 200 (success)',
+      'should return the token with response code HttpStatus.ok (success)',
       () async {
         // arrange
         setUpMockHttpClientSuccess200();
@@ -221,7 +221,7 @@ void main() {
         // assert
         verify(mockHttpClient.post(
           'https://admin.map-pym.com/auth/signout',
-          headers: {HttpHeaders.authorizationHeader: "Bearing token"},
+          headers: {HttpHeaders.authorizationHeader: "Bearer token"},
         ));
       },
     );
@@ -285,7 +285,7 @@ void main() {
     );
 
     test(
-      'should return the token with response code 200 (success)',
+      'should return the token with response code HttpStatus.ok (success)',
       () async {
         // arrange
         setUpMockHttpClientSuccess200();

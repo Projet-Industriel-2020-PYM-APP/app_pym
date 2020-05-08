@@ -28,7 +28,7 @@ class AuthenticationStatus extends StatelessWidget {
                 child: const Text("SE DÉCONNECTER"),
               ),
             ),
-            if (!user.isEmailVerified)
+            if (!user.is_email_verified)
               ListTile(
                 title: const Text("E-mail non vérifié"),
                 trailing: RaisedButton(

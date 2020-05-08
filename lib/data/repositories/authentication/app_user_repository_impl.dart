@@ -1,4 +1,3 @@
-import 'package:app_pym/core/error/exceptions.dart';
 import 'package:app_pym/core/network/network_info.dart';
 import 'package:app_pym/data/datasources/map_pym_local_data_source.dart';
 import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
@@ -41,17 +40,6 @@ class AppUserRepositoryImpl implements AppUserRepository {
       }
     } else {
       return null;
-    }
-  }
-
-  @override
-  Future<void> setUserData(AppUser user) async {
-    if (await networkInfo.result != ConnectivityResult.none) {
-      await remoteDataSource.setUserData(user.toModel());
-      await localDataSource.cacheUser(user.toModel());
-      return;
-    } else {
-      throw ConnectivityException('No Wi-Fi');
     }
   }
 }

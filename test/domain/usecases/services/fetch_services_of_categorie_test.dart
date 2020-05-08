@@ -42,6 +42,8 @@ void main() {
     subtitle: "subtitle",
     address: "address",
     img_url: "img_url",
+    telephone: 'telephone',
+    website: 'website',
     actions: [tAction2],
   );
 

@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-import 'package:app_pym/core/error/exceptions.dart';
 import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
 import 'package:app_pym/data/models/app_pym/booking_model.dart';
 import 'package:app_pym/data/models/app_pym/contact_categorie_model.dart';
@@ -316,7 +315,7 @@ Hébergé sur sur Google Cloud Run !</h4>
       id: 0,
       email: 'example@example.com',
       username: 'admin',
-      isEmailVerified: true,
+      is_email_verified: true,
       password: 'password',
       role: 'Admin',
       token: 'devToken',
@@ -388,11 +387,6 @@ Hébergé sur sur Google Cloud Run !</h4>
     } else {
       return null;
     }
-  }
-
-  @override
-  Future<void> setUserData(AppUserModel user) async {
-    return;
   }
 
   @override

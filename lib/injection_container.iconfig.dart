@@ -6,7 +6,7 @@
 
 import 'package:app_pym/domain/repositories/authentication/mock_app_user_repository.dart';
 import 'package:app_pym/domain/repositories/authentication/app_user_repository.dart';
-import 'package:app_pym/domain/usecases/authentication/mock_firebase_auth.dart';
+import 'package:app_pym/domain/usecases/authentication/mock_authentication.dart';
 import 'package:app_pym/domain/usecases/authentication/signin.dart';
 import 'package:app_pym/domain/usecases/authentication/signout.dart';
 import 'package:app_pym/domain/usecases/authentication/signup.dart';
@@ -29,8 +29,8 @@ import 'package:app_pym/data/models/app_pym/post_model.dart';
 import 'package:app_pym/data/models/app_pym/service_categorie_model.dart';
 import 'package:app_pym/data/models/app_pym/service_model.dart';
 import 'package:http/src/client.dart';
-import 'package:app_pym/data/devices/compass_device.dart';
 import 'package:app_pym/data/devices/compass_device_mock.dart';
+import 'package:app_pym/data/devices/compass_device.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:app_pym/domain/repositories/app_pym/mock_contact_categorie_repository.dart';
 import 'package:app_pym/domain/repositories/app_pym/contact_categorie_repository.dart';
@@ -43,8 +43,8 @@ import 'package:app_pym/domain/repositories/map_pym/mock_entreprise_repository.d
 import 'package:app_pym/domain/repositories/map_pym/entreprise_repository.dart';
 import 'package:app_pym/domain/usecases/services/booking/fetch_all_bookings_of_service.dart';
 import 'package:app_pym/presentation/blocs/services/booking/fetch_all_bookings_of_service/fetch_all_bookings_of_service_bloc.dart';
-import 'package:app_pym/domain/usecases/contacts/fetch_contact_categories.dart';
 import 'package:app_pym/domain/usecases/contacts/mock_fetch_contact_categories.dart';
+import 'package:app_pym/domain/usecases/contacts/fetch_contact_categories.dart';
 import 'package:app_pym/domain/usecases/contacts/fetch_contact_of_categorie.dart';
 import 'package:app_pym/domain/usecases/contacts/mock_fetch_contact_of_categorie.dart';
 import 'package:app_pym/domain/usecases/services/mock_fetch_service_categories.dart';
@@ -69,18 +69,18 @@ import 'package:app_pym/presentation/blocs/authentication/login/login_bloc.dart'
 import 'package:app_pym/presentation/blocs/main/main_page_bloc.dart';
 import 'package:app_pym/data/datasources/mock_map_pym_local_data_source.dart';
 import 'package:app_pym/data/datasources/map_pym_local_data_source.dart';
-import 'package:app_pym/data/datasources/mock_map_pym_remote_data_source.dart';
 import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
+import 'package:app_pym/data/datasources/mock_map_pym_remote_data_source.dart';
 import 'package:app_pym/data/datasources/map_pym_remote_data_source_dev_impl.dart';
 import 'package:app_pym/presentation/blocs/mobility/maps/maps_bloc.dart';
 import 'package:app_pym/data/datasources/metropole_remote_data_source.dart';
-import 'package:app_pym/core/network/mock_network_info.dart';
 import 'package:app_pym/core/network/network_info.dart';
+import 'package:app_pym/core/network/mock_network_info.dart';
 import 'package:app_pym/core/permission_handler/mock_permission_handler.dart';
 import 'package:app_pym/core/permission_handler/permission_handler.dart';
-import 'package:app_pym/domain/repositories/app_pym/mock_post_repository.dart';
-import 'package:app_pym/domain/repositories/app_pym/post_repository.dart';
 import 'package:app_pym/data/repositories/app_pym/post_repository_impl.dart';
+import 'package:app_pym/domain/repositories/app_pym/post_repository.dart';
+import 'package:app_pym/domain/repositories/app_pym/mock_post_repository.dart';
 import 'package:app_pym/data/datasources/sncf_remote_data_source.dart';
 import 'package:app_pym/domain/usecases/authentication/send_email_confirmation.dart';
 import 'package:app_pym/data/repositories/app_pym/service_categorie_repository_impl.dart';
@@ -91,11 +91,9 @@ import 'package:app_pym/data/repositories/app_pym/service_repository_impl.dart';
 import 'package:app_pym/domain/repositories/app_pym/service_repository.dart';
 import 'package:app_pym/domain/repositories/app_pym/mock_service_repository.dart';
 import 'package:app_pym/presentation/blocs/services/services_of_categorie/services_of_categorie_bloc.dart';
-import 'package:app_pym/domain/usecases/authentication/set_user_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app_pym/presentation/blocs/mobility/stop_details/stop_details_bloc.dart';
 import 'package:app_pym/domain/usecases/services/booking/update_booking_of_service.dart';
-import 'package:app_pym/presentation/blocs/authentication/user_data/user_data_bloc.dart';
 import 'package:archive/archive.dart';
 import 'package:app_pym/domain/usecases/services/booking/add_booking_to_service.dart';
 import 'package:app_pym/data/repositories/authentication/app_user_repository_impl.dart';
@@ -185,7 +183,6 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerFactory<ServiceCategorieRepository>(
         () => MockServiceCategorieRepository());
     g.registerFactory<ServiceRepository>(() => MockServiceRepository());
-    g.registerFactory<SetUserData>(() => MockSetUserData());
     g.registerFactory<SharedPreferences>(() => MockSharedPreferences());
     g.registerFactory<ZipDecoder>(() => MockZipDecoder());
   }
@@ -259,13 +256,11 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         () => devRegisterModule.serviceRepository);
     g.registerFactory<ServicesOfCategorieBloc>(
         () => devRegisterModule.servicesOfCategorieBloc);
-    g.registerLazySingleton<SetUserData>(() => devRegisterModule.setUserData);
     final sharedPreferences = await devRegisterModule.sharedPreferences;
     g.registerFactory<SharedPreferences>(() => sharedPreferences);
     g.registerFactory<StopDetailsBloc>(() => devRegisterModule.stopDetailsBloc);
     g.registerLazySingleton<UpdateBookingOfService>(
         () => devRegisterModule.updateBookingOfService);
-    g.registerFactory<UserDataBloc>(() => devRegisterModule.userDataBloc);
     g.registerFactory<ZipDecoder>(() => devRegisterModule.zipDecoder);
     g.registerLazySingleton<AddBookingToService>(
         () => devRegisterModule.addBookingToService);
@@ -404,14 +399,11 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         ));
     g.registerFactory<ServicesOfCategorieBloc>(
         () => ServicesOfCategorieBloc(g<FetchServicesOfCategorie>()));
-    g.registerLazySingleton<SetUserData>(
-        () => SetUserData(g<AppUserRepository>()));
     final sharedPreferences1 = await registerModule.sharedPreferences;
     g.registerFactory<SharedPreferences>(() => sharedPreferences1);
     g.registerFactory<StopDetailsBloc>(() => StopDetailsBloc());
     g.registerLazySingleton<UpdateBookingOfService>(
         () => UpdateBookingOfService(g<BookingRepository>()));
-    g.registerFactory<UserDataBloc>(() => UserDataBloc(g<SetUserData>()));
     g.registerFactory<ZipDecoder>(() => registerModule.zipDecoder);
     g.registerLazySingleton<AddBookingToService>(
         () => AddBookingToService(g<BookingRepository>()));
@@ -623,14 +615,10 @@ class _$DevRegisterModule extends DevRegisterModule {
   ServicesOfCategorieBloc get servicesOfCategorieBloc =>
       ServicesOfCategorieBloc(_g<FetchServicesOfCategorie>());
   @override
-  SetUserData get setUserData => SetUserData(_g<AppUserRepository>());
-  @override
   StopDetailsBloc get stopDetailsBloc => StopDetailsBloc();
   @override
   UpdateBookingOfService get updateBookingOfService =>
       UpdateBookingOfService(_g<BookingRepository>());
-  @override
-  UserDataBloc get userDataBloc => UserDataBloc(_g<SetUserData>());
   @override
   ZipDecoder get zipDecoder => ZipDecoder();
   @override

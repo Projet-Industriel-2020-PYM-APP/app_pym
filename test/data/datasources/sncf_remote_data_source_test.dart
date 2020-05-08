@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_pym/data/datasources/sncf_remote_data_source.dart';
 import 'package:app_pym/injection_container.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -28,7 +30,7 @@ void main() {
           when(mockHttpClient.get(
             'https://ressources.data.sncf.com/api/records/1.0/search/?dataset=sncf-ter-gtfs',
           )).thenAnswer((_) async =>
-              http.Response(fixture('sncf/sncf-ter-gtfs.json'), 200));
+              http.Response(fixture('sncf/sncf-ter-gtfs.json'), HttpStatus.ok));
           when(mockHttpClient.send(
             any,
           )).thenAnswer((invocation) async {
@@ -39,7 +41,7 @@ void main() {
                 capturedRequest.url.toString().startsWith(
                     "https://ressources.data.sncf.com/explore/dataset/sncf-ter-gtfs/files/")) {
               return http.StreamedResponse(
-                  fixtureByte('sncf/export-ter-gtfs-last.zip'), 200);
+                  fixtureByte('sncf/export-ter-gtfs-last.zip'), HttpStatus.ok);
             }
             return fail("Unexpected arguments");
           });
@@ -76,7 +78,7 @@ void main() {
           when(mockHttpClient.get(
             'https://ressources.data.sncf.com/api/records/1.0/search/?dataset=sncf-ter-gtfs',
           )).thenAnswer((_) async =>
-              http.Response(fixture('sncf/sncf-ter-gtfs.json'), 200));
+              http.Response(fixture('sncf/sncf-ter-gtfs.json'), HttpStatus.ok));
           when(mockHttpClient.send(
             any,
           )).thenAnswer((invocation) async {
@@ -87,7 +89,7 @@ void main() {
                 capturedRequest.url.toString().startsWith(
                     "https://ressources.data.sncf.com/explore/dataset/sncf-ter-gtfs/files/")) {
               return http.StreamedResponse(
-                  fixtureByte('sncf/export-ter-gtfs-last.zip'), 200);
+                  fixtureByte('sncf/export-ter-gtfs-last.zip'), HttpStatus.ok);
             }
             return fail("Unexpected arguments");
           });
@@ -117,7 +119,7 @@ void main() {
           when(mockHttpClient.get(
             'https://ressources.data.sncf.com/api/records/1.0/search/?dataset=sncf-ter-gtfs',
           )).thenAnswer((_) async =>
-              http.Response(fixture('sncf/sncf-ter-gtfs.json'), 200));
+              http.Response(fixture('sncf/sncf-ter-gtfs.json'), HttpStatus.ok));
           when(mockHttpClient.send(any)).thenAnswer(
               (_) async => http.StreamedResponse(const Stream.empty(), 404));
 
