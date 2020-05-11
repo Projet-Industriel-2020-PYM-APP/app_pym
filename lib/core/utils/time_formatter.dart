@@ -90,3 +90,17 @@ extension DateTimeX on DateTime {
     return count.toString() + (count > 1 ? ' ans' : ' an');
   }
 }
+
+extension DurationX on Duration {
+  String format() {
+    if ((this.abs().inSeconds) < 120) {
+      return "${this.abs().inSeconds} secondes";
+    } else if (this.abs().inMinutes < 120) {
+      return "${this.inMinutes} minutes";
+    } else if (this.abs().inHours < 24) {
+      return "${this.inHours} heures";
+    } else {
+      return "${this.inDays} jours";
+    }
+  }
+}

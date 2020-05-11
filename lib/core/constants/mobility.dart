@@ -9,3 +9,9 @@ class MobilityConstants {
 }
 
 enum Direction { Aller, Retour }
+
+extension DirectionX on Direction {
+  Direction get reverse {
+    return this == Direction.Aller ? Direction.Retour : Direction.Aller;
+  }
+}

@@ -12,9 +12,18 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:vector_math/vector_math_64.dart' as vector;
+import 'package:vector_math/vector_math_64.dart' show Vector3;
 
 part 'load_page_and_place_batiments.freezed.dart';
+
+@freezed
+abstract class LoadPageAndPlaceBatimentParams
+    with _$LoadPageAndPlaceBatimentParams {
+  const factory LoadPageAndPlaceBatimentParams({
+    @required num bearingBetweenCameraAndNorth,
+    @required UnityWidgetController controller,
+  }) = _LoadPageAndPlaceBatimentParams;
+}
 
 @prod
 @lazySingleton
@@ -54,7 +63,7 @@ class LoadPageAndPlaceBatiments
       );
 
       // Calculate position in arcore/arkit axis
-      final vector.Vector3 vect = vector.Vector3(
+      final Vector3 vect = Vector3(
         -math.sin(
             bearingBetweenCameraAndNorth - bearingBetweenCameraAndBatiment),
         0,
@@ -62,16 +71,17 @@ class LoadPageAndPlaceBatiments
             bearingBetweenCameraAndNorth - bearingBetweenCameraAndBatiment),
       );
 
-      _batimentSpawn(controller, vect, batiment: batiment);
+      controller.spawnBatiment(vect, batiment: batiment);
     }
-    _spawnAxis(controller, bearingBetweenCameraAndNorth);
+    controller.spawnCompass(bearingBetweenCameraAndNorth);
 
     return position;
   }
+}
 
-  void _batimentSpawn(
-    UnityWidgetController controller,
-    vector.Vector3 vect, {
+extension on UnityWidgetController {
+  void spawnBatiment(
+    Vector3 vect, {
     @required Batiment batiment,
   }) {
     final Map<String, dynamic> data = <String, dynamic>{
@@ -91,16 +101,59 @@ class LoadPageAndPlaceBatiments
       }
     };
 
-    controller.postMessage(
+    this.postMessage(
       'BatimentSpawner',
       'FlutterSpawn',
       json.encode(data),
     );
   }
 
-  void _compassSpawn(
-    UnityWidgetController controller,
-    vector.Vector3 vect, {
+  void spawnCompass(
+    num bearingBetweenCameraAndNorth,
+  ) {
+    this._spawnCompassUnit(
+      Vector3(
+        -math.sin(bearingBetweenCameraAndNorth),
+        0,
+        -math.cos(bearingBetweenCameraAndNorth),
+      ),
+      color: Colors.red,
+      text: "N",
+    );
+
+    this._spawnCompassUnit(
+      Vector3(
+        -math.sin(bearingBetweenCameraAndNorth + math.pi / 2),
+        0,
+        -math.cos(bearingBetweenCameraAndNorth + math.pi / 2),
+      ),
+      color: Colors.green[100],
+      text: "W",
+    );
+
+    this._spawnCompassUnit(
+      Vector3(
+        -math.sin(bearingBetweenCameraAndNorth + math.pi),
+        0,
+        -math.cos(bearingBetweenCameraAndNorth + math.pi),
+      ),
+      color: Colors.blue,
+      text: "S",
+    );
+
+    this._spawnCompassUnit(
+      Vector3(
+        -math.sin(bearingBetweenCameraAndNorth + math.pi * 3 / 2),
+        0,
+        -math.cos(bearingBetweenCameraAndNorth + math.pi * 3 / 2),
+      ),
+      color: Colors.green[100],
+      text: "E",
+    );
+  }
+
+  void _spawnCompassUnit(
+    Vector3 vect, {
     @required Color color,
     @required String text,
   }) {
@@ -121,68 +174,10 @@ class LoadPageAndPlaceBatiments
       }
     };
 
-    controller.postMessage(
+    this.postMessage(
       'CompassSpawner',
       'FlutterSpawn',
       json.encode(data),
     );
   }
-
-  void _spawnAxis(
-    UnityWidgetController controller,
-    num bearingBetweenCameraAndNorth,
-  ) {
-    _compassSpawn(
-      controller,
-      vector.Vector3(
-        -math.sin(bearingBetweenCameraAndNorth),
-        0,
-        -math.cos(bearingBetweenCameraAndNorth),
-      ),
-      color: Colors.red,
-      text: "N",
-    );
-
-    _compassSpawn(
-      controller,
-      vector.Vector3(
-        -math.sin(bearingBetweenCameraAndNorth + math.pi / 2),
-        0,
-        -math.cos(bearingBetweenCameraAndNorth + math.pi / 2),
-      ),
-      color: Colors.green[100],
-      text: "W",
-    );
-
-    _compassSpawn(
-      controller,
-      vector.Vector3(
-        -math.sin(bearingBetweenCameraAndNorth + math.pi),
-        0,
-        -math.cos(bearingBetweenCameraAndNorth + math.pi),
-      ),
-      color: Colors.blue,
-      text: "S",
-    );
-
-    _compassSpawn(
-      controller,
-      vector.Vector3(
-        -math.sin(bearingBetweenCameraAndNorth + math.pi * 3 / 2),
-        0,
-        -math.cos(bearingBetweenCameraAndNorth + math.pi * 3 / 2),
-      ),
-      color: Colors.green[100],
-      text: "E",
-    );
-  }
-}
-
-@freezed
-abstract class LoadPageAndPlaceBatimentParams
-    with _$LoadPageAndPlaceBatimentParams {
-  const factory LoadPageAndPlaceBatimentParams({
-    @required num bearingBetweenCameraAndNorth,
-    @required UnityWidgetController controller,
-  }) = _LoadPageAndPlaceBatimentParams;
 }

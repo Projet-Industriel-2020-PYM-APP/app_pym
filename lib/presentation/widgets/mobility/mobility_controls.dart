@@ -1,6 +1,5 @@
 import 'package:app_pym/presentation/blocs/mobility/trips/trips_bloc.dart';
 import 'package:app_pym/presentation/widgets/mobility/direction_controls.dart';
-import 'package:app_pym/presentation/widgets/mobility/switch_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -13,18 +12,18 @@ class MobilityControls extends StatelessWidget {
       builder: (context, state) {
         return Stack(
           children: <Widget>[
-            const Align(
+            Align(
               alignment: Alignment.topCenter,
               child: Padding(
-                padding: EdgeInsets.all(5.0),
-                child: DirectionControls(),
+                padding: const EdgeInsets.all(5.0),
+                child: DirectionControls(state.direction),
               ),
             ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
-                child: buildButtonBar(context),
+                child: buildButtonBar(context, state),
               ),
             ),
           ],
@@ -33,39 +32,33 @@ class MobilityControls extends StatelessWidget {
     );
   }
 
-  ButtonBar buildButtonBar(BuildContext context) {
-    final tripsState = context.bloc<TripsBloc>().state;
+  ButtonBar buildButtonBar(BuildContext context, TripsState tripsState) {
     return ButtonBar(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        SwitchButton(
-          isRaised: !tripsState.isBusLoaded,
-          onRaisedPressed: () => null,
+        RaisedButton(
+          color: tripsState.isBusLoaded ? Colors.blue : Colors.white,
+          disabledColor: Colors.grey,
+          elevation: tripsState.isBusLoaded ? 8.0 : 0.0,
+          onPressed: tripsState.isBusLoaded
+              ? () => context.bloc<TripsBloc>().add(const TripsEvent.hideBus())
+              : null,
           //TODO
           // onRaisedPressed: () => context.bloc<TripsBloc>().add(
           //     TripsEvent.fetchBus(tripsState.direction)),
-          onFlatPressed: () =>
-              context.bloc<TripsBloc>().add(const TripsEvent.hideBus()),
-          child: const Text(" BUS "),
+          child: const Text("BUS"),
         ),
-        SwitchButton(
-          isRaised: !tripsState.isTrainLoaded,
-          onRaisedPressed: () => context
-              .bloc<TripsBloc>()
-              .add(TripsEvent.fetchTrain(tripsState.direction)),
-          onFlatPressed: () =>
-              context.bloc<TripsBloc>().add(const TripsEvent.hideTrain()),
-          child: const Text(" TER "),
-        ),
-        SwitchButton(
-          isRaised: tripsState.isBusLoaded || tripsState.isTrainLoaded,
-          onRaisedPressed: () {
-            context.bloc<TripsBloc>()
-              ..add(const TripsEvent.hideBus())
-              ..add(const TripsEvent.hideTrain());
-          },
-          onFlatPressed: () => null,
-          child: const Text("CACHER"),
+        RaisedButton(
+          color: tripsState.isTrainLoaded ? Colors.orange[800] : Colors.white,
+          disabledColor: Colors.grey,
+          elevation: tripsState.isTrainLoaded ? 8.0 : 0.0,
+          onPressed: tripsState.isTrainLoaded
+              ? () =>
+                  context.bloc<TripsBloc>().add(const TripsEvent.hideTrain())
+              : () => context
+                  .bloc<TripsBloc>()
+                  .add(TripsEvent.fetchTrain(tripsState.direction)),
+          child: const Text("TER"),
         ),
       ],
     );

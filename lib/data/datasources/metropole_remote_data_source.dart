@@ -20,11 +20,12 @@ class MetropoleRemoteDataSourceImpl implements MetropoleRemoteDataSource {
   @override
   Stream<List<int>> download() async* {
     // Download file
-    final http.Request request = http.Request('GET',
-        Uri.parse('https://url/.zip')); // TODO: Waiting for Metropole Acess
-    final http.StreamedResponse response = await client.send(request);
+    // final http.Request request = http.Request('GET',
+    //     Uri.parse('https://url/.zip')); // TODO: Waiting for Metropole Acess
+    // final http.StreamedResponse response = await client.send(request);
 
-    yield* response.stream;
+    // yield* response.stream;
+    throw UnimplementedError();
   }
 
   @override

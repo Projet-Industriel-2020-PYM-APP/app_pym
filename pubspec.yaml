@@ -14,7 +14,7 @@ description: Application PYM
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.7.0 <3.0.0'
+  sdk: '>=2.7.0 <2.9.0'
 
 dependencies:
   flutter:
@@ -54,7 +54,7 @@ dependencies:
   intl: ^0.16.1
 
 dependency_overrides:
-  dartx: 0.3.0
+  dartx: 0.4.0
   path: 1.7.0
 
 dev_dependencies:

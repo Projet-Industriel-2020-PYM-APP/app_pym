@@ -20,6 +20,8 @@ abstract class TripsState with _$TripsState {
       isBusLoaded: false,
       isTrainLoaded: false,
       direction: direction,
+      busTrips: <Trip>[],
+      trainTrips: <Trip>[],
     );
   }
 }

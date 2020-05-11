@@ -17,10 +17,10 @@ jobs:
       - name: Flutter action
         uses: subosito/flutter-action@master
         with:
-          channel: 'dev'
-      - name: Upgrade flutter to dev latest
+          channel: 'stable'
+      - name: Upgrade flutter to stable latest
         run: |
-          flutter channel dev
+          flutter channel stable
           flutter upgrade
           flutter --version
       - run: flutter pub get
@@ -53,10 +53,10 @@ jobs:
       - name: Flutter action
         uses: subosito/flutter-action@master
         with:
-          channel: 'dev'
-      - name: Upgrade flutter to dev latest
+          channel: 'stable'
+      - name: Upgrade flutter to stable latest
         run: |
-          flutter channel dev
+          flutter channel stable
           flutter upgrade
           flutter --version
       - run: echo ${{ secrets.RELEASE_KEYSTORE_BASE64 }} | base64 -d > android/app/keystore.jks
@@ -91,10 +91,10 @@ jobs:
       - name: Flutter action
         uses: subosito/flutter-action@master
         with:
-          channel: 'dev'
-      - name: Upgrade flutter to dev latest
+          channel: 'stable'
+      - name: Upgrade flutter to stable latest
         run: |
-          flutter channel dev
+          flutter channel stable
           flutter upgrade
           flutter --version
       - run: echo ${{ secrets.RELEASE_KEYSTORE_BASE64 }} | base64 -d > android/app/keystore.jks
@@ -123,10 +123,10 @@ jobs:
       - name: Flutter action
         uses: subosito/flutter-action@master
         with:
-          channel: 'dev'
-      - name: Upgrade flutter to dev latest
+          channel: 'stable'
+      - name: Upgrade flutter to stable latest
         run: |
-          flutter channel dev
+          flutter channel stable
           flutter upgrade
           flutter --version
       - run: echo ${{ secrets.RELEASE_KEYSTORE_BASE64 }} | base64 -d > android/app/keystore.jks
