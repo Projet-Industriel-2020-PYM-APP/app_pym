@@ -61,7 +61,10 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
   @override
   Future<void> createBooking(BookingModel booking,
       {@required String token}) async {
-    final data = json.encode(booking.toJson());
+    final bookingMap = booking.toJson()..remove('id');
+
+    final data = json.encode(bookingMap);
+    print(data);
     final response = await client.post(
       'https://admin.map-pym.com/api/bookings',
       headers: {
@@ -76,7 +79,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
       return;
     } else {
       throw ServerException(
-          'Failed to create booking : ${response.statusCode} ${response.reasonPhrase}');
+          'Failed to create booking : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
     }
   }
 
@@ -94,7 +97,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
       return;
     } else {
       throw ServerException(
-          'Failed to delete booking : ${response.statusCode} ${response.reasonPhrase}');
+          'Failed to delete booking : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
     }
   }
 
@@ -110,15 +113,17 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load batiments : ${response.statusCode} ${response.reasonPhrase}');
+          'Failed to load batiments : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
     }
   }
 
   @override
   Future<List<BookingModel>> fetchAllBookingsOf(int service_id) async {
-    final response = await client.get('https://admin.map-pym.com/api/bookings');
+    final response = await client
+        .get('https://admin.map-pym.com/api/services/${service_id}/bookings');
 
     if (response.statusCode == HttpStatus.ok) {
+      print(response.body);
       return (json.decode(response.body) as List)
           ?.map((dynamic data) =>
               BookingModel.fromJson(data as Map<String, dynamic>))
@@ -126,7 +131,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load bookings of service ${service_id} : ${response.statusCode} ${response.reasonPhrase}');
+          'Failed to load bookings of service ${service_id} : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
     }
   }
 
@@ -142,7 +147,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load categorie : ${response.statusCode} ${response.reasonPhrase}');
+          'Failed to load categorie : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
     }
   }
 
@@ -157,7 +162,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load Posts : ${response.statusCode} ${response.reasonPhrase}');
+          'Failed to load Posts : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
     }
   }
 
@@ -173,7 +178,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load categorie : ${response.statusCode} ${response.reasonPhrase}');
+          'Failed to load categorie : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
     }
   }
 
@@ -189,7 +194,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.firstWhere((element) => element.id == id);
     } else {
       throw ServerException(
-          'Failed to load batiments : ${response.statusCode} ${response.reasonPhrase}');
+          'Failed to load batiments : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
     }
   }
 
@@ -204,7 +209,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.firstWhere((e) => e.id == id);
     } else {
       throw ServerException(
-          'Failed to fetch contact $id : ${response.statusCode} ${response.reasonPhrase}');
+          'Failed to fetch contact $id : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
     }
   }
 
@@ -222,7 +227,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load entreprises : ${response.statusCode} ${response.reasonPhrase}');
+          'Failed to load entreprises : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
     }
   }
 
@@ -238,7 +243,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load services of categorie ${categorie_id} : ${response.statusCode} ${response.reasonPhrase}');
+          'Failed to load services of categorie ${categorie_id} : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
     }
   }
 
@@ -254,14 +259,16 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
       return AppUserModel.fromJson(body);
     } else {
       throw ServerException(
-          'Failed to load user : ${response.statusCode} ${response.reasonPhrase}');
+          'Failed to load user : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
     }
   }
 
   @override
   Future<void> updateBooking(BookingModel booking,
       {@required String token}) async {
-    final data = json.encode(booking.toJson());
+    final bookingMap = booking.toJson()..remove('id');
+
+    final data = json.encode(bookingMap);
     final response = await client.patch(
       'https://admin.map-pym.com/api/bookings/${booking.id}',
       headers: {
@@ -275,7 +282,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
       return;
     } else {
       throw ServerException(
-          'Failed to edit booking : ${response.statusCode} ${response.reasonPhrase}');
+          'Failed to edit booking : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
     }
   }
 }

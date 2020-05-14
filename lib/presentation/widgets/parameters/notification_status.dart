@@ -47,6 +47,13 @@ class NotificationStatus extends StatelessWidget {
             ),
           );
         },
+        loaded: () {
+          return const ListTile(
+            leading: Icon(Icons.notifications),
+            title: Text("Notification"),
+            trailing: CircularProgressIndicator(),
+          );
+        },
       );
     });
   }

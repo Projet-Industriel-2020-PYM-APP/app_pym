@@ -14,14 +14,14 @@ class _$BatimentTearOff {
 
   _Batiment call(
       {@required int id,
-      @required String nom,
-      @required int nbEtage,
-      @required String description,
-      @required bool accesHandicape,
-      @required String url,
-      @required String adresse,
-      @required double latitude,
-      @required double longitude}) {
+      @required @nullable String nom,
+      @required @nullable int nbEtage,
+      @required @nullable String description,
+      @required @nullable bool accesHandicape,
+      @required @nullable String url,
+      @required @nullable String adresse,
+      @required @nullable double latitude,
+      @required @nullable double longitude}) {
     return _Batiment(
       id: id,
       nom: nom,
@@ -41,13 +41,21 @@ const $Batiment = _$BatimentTearOff();
 
 mixin _$Batiment {
   int get id;
+  @nullable
   String get nom;
+  @nullable
   int get nbEtage;
+  @nullable
   String get description;
+  @nullable
   bool get accesHandicape;
+  @nullable
   String get url;
+  @nullable
   String get adresse;
+  @nullable
   double get latitude;
+  @nullable
   double get longitude;
 
   $BatimentCopyWith<Batiment> get copyWith;
@@ -58,14 +66,14 @@ abstract class $BatimentCopyWith<$Res> {
       _$BatimentCopyWithImpl<$Res>;
   $Res call(
       {int id,
-      String nom,
-      int nbEtage,
-      String description,
-      bool accesHandicape,
-      String url,
-      String adresse,
-      double latitude,
-      double longitude});
+      @nullable String nom,
+      @nullable int nbEtage,
+      @nullable String description,
+      @nullable bool accesHandicape,
+      @nullable String url,
+      @nullable String adresse,
+      @nullable double latitude,
+      @nullable double longitude});
 }
 
 class _$BatimentCopyWithImpl<$Res> implements $BatimentCopyWith<$Res> {
@@ -110,14 +118,14 @@ abstract class _$BatimentCopyWith<$Res> implements $BatimentCopyWith<$Res> {
   @override
   $Res call(
       {int id,
-      String nom,
-      int nbEtage,
-      String description,
-      bool accesHandicape,
-      String url,
-      String adresse,
-      double latitude,
-      double longitude});
+      @nullable String nom,
+      @nullable int nbEtage,
+      @nullable String description,
+      @nullable bool accesHandicape,
+      @nullable String url,
+      @nullable String adresse,
+      @nullable double latitude,
+      @nullable double longitude});
 }
 
 class __$BatimentCopyWithImpl<$Res> extends _$BatimentCopyWithImpl<$Res>
@@ -160,41 +168,41 @@ class __$BatimentCopyWithImpl<$Res> extends _$BatimentCopyWithImpl<$Res>
 class _$_Batiment with DiagnosticableTreeMixin implements _Batiment {
   const _$_Batiment(
       {@required this.id,
-      @required this.nom,
-      @required this.nbEtage,
-      @required this.description,
-      @required this.accesHandicape,
-      @required this.url,
-      @required this.adresse,
-      @required this.latitude,
-      @required this.longitude})
-      : assert(id != null),
-        assert(nom != null),
-        assert(nbEtage != null),
-        assert(description != null),
-        assert(accesHandicape != null),
-        assert(url != null),
-        assert(adresse != null),
-        assert(latitude != null),
-        assert(longitude != null);
+      @required @nullable this.nom,
+      @required @nullable this.nbEtage,
+      @required @nullable this.description,
+      @required @nullable this.accesHandicape,
+      @required @nullable this.url,
+      @required @nullable this.adresse,
+      @required @nullable this.latitude,
+      @required @nullable this.longitude})
+      : assert(id != null);
 
   @override
   final int id;
   @override
+  @nullable
   final String nom;
   @override
+  @nullable
   final int nbEtage;
   @override
+  @nullable
   final String description;
   @override
+  @nullable
   final bool accesHandicape;
   @override
+  @nullable
   final String url;
   @override
+  @nullable
   final String adresse;
   @override
+  @nullable
   final double latitude;
   @override
+  @nullable
   final double longitude;
 
   @override
@@ -269,32 +277,40 @@ class _$_Batiment with DiagnosticableTreeMixin implements _Batiment {
 abstract class _Batiment implements Batiment {
   const factory _Batiment(
       {@required int id,
-      @required String nom,
-      @required int nbEtage,
-      @required String description,
-      @required bool accesHandicape,
-      @required String url,
-      @required String adresse,
-      @required double latitude,
-      @required double longitude}) = _$_Batiment;
+      @required @nullable String nom,
+      @required @nullable int nbEtage,
+      @required @nullable String description,
+      @required @nullable bool accesHandicape,
+      @required @nullable String url,
+      @required @nullable String adresse,
+      @required @nullable double latitude,
+      @required @nullable double longitude}) = _$_Batiment;
 
   @override
   int get id;
   @override
+  @nullable
   String get nom;
   @override
+  @nullable
   int get nbEtage;
   @override
+  @nullable
   String get description;
   @override
+  @nullable
   bool get accesHandicape;
   @override
+  @nullable
   String get url;
   @override
+  @nullable
   String get adresse;
   @override
+  @nullable
   double get latitude;
   @override
+  @nullable
   double get longitude;
   @override
   _$BatimentCopyWith<_Batiment> get copyWith;

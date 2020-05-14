@@ -8,15 +8,15 @@ void main() {
     id: 0,
     title: "title",
     service_id: 0,
-    start_date: tDate,
-    end_date: tDate,
+    start_date: tDate.toUtc(),
+    end_date: tDate.toUtc(),
   );
   final Booking entity = Booking(
     id: 0,
     title: "title",
     service_id: 0,
-    start_date: tDate,
-    end_date: tDate,
+    start_date: tDate.toLocal(),
+    end_date: tDate.toLocal(),
   );
   group('toEntity', () {
     test(

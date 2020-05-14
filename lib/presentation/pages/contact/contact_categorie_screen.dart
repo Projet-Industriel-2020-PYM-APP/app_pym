@@ -4,6 +4,7 @@ import 'package:app_pym/domain/entities/app_pym/contact_categorie.dart';
 import 'package:app_pym/domain/usecases/contacts/fetch_contact_of_categorie.dart';
 import 'package:app_pym/injection_container.dart';
 import 'package:breakpoint/breakpoint.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart' hide Action;
 
 class ContactCategorieScreen extends StatelessWidget {
@@ -50,9 +51,22 @@ class ContactCategorieCard extends StatelessWidget {
             if (categorie.img_url != null && categorie.img_url.isNotEmpty)
               AspectRatio(
                 aspectRatio: 2 / 3,
-                child: Image.network(
-                  categorie.img_url,
+                child: CachedNetworkImage(
+                  imageUrl: categorie.img_url,
                   fit: BoxFit.fitHeight,
+                  errorWidget: (context, url, dynamic error) {
+                    print(error);
+                    return Center(
+                      child: Text(error.toString()),
+                    );
+                  },
+                  progressIndicatorBuilder: (context, url, downloadProgress) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: downloadProgress.progress,
+                      ),
+                    );
+                  },
                 ),
               ),
             Expanded(

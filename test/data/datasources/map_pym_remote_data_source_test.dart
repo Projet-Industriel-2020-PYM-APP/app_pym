@@ -75,7 +75,7 @@ void main() {
   void setUpMockHttpClientSuccess200() {
     when(
       mockHttpClient.post(
-        argThat(endsWith('ajouter')),
+        any,
         headers: anyNamed('headers'),
         body: anyNamed('body'),
       ),
@@ -102,9 +102,10 @@ void main() {
     ).thenAnswer((_) async =>
         http.Response(fixture('map_pym/contacts.json'), HttpStatus.ok));
     when(
-      mockHttpClient.get('https://admin.map-pym.com/api/bookings'),
+      mockHttpClient.get(endsWith('bookings')),
     ).thenAnswer((_) async =>
         http.Response(fixture('map_pym/bookings.json'), HttpStatus.ok));
+
     when(
       mockHttpClient.get('https://admin.map-pym.com/api/entreprises'),
     ).thenAnswer((_) async =>
@@ -169,13 +170,14 @@ void main() {
         // act
         await dataSource.createBooking(tListBookingModel.first, token: 'token');
         // assert
+        final expected = tListBookingModel.first.toJson()..remove('id');
         verify(mockHttpClient.post(
           'https://admin.map-pym.com/api/bookings',
           headers: {
             HttpHeaders.authorizationHeader: "Bearer token",
             HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
           },
-          body: json.encode(tListBookingModel.first.toJson()),
+          body: json.encode(expected),
         ));
       },
     );
@@ -278,7 +280,7 @@ void main() {
         await dataSource.fetchAllBookingsOf(tListBookingModel.first.service_id);
         // assert
         verify(mockHttpClient.get(
-          'https://admin.map-pym.com/api/bookings',
+          'https://admin.map-pym.com/api/services/${tListBookingModel.first.service_id}/bookings',
         ));
       },
     );
@@ -664,13 +666,14 @@ void main() {
         // act
         await dataSource.updateBooking(tListBookingModel.first, token: 'token');
         // assert
+        final expected = tListBookingModel.first.toJson()..remove('id');
         verify(mockHttpClient.patch(
           'https://admin.map-pym.com/api/bookings/${tListBookingModel.first.id}',
           headers: {
             HttpHeaders.authorizationHeader: "Bearer token",
             HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
           },
-          body: json.encode(tListBookingModel.first.toJson()),
+          body: json.encode(expected),
         ));
       },
     );

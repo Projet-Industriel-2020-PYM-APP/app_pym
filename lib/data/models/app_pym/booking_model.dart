@@ -25,8 +25,8 @@ extension BookingModelX on BookingModel {
     return Booking(
       id: this.id,
       service_id: this.service_id,
-      start_date: this.start_date,
-      end_date: this.end_date,
+      start_date: this.start_date.toLocal(),
+      end_date: this.end_date.toLocal(),
       title: this.title,
     );
   }

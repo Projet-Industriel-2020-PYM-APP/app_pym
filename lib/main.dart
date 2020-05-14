@@ -14,7 +14,6 @@ import 'package:app_pym/presentation/blocs/authentication/authentication/authent
 import 'package:app_pym/presentation/blocs/notification/notification_bloc.dart';
 import 'package:app_pym/presentation/blocs/theme/theme_bloc.dart';
 import 'package:app_pym/presentation/router.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -53,7 +52,7 @@ Future<void> main() async {
   await Hive.openBox<PostModel>('/posts');
   await Hive.openBox<EntrepriseModel>('/entreprises');
   await Hive.openBox<BookingModel>('/bookings');
-  await di.init(env: Environment.dev);
+  await di.init(env: Environment.prod);
   runApp(const MyApp());
 }
 
@@ -75,11 +74,8 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
             create: (_) => ThemeBloc(context, prefs: sl<SharedPreferences>())),
         BlocProvider(
-          create: (_) => NotificationBloc(
-            context,
-            prefs: sl<SharedPreferences>(),
-            firebaseMessaging: sl<FirebaseMessaging>(),
-          )..add(const NotificationEvent.appStarted()),
+          create: (_) =>
+              sl<NotificationBloc>()..add(const NotificationEvent.appStarted()),
         ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {

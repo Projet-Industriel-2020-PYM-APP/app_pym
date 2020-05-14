@@ -115,14 +115,18 @@ void main() {
 }
 
 Future<void> takeScreenshot(FlutterDriver driver, String path) async {
-  await driver
-      .waitUntilNoTransientCallbacks()
-      .timeout(const Duration(seconds: 5), onTimeout: () {
-    print("waitUntilNoTransientCallbacks timed out.");
-  });
-  final List<int> pixels = await driver.screenshot();
-  final File file = File(path);
-  file.createSync(recursive: true);
-  file.writeAsBytesSync(pixels);
-  print(path);
+  try {
+    await driver
+        .waitUntilNoTransientCallbacks()
+        .timeout(const Duration(seconds: 5), onTimeout: () {
+      print("waitUntilNoTransientCallbacks timed out.");
+    });
+    final List<int> pixels = await driver.screenshot();
+    final File file = File(path);
+    file.createSync(recursive: true);
+    file.writeAsBytesSync(pixels);
+    print(path);
+  } catch (e) {
+    print(e);
+  }
 }
