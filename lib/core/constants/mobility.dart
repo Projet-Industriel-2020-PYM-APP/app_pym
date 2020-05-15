@@ -6,6 +6,8 @@ class MobilityConstants {
   static const String pymStop = "Puits Morandat";
 
   static const String gareGardanne = "Gare de Gardanne";
+
+  static const String gareAix = "Gare de Aix-en-Provence";
 }
 
 enum Direction { Aller, Retour }

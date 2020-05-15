@@ -139,57 +139,112 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
         yield state.busLoaded();
       }
       if (tripsState.isTrainLoaded) {
-        await Future.wait<void>([
-          tripsState.trainTrips[0].trace(
-            markers,
-            direction: tripsState.direction,
-            isBus: false,
-            markerIcon: trainMarker,
-            endCapIcon: Cap.customCapFromBitmap(trainEndCap),
-            polylineId: "train_${tripsState.direction}_1_",
-            color: Colors.orange,
-            onTapMarker: (markerId) {
-              scaffoldState.showBottomSheet<void>(
-                (context) => DetailsBottomSheet(
-                  tripsState.trainTrips,
-                  isBus: false,
-                  markerId: markerId,
-                ),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadiusDirectional.only(
-                    topStart: Radius.circular(10.0),
-                    topEnd: Radius.circular(10.0),
+        //pour les trains, on traite différemment Aller et Partir car tous les trains ne vont pas à Aix
+        if (tripsState.direction == Direction.Aller) {
+          await Future.wait<void>([
+            tripsState.trainTrips[0].trace(
+              markers,
+              direction: tripsState.direction,
+              isBus: false,
+              markerIcon: trainMarker,
+              endCapIcon: Cap.customCapFromBitmap(trainEndCap),
+              polylineId: "train_${tripsState.direction}_1_",
+              color: Colors.orange,
+              onTapMarker: (markerId) {
+                scaffoldState.showBottomSheet<void>(
+                  (context) => DetailsBottomSheet(
+                    tripsState.trainTrips,
+                    isBus: false,
+                    markerId: markerId,
                   ),
-                ),
-              );
-            },
-          ).then(polylines.add),
-          tripsState.trainTrips[1].trace(
-            markers,
-            direction: tripsState.direction,
-            isBus: false,
-            markerIcon: trainMarker,
-            endCapIcon: Cap.customCapFromBitmap(trainEndCap),
-            polylineId: "train_${tripsState.direction}_2_",
-            color: Colors.orange,
-            onTapMarker: (markerId) {
-              scaffoldState.showBottomSheet<void>(
-                (context) => DetailsBottomSheet(
-                  tripsState.trainTrips,
-                  isBus: false,
-                  markerId: markerId,
-                ),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadiusDirectional.only(
-                    topStart: Radius.circular(10.0),
-                    topEnd: Radius.circular(10.0),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadiusDirectional.only(
+                      topStart: Radius.circular(10.0),
+                      topEnd: Radius.circular(10.0),
+                    ),
                   ),
-                ),
-              );
-            },
-          ).then(polylines.add),
-        ]);
-        yield state.trainLoaded();
+                );
+              },
+            ).then(polylines.add),
+            tripsState.trainTrips[7].trace(
+              markers,
+              direction: tripsState.direction,
+              isBus: false,
+              markerIcon: trainMarker,
+              endCapIcon: Cap.customCapFromBitmap(trainEndCap),
+              polylineId: "train_${tripsState.direction}_2_",
+              color: Colors.orange,
+              onTapMarker: (markerId) {
+                scaffoldState.showBottomSheet<void>(
+                  (context) => DetailsBottomSheet(
+                    tripsState.trainTrips,
+                    isBus: false,
+                    markerId: markerId,
+                  ),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadiusDirectional.only(
+                      topStart: Radius.circular(10.0),
+                      topEnd: Radius.circular(10.0),
+                    ),
+                  ),
+                );
+              },
+            ).then(polylines.add),
+          ]);
+          yield state.trainLoaded();
+        } else {
+          await Future.wait<void>([
+            tripsState.trainTrips[6].trace(
+              markers,
+              direction: tripsState.direction,
+              isBus: false,
+              markerIcon: trainMarker,
+              endCapIcon: Cap.customCapFromBitmap(trainEndCap),
+              polylineId: "train_${tripsState.direction}_1_",
+              color: Colors.orange,
+              onTapMarker: (markerId) {
+                scaffoldState.showBottomSheet<void>(
+                  (context) => DetailsBottomSheet(
+                    tripsState.trainTrips,
+                    isBus: false,
+                    markerId: markerId,
+                  ),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadiusDirectional.only(
+                      topStart: Radius.circular(10.0),
+                      topEnd: Radius.circular(10.0),
+                    ),
+                  ),
+                );
+              },
+            ).then(polylines.add),
+            tripsState.trainTrips[1].trace(
+              markers,
+              direction: tripsState.direction,
+              isBus: false,
+              markerIcon: trainMarker,
+              endCapIcon: Cap.customCapFromBitmap(trainEndCap),
+              polylineId: "train_${tripsState.direction}_2_",
+              color: Colors.orange,
+              onTapMarker: (markerId) {
+                scaffoldState.showBottomSheet<void>(
+                  (context) => DetailsBottomSheet(
+                    tripsState.trainTrips,
+                    isBus: false,
+                    markerId: markerId,
+                  ),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadiusDirectional.only(
+                      topStart: Radius.circular(10.0),
+                      topEnd: Radius.circular(10.0),
+                    ),
+                  ),
+                );
+              },
+            ).then(polylines.add),
+          ]);
+          yield state.trainLoaded();
+        }
       }
     } on Exception catch (e) {
       yield state.error(e);

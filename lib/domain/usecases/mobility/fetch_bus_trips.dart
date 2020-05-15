@@ -32,11 +32,11 @@ class FetchBusTrips extends Usecase<Future<List<Trip>>, NoParams> {
     final DateTime minTime = DateTime(now.year, now.month, now.day, 23, 59, 59);
     final DateTime minTimeTomorrow = minTime + 1.days;
 
-    final List<DateTime> minTimes = List.generate(6, (int index) => minTime);
+    final List<DateTime> minTimes = List.generate(12, (int index) => minTime);
     final List<DateTime> minTimesTomorrow =
-        List.generate(6, (int index) => minTimeTomorrow);
-    final List<Trip> nextTrips = List.generate(6, (int index) => null);
-    final List<Trip> nextTripsTomorrow = List.generate(6, (int index) => null);
+        List.generate(12, (int index) => minTimeTomorrow);
+    final List<Trip> nextTrips = List.generate(12, (int index) => null);
+    final List<Trip> nextTripsTomorrow = List.generate(12, (int index) => null);
 
     for (final trip in route.trips) {
       // On veut afficher les 3 prochains
@@ -80,8 +80,10 @@ class FetchBusTrips extends Usecase<Future<List<Trip>>, NoParams> {
             .where((stop_time) =>
                 stop_time.stop.stop_name == MobilityConstants.pymStop)
             .first;
-        //l'heure de l'arrêt
-        final arrivalTimeOfTrip = stopTimeOfTrip.arrival_time.timeToDateTime();
+        //l'heure de l'arrêt de demain
+        final arrivalTimeOfTrip = stopTimeOfTrip.arrival_time
+            .timeToDateTime()
+            .add(const Duration(days: 1));
         //direction du trajet
         final int direction = trip.direction_id.index;
         if (arrivalTimeOfTrip.isAfter(midnight) &&
@@ -129,6 +131,10 @@ class FetchBusTrips extends Usecase<Future<List<Trip>>, NoParams> {
           nextTrips[2 * i + 1] = nextTripsTomorrow[indicesARecuperer[1]];
           indicesARecuperer[1] += 2;
         }
+      }
+      //on duplique pour avoir le même format que les trains
+      for (int i = 0; i < 6; i++) {
+        nextTrips[6 + i] = nextTrips[i];
       }
       return nextTrips;
     }
