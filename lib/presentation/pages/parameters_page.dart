@@ -48,11 +48,14 @@ class ParametersPage extends StatelessWidget {
           const Divider(),
           ListTile(
             leading: const Icon(Icons.info),
-            title: const Text("A propos de l'application Pole Yvon Morandat"),
+            title: const Text("A propos de l'application Pôle Yvon Morandat"),
             onTap: () => showLicensePage(
               context: context,
-              applicationIcon: const FlutterLogo(),
-              applicationName: "Application Pole Yvon Morandat",
+              applicationIcon: Image.asset(
+                'assets/icon/icon.png',
+                height: 30,
+              ),
+              applicationName: "Application Pôle Yvon Morandat",
               applicationVersion: 'Développée en 2020',
               applicationLegalese: "MIT License\n"
                   "\n"

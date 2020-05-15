@@ -51,8 +51,8 @@ class AuthenticationBloc
       } else {
         yield const AuthenticationState.unauthenticated();
       }
-    } catch (_) {
-      print("Error");
+    } catch (e) {
+      print(e.toString());
       yield const AuthenticationState.unauthenticated();
     }
   }

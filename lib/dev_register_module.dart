@@ -75,6 +75,7 @@ import 'package:app_pym/presentation/blocs/main/main_page_bloc.dart';
 import 'package:app_pym/presentation/blocs/mobility/maps/maps_bloc.dart';
 import 'package:app_pym/presentation/blocs/mobility/stop_details/stop_details_bloc.dart';
 import 'package:app_pym/presentation/blocs/mobility/trips/trips_bloc.dart';
+import 'package:app_pym/presentation/blocs/notification/notification_bloc.dart';
 import 'package:app_pym/presentation/blocs/services/booking/booking_of_service/booking_of_service_bloc.dart';
 import 'package:app_pym/presentation/blocs/services/booking/fetch_all_bookings_of_service/fetch_all_bookings_of_service_bloc.dart';
 import 'package:app_pym/presentation/blocs/services/service_categories/service_categories_bloc.dart';
@@ -330,6 +331,10 @@ abstract class DevRegisterModule {
   @lazySingleton
   @RegisterAs(NetworkInfo)
   NetworkInfoImpl get networkInfo;
+
+  @dev
+  @singleton
+  NotificationBloc get notificationBloc;
 
   @dev
   @lazySingleton

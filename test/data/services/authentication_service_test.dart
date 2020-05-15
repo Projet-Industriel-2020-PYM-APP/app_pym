@@ -31,19 +31,19 @@ void main() {
       body: anyNamed('body'),
     )).thenAnswer((_) async => http.Response('Done.', HttpStatus.ok));
     when(mockHttpClient.post(
-      'https://admin.map-pym.com/auth/email_verification',
+      'https://admin.map-pym.com/api/auth/email_verification',
       headers: anyNamed('headers'),
     )).thenAnswer((_) async => http.Response('Done.', HttpStatus.ok));
     when(mockHttpClient.post(
-      'https://admin.map-pym.com/auth/token',
+      'https://admin.map-pym.com/api/auth/login',
       body: anyNamed('body'),
     )).thenAnswer((_) async => http.Response('token', HttpStatus.ok));
     when(mockHttpClient.post(
-      'https://admin.map-pym.com/auth/signout',
+      'https://admin.map-pym.com/api/auth/logout',
       headers: anyNamed('headers'),
     )).thenAnswer((_) async => http.Response('Done.', HttpStatus.ok));
     when(mockHttpClient.post(
-      'https://admin.map-pym.com/auth/register',
+      'https://admin.map-pym.com/api/auth/register',
       body: anyNamed('body'),
     )).thenAnswer((_) async => http.Response('token', HttpStatus.ok));
   }
@@ -126,7 +126,7 @@ void main() {
         await service.sendEmailVerification();
         // assert
         verify(mockHttpClient.post(
-          'https://admin.map-pym.com/auth/email_verification',
+          'https://admin.map-pym.com/api/auth/email_verification',
           headers: {HttpHeaders.authorizationHeader: "Bearer token"},
         ));
       },
@@ -168,7 +168,7 @@ void main() {
         await service.signIn('email', 'password');
         // assert
         verify(mockHttpClient.post(
-          'https://admin.map-pym.com/auth/token',
+          'https://admin.map-pym.com/api/auth/login',
           body: {
             'email': 'email',
             'password': 'password',
@@ -220,7 +220,7 @@ void main() {
         service.signOut();
         // assert
         verify(mockHttpClient.post(
-          'https://admin.map-pym.com/auth/signout',
+          'https://admin.map-pym.com/api/auth/logout',
           headers: {HttpHeaders.authorizationHeader: "Bearer token"},
         ));
       },
@@ -275,7 +275,7 @@ void main() {
         await service.signUp('email', 'password');
         // assert
         verify(mockHttpClient.post(
-          'https://admin.map-pym.com/auth/register',
+          'https://admin.map-pym.com/api/auth/register',
           body: {
             'email': 'email',
             'password': 'password',

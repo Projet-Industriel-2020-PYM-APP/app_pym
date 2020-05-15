@@ -16,6 +16,10 @@ class _$NotificationEventTearOff {
     return const NotificationAppStarted();
   }
 
+  NotificationLoaded loaded() {
+    return const NotificationLoaded();
+  }
+
   NotificationEnable enable() {
     return const NotificationEnable();
   }
@@ -32,12 +36,14 @@ mixin _$NotificationEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result appStarted(),
+    @required Result loaded(),
     @required Result enable(),
     @required Result disable(),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result appStarted(),
+    Result loaded(),
     Result enable(),
     Result disable(),
     @required Result orElse(),
@@ -45,12 +51,14 @@ mixin _$NotificationEvent {
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result appStarted(NotificationAppStarted value),
+    @required Result loaded(NotificationLoaded value),
     @required Result enable(NotificationEnable value),
     @required Result disable(NotificationDisable value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result appStarted(NotificationAppStarted value),
+    Result loaded(NotificationLoaded value),
     Result enable(NotificationEnable value),
     Result disable(NotificationDisable value),
     @required Result orElse(),
@@ -118,10 +126,12 @@ class _$NotificationAppStarted
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result appStarted(),
+    @required Result loaded(),
     @required Result enable(),
     @required Result disable(),
   }) {
     assert(appStarted != null);
+    assert(loaded != null);
     assert(enable != null);
     assert(disable != null);
     return appStarted();
@@ -131,6 +141,7 @@ class _$NotificationAppStarted
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result appStarted(),
+    Result loaded(),
     Result enable(),
     Result disable(),
     @required Result orElse(),
@@ -146,10 +157,12 @@ class _$NotificationAppStarted
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result appStarted(NotificationAppStarted value),
+    @required Result loaded(NotificationLoaded value),
     @required Result enable(NotificationEnable value),
     @required Result disable(NotificationDisable value),
   }) {
     assert(appStarted != null);
+    assert(loaded != null);
     assert(enable != null);
     assert(disable != null);
     return appStarted(this);
@@ -159,6 +172,7 @@ class _$NotificationAppStarted
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result appStarted(NotificationAppStarted value),
+    Result loaded(NotificationLoaded value),
     Result enable(NotificationEnable value),
     Result disable(NotificationDisable value),
     @required Result orElse(),
@@ -173,6 +187,114 @@ class _$NotificationAppStarted
 
 abstract class NotificationAppStarted implements NotificationEvent {
   const factory NotificationAppStarted() = _$NotificationAppStarted;
+}
+
+abstract class $NotificationLoadedCopyWith<$Res> {
+  factory $NotificationLoadedCopyWith(
+          NotificationLoaded value, $Res Function(NotificationLoaded) then) =
+      _$NotificationLoadedCopyWithImpl<$Res>;
+}
+
+class _$NotificationLoadedCopyWithImpl<$Res>
+    extends _$NotificationEventCopyWithImpl<$Res>
+    implements $NotificationLoadedCopyWith<$Res> {
+  _$NotificationLoadedCopyWithImpl(
+      NotificationLoaded _value, $Res Function(NotificationLoaded) _then)
+      : super(_value, (v) => _then(v as NotificationLoaded));
+
+  @override
+  NotificationLoaded get _value => super._value as NotificationLoaded;
+}
+
+class _$NotificationLoaded
+    with DiagnosticableTreeMixin
+    implements NotificationLoaded {
+  const _$NotificationLoaded();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'NotificationEvent.loaded()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties..add(DiagnosticsProperty('type', 'NotificationEvent.loaded'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is NotificationLoaded);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result appStarted(),
+    @required Result loaded(),
+    @required Result enable(),
+    @required Result disable(),
+  }) {
+    assert(appStarted != null);
+    assert(loaded != null);
+    assert(enable != null);
+    assert(disable != null);
+    return loaded();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result appStarted(),
+    Result loaded(),
+    Result enable(),
+    Result disable(),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (loaded != null) {
+      return loaded();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result appStarted(NotificationAppStarted value),
+    @required Result loaded(NotificationLoaded value),
+    @required Result enable(NotificationEnable value),
+    @required Result disable(NotificationDisable value),
+  }) {
+    assert(appStarted != null);
+    assert(loaded != null);
+    assert(enable != null);
+    assert(disable != null);
+    return loaded(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result appStarted(NotificationAppStarted value),
+    Result loaded(NotificationLoaded value),
+    Result enable(NotificationEnable value),
+    Result disable(NotificationDisable value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (loaded != null) {
+      return loaded(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class NotificationLoaded implements NotificationEvent {
+  const factory NotificationLoaded() = _$NotificationLoaded;
 }
 
 abstract class $NotificationEnableCopyWith<$Res> {
@@ -220,10 +342,12 @@ class _$NotificationEnable
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result appStarted(),
+    @required Result loaded(),
     @required Result enable(),
     @required Result disable(),
   }) {
     assert(appStarted != null);
+    assert(loaded != null);
     assert(enable != null);
     assert(disable != null);
     return enable();
@@ -233,6 +357,7 @@ class _$NotificationEnable
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result appStarted(),
+    Result loaded(),
     Result enable(),
     Result disable(),
     @required Result orElse(),
@@ -248,10 +373,12 @@ class _$NotificationEnable
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result appStarted(NotificationAppStarted value),
+    @required Result loaded(NotificationLoaded value),
     @required Result enable(NotificationEnable value),
     @required Result disable(NotificationDisable value),
   }) {
     assert(appStarted != null);
+    assert(loaded != null);
     assert(enable != null);
     assert(disable != null);
     return enable(this);
@@ -261,6 +388,7 @@ class _$NotificationEnable
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result appStarted(NotificationAppStarted value),
+    Result loaded(NotificationLoaded value),
     Result enable(NotificationEnable value),
     Result disable(NotificationDisable value),
     @required Result orElse(),
@@ -322,10 +450,12 @@ class _$NotificationDisable
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result appStarted(),
+    @required Result loaded(),
     @required Result enable(),
     @required Result disable(),
   }) {
     assert(appStarted != null);
+    assert(loaded != null);
     assert(enable != null);
     assert(disable != null);
     return disable();
@@ -335,6 +465,7 @@ class _$NotificationDisable
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result appStarted(),
+    Result loaded(),
     Result enable(),
     Result disable(),
     @required Result orElse(),
@@ -350,10 +481,12 @@ class _$NotificationDisable
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result appStarted(NotificationAppStarted value),
+    @required Result loaded(NotificationLoaded value),
     @required Result enable(NotificationEnable value),
     @required Result disable(NotificationDisable value),
   }) {
     assert(appStarted != null);
+    assert(loaded != null);
     assert(enable != null);
     assert(disable != null);
     return disable(this);
@@ -363,6 +496,7 @@ class _$NotificationDisable
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result appStarted(NotificationAppStarted value),
+    Result loaded(NotificationLoaded value),
     Result enable(NotificationEnable value),
     Result disable(NotificationDisable value),
     @required Result orElse(),
@@ -386,6 +520,10 @@ class _$NotificationStateTearOff {
     return const NotificationInitial();
   }
 
+  NotificationLoadedEvent loaded() {
+    return const NotificationLoadedEvent();
+  }
+
   NotificationEnabled enabled() {
     return const NotificationEnabled();
   }
@@ -402,12 +540,14 @@ mixin _$NotificationState {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result initial(),
+    @required Result loaded(),
     @required Result enabled(),
     @required Result disabled(),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
+    Result loaded(),
     Result enabled(),
     Result disabled(),
     @required Result orElse(),
@@ -415,12 +555,14 @@ mixin _$NotificationState {
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result initial(NotificationInitial value),
+    @required Result loaded(NotificationLoadedEvent value),
     @required Result enabled(NotificationEnabled value),
     @required Result disabled(NotificationDisabled value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result initial(NotificationInitial value),
+    Result loaded(NotificationLoadedEvent value),
     Result enabled(NotificationEnabled value),
     Result disabled(NotificationDisabled value),
     @required Result orElse(),
@@ -487,10 +629,12 @@ class _$NotificationInitial
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result initial(),
+    @required Result loaded(),
     @required Result enabled(),
     @required Result disabled(),
   }) {
     assert(initial != null);
+    assert(loaded != null);
     assert(enabled != null);
     assert(disabled != null);
     return initial();
@@ -500,6 +644,7 @@ class _$NotificationInitial
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
+    Result loaded(),
     Result enabled(),
     Result disabled(),
     @required Result orElse(),
@@ -515,10 +660,12 @@ class _$NotificationInitial
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result initial(NotificationInitial value),
+    @required Result loaded(NotificationLoadedEvent value),
     @required Result enabled(NotificationEnabled value),
     @required Result disabled(NotificationDisabled value),
   }) {
     assert(initial != null);
+    assert(loaded != null);
     assert(enabled != null);
     assert(disabled != null);
     return initial(this);
@@ -528,6 +675,7 @@ class _$NotificationInitial
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result initial(NotificationInitial value),
+    Result loaded(NotificationLoadedEvent value),
     Result enabled(NotificationEnabled value),
     Result disabled(NotificationDisabled value),
     @required Result orElse(),
@@ -542,6 +690,114 @@ class _$NotificationInitial
 
 abstract class NotificationInitial implements NotificationState {
   const factory NotificationInitial() = _$NotificationInitial;
+}
+
+abstract class $NotificationLoadedEventCopyWith<$Res> {
+  factory $NotificationLoadedEventCopyWith(NotificationLoadedEvent value,
+          $Res Function(NotificationLoadedEvent) then) =
+      _$NotificationLoadedEventCopyWithImpl<$Res>;
+}
+
+class _$NotificationLoadedEventCopyWithImpl<$Res>
+    extends _$NotificationStateCopyWithImpl<$Res>
+    implements $NotificationLoadedEventCopyWith<$Res> {
+  _$NotificationLoadedEventCopyWithImpl(NotificationLoadedEvent _value,
+      $Res Function(NotificationLoadedEvent) _then)
+      : super(_value, (v) => _then(v as NotificationLoadedEvent));
+
+  @override
+  NotificationLoadedEvent get _value => super._value as NotificationLoadedEvent;
+}
+
+class _$NotificationLoadedEvent
+    with DiagnosticableTreeMixin
+    implements NotificationLoadedEvent {
+  const _$NotificationLoadedEvent();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'NotificationState.loaded()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties..add(DiagnosticsProperty('type', 'NotificationState.loaded'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is NotificationLoadedEvent);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result initial(),
+    @required Result loaded(),
+    @required Result enabled(),
+    @required Result disabled(),
+  }) {
+    assert(initial != null);
+    assert(loaded != null);
+    assert(enabled != null);
+    assert(disabled != null);
+    return loaded();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result initial(),
+    Result loaded(),
+    Result enabled(),
+    Result disabled(),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (loaded != null) {
+      return loaded();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result initial(NotificationInitial value),
+    @required Result loaded(NotificationLoadedEvent value),
+    @required Result enabled(NotificationEnabled value),
+    @required Result disabled(NotificationDisabled value),
+  }) {
+    assert(initial != null);
+    assert(loaded != null);
+    assert(enabled != null);
+    assert(disabled != null);
+    return loaded(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result initial(NotificationInitial value),
+    Result loaded(NotificationLoadedEvent value),
+    Result enabled(NotificationEnabled value),
+    Result disabled(NotificationDisabled value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (loaded != null) {
+      return loaded(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class NotificationLoadedEvent implements NotificationState {
+  const factory NotificationLoadedEvent() = _$NotificationLoadedEvent;
 }
 
 abstract class $NotificationEnabledCopyWith<$Res> {
@@ -589,10 +845,12 @@ class _$NotificationEnabled
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result initial(),
+    @required Result loaded(),
     @required Result enabled(),
     @required Result disabled(),
   }) {
     assert(initial != null);
+    assert(loaded != null);
     assert(enabled != null);
     assert(disabled != null);
     return enabled();
@@ -602,6 +860,7 @@ class _$NotificationEnabled
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
+    Result loaded(),
     Result enabled(),
     Result disabled(),
     @required Result orElse(),
@@ -617,10 +876,12 @@ class _$NotificationEnabled
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result initial(NotificationInitial value),
+    @required Result loaded(NotificationLoadedEvent value),
     @required Result enabled(NotificationEnabled value),
     @required Result disabled(NotificationDisabled value),
   }) {
     assert(initial != null);
+    assert(loaded != null);
     assert(enabled != null);
     assert(disabled != null);
     return enabled(this);
@@ -630,6 +891,7 @@ class _$NotificationEnabled
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result initial(NotificationInitial value),
+    Result loaded(NotificationLoadedEvent value),
     Result enabled(NotificationEnabled value),
     Result disabled(NotificationDisabled value),
     @required Result orElse(),
@@ -691,10 +953,12 @@ class _$NotificationDisabled
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result initial(),
+    @required Result loaded(),
     @required Result enabled(),
     @required Result disabled(),
   }) {
     assert(initial != null);
+    assert(loaded != null);
     assert(enabled != null);
     assert(disabled != null);
     return disabled();
@@ -704,6 +968,7 @@ class _$NotificationDisabled
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
+    Result loaded(),
     Result enabled(),
     Result disabled(),
     @required Result orElse(),
@@ -719,10 +984,12 @@ class _$NotificationDisabled
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result initial(NotificationInitial value),
+    @required Result loaded(NotificationLoadedEvent value),
     @required Result enabled(NotificationEnabled value),
     @required Result disabled(NotificationDisabled value),
   }) {
     assert(initial != null);
+    assert(loaded != null);
     assert(enabled != null);
     assert(disabled != null);
     return disabled(this);
@@ -732,6 +999,7 @@ class _$NotificationDisabled
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result initial(NotificationInitial value),
+    Result loaded(NotificationLoadedEvent value),
     Result enabled(NotificationEnabled value),
     Result disabled(NotificationDisabled value),
     @required Result orElse(),

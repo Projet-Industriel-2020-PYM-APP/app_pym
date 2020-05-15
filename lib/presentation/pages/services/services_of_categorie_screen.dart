@@ -6,6 +6,7 @@ import 'package:app_pym/injection_container.dart';
 import 'package:app_pym/presentation/blocs/services/services_of_categorie/services_of_categorie_bloc.dart';
 import 'package:app_pym/presentation/pages/services/fetch_all_bookings_screen.dart';
 import 'package:breakpoint/breakpoint.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,7 +31,10 @@ class ActionButton extends StatelessWidget {
                 builder: (context) => FetchAllBookingsPage(service),
               ),
             );
-          } else if (action.name.toLowerCase().contains('téléphone')) {
+          } else if (action.name.toUpperCase() == 'SMS') {
+            await UrlLauncherUtils.launch("sms:${service?.telephone}");
+          } else if (action.name.toLowerCase().contains('téléphone') ||
+              action.name.toLowerCase().contains('telephone')) {
             await UrlLauncherUtils.launch('tel:${service.telephone}');
           } else if (action.name.toLowerCase().contains('web')) {
             await UrlLauncherUtils.launch(service.website);
@@ -70,9 +74,22 @@ class ServiceCard extends StatelessWidget {
             if (service.img_url != null && service.img_url.isNotEmpty)
               AspectRatio(
                 aspectRatio: 2 / 3,
-                child: Image.network(
-                  service.img_url,
+                child: CachedNetworkImage(
+                  imageUrl: service.img_url,
                   fit: BoxFit.fitHeight,
+                  errorWidget: (context, url, dynamic error) {
+                    print(error);
+                    return Center(
+                      child: Text(error.toString()),
+                    );
+                  },
+                  progressIndicatorBuilder: (context, url, downloadProgress) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: downloadProgress.progress,
+                      ),
+                    );
+                  },
                 ),
               ),
             Expanded(

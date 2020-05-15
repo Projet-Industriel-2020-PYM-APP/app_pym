@@ -1,7 +1,8 @@
 import 'package:app_pym/core/utils/time_formatter.dart';
-import 'package:app_pym/core/utils/url_launcher_utils.dart';
 import 'package:app_pym/domain/entities/app_pym/post.dart';
+import 'package:app_pym/presentation/pages/actualite/post_page.dart';
 import 'package:breakpoint/breakpoint.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:html/dom.dart' as html_dom;
 import 'package:html/parser.dart' as html_parser;
@@ -17,24 +18,28 @@ class ActualiteScreen extends StatelessWidget {
       child: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
-          SliverAppBar(
-            floating: false,
-            snap: false,
-            expandedHeight: MediaQuery.of(context).size.height / 2,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Image.asset(
-                    'assets/images/actualite/Puits_Morandat.jpg',
-                    fit: BoxFit.cover,
-                  )
-                ],
-              ),
-            ),
-          ),
+          _buildSliverAppBar(context),
           _buildSliverGrid(context)
         ],
+      ),
+    );
+  }
+
+  SliverAppBar _buildSliverAppBar(BuildContext context) {
+    return SliverAppBar(
+      floating: false,
+      snap: false,
+      expandedHeight: MediaQuery.of(context).size.height / 2,
+      flexibleSpace: FlexibleSpaceBar(
+        background: Stack(
+          fit: StackFit.expand,
+          children: [
+            Image.asset(
+              'assets/images/actualite/Puits_Morandat.jpg',
+              fit: BoxFit.cover,
+            )
+          ],
+        ),
       ),
     );
   }
@@ -78,7 +83,14 @@ class PostCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(4.0),
         ),
         child: InkWell(
-          onTap: () => UrlLauncherUtils.launch(post.url),
+          onTap: () => Navigator.of(context).push<void>(MaterialPageRoute(
+            builder: (context) {
+              return PostPage(
+                title: post.title,
+                content: post.content,
+              );
+            },
+          )),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -106,7 +118,7 @@ class PostCard extends StatelessWidget {
                         const Divider(color: Colors.transparent),
                         Expanded(
                           child: Text(
-                            _getText(post.content),
+                            _getText(post.content) ?? "",
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle1
@@ -124,9 +136,23 @@ class PostCard extends StatelessWidget {
                     aspectRatio: 2 / 3,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
-                      child: Image.network(
-                        postImage,
+                      child: CachedNetworkImage(
+                        imageUrl: postImage,
                         fit: BoxFit.fitHeight,
+                        errorWidget: (context, url, dynamic error) {
+                          print(error);
+                          return Center(
+                            child: Text(error.toString()),
+                          );
+                        },
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              value: downloadProgress.progress,
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -139,25 +165,35 @@ class PostCard extends StatelessWidget {
   }
 
   String _getImg(String content) {
-    final html_dom.Document document = html_parser.parse(content);
-    try {
-      final html_dom.Element element =
-          document.getElementsByTagName("img")?.first;
-      final String url = element?.attributes['src'];
-      return url;
-    } catch (_) {
+    if (content != null) {
+      final html_dom.Document document = html_parser.parse(content);
+      try {
+        final html_dom.Element element =
+            document.getElementsByTagName("img")?.first;
+        final String url = element?.attributes['src'];
+        return url;
+      } catch (e) {
+        print(e);
+        return null;
+      }
+    } else {
       return null;
     }
   }
 
   String _getText(String content) {
-    final html_dom.Document document = html_parser.parse(content);
-    try {
-      final String parsedString =
-          html_parser.parse(document.body.text).documentElement.text;
+    if (content != null) {
+      final html_dom.Document document = html_parser.parse(content);
+      try {
+        final String parsedString =
+            html_parser.parse(document.body.text).documentElement.text;
 
-      return parsedString;
-    } catch (_) {
+        return parsedString;
+      } catch (e) {
+        print(e);
+        return null;
+      }
+    } else {
       return null;
     }
   }

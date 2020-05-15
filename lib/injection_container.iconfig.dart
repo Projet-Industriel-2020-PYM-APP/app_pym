@@ -54,8 +54,8 @@ import 'package:app_pym/domain/usecases/services/fetch_services_of_categorie.dar
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:app_pym/domain/usecases/authentication/forgot_password.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:app_pym/data/devices/geolocator_device_mock.dart';
 import 'package:app_pym/data/devices/geolocator_device.dart';
+import 'package:app_pym/data/devices/geolocator_device_mock.dart';
 import 'package:app_pym/domain/usecases/authentication/get_app_user.dart';
 import 'package:app_pym/domain/usecases/cartographie/mock_get_batiment_detail.dart';
 import 'package:app_pym/domain/usecases/cartographie/get_batiment_detail.dart';
@@ -77,6 +77,8 @@ import 'package:app_pym/core/network/network_info.dart';
 import 'package:app_pym/core/network/mock_network_info.dart';
 import 'package:app_pym/core/permission_handler/permission_handler.dart';
 import 'package:app_pym/core/permission_handler/mock_permission_handler.dart';
+import 'package:app_pym/data/repositories/app_pym/post_repository_impl.dart';
+import 'package:app_pym/domain/repositories/app_pym/post_repository.dart';
 import 'package:app_pym/domain/repositories/app_pym/mock_post_repository.dart';
 import 'package:app_pym/domain/repositories/app_pym/post_repository.dart';
 import 'package:app_pym/data/repositories/app_pym/post_repository_impl.dart';
@@ -114,6 +116,7 @@ import 'package:app_pym/presentation/blocs/mobility/maps/maps_bloc.dart';
 import 'package:app_pym/data/datasources/metropole_local_data_source.dart';
 import 'package:app_pym/data/repositories/mobility/metropole_route_repository_impl.dart';
 import 'package:app_pym/domain/repositories/mobility/route_repository.dart';
+import 'package:app_pym/presentation/blocs/notification/notification_bloc.dart';
 import 'package:app_pym/data/datasources/sncf_local_data_source.dart';
 import 'package:app_pym/data/repositories/mobility/sncf_route_repository_impl.dart';
 import 'package:app_pym/domain/usecases/mobility/fetch_bus_route.dart';
@@ -518,6 +521,16 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         fetchBusTrips: g<FetchBusTrips>(),
         fetchTrainTrips: g<FetchTrainTrips>()));
   }
+
+  //Eager singletons must be registered in the right order
+  if (environment == 'dev') {
+    g.registerSingleton<NotificationBloc>(devRegisterModule.notificationBloc);
+  }
+  if (environment == 'prod') {
+    g.registerSingleton<NotificationBloc>(NotificationBloc(
+        prefs: g<SharedPreferences>(),
+        firebaseMessaging: g<FirebaseMessaging>()));
+  }
 }
 
 class _$DevRegisterModule extends DevRegisterModule {
@@ -732,6 +745,10 @@ class _$DevRegisterModule extends DevRegisterModule {
         remoteDataSource: _g<MetropoleRemoteDataSource>(),
         networkInfo: _g<NetworkInfo>(),
       );
+  @override
+  NotificationBloc get notificationBloc => NotificationBloc(
+      prefs: _g<SharedPreferences>(),
+      firebaseMessaging: _g<FirebaseMessaging>());
   @override
   SNCFLocalDataSourceImpl get sncfLocalDataSource => SNCFLocalDataSourceImpl(
       directoryManager: _g<DirectoryManager>(), zipDecoder: _g<ZipDecoder>());

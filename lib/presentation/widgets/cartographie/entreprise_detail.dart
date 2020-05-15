@@ -2,6 +2,7 @@ import 'package:app_pym/core/utils/url_launcher_utils.dart';
 import 'package:app_pym/domain/entities/map_pym/entreprise.dart';
 import 'package:app_pym/injection_container.dart';
 import 'package:app_pym/presentation/blocs/cartographie/entreprise/entreprise_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -54,10 +55,24 @@ class EntrepriseTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: entreprise.logo != null
-          ? Image.network(
-              "https://map-pym.com/sharedfolder/logos/${entreprise.logo}",
+          ? CachedNetworkImage(
+              imageUrl:
+                  "https://map-pym.com/sharedfolder/logos/${entreprise.logo}",
               width: 100,
               height: 100,
+              errorWidget: (context, url, dynamic error) {
+                print(error);
+                return Center(
+                  child: Text(error.toString()),
+                );
+              },
+              progressIndicatorBuilder: (context, url, downloadProgress) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    value: downloadProgress.progress,
+                  ),
+                );
+              },
             )
           : null,
       title: Text(
@@ -85,10 +100,24 @@ class EntrepriseDetailContent extends StatelessWidget {
       alignment: WrapAlignment.center,
       children: <Widget>[
         if (entreprise.logo != null)
-          Image.network(
-            "https://map-pym.com/sharedfolder/logos/${entreprise.logo}",
+          CachedNetworkImage(
+            imageUrl:
+                "https://map-pym.com/sharedfolder/logos/${entreprise.logo}",
             height: 100,
             width: 200,
+            errorWidget: (context, url, dynamic error) {
+              print(error);
+              return Center(
+                child: Text(error.toString()),
+              );
+            },
+            progressIndicatorBuilder: (context, url, downloadProgress) {
+              return Center(
+                child: CircularProgressIndicator(
+                  value: downloadProgress.progress,
+                ),
+              );
+            },
           )
         else
           Container(),
