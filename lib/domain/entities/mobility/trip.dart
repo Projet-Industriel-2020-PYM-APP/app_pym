@@ -48,28 +48,31 @@ extension TripX on Trip {
     Direction direction, {
     @required String polylineId,
   }) async* {
-    // Si c'est Aller, on va du début jusqu'au break,
-    // sinon on part de la fin.
-    final Iterable<StopTime> stopTimes =
-        direction == Direction.Aller ? this.stop_time : this.stop_time.reversed;
-
-    for (final StopTime stopTime in stopTimes) {
+    // Si c'est Aller, on va du début jusqu'à la destination,
+    // sinon on ajoute qu'à partir de la destination.
+    bool ajouteBus = direction == Direction.Aller;
+    bool ajouteTrain = direction == Direction.Aller;
+    for (final StopTime stopTime in this.stop_time) {
       final LatLngNamed position = LatLngNamed(
         double.parse(stopTime.stop.stop_lat),
         double.parse(stopTime.stop.stop_long),
-        name: polylineId + stopTime.stop.stop_name,
+        name: stopTime.stop.stop_name,
       );
 
       if (polylineId.startsWith("bus")) {
-        yield position;
         if (stopTime.stop.stop_name == MobilityConstants.pymStop) {
-          break;
+          ajouteBus = !ajouteBus;
+          yield position;
+        } else if (ajouteBus) {
+          yield position;
         }
       }
       if (polylineId.startsWith("train")) {
-        yield position;
         if (stopTime.stop.stop_name == MobilityConstants.gareGardanne) {
-          break;
+          ajouteTrain = !ajouteTrain;
+          yield position;
+        } else if (ajouteTrain) {
+          yield position;
         }
       }
     }

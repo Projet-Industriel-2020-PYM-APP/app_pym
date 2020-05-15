@@ -26,7 +26,7 @@ class StopDetailsBloc extends Bloc<StopDetailsEvent, StopDetailsState> {
         try {
           final List<String> infos = id.split(
               "_"); // id au format bus_direction(aller/partir)_sens(aller/retour)_nom
-          final String stop_name = infos[3];
+          final String stop_name = infos[0];
           final String destination = isBus
               ? MobilityConstants.pymStop
               : MobilityConstants.gareGardanne;

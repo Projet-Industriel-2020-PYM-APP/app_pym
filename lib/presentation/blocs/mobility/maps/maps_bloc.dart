@@ -90,6 +90,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
           tripsState.busTrips[0].trace(
             markers,
             direction: tripsState.direction,
+            isBus: true,
             markerIcon: busMarker,
             endCapIcon: Cap.customCapFromBitmap(busEndCap),
             polylineId: "bus_${tripsState.direction}_1_",
@@ -113,6 +114,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
           tripsState.busTrips[1].trace(
             markers,
             direction: tripsState.direction,
+            isBus: true,
             markerIcon: busMarker,
             endCapIcon: Cap.customCapFromBitmap(busEndCap),
             polylineId: "bus_${tripsState.direction}_2_",
@@ -141,6 +143,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
           tripsState.trainTrips[0].trace(
             markers,
             direction: tripsState.direction,
+            isBus: false,
             markerIcon: trainMarker,
             endCapIcon: Cap.customCapFromBitmap(trainEndCap),
             polylineId: "train_${tripsState.direction}_1_",
@@ -164,6 +167,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
           tripsState.trainTrips[1].trace(
             markers,
             direction: tripsState.direction,
+            isBus: false,
             markerIcon: trainMarker,
             endCapIcon: Cap.customCapFromBitmap(trainEndCap),
             polylineId: "train_${tripsState.direction}_2_",
@@ -197,6 +201,7 @@ extension on Trip {
   Future<Polyline> trace(
     Set<Marker> markers, {
     @required Direction direction,
+    @required bool isBus,
     @required BitmapDescriptor markerIcon,
     @required Color color,
     @required String polylineId,
@@ -206,12 +211,24 @@ extension on Trip {
   }) async {
     final points =
         await this.toPoints(direction, polylineId: polylineId).map((point) {
+      final BitmapDescriptor icone =
+          point.name.compareTo(MobilityConstants.gareGardanne) == 0 ||
+                  point.name.compareTo(MobilityConstants.pymStop) == 0
+              ? BitmapDescriptor.defaultMarker
+              : markerIcon;
+      final String transportType = isBus ? 'Bus ' : 'TER ';
       final marker = point.toMarker(
-        icon: markerIcon,
+        icon: icone,
         infoWindow: InfoWindow(
-          title: point.name,
-          snippet: "Description",
-          onTap: () => onTapMarker(point.name),
+          title: transportType + this.route_id,
+          snippet: this
+                  .stop_time
+                  .firstWhere((stopTime) =>
+                      stopTime.stop.stop_name.compareTo(point.name) == 0)
+                  .arrival_time +
+              ' -> ' +
+              this.stop_time.last.stop.stop_name,
+          onTap: () => onTapMarker(point.name + '_$direction'),
         ),
       );
       markers.add(marker);
