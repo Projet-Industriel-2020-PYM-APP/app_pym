@@ -37,7 +37,7 @@ abstract class Trip with _$Trip {
     String route_id,
     String trip_id,
     String trip_headsign,
-    Direction direction_id,
+    Sens direction_id,
     Calendar calendar,
     List<StopTime> stop_time,
   }) = _Trip;

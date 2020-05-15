@@ -68,7 +68,7 @@ class DetailsBottomSheet extends StatelessWidget {
                           color: Theme.of(context).textTheme.subtitle2.color,
                         ),
                         Text(
-                          "Direction " + state.last_stop,
+                          "Destination " + state.last_stop,
                           style: Theme.of(context).textTheme.subtitle2,
                         ),
                       ],

@@ -10,10 +10,11 @@ class MobilityConstants {
   static const String gareAix = "Gare de Aix-en-Provence";
 }
 
-enum Direction { Aller, Retour }
+enum Direction { Aller, Partir }
+enum Sens { Aller, Retour }
 
 extension DirectionX on Direction {
   Direction get reverse {
-    return this == Direction.Aller ? Direction.Retour : Direction.Aller;
+    return this == Direction.Aller ? Direction.Partir : Direction.Aller;
   }
 }

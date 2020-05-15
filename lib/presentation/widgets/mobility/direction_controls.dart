@@ -26,7 +26,7 @@ class _DirectionControlsState extends State<DirectionControls> {
           color: Theme.of(context).primaryColor,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
-          onPressed: widget.direction == Direction.Retour
+          onPressed: widget.direction == Direction.Partir
               ? () {
                   context
                       .bloc<TripsBloc>()
@@ -49,7 +49,7 @@ class _DirectionControlsState extends State<DirectionControls> {
               ? () {
                   context
                       .bloc<TripsBloc>()
-                      .add(const TripsEvent.changeDirection(Direction.Retour));
+                      .add(const TripsEvent.changeDirection(Direction.Partir));
                 }
               : null,
           child: Text(

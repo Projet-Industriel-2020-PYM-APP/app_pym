@@ -93,7 +93,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
             isBus: true,
             markerIcon: busMarker,
             endCapIcon: Cap.customCapFromBitmap(busEndCap),
-            polylineId: "bus_${tripsState.direction}_1_",
+            polylineId: "bus_${tripsState.direction}_${Sens.Aller}_",
             color: Colors.black,
             onTapMarker: (markerId) {
               scaffoldState.showBottomSheet<void>(
@@ -117,7 +117,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
             isBus: true,
             markerIcon: busMarker,
             endCapIcon: Cap.customCapFromBitmap(busEndCap),
-            polylineId: "bus_${tripsState.direction}_2_",
+            polylineId: "bus_${tripsState.direction}_${Sens.Retour}_",
             color: Colors.black,
             onTapMarker: (markerId) {
               scaffoldState.showBottomSheet<void>(
@@ -148,7 +148,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
               isBus: false,
               markerIcon: trainMarker,
               endCapIcon: Cap.customCapFromBitmap(trainEndCap),
-              polylineId: "train_${tripsState.direction}_1_",
+              polylineId: "train_${tripsState.direction}_${Sens.Aller}_",
               color: Colors.orange,
               onTapMarker: (markerId) {
                 scaffoldState.showBottomSheet<void>(
@@ -172,7 +172,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
               isBus: false,
               markerIcon: trainMarker,
               endCapIcon: Cap.customCapFromBitmap(trainEndCap),
-              polylineId: "train_${tripsState.direction}_2_",
+              polylineId: "train_${tripsState.direction}_${Sens.Retour}_",
               color: Colors.orange,
               onTapMarker: (markerId) {
                 scaffoldState.showBottomSheet<void>(
@@ -200,7 +200,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
               isBus: false,
               markerIcon: trainMarker,
               endCapIcon: Cap.customCapFromBitmap(trainEndCap),
-              polylineId: "train_${tripsState.direction}_1_",
+              polylineId: "train_${tripsState.direction}_${Sens.Aller}_",
               color: Colors.orange,
               onTapMarker: (markerId) {
                 scaffoldState.showBottomSheet<void>(
@@ -224,7 +224,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
               isBus: false,
               markerIcon: trainMarker,
               endCapIcon: Cap.customCapFromBitmap(trainEndCap),
-              polylineId: "train_${tripsState.direction}_2_",
+              polylineId: "train_${tripsState.direction}_${Sens.Retour}_",
               color: Colors.orange,
               onTapMarker: (markerId) {
                 scaffoldState.showBottomSheet<void>(
@@ -283,7 +283,8 @@ extension on Trip {
                   .arrival_time +
               ' -> ' +
               this.stop_time.last.stop.stop_name,
-          onTap: () => onTapMarker(point.name + '_$direction'),
+          onTap: () =>
+              onTapMarker(point.name + '_${direction}_${this.direction_id}'),
         ),
       );
       markers.add(marker);
