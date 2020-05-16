@@ -5,12 +5,15 @@ import 'package:app_pym/presentation/widgets/parameters/privacy_policy_page.dart
 import 'package:app_pym/presentation/widgets/parameters/theme_status.dart';
 import 'package:app_pym/presentation/widgets/parameters/version_status.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:app_pym/presentation/blocs/authentication/authentication/authentication_bloc.dart';
 
 class ParametersPage extends StatelessWidget {
   const ParametersPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    context.bloc<AuthenticationBloc>().add(const AuthenticationEvent.refresh());
     return Scaffold(
       appBar: AppBar(
         title: const Text("Paramètres"),
