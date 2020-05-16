@@ -45,10 +45,17 @@ public class BatimentSpawner : MonoBehaviour
         SpawnedObject.GetComponent<SpriteRenderer>().color = color;
     }
 
-    private void ChangeText(string text)
+    /// <summary>
+    /// Change the text of the object.
+    /// </summary>
+    /// <param name="text">Title of the building</param>
+    /// <param name="distance">Distance between the camera and the building in meter</param>
+    private void ChangeText(string text, float distance)
     {
         var TextGameObject = SpawnedObject.transform.GetChild(0).gameObject;
-        TextGameObject.GetComponent<TextMesh>().text = text;
+        TextMesh textMesh = TextGameObject.GetComponent<TextMesh>();
+        textMesh.text = text;
+        textMesh.characterSize = 10f / distance < 0.01f ? 10f / distance : 0.01f;
     }
 
     private void FillData(ParsedData data)
@@ -71,6 +78,6 @@ public class BatimentSpawner : MonoBehaviour
         Color color = new Color32((byte)parsed.color.r, (byte)parsed.color.g, (byte)parsed.color.b, 255);
         Colorize(color);
         FillData(parsed.data);
-        ChangeText(parsed.data.text);
+        ChangeText(parsed.data.text, parsed.distance);
     }
 }

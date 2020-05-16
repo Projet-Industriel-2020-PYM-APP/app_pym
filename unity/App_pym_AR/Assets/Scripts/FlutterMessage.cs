@@ -29,4 +29,5 @@ public class ParsedMessage
     public ParsedColor color;
     public ParsedPosition position;
     public ParsedData data;
+    public float distance;
 }

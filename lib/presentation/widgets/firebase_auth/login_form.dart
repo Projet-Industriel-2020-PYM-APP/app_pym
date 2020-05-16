@@ -72,64 +72,71 @@ class _LoginFormState extends State<LoginForm> {
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
           return Form(
-            child: ListView(
-              padding: const EdgeInsets.all(20.0),
-              children: <Widget>[
-                Image.asset(
-                    'assets/images/graphique/Logo-Pôle Yvon Morandat-original.png'),
-                TextFormField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.email),
-                    labelText: 'Email',
-                  ),
-                  autovalidate: true,
-                  autocorrect: false,
-                  validator: (_) {
-                    return !state.isEmailValid ? 'E-mail invalide' : null;
-                  },
-                ),
-                TextFormField(
-                  controller: _passwordController,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.lock),
-                    labelText: 'Mot de passe',
-                  ),
-                  obscureText: true,
-                  autovalidate: true,
-                  autocorrect: false,
-                  validator: (_) {
-                    return !state.isPasswordValid
-                        ? 'Requis : une lettre, un chiffre et minimum 8 caractères'
-                        : null;
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 30),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      ButtonBar(
-                        alignment: MainAxisAlignment.end,
-                        overflowDirection: VerticalDirection.up,
-                        children: [
-                          CreateAccountButton(
-                            onPressed: isLoginButtonEnabled(state)
-                                ? _onSignUpSubmitted
-                                : null,
+            child: Scrollbar(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.height,
+                child: ListView(
+                  padding: const EdgeInsets.all(20.0),
+                  children: <Widget>[
+                    Image.asset(
+                      'assets/images/graphique/Logo-Pôle Yvon Morandat-original.png',
+                      width: 500.0,
+                    ),
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.email),
+                        labelText: 'Email',
+                      ),
+                      autovalidate: true,
+                      autocorrect: false,
+                      validator: (_) {
+                        return !state.isEmailValid ? 'E-mail invalide' : null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _passwordController,
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.lock),
+                        labelText: 'Mot de passe',
+                      ),
+                      obscureText: true,
+                      autovalidate: true,
+                      autocorrect: false,
+                      validator: (_) {
+                        return !state.isPasswordValid
+                            ? 'Requis : une lettre, un chiffre et minimum 8 caractères'
+                            : null;
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 30),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          ButtonBar(
+                            alignment: MainAxisAlignment.end,
+                            overflowDirection: VerticalDirection.up,
+                            children: [
+                              CreateAccountButton(
+                                onPressed: isLoginButtonEnabled(state)
+                                    ? _onSignUpSubmitted
+                                    : null,
+                              ),
+                              LoginButton(
+                                onPressed: isLoginButtonEnabled(state)
+                                    ? _onFormSubmitted
+                                    : null,
+                              ),
+                            ],
                           ),
-                          LoginButton(
-                            onPressed: isLoginButtonEnabled(state)
-                                ? _onFormSubmitted
-                                : null,
-                          ),
+                          const ForgotPasswordButton(),
                         ],
                       ),
-                      const ForgotPasswordButton(),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           );
         },
