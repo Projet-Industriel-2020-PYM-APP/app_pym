@@ -82,10 +82,8 @@ abstract class MapPymLocalDataSource {
   AppUserModel fetchUser();
 }
 
-@RegisterAs(MapPymLocalDataSource)
 @prod
-@lazySingleton
-@injectable
+@LazySingleton(as: MapPymLocalDataSource)
 class MapPymLocalDataSourceImpl implements MapPymLocalDataSource {
   final Box<BatimentModel> batimentsBox;
   final Box<EntrepriseModel> entreprisesBox;

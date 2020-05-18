@@ -11,9 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 @prod
-@RegisterAs(BookingRepository)
-@lazySingleton
-@injectable
+@LazySingleton(as: BookingRepository)
 class BookingRepositoryImpl implements BookingRepository {
   final AuthenticationService auth;
   final MapPymLocalDataSource localDataSource;

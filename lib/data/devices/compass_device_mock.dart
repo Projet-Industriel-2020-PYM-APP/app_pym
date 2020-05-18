@@ -3,6 +3,5 @@ import 'package:injectable/injectable.dart';
 import 'package:mockito/mockito.dart';
 
 @test
-@injectable
-@RegisterAs(CompassDevice)
+@Injectable(as: CompassDevice)
 class MockCompassDevice extends Mock implements CompassDevice {}

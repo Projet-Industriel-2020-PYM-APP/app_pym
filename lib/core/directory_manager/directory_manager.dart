@@ -7,9 +7,7 @@ abstract class DirectoryManager {
 }
 
 @prod
-@RegisterAs(DirectoryManager)
-@lazySingleton
-@injectable
+@LazySingleton(as: DirectoryManager)
 class DirectoryManagerImpl implements DirectoryManager {
   @override
   Future<String> get metropole async {

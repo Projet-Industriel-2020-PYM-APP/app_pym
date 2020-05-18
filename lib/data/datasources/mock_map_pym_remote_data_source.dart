@@ -3,7 +3,6 @@ import 'package:injectable/injectable.dart';
 import 'package:mockito/mockito.dart';
 
 @test
-@injectable
-@RegisterAs(MapPymRemoteDataSource)
+@Injectable(as: MapPymRemoteDataSource)
 class MockMapPymRemoteDataSource extends Mock
     implements MapPymRemoteDataSource {}

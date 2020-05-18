@@ -7,7 +7,6 @@ import 'package:injectable/injectable.dart';
 
 @prod
 @lazySingleton
-@injectable
 class GetEntreprisesOfBatiment extends Usecase<Future<List<Entreprise>>, int> {
   final EntrepriseRepository entrepriseRepository;
 

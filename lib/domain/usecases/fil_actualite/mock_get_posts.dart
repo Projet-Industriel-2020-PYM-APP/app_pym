@@ -3,6 +3,5 @@ import 'package:injectable/injectable.dart';
 import 'package:mockito/mockito.dart';
 
 @test
-@RegisterAs(GetPosts)
-@injectable
+@Injectable(as: GetPosts)
 class MockGetPosts extends Mock implements GetPosts {}

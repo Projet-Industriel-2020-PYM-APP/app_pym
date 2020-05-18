@@ -12,10 +12,8 @@ abstract class SNCFRemoteDataSource {
   Future<DateTime> get timestamp;
 }
 
-@RegisterAs(SNCFRemoteDataSource)
 @prod
-@lazySingleton
-@injectable
+@LazySingleton(as: SNCFRemoteDataSource)
 class SNCFRemoteDataSourceImpl implements SNCFRemoteDataSource {
   final http.Client client;
 

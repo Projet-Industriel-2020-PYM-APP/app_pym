@@ -10,9 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 @prod
-@RegisterAs(SNCFRouteRepository)
-@lazySingleton
-@injectable
+@LazySingleton(as: SNCFRouteRepository)
 class SNCFRouteRepositoryImpl implements SNCFRouteRepository {
   final SNCFRemoteDataSource remoteDataSource;
   final SNCFLocalDataSource localDataSource;

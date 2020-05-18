@@ -21,14 +21,14 @@ dependencies:
   firebase_core: ^0.4.4+3
   firebase_messaging: ^6.0.15 # Not web compatible
   rxdart: ^0.24.0
-  injectable: ^0.3.0
+  injectable: ^0.4.0
   mockito: ^4.1.1 # dart.dev
   path_provider: ^1.6.8 # Not web compatible
   shared_preferences: ^0.5.7+2
   google_maps_flutter: ^0.5.27+3 # Not web compatible
   font_awesome_flutter: ^8.8.1
   webview_flutter: ^0.3.21 # Not web compatible
-  flutter_unity_widget:  # Not web compatible
+  flutter_unity_widget: # Not web compatible
     git:
       url: git://github.com/Projet-Industriel-2020-PYM-APP/flutter-unity-view-widget.git
       ref: e311b2a2f5a84bccad10a140d2a9919784ec755e
@@ -57,7 +57,7 @@ dev_dependencies:
   hive_generator: ^0.7.0+2
   build_runner: any
   json_serializable: ^3.3.0 # dart.dev
-  injectable_generator: ^0.3.5
+  injectable_generator: ^0.4.0
   extra_pedantic: 1.2.0
   freezed: ^0.10.8
   flutter_launcher_icons: ^0.7.5

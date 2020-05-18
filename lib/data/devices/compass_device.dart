@@ -6,10 +6,8 @@ abstract class CompassDevice {
   Stream<double> get heading;
 }
 
-@RegisterAs(CompassDevice)
 @prod
-@lazySingleton
-@injectable
+@LazySingleton(as: CompassDevice)
 class CompassDeviceImpl implements CompassDevice {
   @override
   Stream<double> get heading => FlutterCompass.events;

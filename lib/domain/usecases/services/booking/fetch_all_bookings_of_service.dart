@@ -5,7 +5,6 @@ import 'package:injectable/injectable.dart';
 
 @prod
 @lazySingleton
-@injectable
 class FetchAllBookingsOfService extends Usecase<Future<List<Booking>>, int> {
   final BookingRepository repository;
 

@@ -8,7 +8,6 @@ import 'package:dartx/dartx.dart';
 
 @prod
 @lazySingleton
-@injectable
 class FetchTrainTrips extends Usecase<Future<List<Trip>>, NoParams> {
   final FetchTrainRoute fetchTrainRoute;
 

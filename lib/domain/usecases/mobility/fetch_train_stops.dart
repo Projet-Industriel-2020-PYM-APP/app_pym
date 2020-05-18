@@ -5,7 +5,6 @@ import 'package:injectable/injectable.dart';
 
 @prod
 @lazySingleton
-@injectable
 class FetchTrainStops extends Usecase<Future<List<Stop>>, NoParams> {
   final FetchTrainTrips fetchTrainTrips;
 

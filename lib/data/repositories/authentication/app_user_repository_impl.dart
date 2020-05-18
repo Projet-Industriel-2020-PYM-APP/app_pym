@@ -10,9 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 @prod
-@injectable
-@lazySingleton
-@RegisterAs(AppUserRepository)
+@LazySingleton(as: AppUserRepository)
 class AppUserRepositoryImpl implements AppUserRepository {
   final AuthenticationService auth;
   final MapPymRemoteDataSource remoteDataSource;

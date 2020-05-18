@@ -5,7 +5,6 @@ import 'package:injectable/injectable.dart';
 
 @prod
 @lazySingleton
-@injectable
 class FetchContactCategories
     extends Usecase<Future<List<ContactCategorie>>, NoParams> {
   final ContactCategorieRepository repository;

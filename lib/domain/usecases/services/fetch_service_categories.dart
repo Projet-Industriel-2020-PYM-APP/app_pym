@@ -5,7 +5,6 @@ import 'package:injectable/injectable.dart';
 
 @prod
 @lazySingleton
-@injectable
 class FetchServiceCategories
     extends Usecase<Future<List<ServiceCategorie>>, NoParams> {
   final ServiceCategorieRepository repository;

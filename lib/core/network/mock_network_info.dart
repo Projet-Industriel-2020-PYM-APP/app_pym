@@ -3,7 +3,6 @@ import 'package:mockito/mockito.dart';
 
 import 'network_info.dart';
 
-@RegisterAs(NetworkInfo)
+@Injectable(as: NetworkInfo)
 @test
-@injectable
 class MockNetworkInfo extends Mock implements NetworkInfo {}

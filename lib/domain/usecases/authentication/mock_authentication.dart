@@ -8,31 +8,25 @@ import 'package:injectable/injectable.dart';
 import 'package:mockito/mockito.dart';
 
 @test
-@RegisterAs(ForgotPassword)
-@injectable
+@Injectable(as: ForgotPassword)
 class MockForgotPassword extends Mock implements ForgotPassword {}
 
 @test
-@RegisterAs(GetAppUser)
-@injectable
+@Injectable(as: GetAppUser)
 class MockGetAppUser extends Mock implements GetAppUser {}
 
 @test
-@RegisterAs(SendEmailConfirmation)
-@injectable
+@Injectable(as: SendEmailConfirmation)
 class MockSendEmailConfirmation extends Mock implements SendEmailConfirmation {}
 
 @test
-@RegisterAs(AuthSignIn)
-@injectable
+@Injectable(as: AuthSignIn)
 class MockFirebaseAuthSignIn extends Mock implements AuthSignIn {}
 
 @test
-@RegisterAs(AuthSignUp)
-@injectable
+@Injectable(as: AuthSignUp)
 class MockFirebaseAuthSignUp extends Mock implements AuthSignUp {}
 
 @test
-@RegisterAs(AuthSignOut)
-@injectable
+@Injectable(as: AuthSignOut)
 class MockFirebaseAuthSignOut extends Mock implements AuthSignOut {}

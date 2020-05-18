@@ -8,10 +8,8 @@ abstract class MetropoleRemoteDataSource {
   Future<DateTime> get timestamp;
 }
 
-@RegisterAs(MetropoleRemoteDataSource)
 @prod
-@lazySingleton
-@injectable
+@LazySingleton(as: MetropoleRemoteDataSource)
 class MetropoleRemoteDataSourceImpl implements MetropoleRemoteDataSource {
   final http.Client client;
 
