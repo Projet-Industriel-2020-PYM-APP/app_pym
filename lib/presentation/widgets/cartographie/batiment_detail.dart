@@ -19,12 +19,18 @@ class BatimentDetailDisplay extends StatelessWidget {
       child: BlocBuilder<BatimentBloc, BatimentState>(
         builder: (context, state) {
           return state.when(
-            initial: () => const Center(
-              child: CircularProgressIndicator(),
+            initial: () => Container(
+              height: 100,
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
             ),
             loaded: (batiment) => BatimentDetailContent(batiment),
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
+            loading: () => Container(
+              height: 100,
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
             ),
             error: (e) => ListTile(
               title: Text(

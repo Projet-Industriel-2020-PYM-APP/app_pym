@@ -15,24 +15,24 @@ dependencies:
   http: ^0.12.1 # dart.dev
   hive: ^1.4.1+1
   hive_flutter: ^0.3.0+2
-  connectivity: ^0.4.8+2 # flutter.dev
+  connectivity: ^0.4.8+2 # flutter.dev # Not web compatible
   get_it: ^4.0.2 # fluttercommunity.dev
   json_annotation: ^3.0.1 # dart.dev
   firebase_core: ^0.4.4+3
-  firebase_messaging: ^6.0.15
+  firebase_messaging: ^6.0.15 # Not web compatible
   rxdart: ^0.24.0
   injectable: ^0.3.0
   mockito: ^4.1.1 # dart.dev
-  path_provider: ^1.6.8
+  path_provider: ^1.6.8 # Not web compatible
   shared_preferences: ^0.5.7+2
-  google_maps_flutter: ^0.5.27+3
+  google_maps_flutter: ^0.5.27+3 # Not web compatible
   font_awesome_flutter: ^8.8.1
-  webview_flutter: ^0.3.21
-  flutter_unity_widget:
+  webview_flutter: ^0.3.21 # Not web compatible
+  flutter_unity_widget:  # Not web compatible
     git:
       url: git://github.com/Projet-Industriel-2020-PYM-APP/flutter-unity-view-widget.git
       ref: e311b2a2f5a84bccad10a140d2a9919784ec755e
-  permission_handler: ^5.0.0+hotfix.5
+  permission_handler: ^5.0.0+hotfix.5 # Not web compatible
   geolocator: ^5.3.1
   flutter_compass: ^0.4.2+1
   url_launcher: ^5.4.7
@@ -46,6 +46,7 @@ dependencies:
 
 dependency_overrides:
   dartx: 0.4.1
+  path: 1.7.0
 
 dev_dependencies:
   flutter_test:

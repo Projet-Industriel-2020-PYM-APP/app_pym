@@ -54,7 +54,8 @@ class AuthenticationServiceImpl implements AuthenticationService {
     if (response.statusCode == HttpStatus.ok) {
       return;
     } else {
-      throw ServerException('Forget Password Failed : ${response.statusCode}');
+      throw ServerException(
+          'Forget Password Failed : ${response.statusCode}, ${response.reasonPhrase}\n${response.body}');
     }
   }
 
@@ -69,7 +70,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
       return;
     } else {
       throw ServerException(
-          'Email Verification Failed : ${response.statusCode}');
+          'Email Verification Failed : ${response.statusCode}, ${response.reasonPhrase}\n${response.body}');
     }
   }
 
@@ -90,7 +91,8 @@ class AuthenticationServiceImpl implements AuthenticationService {
     if (response.statusCode == HttpStatus.ok) {
       return _token = response.body;
     } else {
-      throw ServerException('Cannot log in : ${response.statusCode}');
+      throw ServerException(
+          'Cannot log in : ${response.statusCode}, ${response.reasonPhrase}\n${response.body}');
     }
   }
 
@@ -120,7 +122,8 @@ class AuthenticationServiceImpl implements AuthenticationService {
     if (response.statusCode == HttpStatus.ok) {
       return _token = response.body;
     } else {
-      throw ServerException('Cannot register : ${response.statusCode}');
+      throw ServerException(
+          'Cannot register : ${response.statusCode}, ${response.reasonPhrase}\n${response.body}');
     }
   }
 }

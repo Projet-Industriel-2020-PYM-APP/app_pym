@@ -87,7 +87,7 @@ class ContactCategorieCard extends StatelessWidget {
                                 style: Theme.of(context).textTheme.headline5,
                               ),
                               TextSpan(
-                                text: categorie.subtitle,
+                                text: categorie.subtitle ?? "",
                                 style: Theme.of(context).textTheme.subtitle1,
                               ),
                             ],
@@ -98,15 +98,12 @@ class ContactCategorieCard extends StatelessWidget {
                   ),
                   const Divider(),
                   SingleChildScrollView(
-                    child: Row(
-                      children: [
-                        ButtonBar(
-                          buttonTextTheme: ButtonTextTheme.primary,
-                          children: categorie.actions
-                              .map((e) => ActionButton(e, categorie: categorie))
-                              .toList(),
-                        ),
-                      ],
+                    scrollDirection: Axis.horizontal,
+                    child: ButtonBar(
+                      buttonTextTheme: ButtonTextTheme.primary,
+                      children: categorie.actions
+                          .map((e) => ActionButton(e, categorie: categorie))
+                          .toList(),
                     ),
                   ),
                 ],
@@ -138,13 +135,19 @@ class ActionButton extends StatelessWidget {
         if (action.html_url != null && action.html_url.isNotEmpty) {
           await UrlLauncherUtils.launch(action.html_url);
         }
-        if (action.name?.toUpperCase() == 'SMS') {
-          await UrlLauncherUtils.launch("sms:${contact?.telephone}");
-        } else if (action.name != null &&
-            action.name.toUpperCase().startsWith('TELEPHONE')) {
-          await UrlLauncherUtils.launch("tel:${contact?.telephone}");
-        } else if (action.name?.toUpperCase() == 'EMAIL') {
-          await UrlLauncherUtils.launch("mailto:${contact?.mail}");
+        if (action.name != null) {
+          if (action.name.toUpperCase().contains('SMS')) {
+            await UrlLauncherUtils.launch("sms:${contact?.telephone}");
+          } else if (action.name != null &&
+                  action.name.toLowerCase().contains('telephone') ||
+              action.name.toLowerCase().contains('téléphone')) {
+            await UrlLauncherUtils.launch("tel:${contact?.telephone}");
+          } else if (action.name.toUpperCase().contains('MAIL')) {
+            await UrlLauncherUtils.launch("mailto:${contact?.mail}");
+          } else if (action.name.toLowerCase().contains('localise')) {
+            await UrlLauncherUtils.launch(
+                'https://maps.google.com/?q=${categorie.address}');
+          }
         }
       },
       child: Text(action.name?.toUpperCase() ?? "Action"),

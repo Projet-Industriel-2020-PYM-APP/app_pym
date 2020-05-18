@@ -24,9 +24,13 @@ class EntrepriseListDisplay extends StatelessWidget {
               child: CircularProgressIndicator(),
             ),
             entreprisesOfBatimentLoaded: (entreprises) {
-              final children =
-                  entreprises.map((e) => EntrepriseTile(e)).toList();
-              return Column(children: children);
+              if (entreprises != null) {
+                final children =
+                    entreprises.map((e) => EntrepriseTile(e)).toList();
+                return Column(children: children);
+              } else {
+                return Container();
+              }
             },
             loading: () => const Center(
               child: CircularProgressIndicator(),

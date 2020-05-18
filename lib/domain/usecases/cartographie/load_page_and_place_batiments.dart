@@ -11,7 +11,6 @@ import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:vector_math/vector_math_64.dart' show Vector3;
 
 part 'load_page_and_place_batiments.freezed.dart';
@@ -46,8 +45,7 @@ class LoadPageAndPlaceBatiments
     final UnityWidgetController controller = params.controller;
 
     // Throttle to avoid spam
-    final Stream<Position> positions = geolocatorDevice.positions
-        .throttleTime(const Duration(milliseconds: 500));
+    final Stream<Position> positions = geolocatorDevice.positions;
 
     final position = positions.first;
     final num latitude = (await position).latitude;
@@ -56,6 +54,14 @@ class LoadPageAndPlaceBatiments
     for (final batiment in await batiments) {
       final num bearingBetweenCameraAndBatiment =
           geolocatorDevice.bearingBetween(
+        latitude,
+        longitude,
+        batiment.latitude,
+        batiment.longitude,
+      );
+
+      final num distanceBetweenCameraAndBatiment =
+          geolocatorDevice.distanceBetween(
         latitude,
         longitude,
         batiment.latitude,
@@ -71,7 +77,11 @@ class LoadPageAndPlaceBatiments
             bearingBetweenCameraAndNorth - bearingBetweenCameraAndBatiment),
       );
 
-      controller.spawnBatiment(vect, batiment: batiment);
+      controller.spawnBatiment(
+        vect,
+        batiment: batiment,
+        distance: distanceBetweenCameraAndBatiment,
+      );
     }
     controller.spawnCompass(bearingBetweenCameraAndNorth);
 
@@ -83,6 +93,7 @@ extension on UnityWidgetController {
   void spawnBatiment(
     Vector3 vect, {
     @required Batiment batiment,
+    @required num distance,
   }) {
     final Map<String, dynamic> data = <String, dynamic>{
       'position': <String, double>{
@@ -98,7 +109,8 @@ extension on UnityWidgetController {
       'data': <String, dynamic>{
         'id': batiment.id,
         'text': batiment.nom,
-      }
+      },
+      'distance': distance,
     };
 
     this.postMessage(
