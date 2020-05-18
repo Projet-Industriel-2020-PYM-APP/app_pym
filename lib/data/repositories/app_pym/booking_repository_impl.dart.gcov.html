@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - lib/data/repositories/app_pym/booking_repository_impl.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../index.html">top level</a> - <a href="index.html">lib/data/repositories/app_pym</a> - booking_repository_impl.dart<span style="font-size: 80%;"> (source / <a href="booking_repository_impl.dart.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">31</td>
+            <td class="headerCovTableEntry">31</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2020-05-18 14:40:19</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : import 'package:app_pym/core/error/exceptions.dart';</a>
+<span class="lineNum">       2 </span>            : import 'package:app_pym/core/network/network_info.dart';
+<span class="lineNum">       3 </span>            : import 'package:app_pym/data/datasources/map_pym_local_data_source.dart';
+<span class="lineNum">       4 </span>            : import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
+<span class="lineNum">       5 </span>            : import 'package:app_pym/data/models/app_pym/booking_model.dart';
+<span class="lineNum">       6 </span>            : import 'package:app_pym/data/services/authentication_service.dart';
+<span class="lineNum">       7 </span>            : import 'package:app_pym/domain/entities/app_pym/booking.dart';
+<span class="lineNum">       8 </span>            : import 'package:app_pym/domain/repositories/app_pym/booking_repository.dart';
+<span class="lineNum">       9 </span>            : import 'package:connectivity/connectivity.dart';
+<span class="lineNum">      10 </span>            : import 'package:flutter/foundation.dart';
+<span class="lineNum">      11 </span>            : import 'package:injectable/injectable.dart';
+<span class="lineNum">      12 </span>            : 
+<span class="lineNum">      13 </span>            : @prod
+<span class="lineNum">      14 </span>            : @LazySingleton(as: BookingRepository)
+<span class="lineNum">      15 </span>            : class BookingRepositoryImpl implements BookingRepository {
+<span class="lineNum">      16 </span>            :   final AuthenticationService auth;
+<span class="lineNum">      17 </span>            :   final MapPymLocalDataSource localDataSource;
+<span class="lineNum">      18 </span>            :   final MapPymRemoteDataSource remoteDataSource;
+<span class="lineNum">      19 </span>            :   final NetworkInfo networkInfo;
+<span class="lineNum">      20 </span>            : 
+<span class="lineNum">      21 </span><span class="lineCov">          1 :   const BookingRepositoryImpl({</span>
+<span class="lineNum">      22 </span>            :     @required this.auth,
+<span class="lineNum">      23 </span>            :     @required this.localDataSource,
+<span class="lineNum">      24 </span>            :     @required this.remoteDataSource,
+<span class="lineNum">      25 </span>            :     @required this.networkInfo,
+<span class="lineNum">      26 </span>            :   });
+<span class="lineNum">      27 </span>            : 
+<span class="lineNum">      28 </span>            :   @override
+<span class="lineNum">      29 </span><span class="lineCov">          1 :   Future&lt;void&gt; create(Booking booking) async {</span>
+<span class="lineNum">      30 </span><span class="lineCov">          2 :     if (auth.token != null) {</span>
+<span class="lineNum">      31 </span><span class="lineCov">          4 :       if (await networkInfo.result != ConnectivityResult.none) {</span>
+<span class="lineNum">      32 </span><span class="lineCov">          4 :         await remoteDataSource.createBooking(booking.toModel(),</span>
+<span class="lineNum">      33 </span><span class="lineCov">          2 :             token: auth.token);</span>
+<span class="lineNum">      34 </span><span class="lineCov">          4 :         await localDataSource.cacheBooking(booking.toModel());</span>
+<span class="lineNum">      35 </span>            :       } else {
+<span class="lineNum">      36 </span><span class="lineCov">          1 :         throw ConnectivityException('No Wi-Fi');</span>
+<span class="lineNum">      37 </span>            :       }
+<span class="lineNum">      38 </span>            :     } else {
+<span class="lineNum">      39 </span><span class="lineCov">          1 :       throw ServerException(&quot;Nécéssite d'être authentifié.&quot;);</span>
+<span class="lineNum">      40 </span>            :     }
+<span class="lineNum">      41 </span>            :   }
+<span class="lineNum">      42 </span>            : 
+<span class="lineNum">      43 </span>            :   @override
+<span class="lineNum">      44 </span><span class="lineCov">          1 :   Future&lt;void&gt; delete(int booking_id) async {</span>
+<span class="lineNum">      45 </span><span class="lineCov">          2 :     if (auth.token != null) {</span>
+<span class="lineNum">      46 </span><span class="lineCov">          4 :       if (await networkInfo.result != ConnectivityResult.none) {</span>
+<span class="lineNum">      47 </span><span class="lineCov">          5 :         await remoteDataSource.deleteBooking(booking_id, token: auth.token);</span>
+<span class="lineNum">      48 </span><span class="lineCov">          3 :         await localDataSource.deleteBooking(booking_id);</span>
+<span class="lineNum">      49 </span>            :         return;
+<span class="lineNum">      50 </span>            :       } else {
+<span class="lineNum">      51 </span><span class="lineCov">          1 :         throw ConnectivityException('No Wi-Fi');</span>
+<span class="lineNum">      52 </span>            :       }
+<span class="lineNum">      53 </span>            :     } else {
+<span class="lineNum">      54 </span><span class="lineCov">          1 :       throw ServerException(&quot;Nécéssite d'être authentifié.&quot;);</span>
+<span class="lineNum">      55 </span>            :     }
+<span class="lineNum">      56 </span>            :   }
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span>            :   @override
+<span class="lineNum">      59 </span><span class="lineCov">          1 :   Future&lt;List&lt;Booking&gt;&gt; fetchAllOf(int service_id) async {</span>
+<span class="lineNum">      60 </span><span class="lineCov">          4 :     if (await networkInfo.result != ConnectivityResult.none) {</span>
+<span class="lineNum">      61 </span><span class="lineCov">          4 :       final data = await remoteDataSource.fetchAllBookingsOf(service_id) ?? [];</span>
+<span class="lineNum">      62 </span><span class="lineCov">          3 :       await localDataSource.cacheAllBookings(data);</span>
+<span class="lineNum">      63 </span><span class="lineCov">          4 :       return data.map((e) =&gt; e.toEntity()).toList();</span>
+<span class="lineNum">      64 </span>            :     } else {
+<span class="lineNum">      65 </span><span class="lineCov">          2 :       final data = localDataSource.fetchAllBookingsOf(service_id);</span>
+<span class="lineNum">      66 </span><span class="lineCov">          4 :       return data.map((e) =&gt; e.toEntity()).toList();</span>
+<span class="lineNum">      67 </span>            :     }
+<span class="lineNum">      68 </span>            :   }
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span>            :   @override
+<span class="lineNum">      71 </span><span class="lineCov">          1 :   Future&lt;void&gt; update(Booking booking) async {</span>
+<span class="lineNum">      72 </span><span class="lineCov">          2 :     if (auth.token != null) {</span>
+<span class="lineNum">      73 </span><span class="lineCov">          4 :       if (await networkInfo.result != ConnectivityResult.none) {</span>
+<span class="lineNum">      74 </span><span class="lineCov">          4 :         await remoteDataSource.updateBooking(booking.toModel(),</span>
+<span class="lineNum">      75 </span><span class="lineCov">          2 :             token: auth.token);</span>
+<span class="lineNum">      76 </span><span class="lineCov">          4 :         await localDataSource.cacheBooking(booking.toModel());</span>
+<span class="lineNum">      77 </span>            :         return;
+<span class="lineNum">      78 </span>            :       } else {
+<span class="lineNum">      79 </span><span class="lineCov">          1 :         throw ConnectivityException('No Wi-Fi');</span>
+<span class="lineNum">      80 </span>            :       }
+<span class="lineNum">      81 </span>            :     } else {
+<span class="lineNum">      82 </span><span class="lineCov">          1 :       throw ServerException(&quot;Nécéssite d'être authentifié.&quot;);</span>
+<span class="lineNum">      83 </span>            :     }
+<span class="lineNum">      84 </span>            :   }
+<span class="lineNum">      85 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

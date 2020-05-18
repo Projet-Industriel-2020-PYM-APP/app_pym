@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - lib/data/models/mobility/calendar_model.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../index.html">top level</a> - <a href="index.html">lib/data/models/mobility</a> - calendar_model.dart<span style="font-size: 80%;"> (source / <a href="calendar_model.dart.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">13</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2020-05-18 14:40:19</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : import 'package:app_pym/domain/entities/mobility/calendar.dart';</a>
+<span class="lineNum">       2 </span>            : import 'package:freezed_annotation/freezed_annotation.dart';
+<span class="lineNum">       3 </span>            : 
+<span class="lineNum">       4 </span>            : part 'calendar_model.freezed.dart';
+<span class="lineNum">       5 </span>            : 
+<span class="lineNum">       6 </span>            : @freezed
+<span class="lineNum">       7 </span>            : abstract class CalendarModel with _$CalendarModel {
+<span class="lineNum">       8 </span>            :   const factory CalendarModel({
+<span class="lineNum">       9 </span>            :     String service_id,
+<span class="lineNum">      10 </span>            :     bool monday,
+<span class="lineNum">      11 </span>            :     bool tuesday,
+<span class="lineNum">      12 </span>            :     bool wednesday,
+<span class="lineNum">      13 </span>            :     bool thursday,
+<span class="lineNum">      14 </span>            :     bool friday,
+<span class="lineNum">      15 </span>            :     bool saturday,
+<span class="lineNum">      16 </span>            :     bool sunday,
+<span class="lineNum">      17 </span>            :     String start_date,
+<span class="lineNum">      18 </span>            :     String end_date,
+<span class="lineNum">      19 </span>            :   }) = _CalendarModel;
+<span class="lineNum">      20 </span>            : }
+<span class="lineNum">      21 </span>            : 
+<span class="lineNum">      22 </span>            : extension CalendarModelX on CalendarModel {
+<span class="lineNum">      23 </span><span class="lineNoCov">          0 :   Calendar toEntity() {</span>
+<span class="lineNum">      24 </span><span class="lineNoCov">          0 :     return Calendar(</span>
+<span class="lineNum">      25 </span><span class="lineNoCov">          0 :       service_id: this.service_id,</span>
+<span class="lineNum">      26 </span><span class="lineNoCov">          0 :       weekdays: [</span>
+<span class="lineNum">      27 </span><span class="lineNoCov">          0 :         this.monday,</span>
+<span class="lineNum">      28 </span><span class="lineNoCov">          0 :         this.tuesday,</span>
+<span class="lineNum">      29 </span><span class="lineNoCov">          0 :         this.wednesday,</span>
+<span class="lineNum">      30 </span><span class="lineNoCov">          0 :         this.thursday,</span>
+<span class="lineNum">      31 </span><span class="lineNoCov">          0 :         this.friday,</span>
+<span class="lineNum">      32 </span><span class="lineNoCov">          0 :         this.saturday,</span>
+<span class="lineNum">      33 </span><span class="lineNoCov">          0 :         this.sunday</span>
+<span class="lineNum">      34 </span>            :       ],
+<span class="lineNum">      35 </span><span class="lineNoCov">          0 :       start_date: this.start_date,</span>
+<span class="lineNum">      36 </span><span class="lineNoCov">          0 :       end_date: this.end_date,</span>
+<span class="lineNum">      37 </span>            :     );
+<span class="lineNum">      38 </span>            :   }
+<span class="lineNum">      39 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

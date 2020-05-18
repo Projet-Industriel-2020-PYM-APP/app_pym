@@ -1,0 +1,270 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - lib/domain/usecases/cartographie/load_page_and_place_batiments.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../index.html">top level</a> - <a href="index.html">lib/domain/usecases/cartographie</a> - load_page_and_place_batiments.dart<span style="font-size: 80%;"> (source / <a href="load_page_and_place_batiments.dart.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">70</td>
+            <td class="headerCovTableEntry">70</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2020-05-18 14:40:19</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : import 'dart:convert';</a>
+<span class="lineNum">       2 </span>            : import 'dart:math' as math;
+<span class="lineNum">       3 </span>            : 
+<span class="lineNum">       4 </span>            : import 'package:app_pym/core/usecases/usecase.dart';
+<span class="lineNum">       5 </span>            : import 'package:app_pym/data/devices/geolocator_device.dart';
+<span class="lineNum">       6 </span>            : import 'package:app_pym/domain/entities/map_pym/batiment.dart';
+<span class="lineNum">       7 </span>            : import 'package:app_pym/domain/repositories/map_pym/batiment_repository.dart';
+<span class="lineNum">       8 </span>            : import 'package:flutter/foundation.dart';
+<span class="lineNum">       9 </span>            : import 'package:flutter/material.dart';
+<span class="lineNum">      10 </span>            : import 'package:flutter_unity_widget/flutter_unity_widget.dart';
+<span class="lineNum">      11 </span>            : import 'package:freezed_annotation/freezed_annotation.dart';
+<span class="lineNum">      12 </span>            : import 'package:geolocator/geolocator.dart';
+<span class="lineNum">      13 </span>            : import 'package:injectable/injectable.dart';
+<span class="lineNum">      14 </span>            : import 'package:vector_math/vector_math_64.dart' show Vector3;
+<span class="lineNum">      15 </span>            : 
+<span class="lineNum">      16 </span>            : part 'load_page_and_place_batiments.freezed.dart';
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            : @freezed
+<span class="lineNum">      19 </span>            : abstract class LoadPageAndPlaceBatimentParams
+<span class="lineNum">      20 </span>            :     with _$LoadPageAndPlaceBatimentParams {
+<span class="lineNum">      21 </span>            :   const factory LoadPageAndPlaceBatimentParams({
+<span class="lineNum">      22 </span>            :     @required num bearingBetweenCameraAndNorth,
+<span class="lineNum">      23 </span>            :     @required UnityWidgetController controller,
+<span class="lineNum">      24 </span>            :   }) = _LoadPageAndPlaceBatimentParams;
+<span class="lineNum">      25 </span>            : }
+<span class="lineNum">      26 </span>            : 
+<span class="lineNum">      27 </span>            : @prod
+<span class="lineNum">      28 </span>            : @lazySingleton
+<span class="lineNum">      29 </span>            : class LoadPageAndPlaceBatiments
+<span class="lineNum">      30 </span>            :     extends Usecase&lt;Future&lt;Position&gt;, LoadPageAndPlaceBatimentParams&gt; {
+<span class="lineNum">      31 </span>            :   final GeolocatorDevice geolocatorDevice;
+<span class="lineNum">      32 </span>            :   final BatimentRepository batimentRepository;
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span><span class="lineCov">          1 :   const LoadPageAndPlaceBatiments({</span>
+<span class="lineNum">      35 </span>            :     @required this.geolocatorDevice,
+<span class="lineNum">      36 </span>            :     @required this.batimentRepository,
+<span class="lineNum">      37 </span>            :   });
+<span class="lineNum">      38 </span>            : 
+<span class="lineNum">      39 </span>            :   @override
+<span class="lineNum">      40 </span><span class="lineCov">          1 :   Future&lt;Position&gt; call(LoadPageAndPlaceBatimentParams params) async {</span>
+<span class="lineNum">      41 </span>            :     final num bearingBetweenCameraAndNorth =
+<span class="lineNum">      42 </span><span class="lineCov">          3 :         params.bearingBetweenCameraAndNorth * math.pi / 180;</span>
+<span class="lineNum">      43 </span><span class="lineCov">          2 :     final Future&lt;List&lt;Batiment&gt;&gt; batiments = batimentRepository.fetchAll();</span>
+<span class="lineNum">      44 </span><span class="lineCov">          1 :     final UnityWidgetController controller = params.controller;</span>
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span>            :     // Throttle to avoid spam
+<span class="lineNum">      47 </span><span class="lineCov">          2 :     final Stream&lt;Position&gt; positions = geolocatorDevice.positions;</span>
+<span class="lineNum">      48 </span>            : 
+<span class="lineNum">      49 </span><span class="lineCov">          1 :     final position = positions.first;</span>
+<span class="lineNum">      50 </span><span class="lineCov">          2 :     final num latitude = (await position).latitude;</span>
+<span class="lineNum">      51 </span><span class="lineCov">          2 :     final num longitude = (await position).longitude;</span>
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span><span class="lineCov">          2 :     for (final batiment in await batiments) {</span>
+<span class="lineNum">      54 </span>            :       final num bearingBetweenCameraAndBatiment =
+<span class="lineNum">      55 </span><span class="lineCov">          2 :           geolocatorDevice.bearingBetween(</span>
+<span class="lineNum">      56 </span>            :         latitude,
+<span class="lineNum">      57 </span>            :         longitude,
+<span class="lineNum">      58 </span><span class="lineCov">          1 :         batiment.latitude,</span>
+<span class="lineNum">      59 </span><span class="lineCov">          1 :         batiment.longitude,</span>
+<span class="lineNum">      60 </span>            :       );
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span>            :       final num distanceBetweenCameraAndBatiment =
+<span class="lineNum">      63 </span><span class="lineCov">          2 :           geolocatorDevice.distanceBetween(</span>
+<span class="lineNum">      64 </span>            :         latitude,
+<span class="lineNum">      65 </span>            :         longitude,
+<span class="lineNum">      66 </span><span class="lineCov">          1 :         batiment.latitude,</span>
+<span class="lineNum">      67 </span><span class="lineCov">          1 :         batiment.longitude,</span>
+<span class="lineNum">      68 </span>            :       );
+<span class="lineNum">      69 </span>            : 
+<span class="lineNum">      70 </span>            :       // Calculate position in arcore/arkit axis
+<span class="lineNum">      71 </span><span class="lineCov">          1 :       final Vector3 vect = Vector3(</span>
+<span class="lineNum">      72 </span><span class="lineCov">          2 :         -math.sin(</span>
+<span class="lineNum">      73 </span><span class="lineCov">          1 :             bearingBetweenCameraAndNorth - bearingBetweenCameraAndBatiment),</span>
+<span class="lineNum">      74 </span>            :         0,
+<span class="lineNum">      75 </span><span class="lineCov">          2 :         -math.cos(</span>
+<span class="lineNum">      76 </span><span class="lineCov">          1 :             bearingBetweenCameraAndNorth - bearingBetweenCameraAndBatiment),</span>
+<span class="lineNum">      77 </span>            :       );
+<span class="lineNum">      78 </span>            : 
+<span class="lineNum">      79 </span><span class="lineCov">          1 :       controller.spawnBatiment(</span>
+<span class="lineNum">      80 </span>            :         vect,
+<span class="lineNum">      81 </span>            :         batiment: batiment,
+<span class="lineNum">      82 </span>            :         distance: distanceBetweenCameraAndBatiment,
+<span class="lineNum">      83 </span>            :       );
+<span class="lineNum">      84 </span>            :     }
+<span class="lineNum">      85 </span><span class="lineCov">          1 :     controller.spawnCompass(bearingBetweenCameraAndNorth);</span>
+<span class="lineNum">      86 </span>            : 
+<span class="lineNum">      87 </span>            :     return position;
+<span class="lineNum">      88 </span>            :   }
+<span class="lineNum">      89 </span>            : }
+<span class="lineNum">      90 </span>            : 
+<span class="lineNum">      91 </span>            : extension on UnityWidgetController {
+<span class="lineNum">      92 </span><span class="lineCov">          1 :   void spawnBatiment(</span>
+<span class="lineNum">      93 </span>            :     Vector3 vect, {
+<span class="lineNum">      94 </span>            :     @required Batiment batiment,
+<span class="lineNum">      95 </span>            :     @required num distance,
+<span class="lineNum">      96 </span>            :   }) {
+<span class="lineNum">      97 </span><span class="lineCov">          1 :     final Map&lt;String, dynamic&gt; data = &lt;String, dynamic&gt;{</span>
+<span class="lineNum">      98 </span><span class="lineCov">          1 :       'position': &lt;String, double&gt;{</span>
+<span class="lineNum">      99 </span><span class="lineCov">          1 :         'x': vect.x,</span>
+<span class="lineNum">     100 </span><span class="lineCov">          1 :         'y': vect.y,</span>
+<span class="lineNum">     101 </span><span class="lineCov">          2 :         'z': -vect.z, // Only for Unity axis</span>
+<span class="lineNum">     102 </span>            :       },
+<span class="lineNum">     103 </span><span class="lineCov">          1 :       'color': &lt;String, int&gt;{</span>
+<span class="lineNum">     104 </span><span class="lineCov">          1 :         'r': Colors.white.red,</span>
+<span class="lineNum">     105 </span><span class="lineCov">          1 :         'g': Colors.white.green,</span>
+<span class="lineNum">     106 </span><span class="lineCov">          1 :         'b': Colors.white.blue,</span>
+<span class="lineNum">     107 </span>            :       },
+<span class="lineNum">     108 </span><span class="lineCov">          1 :       'data': &lt;String, dynamic&gt;{</span>
+<span class="lineNum">     109 </span><span class="lineCov">          1 :         'id': batiment.id,</span>
+<span class="lineNum">     110 </span><span class="lineCov">          1 :         'text': batiment.nom,</span>
+<span class="lineNum">     111 </span>            :       },
+<span class="lineNum">     112 </span>            :       'distance': distance,
+<span class="lineNum">     113 </span>            :     };
+<span class="lineNum">     114 </span>            : 
+<span class="lineNum">     115 </span><span class="lineCov">          1 :     this.postMessage(</span>
+<span class="lineNum">     116 </span>            :       'BatimentSpawner',
+<span class="lineNum">     117 </span>            :       'FlutterSpawn',
+<span class="lineNum">     118 </span><span class="lineCov">          1 :       json.encode(data),</span>
+<span class="lineNum">     119 </span>            :     );
+<span class="lineNum">     120 </span>            :   }
+<span class="lineNum">     121 </span>            : 
+<span class="lineNum">     122 </span><span class="lineCov">          1 :   void spawnCompass(</span>
+<span class="lineNum">     123 </span>            :     num bearingBetweenCameraAndNorth,
+<span class="lineNum">     124 </span>            :   ) {
+<span class="lineNum">     125 </span><span class="lineCov">          1 :     this._spawnCompassUnit(</span>
+<span class="lineNum">     126 </span><span class="lineCov">          1 :       Vector3(</span>
+<span class="lineNum">     127 </span><span class="lineCov">          2 :         -math.sin(bearingBetweenCameraAndNorth),</span>
+<span class="lineNum">     128 </span>            :         0,
+<span class="lineNum">     129 </span><span class="lineCov">          2 :         -math.cos(bearingBetweenCameraAndNorth),</span>
+<span class="lineNum">     130 </span>            :       ),
+<span class="lineNum">     131 </span>            :       color: Colors.red,
+<span class="lineNum">     132 </span>            :       text: &quot;N&quot;,
+<span class="lineNum">     133 </span>            :     );
+<span class="lineNum">     134 </span>            : 
+<span class="lineNum">     135 </span><span class="lineCov">          1 :     this._spawnCompassUnit(</span>
+<span class="lineNum">     136 </span><span class="lineCov">          1 :       Vector3(</span>
+<span class="lineNum">     137 </span><span class="lineCov">          4 :         -math.sin(bearingBetweenCameraAndNorth + math.pi / 2),</span>
+<span class="lineNum">     138 </span>            :         0,
+<span class="lineNum">     139 </span><span class="lineCov">          4 :         -math.cos(bearingBetweenCameraAndNorth + math.pi / 2),</span>
+<span class="lineNum">     140 </span>            :       ),
+<span class="lineNum">     141 </span><span class="lineCov">          1 :       color: Colors.green[100],</span>
+<span class="lineNum">     142 </span>            :       text: &quot;W&quot;,
+<span class="lineNum">     143 </span>            :     );
+<span class="lineNum">     144 </span>            : 
+<span class="lineNum">     145 </span><span class="lineCov">          1 :     this._spawnCompassUnit(</span>
+<span class="lineNum">     146 </span><span class="lineCov">          1 :       Vector3(</span>
+<span class="lineNum">     147 </span><span class="lineCov">          3 :         -math.sin(bearingBetweenCameraAndNorth + math.pi),</span>
+<span class="lineNum">     148 </span>            :         0,
+<span class="lineNum">     149 </span><span class="lineCov">          3 :         -math.cos(bearingBetweenCameraAndNorth + math.pi),</span>
+<span class="lineNum">     150 </span>            :       ),
+<span class="lineNum">     151 </span>            :       color: Colors.blue,
+<span class="lineNum">     152 </span>            :       text: &quot;S&quot;,
+<span class="lineNum">     153 </span>            :     );
+<span class="lineNum">     154 </span>            : 
+<span class="lineNum">     155 </span><span class="lineCov">          1 :     this._spawnCompassUnit(</span>
+<span class="lineNum">     156 </span><span class="lineCov">          1 :       Vector3(</span>
+<span class="lineNum">     157 </span><span class="lineCov">          5 :         -math.sin(bearingBetweenCameraAndNorth + math.pi * 3 / 2),</span>
+<span class="lineNum">     158 </span>            :         0,
+<span class="lineNum">     159 </span><span class="lineCov">          5 :         -math.cos(bearingBetweenCameraAndNorth + math.pi * 3 / 2),</span>
+<span class="lineNum">     160 </span>            :       ),
+<span class="lineNum">     161 </span><span class="lineCov">          1 :       color: Colors.green[100],</span>
+<span class="lineNum">     162 </span>            :       text: &quot;E&quot;,
+<span class="lineNum">     163 </span>            :     );
+<span class="lineNum">     164 </span>            :   }
+<span class="lineNum">     165 </span>            : 
+<span class="lineNum">     166 </span><span class="lineCov">          1 :   void _spawnCompassUnit(</span>
+<span class="lineNum">     167 </span>            :     Vector3 vect, {
+<span class="lineNum">     168 </span>            :     @required Color color,
+<span class="lineNum">     169 </span>            :     @required String text,
+<span class="lineNum">     170 </span>            :   }) {
+<span class="lineNum">     171 </span><span class="lineCov">          1 :     final Map&lt;String, dynamic&gt; data = &lt;String, dynamic&gt;{</span>
+<span class="lineNum">     172 </span><span class="lineCov">          1 :       'position': &lt;String, double&gt;{</span>
+<span class="lineNum">     173 </span><span class="lineCov">          1 :         'x': vect.x,</span>
+<span class="lineNum">     174 </span><span class="lineCov">          1 :         'y': vect.y,</span>
+<span class="lineNum">     175 </span><span class="lineCov">          2 :         'z': -vect.z, // Only for Unity axis</span>
+<span class="lineNum">     176 </span>            :       },
+<span class="lineNum">     177 </span><span class="lineCov">          1 :       'color': &lt;String, int&gt;{</span>
+<span class="lineNum">     178 </span><span class="lineCov">          1 :         'r': color.red,</span>
+<span class="lineNum">     179 </span><span class="lineCov">          1 :         'g': color.green,</span>
+<span class="lineNum">     180 </span><span class="lineCov">          1 :         'b': color.blue,</span>
+<span class="lineNum">     181 </span>            :       },
+<span class="lineNum">     182 </span><span class="lineCov">          1 :       'data': &lt;String, dynamic&gt;{</span>
+<span class="lineNum">     183 </span>            :         'id': 0,
+<span class="lineNum">     184 </span>            :         'text': text,
+<span class="lineNum">     185 </span>            :       }
+<span class="lineNum">     186 </span>            :     };
+<span class="lineNum">     187 </span>            : 
+<span class="lineNum">     188 </span><span class="lineCov">          1 :     this.postMessage(</span>
+<span class="lineNum">     189 </span>            :       'CompassSpawner',
+<span class="lineNum">     190 </span>            :       'FlutterSpawn',
+<span class="lineNum">     191 </span><span class="lineCov">          1 :       json.encode(data),</span>
+<span class="lineNum">     192 </span>            :     );
+<span class="lineNum">     193 </span>            :   }
+<span class="lineNum">     194 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
