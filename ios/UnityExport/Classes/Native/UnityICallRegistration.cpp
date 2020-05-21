@@ -1982,6 +1982,10 @@ void RegisterAllStrippedInternalCalls()
 		void Register_UnityEngine_SystemInfo_GetOperatingSystemFamily();
 		Register_UnityEngine_SystemInfo_GetOperatingSystemFamily();
 
+		//UnityEngine.Rendering.GraphicsDeviceType UnityEngine.SystemInfo::GetGraphicsDeviceType()
+		void Register_UnityEngine_SystemInfo_GetGraphicsDeviceType();
+		Register_UnityEngine_SystemInfo_GetGraphicsDeviceType();
+
 	//End Registrations for type : UnityEngine.SystemInfo
 
 	//Start Registrations for type : UnityEngine.TextAsset
@@ -2033,6 +2037,10 @@ void RegisterAllStrippedInternalCalls()
 	//End Registrations for type : UnityEngine.TextGenerator
 
 	//Start Registrations for type : UnityEngine.TextMesh
+
+		//System.Void UnityEngine.TextMesh::set_characterSize(System.Single)
+		void Register_UnityEngine_TextMesh_set_characterSize();
+		Register_UnityEngine_TextMesh_set_characterSize();
 
 		//System.Void UnityEngine.TextMesh::set_text(System.String)
 		void Register_UnityEngine_TextMesh_set_text();

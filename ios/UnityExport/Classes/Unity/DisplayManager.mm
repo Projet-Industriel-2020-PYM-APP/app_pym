@@ -419,8 +419,10 @@ static DisplayManager* _DisplayManager = nil;
     if (conn != nil && conn.surface != nil)
         UnityDisableRenderBuffers(conn.surface->unityColorBuffer, conn.surface->unityDepthBuffer);
 
-    [_displayConnection removeObjectForKey: screen];
+    [conn destroySurface];
     conn = nil;
+
+    [_displayConnection removeObjectForKey: screen];
     [self updateDisplayListCacheInUnity];
 }
 
