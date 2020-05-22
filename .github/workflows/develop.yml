@@ -37,6 +37,11 @@ jobs:
         with:
           name: coverage
           path: coverage
+      - name: Install LFS
+        run: |
+          apt update
+          apt install -y git-lfs
+          git lfs install
       - name: Deploy coverage
         uses: JamesIves/github-pages-deploy-action@master
         env:
