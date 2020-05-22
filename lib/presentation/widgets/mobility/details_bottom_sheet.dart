@@ -152,8 +152,8 @@ class DetailsBottomSheet extends StatelessWidget {
 
 extension on String {
   Duration arrivalTimeToTimeLeft() {
-    final now = DateTime.now();
-    return DateTime(
+    final DateTime now = DateTime.now();
+    final Duration timeLeft = DateTime(
       now.year,
       now.month,
       now.day,
@@ -161,5 +161,9 @@ extension on String {
       int.parse(this.split(':')[1]),
       int.parse(this.split(':')[2]),
     ).difference(now);
+    if (timeLeft.isNegative) {
+      return timeLeft + const Duration(hours: 24);
+    }
+    return timeLeft;
   }
 }

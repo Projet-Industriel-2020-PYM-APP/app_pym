@@ -43,65 +43,72 @@ class FetchTrainTrips extends Usecase<Future<List<Trip>>, NoParams> {
       // On veut afficher les 3 prochains
       if (trip.calendar.weekdays[today]) {
         //StopTime de l'arrêt à Gardanne
-        final StopTime stopTimeOfTrip = trip.stop_time
-            .where((stop_time) =>
-                stop_time.stop.stop_name == MobilityConstants.gareGardanne)
-            .first;
+        final StopTime stopTimeOfTrip = trip.stop_time.firstWhere((stop_time) =>
+            stop_time.stop.stop_name == MobilityConstants.gareGardanne);
         //heure de l'arrêt
-        final arrivalTimeOfTrip = stopTimeOfTrip.arrival_time.timeToDateTime();
+        final DateTime arrivalTimeOfTrip =
+            stopTimeOfTrip.arrival_time.timeToDateTime();
         //sens du trajet
         final int sens = trip.direction_id.index;
-        //on traite différement si les trains vont à Aix
-        final bool goToAix = sens == 0
-            ? trip.stop_time.last.stop.stop_name
-                    .compareTo(MobilityConstants.gareAix) ==
-                0
-            : trip.stop_time.first.stop.stop_name
-                    .compareTo(MobilityConstants.gareAix) ==
-                0;
-        if (arrivalTimeOfTrip.isAfter(now) &&
-            arrivalTimeOfTrip.isBefore(minTimes[4 + sens])) {
-          //si meilleur que le 3e meilleur
-          minTimes[4 + sens] = arrivalTimeOfTrip;
-          nextTrips[4 + sens] = trip;
+
+        bool alreadyExists = false; //évite les doublons
+        for (int i = 0; i < minTimes.length / 2; i++) {
+          alreadyExists |=
+              minTimes[2 * i + sens].compareTo(arrivalTimeOfTrip) == 0;
+        }
+        if (!alreadyExists) {
+          //on traite différement si les trains vont à Aix
+          final bool goToAix = sens == 0
+              ? trip.stop_time.last.stop.stop_name
+                      .compareTo(MobilityConstants.gareAix) ==
+                  0
+              : trip.stop_time.first.stop.stop_name
+                      .compareTo(MobilityConstants.gareAix) ==
+                  0;
           if (arrivalTimeOfTrip.isAfter(now) &&
-              arrivalTimeOfTrip.isBefore(minTimes[2 + sens])) {
-            //si meilleur que le 2e meilleur
-            minTimes[4 + sens] = minTimes[2 + sens];
-            nextTrips[4 + sens] = nextTrips[2 + sens];
-            minTimes[2 + sens] = arrivalTimeOfTrip;
-            nextTrips[2 + sens] = trip;
+              arrivalTimeOfTrip.isBefore(minTimes[4 + sens])) {
+            //si meilleur que le 3e meilleur
+            minTimes[4 + sens] = arrivalTimeOfTrip;
+            nextTrips[4 + sens] = trip;
             if (arrivalTimeOfTrip.isAfter(now) &&
-                arrivalTimeOfTrip.isBefore(minTimes[sens])) {
-              //si meilleur que le meilleur
-              minTimes[2 + sens] = minTimes[sens];
-              nextTrips[2 + sens] = nextTrips[sens];
-              minTimes[sens] = arrivalTimeOfTrip;
-              nextTrips[sens] = trip;
+                arrivalTimeOfTrip.isBefore(minTimes[2 + sens])) {
+              //si meilleur que le 2e meilleur
+              minTimes[4 + sens] = minTimes[2 + sens];
+              nextTrips[4 + sens] = nextTrips[2 + sens];
+              minTimes[2 + sens] = arrivalTimeOfTrip;
+              nextTrips[2 + sens] = trip;
+              if (arrivalTimeOfTrip.isAfter(now) &&
+                  arrivalTimeOfTrip.isBefore(minTimes[sens])) {
+                //si meilleur que le meilleur
+                minTimes[2 + sens] = minTimes[sens];
+                nextTrips[2 + sens] = nextTrips[sens];
+                minTimes[sens] = arrivalTimeOfTrip;
+                nextTrips[sens] = trip;
+              }
             }
           }
-        }
-        //On refait seulement pour les trains qui vont à Aix
-        if (goToAix) {
-          if (arrivalTimeOfTrip.isAfter(now) &&
-              arrivalTimeOfTrip.isBefore(minTimes[10 + sens])) {
-            //si meilleur que le 3e meilleur
-            minTimes[10 + sens] = arrivalTimeOfTrip;
-            nextTrips[10 + sens] = trip;
+          //On refait seulement pour les trains qui vont à Aix
+          if (goToAix) {
             if (arrivalTimeOfTrip.isAfter(now) &&
-                arrivalTimeOfTrip.isBefore(minTimes[8 + sens])) {
-              //si meilleur que le 2e meilleur
-              minTimes[10 + sens] = minTimes[8 + sens];
-              nextTrips[10 + sens] = nextTrips[8 + sens];
-              minTimes[8 + sens] = arrivalTimeOfTrip;
-              nextTrips[8 + sens] = trip;
+                arrivalTimeOfTrip.isBefore(minTimes[10 + sens])) {
+              //si meilleur que le 3e meilleur
+              minTimes[10 + sens] = arrivalTimeOfTrip;
+              nextTrips[10 + sens] = trip;
               if (arrivalTimeOfTrip.isAfter(now) &&
-                  arrivalTimeOfTrip.isBefore(minTimes[6 + sens])) {
-                //si meilleur que le meilleur
-                minTimes[8 + sens] = minTimes[6 + sens];
-                nextTrips[8 + sens] = nextTrips[6 + sens];
-                minTimes[6 + sens] = arrivalTimeOfTrip;
-                nextTrips[6 + sens] = trip;
+                  arrivalTimeOfTrip.isBefore(minTimes[8 + sens])) {
+                //si meilleur que le 2e meilleur
+                minTimes[10 + sens] = minTimes[8 + sens];
+                nextTrips[10 + sens] = nextTrips[8 + sens];
+                minTimes[8 + sens] = arrivalTimeOfTrip;
+                nextTrips[8 + sens] = trip;
+                if (arrivalTimeOfTrip.isAfter(now) &&
+                    arrivalTimeOfTrip.isBefore(minTimes[6 + sens])) {
+                  //si meilleur que le meilleur
+                  minTimes[8 + sens] = minTimes[6 + sens];
+                  nextTrips[8 + sens] = nextTrips[6 + sens];
+                  minTimes[6 + sens] = arrivalTimeOfTrip;
+                  nextTrips[6 + sens] = trip;
+                }
               }
             }
           }
@@ -110,66 +117,72 @@ class FetchTrainTrips extends Usecase<Future<List<Trip>>, NoParams> {
       //on veut les 3 prochains de demain
       if (trip.calendar.weekdays[tomorrow]) {
         //StopTime de l'arrêt à Gardanne
-        final stopTimeOfTrip = trip.stop_time
-            .where((stop_time) =>
-                stop_time.stop.stop_name == MobilityConstants.gareGardanne)
-            .first;
+        final StopTime stopTimeOfTrip = trip.stop_time.firstWhere((stop_time) =>
+            stop_time.stop.stop_name == MobilityConstants.gareGardanne);
         //l'heure de l'arrêt de demain
-        final arrivalTimeOfTrip = stopTimeOfTrip.arrival_time
+        final DateTime arrivalTimeOfTrip = stopTimeOfTrip.arrival_time
             .timeToDateTime()
             .add(const Duration(days: 1));
         //sens du trajet
         final int sens = trip.direction_id.index;
-        //on traite différement si les trains vont à Aix
-        final bool goToAix = sens == 0
-            ? trip.stop_time.last.stop.stop_name
-                    .compareTo(MobilityConstants.gareAix) ==
-                0
-            : trip.stop_time.first.stop.stop_name
-                    .compareTo(MobilityConstants.gareAix) ==
-                0;
-        if (arrivalTimeOfTrip.isAfter(midnight) &&
-            arrivalTimeOfTrip.isBefore(minTimesTomorrow[4 + sens])) {
-          //si meilleur que le 3e meilleur
-          minTimesTomorrow[4 + sens] = arrivalTimeOfTrip;
-          nextTripsTomorrow[4 + sens] = trip;
-          if (arrivalTimeOfTrip.isAfter(midnight) &&
-              arrivalTimeOfTrip.isBefore(minTimesTomorrow[8 + sens])) {
-            //si meilleur que le 2e meilleur
-            minTimesTomorrow[4 + sens] = minTimesTomorrow[2 + sens];
-            nextTripsTomorrow[4 + sens] = nextTripsTomorrow[2 + sens];
-            minTimesTomorrow[2 + sens] = arrivalTimeOfTrip;
-            nextTripsTomorrow[2 + sens] = trip;
-            if (arrivalTimeOfTrip.isAfter(midnight) &&
-                arrivalTimeOfTrip.isBefore(minTimesTomorrow[sens])) {
-              //si meilleur que le meilleur
-              minTimesTomorrow[2 + sens] = minTimesTomorrow[sens];
-              nextTripsTomorrow[2 + sens] = nextTripsTomorrow[sens];
-              minTimesTomorrow[sens] = arrivalTimeOfTrip;
-              nextTripsTomorrow[sens] = trip;
-            }
-          }
+
+        bool alreadyExists = false; //évite les doublons
+        for (int i = 0; i < minTimesTomorrow.length / 2; i++) {
+          alreadyExists |=
+              minTimesTomorrow[2 * i + sens].compareTo(arrivalTimeOfTrip) == 0;
         }
-        if (goToAix) {
+        if (!alreadyExists) {
+          //on traite différement si les trains vont à Aix
+          final bool goToAix = sens == 0
+              ? trip.stop_time.last.stop.stop_name
+                      .compareTo(MobilityConstants.gareAix) ==
+                  0
+              : trip.stop_time.first.stop.stop_name
+                      .compareTo(MobilityConstants.gareAix) ==
+                  0;
           if (arrivalTimeOfTrip.isAfter(midnight) &&
-              arrivalTimeOfTrip.isBefore(minTimesTomorrow[10 + sens])) {
+              arrivalTimeOfTrip.isBefore(minTimesTomorrow[4 + sens])) {
             //si meilleur que le 3e meilleur
-            minTimesTomorrow[10 + sens] = arrivalTimeOfTrip;
-            nextTripsTomorrow[10 + sens] = trip;
+            minTimesTomorrow[4 + sens] = arrivalTimeOfTrip;
+            nextTripsTomorrow[4 + sens] = trip;
             if (arrivalTimeOfTrip.isAfter(midnight) &&
                 arrivalTimeOfTrip.isBefore(minTimesTomorrow[8 + sens])) {
               //si meilleur que le 2e meilleur
-              minTimesTomorrow[10 + sens] = minTimesTomorrow[8 + sens];
-              nextTripsTomorrow[10 + sens] = nextTripsTomorrow[8 + sens];
-              minTimesTomorrow[8 + sens] = arrivalTimeOfTrip;
-              nextTripsTomorrow[8 + sens] = trip;
+              minTimesTomorrow[4 + sens] = minTimesTomorrow[2 + sens];
+              nextTripsTomorrow[4 + sens] = nextTripsTomorrow[2 + sens];
+              minTimesTomorrow[2 + sens] = arrivalTimeOfTrip;
+              nextTripsTomorrow[2 + sens] = trip;
               if (arrivalTimeOfTrip.isAfter(midnight) &&
-                  arrivalTimeOfTrip.isBefore(minTimesTomorrow[6 + sens])) {
+                  arrivalTimeOfTrip.isBefore(minTimesTomorrow[sens])) {
                 //si meilleur que le meilleur
-                minTimesTomorrow[8 + sens] = minTimesTomorrow[6 + sens];
-                nextTripsTomorrow[8 + sens] = nextTripsTomorrow[6 + sens];
-                minTimesTomorrow[6 + sens] = arrivalTimeOfTrip;
-                nextTripsTomorrow[6 + sens] = trip;
+                minTimesTomorrow[2 + sens] = minTimesTomorrow[sens];
+                nextTripsTomorrow[2 + sens] = nextTripsTomorrow[sens];
+                minTimesTomorrow[sens] = arrivalTimeOfTrip;
+                nextTripsTomorrow[sens] = trip;
+              }
+            }
+          }
+          if (goToAix) {
+            if (arrivalTimeOfTrip.isAfter(midnight) &&
+                arrivalTimeOfTrip.isBefore(minTimesTomorrow[10 + sens])) {
+              //si meilleur que le 3e meilleur
+              minTimesTomorrow[10 + sens] = arrivalTimeOfTrip;
+              nextTripsTomorrow[10 + sens] = trip;
+              if (arrivalTimeOfTrip.isAfter(midnight) &&
+                  arrivalTimeOfTrip.isBefore(minTimesTomorrow[8 + sens])) {
+                //si meilleur que le 2e meilleur
+                minTimesTomorrow[10 + sens] = minTimesTomorrow[8 + sens];
+                nextTripsTomorrow[10 + sens] = nextTripsTomorrow[8 + sens];
+                minTimesTomorrow[8 + sens] = arrivalTimeOfTrip;
+                nextTripsTomorrow[8 + sens] = trip;
+                if (arrivalTimeOfTrip.isAfter(midnight) &&
+                    arrivalTimeOfTrip.isBefore(minTimesTomorrow[6 + sens])) {
+                  //si meilleur que le meilleur
+                  minTimesTomorrow[8 + sens] = minTimesTomorrow[6 + sens];
+                  nextTripsTomorrow[8 + sens] = nextTripsTomorrow[6 + sens];
+                  minTimesTomorrow[6 + sens] = arrivalTimeOfTrip;
+                  nextTripsTomorrow[6 + sens] = trip;
+                }
               }
             }
           }
@@ -200,12 +213,12 @@ class FetchTrainTrips extends Usecase<Future<List<Trip>>, NoParams> {
         //idem pour train qui vont à Aix
         if (nextTrips[6 + 2 * i] == null) {
           nextTrips[6 + 2 * i] = nextTripsTomorrow[indicesARecuperer[2]];
-          indicesARecuperer[0] += 2;
+          indicesARecuperer[2] += 2;
         }
         //pour trip retour
         if (nextTrips[6 + 2 * i + 1] == null) {
           nextTrips[6 + 2 * i + 1] = nextTripsTomorrow[indicesARecuperer[3]];
-          indicesARecuperer[1] += 2;
+          indicesARecuperer[3] += 2;
         }
       }
       return nextTrips;
