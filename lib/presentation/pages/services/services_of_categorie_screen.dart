@@ -5,6 +5,7 @@ import 'package:app_pym/domain/entities/app_pym/service_categorie.dart';
 import 'package:app_pym/injection_container.dart';
 import 'package:app_pym/presentation/blocs/services/services_of_categorie/services_of_categorie_bloc.dart';
 import 'package:app_pym/presentation/pages/services/fetch_all_bookings_screen.dart';
+import 'package:app_pym/presentation/widgets/webview_scaffold.dart' hide Action;
 import 'package:breakpoint/breakpoint.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart' hide Action;
@@ -24,7 +25,9 @@ class ActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlatButton(
       onPressed: () async {
-        if (action.name != null) {
+        if (action.html_url != null && action.html_url.isNotEmpty) {
+          await UrlLauncherUtils.launch(action.html_url);
+        } else if (action.name != null) {
           if (action.name.toLowerCase().contains('réserve')) {
             await Navigator.of(context).push<void>(
               MaterialPageRoute(
@@ -37,13 +40,17 @@ class ActionButton extends StatelessWidget {
               action.name.toLowerCase().contains('telephone')) {
             await UrlLauncherUtils.launch('tel:${service.telephone}');
           } else if (action.name.toLowerCase().contains('web')) {
-            await UrlLauncherUtils.launch(service.website);
+            await Navigator.of(context)
+                .push<void>(MaterialPageRoute(builder: (context) {
+              return ScaffoldWebView(
+                initialUrl: service.website,
+                title: service.website,
+              );
+            }));
           } else if (action.name.toLowerCase().contains('localise')) {
             await UrlLauncherUtils.launch(
                 'https://maps.google.com/?q=${service.address}');
           }
-        } else if (action.html_url != null && action.html_url.isNotEmpty) {
-          await UrlLauncherUtils.launch(action.html_url);
         } else {
           await Navigator.of(context).push<void>(
             MaterialPageRoute(

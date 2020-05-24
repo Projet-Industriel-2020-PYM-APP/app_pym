@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:app_pym/core/utils/url_launcher_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 enum Action { Refresh, Forward, OpenBrowser }
 
-class ScaffoldWebView extends StatelessWidget {
+class ScaffoldWebView extends StatefulWidget {
   final String initialUrl;
   final String title;
   final void Function(WebViewController, BuildContext) onWebViewCreated;
@@ -17,13 +19,20 @@ class ScaffoldWebView extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    WebViewController _controller;
+  _ScaffoldWebViewState createState() => _ScaffoldWebViewState();
+}
 
+class _ScaffoldWebViewState extends State<ScaffoldWebView> {
+  final Completer<WebViewController> _controller =
+      Completer<WebViewController>();
+  final ValueNotifier<bool> isLoading = ValueNotifier<bool>(true);
+
+  @override
+  Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        if (await _controller.canGoBack()) {
-          await _controller.goBack();
+        if (await (await _controller.future).canGoBack()) {
+          await (await _controller.future).goBack();
           return false;
         } else {
           return true;
@@ -31,7 +40,7 @@ class ScaffoldWebView extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(title ?? ""),
+          title: Text(widget.title ?? ""),
           leading: CloseButton(
             onPressed: Navigator.of(context).pop,
           ),
@@ -39,13 +48,14 @@ class ScaffoldWebView extends StatelessWidget {
             PopupMenuButton<Action>(
               onSelected: (value) async {
                 if (value == Action.Forward) {
-                  if (await _controller.canGoForward()) {
-                    await _controller.goForward();
+                  if (await (await _controller.future).canGoForward()) {
+                    await (await _controller.future).goForward();
                   }
                 } else if (value == Action.Refresh) {
-                  await _controller.reload();
+                  await (await _controller.future).reload();
                 } else if (value == Action.OpenBrowser) {
-                  await UrlLauncherUtils.launch(await _controller.currentUrl());
+                  await UrlLauncherUtils.launch(
+                      await (await _controller.future).currentUrl());
                 }
               },
               padding: EdgeInsets.zero,
@@ -79,15 +89,35 @@ class ScaffoldWebView extends StatelessWidget {
           ],
         ),
         body: SafeArea(
-          child: WebView(
-            javascriptMode: JavascriptMode.unrestricted,
-            initialUrl: initialUrl,
-            onWebViewCreated: (WebViewController wvc) {
-              _controller = wvc;
-              if (onWebViewCreated != null) {
-                this.onWebViewCreated(wvc, context);
-              }
-            },
+          child: Stack(
+            children: [
+              WebView(
+                javascriptMode: JavascriptMode.unrestricted,
+                initialUrl: widget.initialUrl,
+                onPageFinished: (url) {
+                  isLoading.value = false;
+                },
+                onPageStarted: (url) {
+                  isLoading.value = true;
+                },
+                onWebViewCreated: (WebViewController wvc) {
+                  _controller.complete(wvc);
+                  if (this.widget.onWebViewCreated != null) {
+                    this.widget.onWebViewCreated(wvc, context);
+                  }
+                },
+              ),
+              ValueListenableBuilder<bool>(
+                valueListenable: isLoading,
+                builder: (context, isLoading, child) {
+                  if (isLoading) {
+                    return const LinearProgressIndicator();
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+            ],
           ),
         ),
       ),
