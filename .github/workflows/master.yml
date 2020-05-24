@@ -37,17 +37,10 @@ jobs:
         with:
           name: coverage
           path: coverage
-      - name: Install LFS
-        run: |
-          sudo apt update
-          sudo apt install -y git-lfs
-          git lfs install
       - name: Deploy coverage
         uses: JamesIves/github-pages-deploy-action@master
         env:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BASE_BRANCH: master
           BRANCH: gh-pages
           FOLDER: coverage
   integration-tests:
