@@ -77,8 +77,8 @@ extern void BatimentSpawner_set_SpawnedObject_m4C026EB20CC370680E26234777D4D6F60
 extern void BatimentSpawner_Spawn_m7817D0FD57BDB5D57688DFF1974AEC003B478A23 ();
 // 0x0000001F System.Void BatimentSpawner::Colorize(UnityEngine.Color)
 extern void BatimentSpawner_Colorize_mE0F29DBDFF0774BF9865278D567FE5A46AE51964 ();
-// 0x00000020 System.Void BatimentSpawner::ChangeText(System.String)
-extern void BatimentSpawner_ChangeText_mA4607D9854AD77071BA83E3D6AD501A11E844C5A ();
+// 0x00000020 System.Void BatimentSpawner::ChangeText(System.String,System.Single)
+extern void BatimentSpawner_ChangeText_mB8E4E291721EE15F611E9BC61E90BAD9D4BB85F7 ();
 // 0x00000021 System.Void BatimentSpawner::FillData(ParsedData)
 extern void BatimentSpawner_FillData_m00FF0AD30F06EA045962001E85289CD9BECC1B9E ();
 // 0x00000022 System.Void BatimentSpawner::FlutterSpawn(System.String)
@@ -236,7 +236,7 @@ static Il2CppMethodPointer s_methodPointers[94] =
 	BatimentSpawner_set_SpawnedObject_m4C026EB20CC370680E26234777D4D6F60229E25F,
 	BatimentSpawner_Spawn_m7817D0FD57BDB5D57688DFF1974AEC003B478A23,
 	BatimentSpawner_Colorize_mE0F29DBDFF0774BF9865278D567FE5A46AE51964,
-	BatimentSpawner_ChangeText_mA4607D9854AD77071BA83E3D6AD501A11E844C5A,
+	BatimentSpawner_ChangeText_mB8E4E291721EE15F611E9BC61E90BAD9D4BB85F7,
 	BatimentSpawner_FillData_m00FF0AD30F06EA045962001E85289CD9BECC1B9E,
 	BatimentSpawner_FlutterSpawn_m23F490CA7826255118C56E5F91DD0431D8847ACB,
 	BatimentSpawner__ctor_m6076FF685CC74D118614226A7AF6D21EC4146B67,
@@ -333,7 +333,7 @@ static const int32_t s_InvokerIndices[94] =
 	26,
 	136,
 	1236,
-	26,
+	868,
 	26,
 	26,
 	23,
@@ -374,8 +374,8 @@ static const int32_t s_InvokerIndices[94] =
 	1236,
 	23,
 	23,
-	1754,
-	1755,
+	1756,
+	1757,
 	23,
 	122,
 	23,
@@ -403,10 +403,10 @@ static const Il2CppTokenRangePair s_rgctxIndices[1] =
 };
 static const Il2CppRGCTXDefinition s_rgctxValues[4] = 
 {
-	{ (Il2CppRGCTXDataType)2, 16164 },
-	{ (Il2CppRGCTXDataType)1, 15914 },
-	{ (Il2CppRGCTXDataType)2, 15914 },
-	{ (Il2CppRGCTXDataType)3, 13199 },
+	{ (Il2CppRGCTXDataType)2, 16282 },
+	{ (Il2CppRGCTXDataType)1, 16029 },
+	{ (Il2CppRGCTXDataType)2, 16029 },
+	{ (Il2CppRGCTXDataType)3, 13247 },
 };
 extern const Il2CppCodeGenModule g_AssemblyU2DCSharpCodeGenModule;
 const Il2CppCodeGenModule g_AssemblyU2DCSharpCodeGenModule = 

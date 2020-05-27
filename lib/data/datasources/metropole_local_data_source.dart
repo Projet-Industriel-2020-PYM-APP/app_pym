@@ -18,10 +18,8 @@ abstract class MetropoleLocalDataSource extends GTFSTypeLocalDataSource {
   Future<void> setTimestamp(DateTime timestamp);
 }
 
-@RegisterAs(MetropoleLocalDataSource)
 @prod
-@lazySingleton
-@injectable
+@LazySingleton(as: MetropoleLocalDataSource)
 class MetropoleLocalDataSourceImpl implements MetropoleLocalDataSource {
   final DirectoryManager directoryManager;
   final ZipDecoder zipDecoder;

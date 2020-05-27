@@ -6,7 +6,6 @@ import '../../../core/usecases/usecase.dart';
 
 @prod
 @lazySingleton
-@injectable
 class GetPosts extends Usecase<Future<List<Post>>, NoParams> {
   final PostRepository repository;
 

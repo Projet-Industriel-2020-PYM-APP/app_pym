@@ -14,7 +14,6 @@ import 'package:injectable/injectable.dart';
 /// not confirmed
 @prod
 @lazySingleton
-@injectable
 class DeleteBookingOfService
     extends Usecase<Future<void>, BookingOfServiceParams> {
   final BookingRepository repository;

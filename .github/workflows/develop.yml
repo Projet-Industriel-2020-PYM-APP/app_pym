@@ -38,13 +38,11 @@ jobs:
           name: coverage
           path: coverage
       - name: Deploy coverage
-        uses: JamesIves/github-pages-deploy-action@master
+        uses: Cecilapp/GitHub-Pages-deploy@master
         env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BASE_BRANCH: develop
-          BRANCH: gh-pages
-          FOLDER: coverage
+          EMAIL: nguyen_marc@live.fr
+          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BUILD_DIR: coverage
   integration-tests:
     name: Integration tests
     runs-on: macOS-latest

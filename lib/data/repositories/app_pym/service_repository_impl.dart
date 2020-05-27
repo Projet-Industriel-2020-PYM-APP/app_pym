@@ -9,9 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 @prod
-@RegisterAs(ServiceRepository)
-@lazySingleton
-@injectable
+@LazySingleton(as: ServiceRepository)
 class ServiceRepositoryImpl implements ServiceRepository {
   final MapPymLocalDataSource localDataSource;
   final MapPymRemoteDataSource remoteDataSource;

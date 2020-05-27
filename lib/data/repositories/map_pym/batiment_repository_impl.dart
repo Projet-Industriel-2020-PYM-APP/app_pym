@@ -9,9 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 @prod
-@RegisterAs(BatimentRepository)
-@lazySingleton
-@injectable
+@LazySingleton(as: BatimentRepository)
 class BatimentRepositoryImpl implements BatimentRepository {
   final MapPymLocalDataSource localDataSource;
   final MapPymRemoteDataSource remoteDataSource;

@@ -17,73 +17,60 @@ import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 @test
-@RegisterAs(Box)
-@injectable
+@Injectable(as: Box)
 class MockBatimentsBox extends Mock implements Box<BatimentModel> {}
 
 @test
-@RegisterAs(Box)
-@injectable
+@Injectable(as: Box)
 class MockBookingsBox extends Mock implements Box<BookingModel> {}
 
 @test
-@RegisterAs(Box)
-@injectable
+@Injectable(as: Box)
 class MockContactCategoriesBox extends Mock
     implements Box<ContactCategorieModel> {}
 
 @test
-@RegisterAs(Box)
-@injectable
+@Injectable(as: Box)
 class MockContactsBox extends Mock implements Box<ContactModel> {}
 
 @test
-@RegisterAs(Connectivity)
-@injectable
+@Injectable(as: Connectivity)
 class MockDataConnectionChecker extends Mock implements Connectivity {}
 
 @test
-@RegisterAs(Box)
-@injectable
+@Injectable(as: Box)
 class MockEntreprisesBox extends Mock implements Box<EntrepriseModel> {}
 
 @test
-@RegisterAs(Geolocator)
-@injectable
+@Injectable(as: Geolocator)
 class MockGeolocator extends Mock implements Geolocator {}
 
 @test
-@RegisterAs(Client)
-@injectable
+@Injectable(as: Client)
 class MockHttpClient extends Mock implements Client {}
 
 @test
-@RegisterAs(Box)
-@injectable
+@Injectable(as: Box)
 class MockPostsBox extends Mock implements Box<PostModel> {}
 
 @test
-@RegisterAs(Box)
-@injectable
+@Injectable(as: Box)
 class MockServiceCategoriesBox extends Mock
     implements Box<ServiceCategorieModel> {}
 
 @test
-@RegisterAs(Box)
-@injectable
+@Injectable(as: Box)
 class MockServicesBox extends Mock implements Box<ServiceModel> {}
 
 @test
-@RegisterAs(SharedPreferences)
-@injectable
+@Injectable(as: SharedPreferences)
 class MockSharedPreferences extends Mock implements SharedPreferences {}
 
 @test
-@RegisterAs(ZipDecoder)
-@injectable
+@Injectable(as: ZipDecoder)
 class MockZipDecoder extends Mock implements ZipDecoder {}
 
-@registerModule
+@module
 abstract class RegisterModule {
   @prod
   Box<BatimentModel> get batimentsBox => Hive.box<BatimentModel>('/batiments');

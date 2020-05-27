@@ -25674,7 +25674,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t List_1_BinarySearch_mFAE4BA783C3BA722
 	}
 }
 // System.Void System.Collections.Generic.List`1<UnityEngine.XR.ARFoundation.ARCameraManager_TextureInfo>::Clear()
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void List_1_Clear_m371FA28F8EA52CFBC680062D4403EA0B28E76F3F_gshared (List_1_t1ED56FC1CD0B7F1B974E1EB3682A6F986CD6AAF3 * __this, const RuntimeMethod* method)
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void List_1_Clear_mE2DE6F0FC200BF696B66FC389F5D441A2DBEF854_gshared (List_1_t1ED56FC1CD0B7F1B974E1EB3682A6F986CD6AAF3 * __this, const RuntimeMethod* method)
 {
 	{
 		int32_t L_0 = (int32_t)__this->get__size_2();

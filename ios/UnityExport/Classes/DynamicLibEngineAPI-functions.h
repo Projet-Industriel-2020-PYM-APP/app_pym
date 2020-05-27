@@ -253,5 +253,3 @@ UnityExternCall(void,     UnitySetAppleTVRemoteTouchesEnabled, int);
 // misc not in trampoline
 UnityExternCall(bool,     Unity_il2cppNoExceptions);
 UnityExternCall(void,     RegisterStaticallyLinkedModulesGranular);
-
-UnityExternCall(NSArray<NSString*>*, GetLaunchImageNames, UIUserInterfaceIdiom, const OrientationMask&, const CGSize&, ScreenOrientation, float);

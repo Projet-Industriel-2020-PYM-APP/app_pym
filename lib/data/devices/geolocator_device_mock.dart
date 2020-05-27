@@ -3,6 +3,5 @@ import 'package:injectable/injectable.dart';
 import 'package:mockito/mockito.dart';
 
 @test
-@injectable
-@RegisterAs(GeolocatorDevice)
+@Injectable(as: GeolocatorDevice)
 class MockGeolocatorDevice extends Mock implements GeolocatorDevice {}

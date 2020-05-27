@@ -18,10 +18,8 @@ abstract class SNCFLocalDataSource extends GTFSTypeLocalDataSource {
   Future<void> setTimestamp(DateTime timestamp);
 }
 
-@RegisterAs(SNCFLocalDataSource)
 @prod
-@lazySingleton
-@injectable
+@LazySingleton(as: SNCFLocalDataSource)
 class SNCFLocalDataSourceImpl implements SNCFLocalDataSource {
   final DirectoryManager directoryManager;
   final ZipDecoder zipDecoder;

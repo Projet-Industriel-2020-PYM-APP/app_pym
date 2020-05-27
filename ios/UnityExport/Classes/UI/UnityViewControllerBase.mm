@@ -5,6 +5,13 @@
 
 @implementation UnityViewControllerBase
 
+- (id)init
+{
+    if ((self = [super init]))
+        self.modalPresentationStyle = UIModalPresentationFullScreen;
+    return self;
+}
+
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];

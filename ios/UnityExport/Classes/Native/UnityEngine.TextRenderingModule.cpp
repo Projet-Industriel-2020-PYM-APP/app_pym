@@ -4193,6 +4193,15 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TextMesh_set_text_m64242AB987CF285F432E7
 	_il2cpp_icall_func = (TextMesh_set_text_m64242AB987CF285F432E7AED38F24FF855E9B220_ftn)il2cpp_codegen_resolve_icall ("UnityEngine.TextMesh::set_text(System.String)");
 	_il2cpp_icall_func(__this, ___value0);
 }
+// System.Void UnityEngine.TextMesh::set_characterSize(System.Single)
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void TextMesh_set_characterSize_mC95A1AD9BECBC865A66E49235525CB4DB1A8F36D (TextMesh_t327D0DAFEF431170D8C2882083D442AF4D4A0E4A * __this, float ___value0, const RuntimeMethod* method)
+{
+	typedef void (*TextMesh_set_characterSize_mC95A1AD9BECBC865A66E49235525CB4DB1A8F36D_ftn) (TextMesh_t327D0DAFEF431170D8C2882083D442AF4D4A0E4A *, float);
+	static TextMesh_set_characterSize_mC95A1AD9BECBC865A66E49235525CB4DB1A8F36D_ftn _il2cpp_icall_func;
+	if (!_il2cpp_icall_func)
+	_il2cpp_icall_func = (TextMesh_set_characterSize_mC95A1AD9BECBC865A66E49235525CB4DB1A8F36D_ftn)il2cpp_codegen_resolve_icall ("UnityEngine.TextMesh::set_characterSize(System.Single)");
+	_il2cpp_icall_func(__this, ___value0);
+}
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif

@@ -3,7 +3,6 @@ import 'package:injectable/injectable.dart';
 import 'package:mockito/mockito.dart';
 
 @test
-@injectable
-@RegisterAs(GetEntreprisesOfBatiment)
+@Injectable(as: GetEntreprisesOfBatiment)
 class MockGetEntreprisesOfBatiment extends Mock
     implements GetEntreprisesOfBatiment {}

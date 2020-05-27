@@ -3,6 +3,5 @@ import 'package:injectable/injectable.dart';
 import 'package:mockito/mockito.dart';
 
 @test
-@RegisterAs(DirectoryManager)
-@injectable
+@Injectable(as: DirectoryManager)
 class MockDirectoryManager extends Mock implements DirectoryManager {}

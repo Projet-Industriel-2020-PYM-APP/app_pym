@@ -3,7 +3,6 @@ import 'package:injectable/injectable.dart';
 import 'package:mockito/mockito.dart';
 
 @test
-@injectable
-@RegisterAs(LoadPageAndPlaceBatiments)
+@Injectable(as: LoadPageAndPlaceBatiments)
 class MockLoadPageAndPlaceBatiment extends Mock
     implements LoadPageAndPlaceBatiments {}

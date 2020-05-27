@@ -22,9 +22,7 @@ abstract class AuthenticationService {
 }
 
 @prod
-@injectable
-@lazySingleton
-@RegisterAs(AuthenticationService)
+@LazySingleton(as: AuthenticationService)
 class AuthenticationServiceImpl implements AuthenticationService {
   final http.Client client;
   final SharedPreferences prefs;

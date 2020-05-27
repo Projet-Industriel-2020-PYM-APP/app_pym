@@ -5,7 +5,6 @@ import 'package:injectable/injectable.dart';
 
 @prod
 @lazySingleton
-@injectable
 class FetchTrainRoute extends Usecase<Future<Route>, NoParams> {
   final SNCFRouteRepository repository;
 

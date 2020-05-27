@@ -3,6 +3,5 @@ import 'package:injectable/injectable.dart';
 import 'package:mockito/mockito.dart';
 
 @test
-@injectable
-@RegisterAs(BatimentRepository)
+@Injectable(as: BatimentRepository)
 class MockBatimentRepository extends Mock implements BatimentRepository {}

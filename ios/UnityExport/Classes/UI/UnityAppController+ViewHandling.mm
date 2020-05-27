@@ -121,13 +121,8 @@ extern bool _unityAppReady;
 
 - (UIView*)createSnapshotView
 {
-    // Snapshot API appeared on iOS 7, however before iOS 8 tweaking hierarchy like that on going to
-    // background results in all kind of weird things when going back to foreground so we do snapshotting
-    // only on iOS 8 and newer.
-
-    // Note that on iPads with iOS 9 or later (up to iOS 10.2 at least) there's a bug in the iOS
-    // compositor: any use of -[UIView snapshotViewAfterScreenUpdates] causes black screen being shown
-    // temporarily when 4 finger gesture to swipe to another app in the task switcher is being performed slowly
+    // Note that on iPads with iOS 9 or later (up to iOS 10.2 at least) there's a bug in the iOS compositor: any use of -[UIView snapshotViewAfterScreenUpdates]
+    // causes black screen being shown temporarily when 4 finger gesture to swipe to another app in the task switcher is being performed slowly
 #if UNITY_SNAPSHOT_VIEW_ON_APPLICATION_PAUSE
     return [_rootView snapshotViewAfterScreenUpdates: YES];
 #else

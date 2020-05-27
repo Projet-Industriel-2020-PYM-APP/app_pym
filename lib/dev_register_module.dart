@@ -99,15 +99,14 @@ import 'data/repositories/app_pym/booking_repository_impl.dart';
 /// -  Les dépendances externes
 /// -  Les dépendances falsifiés
 /// -  Les dépendances en production qui fonctionnent
-@registerModule
+@module
 abstract class DevRegisterModule {
   @dev
   @lazySingleton
   AddBookingToService get addBookingToService;
 
   @dev
-  @lazySingleton
-  @RegisterAs(AppUserRepository)
+  @LazySingleton(as: AppUserRepository)
   AppUserRepositoryImpl get appUserRepository;
 
   @dev
@@ -117,8 +116,7 @@ abstract class DevRegisterModule {
   AuthenticationBloc get authenticationBloc;
 
   @dev
-  @lazySingleton
-  @RegisterAs(AuthenticationService)
+  @LazySingleton(as: AuthenticationService)
   AuthenticationServiceDevImpl get authenticationService;
 
   @dev
@@ -137,8 +135,7 @@ abstract class DevRegisterModule {
   BatimentBloc get batimentBloc;
 
   @dev
-  @lazySingleton
-  @RegisterAs(BatimentRepository)
+  @LazySingleton(as: BatimentRepository)
   BatimentRepositoryImpl get batimentRepository;
 
   @dev
@@ -148,8 +145,7 @@ abstract class DevRegisterModule {
   BookingOfServiceBloc get bookingOfServiceBloc;
 
   @dev
-  @lazySingleton
-  @RegisterAs(BookingRepository)
+  @LazySingleton(as: BookingRepository)
   BookingRepositoryImpl get bookingRepository;
 
   @dev
@@ -159,8 +155,7 @@ abstract class DevRegisterModule {
   CompassBloc get compassBloc;
 
   @dev
-  @lazySingleton
-  @RegisterAs(CompassDevice)
+  @LazySingleton(as: CompassDevice)
   CompassDeviceImpl get compassDevice;
 
   @dev
@@ -168,8 +163,7 @@ abstract class DevRegisterModule {
   Connectivity get connectivity;
 
   @dev
-  @lazySingleton
-  @RegisterAs(ContactCategorieRepository)
+  @LazySingleton(as: ContactCategorieRepository)
   ContactCategorieRepositoryImpl get contactCategorieRepository;
 
   @dev
@@ -180,8 +174,7 @@ abstract class DevRegisterModule {
       Hive.box<ContactCategorieModel>('/contact_categories');
 
   @dev
-  @lazySingleton
-  @RegisterAs(ContactRepository)
+  @LazySingleton(as: ContactRepository)
   ContactRepositoryImpl get contactRepository;
 
   @dev
@@ -192,16 +185,14 @@ abstract class DevRegisterModule {
   DeleteBookingOfService get deleteBookingOfService;
 
   @dev
-  @lazySingleton
-  @RegisterAs(DirectoryManager)
+  @LazySingleton(as: DirectoryManager)
   DirectoryManagerImpl get directoryManager;
 
   @dev
   EntrepriseBloc get entrepriseBloc;
 
   @dev
-  @lazySingleton
-  @RegisterAs(EntrepriseRepository)
+  @LazySingleton(as: EntrepriseRepository)
   EntrepriseRepositoryImpl get entrepriseRepository;
 
   @dev
@@ -265,8 +256,7 @@ abstract class DevRegisterModule {
   Geolocator get geolocator => Geolocator();
 
   @dev
-  @lazySingleton
-  @RegisterAs(GeolocatorDevice)
+  @LazySingleton(as: GeolocatorDevice)
   GeolocatorDeviceImpl get geolocatorDevice;
 
   @dev
@@ -300,36 +290,30 @@ abstract class DevRegisterModule {
   MainPageBloc get mainPageBloc;
 
   @dev
-  @lazySingleton
-  @RegisterAs(MapPymLocalDataSource)
+  @LazySingleton(as: MapPymLocalDataSource)
   MapPymLocalDataSourceImpl get mapPymLocalDataSource;
 
   @dev
-  @lazySingleton
-  @RegisterAs(MapPymRemoteDataSource)
+  @LazySingleton(as: MapPymRemoteDataSource)
   MapPymRemoteDataSourceDevImpl get mapPymRemoteDataSource;
 
   @dev
   MapsBloc get mapsBloc;
 
   @dev
-  @lazySingleton
-  @RegisterAs(MetropoleLocalDataSource)
+  @LazySingleton(as: MetropoleLocalDataSource)
   MetropoleLocalDataSourceImpl get metropoleLocalDataSource;
 
   @dev
-  @lazySingleton
-  @RegisterAs(MetropoleRemoteDataSource)
+  @LazySingleton(as: MetropoleRemoteDataSource)
   MetropoleRemoteDataSourceImpl get metropoleRemoteDataSource;
 
   @dev
-  @lazySingleton
-  @RegisterAs(MetropoleRouteRepository)
+  @LazySingleton(as: MetropoleRouteRepository)
   MetropoleRouteRepositoryImpl get metropoleRouteRepository;
 
   @dev
-  @lazySingleton
-  @RegisterAs(NetworkInfo)
+  @LazySingleton(as: NetworkInfo)
   NetworkInfoImpl get networkInfo;
 
   @dev
@@ -337,13 +321,11 @@ abstract class DevRegisterModule {
   NotificationBloc get notificationBloc;
 
   @dev
-  @lazySingleton
-  @RegisterAs(PermissionHandler)
+  @LazySingleton(as: PermissionHandler)
   PermissionHandlerImpl get permissionHandler;
 
   @dev
-  @lazySingleton
-  @RegisterAs(PostRepository)
+  @LazySingleton(as: PostRepository)
   PostRepositoryImpl get postRepository;
 
   @dev
@@ -354,8 +336,7 @@ abstract class DevRegisterModule {
   SendEmailConfirmation get sendEmailConfirmation;
 
   @dev
-  @lazySingleton
-  @RegisterAs(ServiceCategorieRepository)
+  @LazySingleton(as: ServiceCategorieRepository)
   ServiceCategorieRepositoryImpl get serviceCategorieRepository;
 
   @dev
@@ -366,8 +347,7 @@ abstract class DevRegisterModule {
       Hive.box<ServiceCategorieModel>('/service_categories');
 
   @dev
-  @lazySingleton
-  @RegisterAs(ServiceRepository)
+  @LazySingleton(as: ServiceRepository)
   ServiceRepositoryImpl get serviceRepository;
 
   @dev
@@ -380,18 +360,15 @@ abstract class DevRegisterModule {
       SharedPreferences.getInstance();
 
   @dev
-  @lazySingleton
-  @RegisterAs(SNCFLocalDataSource)
+  @LazySingleton(as: SNCFLocalDataSource)
   SNCFLocalDataSourceImpl get sncfLocalDataSource;
 
   @dev
-  @lazySingleton
-  @RegisterAs(SNCFRemoteDataSource)
+  @LazySingleton(as: SNCFRemoteDataSource)
   SNCFRemoteDataSourceImpl get sncfRemoteDataSource;
 
   @dev
-  @lazySingleton
-  @RegisterAs(SNCFRouteRepository)
+  @LazySingleton(as: SNCFRouteRepository)
   SNCFRouteRepositoryImpl get sncfRouteRepository;
 
   @dev

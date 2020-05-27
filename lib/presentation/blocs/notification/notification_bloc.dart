@@ -17,7 +17,6 @@ Future<void> myBackgroundMessageHandler(Map<String, dynamic> message) async {
 }
 
 @prod
-@injectable
 @singleton
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
   final SharedPreferences prefs;

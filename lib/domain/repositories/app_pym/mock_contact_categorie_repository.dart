@@ -3,7 +3,6 @@ import 'package:injectable/injectable.dart';
 import 'package:mockito/mockito.dart';
 
 @test
-@RegisterAs(ContactCategorieRepository)
-@injectable
+@Injectable(as: ContactCategorieRepository)
 class MockContactCategorieRepository extends Mock
     implements ContactCategorieRepository {}

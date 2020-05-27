@@ -1555,7 +1555,7 @@ public:
 
 
 // System.Collections.Generic.IDictionaryDebugView`2<System.Object,System.Object>
-struct  IDictionaryDebugView_2_tAF6A02EEEEB6B14E1E486C5EFF287CF898F08311  : public RuntimeObject
+struct  IDictionaryDebugView_2_tDECEFD297E1D1C6B57D98EDFD5330A9AC7D53364  : public RuntimeObject
 {
 public:
 
@@ -1564,7 +1564,7 @@ public:
 
 
 // System.Collections.Generic.IDictionaryDebugView`2<System.Object,System.Object>
-struct  IDictionaryDebugView_2_tDECEFD297E1D1C6B57D98EDFD5330A9AC7D53364  : public RuntimeObject
+struct  IDictionaryDebugView_2_tAF6A02EEEEB6B14E1E486C5EFF287CF898F08311  : public RuntimeObject
 {
 public:
 
@@ -5297,26 +5297,6 @@ public:
 	}
 };
 
-// Native definition for P/Invoke marshalling of Unity.Collections.NativeArray`1
-#ifndef NativeArray_1_t350F3793D2FE9D9CD5A50725BE978ED846FE3098_marshaled_pinvoke_define
-#define NativeArray_1_t350F3793D2FE9D9CD5A50725BE978ED846FE3098_marshaled_pinvoke_define
-struct NativeArray_1_t350F3793D2FE9D9CD5A50725BE978ED846FE3098_marshaled_pinvoke
-{
-	void* ___m_Buffer_0;
-	int32_t ___m_Length_1;
-	int32_t ___m_AllocatorLabel_2;
-};
-#endif
-// Native definition for COM marshalling of Unity.Collections.NativeArray`1
-#ifndef NativeArray_1_t350F3793D2FE9D9CD5A50725BE978ED846FE3098_marshaled_com_define
-#define NativeArray_1_t350F3793D2FE9D9CD5A50725BE978ED846FE3098_marshaled_com_define
-struct NativeArray_1_t350F3793D2FE9D9CD5A50725BE978ED846FE3098_marshaled_com
-{
-	void* ___m_Buffer_0;
-	int32_t ___m_Length_1;
-	int32_t ___m_AllocatorLabel_2;
-};
-#endif
 
 // UnityEngine.UI.Navigation
 struct  Navigation_t761250C05C09773B75F5E0D52DDCBBFE60288A07 

@@ -33,10 +33,8 @@ abstract class GeolocatorDevice {
   );
 }
 
-@RegisterAs(GeolocatorDevice)
 @prod
-@lazySingleton
-@injectable
+@LazySingleton(as: GeolocatorDevice)
 class GeolocatorDeviceImpl implements GeolocatorDevice {
   final Geolocator geolocator;
 

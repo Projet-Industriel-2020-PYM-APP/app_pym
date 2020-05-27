@@ -3,6 +3,5 @@ import 'package:injectable/injectable.dart';
 import 'package:mockito/mockito.dart';
 
 @test
-@RegisterAs(ServiceRepository)
-@injectable
+@Injectable(as: ServiceRepository)
 class MockServiceRepository extends Mock implements ServiceRepository {}

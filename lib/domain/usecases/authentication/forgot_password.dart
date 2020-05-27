@@ -4,7 +4,6 @@ import 'package:injectable/injectable.dart';
 
 @prod
 @lazySingleton
-@injectable
 class ForgotPassword extends Usecase<Future<void>, String> {
   final AuthenticationService service;
 

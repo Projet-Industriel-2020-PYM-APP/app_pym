@@ -49,10 +49,8 @@ abstract class MapPymRemoteDataSource {
   Future<void> updateBooking(BookingModel booking, {@required String token});
 }
 
-@RegisterAs(MapPymRemoteDataSource)
 @prod
-@lazySingleton
-@injectable
+@LazySingleton(as: MapPymRemoteDataSource)
 class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
   final http.Client client;
 

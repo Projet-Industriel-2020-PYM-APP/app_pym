@@ -3,6 +3,5 @@ import 'package:injectable/injectable.dart';
 import 'package:mockito/mockito.dart';
 
 @test
-@RegisterAs(PermissionHandler)
-@injectable
+@Injectable(as: PermissionHandler)
 class MockPermissionHandler extends Mock implements PermissionHandler {}

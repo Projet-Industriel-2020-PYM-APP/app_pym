@@ -10,9 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 @prod
-@RegisterAs(MetropoleRouteRepository)
-@lazySingleton
-@injectable
+@LazySingleton(as: MetropoleRouteRepository)
 class MetropoleRouteRepositoryImpl implements MetropoleRouteRepository {
   final MetropoleRemoteDataSource remoteDataSource;
   final MetropoleLocalDataSource localDataSource;

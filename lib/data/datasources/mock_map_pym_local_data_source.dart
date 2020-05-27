@@ -3,6 +3,5 @@ import 'package:injectable/injectable.dart';
 import 'package:mockito/mockito.dart';
 
 @test
-@injectable
-@RegisterAs(MapPymLocalDataSource)
+@Injectable(as: MapPymLocalDataSource)
 class MockMapPymLocalDataSource extends Mock implements MapPymLocalDataSource {}

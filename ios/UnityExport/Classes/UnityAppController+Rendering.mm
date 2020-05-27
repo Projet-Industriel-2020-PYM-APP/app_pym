@@ -178,6 +178,9 @@ static EAGLContext*     _GlesContext    = nil;
 
 static bool IsMetalSupported(int /*api*/)
 {
+    // support for metal on the simulator is available starting with unity 2020.1
+    // for now explicitly disable checking for Metal.framework as it is available on Xcode11 simulator
+#if !TARGET_IPHONE_SIMULATOR && !TARGET_TVOS_SIMULATOR
     _MetalBundle = [NSBundle bundleWithPath: @"/System/Library/Frameworks/Metal.framework"];
     if (_MetalBundle)
     {
@@ -188,6 +191,8 @@ static bool IsMetalSupported(int /*api*/)
     }
 
     [_MetalBundle unload];
+#endif
+
     return false;
 }
 

@@ -4,7 +4,6 @@ import 'package:injectable/injectable.dart';
 
 @prod
 @lazySingleton
-@injectable
 class AuthSignIn extends Usecase<Future<void>, SignInCredentials> {
   final AuthenticationService service;
 

@@ -3,7 +3,5 @@ import 'package:injectable/injectable.dart';
 import 'package:mockito/mockito.dart';
 
 @test
-@injectable
-@lazySingleton
-@RegisterAs(AuthenticationService)
+@LazySingleton(as: AuthenticationService)
 class MockAuthenticationService extends Mock implements AuthenticationService {}

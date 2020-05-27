@@ -5579,26 +5579,6 @@ public:
 	}
 };
 
-// Native definition for P/Invoke marshalling of Unity.Collections.NativeArray`1
-#ifndef NativeArray_1_t350F3793D2FE9D9CD5A50725BE978ED846FE3098_marshaled_pinvoke_define
-#define NativeArray_1_t350F3793D2FE9D9CD5A50725BE978ED846FE3098_marshaled_pinvoke_define
-struct NativeArray_1_t350F3793D2FE9D9CD5A50725BE978ED846FE3098_marshaled_pinvoke
-{
-	void* ___m_Buffer_0;
-	int32_t ___m_Length_1;
-	int32_t ___m_AllocatorLabel_2;
-};
-#endif
-// Native definition for COM marshalling of Unity.Collections.NativeArray`1
-#ifndef NativeArray_1_t350F3793D2FE9D9CD5A50725BE978ED846FE3098_marshaled_com_define
-#define NativeArray_1_t350F3793D2FE9D9CD5A50725BE978ED846FE3098_marshaled_com_define
-struct NativeArray_1_t350F3793D2FE9D9CD5A50725BE978ED846FE3098_marshaled_com
-{
-	void* ___m_Buffer_0;
-	int32_t ___m_Length_1;
-	int32_t ___m_AllocatorLabel_2;
-};
-#endif
 
 // UnityEngine.XR.ARSubsystems.XRRaycastHit
 struct  XRRaycastHit_t2DE122E601B75E2070D4A542A13E2486DEE60E82 
@@ -22287,7 +22267,7 @@ IL_0022:
 	}
 }
 // System.Boolean System.Collections.Generic.List`1<System.Int32Enum>::Contains(T)
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool List_1_Contains_mE2A7F22C7E564358E4414F731FC7B57F432442F4_gshared (List_1_t116A3B8CE581BED3D4552A7F22FE553557ADC4C5 * __this, int32_t ___item0, const RuntimeMethod* method)
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool List_1_Contains_mB20BB202C3BF33B7CC46960D75A1DF18B0FB7CA5_gshared (List_1_t116A3B8CE581BED3D4552A7F22FE553557ADC4C5 * __this, int32_t ___item0, const RuntimeMethod* method)
 {
 	int32_t V_0 = 0;
 	EqualityComparer_1_tD1E45FFD2812F3A647E425E6427770FF0DA20DD4 * V_1 = NULL;

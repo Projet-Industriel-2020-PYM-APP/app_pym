@@ -9,7 +9,6 @@ import 'package:dartx/dartx.dart';
 
 @prod
 @lazySingleton
-@injectable
 class FetchBusTrips extends Usecase<Future<List<Trip>>, NoParams> {
   final FetchBusRoute fetchBusRoute;
 

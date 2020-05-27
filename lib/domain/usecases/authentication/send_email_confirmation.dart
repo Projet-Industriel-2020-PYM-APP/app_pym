@@ -4,7 +4,6 @@ import 'package:injectable/injectable.dart';
 
 @prod
 @lazySingleton
-@injectable
 class SendEmailConfirmation extends Usecase<Future<void>, NoParams> {
   final AuthenticationService service;
 

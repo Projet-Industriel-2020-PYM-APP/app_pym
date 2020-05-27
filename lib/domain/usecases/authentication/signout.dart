@@ -4,7 +4,6 @@ import 'package:injectable/injectable.dart';
 
 @prod
 @lazySingleton
-@injectable
 class AuthSignOut extends Usecase<void, NoParams> {
   final AuthenticationService service;
 

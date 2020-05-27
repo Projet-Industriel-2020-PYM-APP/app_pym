@@ -26,7 +26,6 @@ abstract class LoadPageAndPlaceBatimentParams
 
 @prod
 @lazySingleton
-@injectable
 class LoadPageAndPlaceBatiments
     extends Usecase<Future<Position>, LoadPageAndPlaceBatimentParams> {
   final GeolocatorDevice geolocatorDevice;

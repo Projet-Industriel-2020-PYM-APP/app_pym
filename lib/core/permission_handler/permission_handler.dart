@@ -8,9 +8,7 @@ abstract class PermissionHandler {
 }
 
 @prod
-@lazySingleton
-@RegisterAs(PermissionHandler)
-@injectable
+@LazySingleton(as: PermissionHandler)
 class PermissionHandlerImpl implements PermissionHandler {
   @override
   Future<Map<Permission, PermissionStatus>> get requestPermissions => [
