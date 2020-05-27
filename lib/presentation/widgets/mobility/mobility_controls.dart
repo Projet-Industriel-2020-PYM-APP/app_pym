@@ -42,10 +42,9 @@ class MobilityControls extends StatelessWidget {
           elevation: tripsState.isBusLoaded ? 8.0 : 0.0,
           onPressed: tripsState.isBusLoaded
               ? () => context.bloc<TripsBloc>().add(const TripsEvent.hideBus())
-              : null,
-          //TODO
-          // onRaisedPressed: () => context.bloc<TripsBloc>().add(
-          //     TripsEvent.fetchBus(tripsState.direction)),
+              : () => context
+                  .bloc<TripsBloc>()
+                  .add(TripsEvent.fetchBus(tripsState.direction)),
           child: const Text("BUS"),
         ),
         RaisedButton(

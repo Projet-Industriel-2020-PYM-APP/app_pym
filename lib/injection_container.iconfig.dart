@@ -369,8 +369,9 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerFactory<MainPageBloc>(() => MainPageBloc());
     g.registerLazySingleton<MapPymRemoteDataSource>(
         () => MapPymRemoteDataSourceImpl(client: g<Client>()));
-    g.registerLazySingleton<MetropoleRemoteDataSource>(
-        () => MetropoleRemoteDataSourceImpl(client: g<Client>()));
+    g.registerLazySingleton<MetropoleRemoteDataSource>(() =>
+        MetropoleRemoteDataSourceReplacementImpl(
+            directoryManager: g<DirectoryManager>()));
     g.registerLazySingleton<NetworkInfo>(
         () => NetworkInfoImpl(g<Connectivity>()));
     g.registerLazySingleton<PermissionHandler>(() => PermissionHandlerImpl());

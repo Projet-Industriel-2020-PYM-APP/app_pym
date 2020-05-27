@@ -101,8 +101,7 @@ class MetropoleLocalDataSourceImpl implements MetropoleLocalDataSource {
   @override
   Future<void> writeFile(Stream<List<int>> bytes) async {
     //write the Zip file
-    final File file = File(
-        '${await directoryManager.metropole}/export-ter-gtfs-last.zip'); //TODO change name.zip
+    final File file = File('${await directoryManager.metropole}/CPA.zip');
     final IOSink sink = file.openWrite();
     await bytes.forEach(sink.add);
     await sink.close();

@@ -24,7 +24,7 @@ class MobilitePage extends StatelessWidget {
         providers: [
           BlocProvider<TripsBloc>(
             create: (_) => sl<TripsBloc>()
-              // ..add(const TripsEvent.fetchBus(Direction.Aller))
+              ..add(const TripsEvent.fetchBus(Direction.Aller))
               ..add(const TripsEvent.fetchTrain(Direction.Aller)),
           ),
           BlocProvider<MapsBloc>(
