@@ -48,7 +48,7 @@ class MetropoleLocalDataSourceImpl implements MetropoleLocalDataSource {
 
   @override
   Future<List<CalendarModel>> fetchCalendars() async {
-    final file = File('${await directoryManager.metropole}/calendars.txt');
+    final file = File('${await directoryManager.metropole}/calendar.txt');
     if (file.existsSync()) {
       return file.parseCalendars();
     } else {

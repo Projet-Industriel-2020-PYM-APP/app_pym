@@ -188,39 +188,30 @@ class FetchTrainTrips extends Usecase<Future<List<Trip>>, NoParams> {
         }
       }
     }
-    if (nextTrips[10] != null && nextTrips[11] != null) {
-      //si assez de trips pour remplir la liste
-      return nextTrips;
-    } else if (nextTrips[0] == null && nextTrips[1] == null) {
-      // Aucun trip aujourd'hui
-      return nextTripsTomorrow;
-    } else {
-      //pas assez de trips aujourd'hui
-      //indices du prochain trip de demain à récupérer pour chaque sens
-      final List<int> indicesARecuperer = [0, 1, 6, 7];
-      for (int i = 0; i < 3; i++) {
-        //pour trip aller
-        if (nextTrips[2 * i] == null) {
-          nextTrips[2 * i] = nextTripsTomorrow[indicesARecuperer[0]];
-          indicesARecuperer[0] += 2;
-        }
-        //pour trip retour
-        if (nextTrips[2 * i + 1] == null) {
-          nextTrips[2 * i + 1] = nextTripsTomorrow[indicesARecuperer[1]];
-          indicesARecuperer[1] += 2;
-        }
-        //idem pour train qui vont à Aix
-        if (nextTrips[6 + 2 * i] == null) {
-          nextTrips[6 + 2 * i] = nextTripsTomorrow[indicesARecuperer[2]];
-          indicesARecuperer[2] += 2;
-        }
-        //pour trip retour
-        if (nextTrips[6 + 2 * i + 1] == null) {
-          nextTrips[6 + 2 * i + 1] = nextTripsTomorrow[indicesARecuperer[3]];
-          indicesARecuperer[3] += 2;
-        }
+    //indices du prochain trip de demain à récupérer pour chaque sens
+    final List<int> indicesARecuperer = [0, 1, 6, 7];
+    for (int i = 0; i < 3; i++) {
+      //pour trip aller
+      if (nextTrips[2 * i] == null) {
+        nextTrips[2 * i] = nextTripsTomorrow[indicesARecuperer[0]];
+        indicesARecuperer[0] += 2;
       }
-      return nextTrips;
+      //pour trip retour
+      if (nextTrips[2 * i + 1] == null) {
+        nextTrips[2 * i + 1] = nextTripsTomorrow[indicesARecuperer[1]];
+        indicesARecuperer[1] += 2;
+      }
+      //idem pour train qui vont à Aix
+      if (nextTrips[6 + 2 * i] == null) {
+        nextTrips[6 + 2 * i] = nextTripsTomorrow[indicesARecuperer[2]];
+        indicesARecuperer[2] += 2;
+      }
+      //pour trip retour
+      if (nextTrips[6 + 2 * i + 1] == null) {
+        nextTrips[6 + 2 * i + 1] = nextTripsTomorrow[indicesARecuperer[3]];
+        indicesARecuperer[3] += 2;
+      }
     }
+    return nextTrips;
   }
 }

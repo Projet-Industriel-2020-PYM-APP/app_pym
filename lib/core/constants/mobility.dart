@@ -8,6 +8,8 @@ class MobilityConstants {
   static const String gareGardanne = "Gare de Gardanne";
 
   static const String gareAix = "Gare de Aix-en-Provence";
+
+  static const String stopLaPlaine = "La Plaine";
 }
 
 enum Direction { Aller, Partir }

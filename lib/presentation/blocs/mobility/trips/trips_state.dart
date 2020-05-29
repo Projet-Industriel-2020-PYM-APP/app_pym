@@ -57,8 +57,6 @@ extension TripsStateX on TripsState {
     return this.copyWith(
       isLoading: true,
       isError: false,
-      isBusLoaded: false,
-      isTrainLoaded: false,
     );
   }
 

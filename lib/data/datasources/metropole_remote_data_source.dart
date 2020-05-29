@@ -60,10 +60,8 @@ class MetropoleRemoteDataSourceImpl implements MetropoleRemoteDataSource {
   }
 }
 
-@RegisterAs(MetropoleRemoteDataSource)
 @prod
-@lazySingleton
-@injectable
+@LazySingleton(as: MetropoleRemoteDataSource)
 class MetropoleRemoteDataSourceReplacementImpl
     implements MetropoleRemoteDataSource {
   final DirectoryManager directoryManager;

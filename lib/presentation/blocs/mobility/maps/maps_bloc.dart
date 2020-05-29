@@ -67,7 +67,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
     polylines.clear();
     try {
       final busEndCap = await Icons.arrow_upward.toBitmapDescriptor(
-        const TextStyle(color: Colors.black),
+        const TextStyle(color: Colors.blueGrey),
         size: 100,
         offset: const Offset(0.0, 48.0),
       );
@@ -77,7 +77,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
         offset: const Offset(0.0, 48.0),
       );
       final busMarker = await Icons.fiber_manual_record.toBitmapDescriptor(
-        const TextStyle(color: Colors.red),
+        const TextStyle(color: Colors.blue),
         size: 64,
       );
       final trainMarker = await Icons.fiber_manual_record.toBitmapDescriptor(
@@ -94,7 +94,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
             markerIcon: busMarker,
             endCapIcon: Cap.customCapFromBitmap(busEndCap),
             polylineId: "bus_${tripsState.direction}_${Sens.Aller}_",
-            color: Colors.black,
+            color: Colors.blueGrey,
             onTapMarker: (markerId) {
               scaffoldState.showBottomSheet<void>(
                 (context) => DetailsBottomSheet(
@@ -118,7 +118,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
             markerIcon: busMarker,
             endCapIcon: Cap.customCapFromBitmap(busEndCap),
             polylineId: "bus_${tripsState.direction}_${Sens.Retour}_",
-            color: Colors.black,
+            color: Colors.blueGrey,
             onTapMarker: (markerId) {
               scaffoldState.showBottomSheet<void>(
                 (context) => DetailsBottomSheet(
