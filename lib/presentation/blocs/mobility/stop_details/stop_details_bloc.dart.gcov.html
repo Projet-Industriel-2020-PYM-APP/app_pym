@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">28</td>
+            <td class="headerCovTableEntry">32</td>
             <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-05-24 15:16:42</td>
+            <td class="headerValue">2020-05-30 01:07:11</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -86,64 +86,55 @@
 <span class="lineNum">      24 </span><span class="lineNoCov">          0 :       show: (id, trips, isBus) async* {</span>
 <span class="lineNum">      25 </span><span class="lineNoCov">          0 :         yield state.loading();</span>
 <span class="lineNum">      26 </span>            :         try {
-<span class="lineNum">      27 </span><span class="lineNoCov">          0 :           final List&lt;String&gt; infos = id.split(&quot;_&quot;);</span>
-<span class="lineNum">      28 </span><span class="lineNoCov">          0 :           final String stop_name = infos[3];</span>
-<span class="lineNum">      29 </span>            :           String destination;
-<span class="lineNum">      30 </span>            :           if (isBus) {
-<span class="lineNum">      31 </span>            :             destination = MobilityConstants.pymStop;
-<span class="lineNum">      32 </span>            :           } else {
-<span class="lineNum">      33 </span>            :             destination = MobilityConstants.gareGardanne;
-<span class="lineNum">      34 </span>            :           }
-<span class="lineNum">      35 </span>            :           Direction direction;
-<span class="lineNum">      36 </span><span class="lineNoCov">          0 :           if (infos[1] == &quot;Direction.Aller&quot;) {</span>
-<span class="lineNum">      37 </span>            :             direction = Direction.Aller;
-<span class="lineNum">      38 </span>            :           } else {
-<span class="lineNum">      39 </span>            :             direction = Direction.Retour;
-<span class="lineNum">      40 </span>            :           }
-<span class="lineNum">      41 </span><span class="lineNoCov">          0 :           final List&lt;StopTime&gt; trip = trips[direction.index].stop_time;</span>
-<span class="lineNum">      42 </span><span class="lineNoCov">          0 :           final String last_stop = trip.last.stop.stop_name;</span>
-<span class="lineNum">      43 </span><span class="lineNoCov">          0 :           final List&lt;String&gt; stop_times = [];</span>
+<span class="lineNum">      27 </span><span class="lineNoCov">          0 :           final List&lt;String&gt; infos = id.split(</span>
+<span class="lineNum">      28 </span>            :               &quot;_&quot;); // id au format bus_direction(aller/partir)_sens(aller/retour)_nom
+<span class="lineNum">      29 </span><span class="lineNoCov">          0 :           final String stop_name = infos[0];</span>
+<span class="lineNum">      30 </span>            :           final String destination = isBus
+<span class="lineNum">      31 </span>            :               ? MobilityConstants.pymStop
+<span class="lineNum">      32 </span>            :               : MobilityConstants.gareGardanne;
+<span class="lineNum">      33 </span><span class="lineNoCov">          0 :           final Direction direction = infos[1] == &quot;Direction.Aller&quot;</span>
+<span class="lineNum">      34 </span>            :               ? Direction.Aller
+<span class="lineNum">      35 </span>            :               : Direction.Partir;
+<span class="lineNum">      36 </span><span class="lineNoCov">          0 :           final Sens sens = infos[2] == &quot;Sens.Aller&quot; ? Sens.Aller : Sens.Retour;</span>
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span><span class="lineNoCov">          0 :           final List&lt;StopTime&gt; trip = direction.index == sens.index</span>
+<span class="lineNum">      39 </span><span class="lineNoCov">          0 :               ? trips[sens.index].stop_time</span>
+<span class="lineNum">      40 </span><span class="lineNoCov">          0 :               : trips[6 + sens.index].stop_time;</span>
+<span class="lineNum">      41 </span><span class="lineNoCov">          0 :           final String last_stop = trip.last.stop.stop_name;</span>
+<span class="lineNum">      42 </span><span class="lineNoCov">          0 :           final List&lt;String&gt; arrivalTimes = [];</span>
+<span class="lineNum">      43 </span>            :           // Le top 3 des horaires du marker
 <span class="lineNum">      44 </span><span class="lineNoCov">          0 :           for (int i = 0; i &lt; 3; i++) {</span>
-<span class="lineNum">      45 </span>            :             for (final StopTime stop_time
-<span class="lineNum">      46 </span><span class="lineNoCov">          0 :                 in trips[i + direction.index].stop_time) {</span>
-<span class="lineNum">      47 </span><span class="lineNoCov">          0 :               if (stop_time.stop.stop_name == destination) {</span>
-<span class="lineNum">      48 </span><span class="lineNoCov">          0 :                 stop_times.add(stop_time.arrival_time);</span>
-<span class="lineNum">      49 </span>            :               }
-<span class="lineNum">      50 </span>            :             }
-<span class="lineNum">      51 </span>            :           }
-<span class="lineNum">      52 </span><span class="lineNoCov">          0 :           if (direction == Direction.Aller) {</span>
-<span class="lineNum">      53 </span>            :             bool supprime = true;
-<span class="lineNum">      54 </span><span class="lineNoCov">          0 :             for (final StopTime stop_time in trip) {</span>
-<span class="lineNum">      55 </span><span class="lineNoCov">          0 :               if (stop_time.stop.stop_name == stop_name) {</span>
-<span class="lineNum">      56 </span>            :                 supprime = false;
-<span class="lineNum">      57 </span>            :               }
-<span class="lineNum">      58 </span>            :               if (supprime) {
-<span class="lineNum">      59 </span><span class="lineNoCov">          0 :                 trip.remove(stop_time);</span>
-<span class="lineNum">      60 </span>            :               }
-<span class="lineNum">      61 </span>            :             }
-<span class="lineNum">      62 </span>            :           } else {
-<span class="lineNum">      63 </span>            :             bool supprime = true;
-<span class="lineNum">      64 </span><span class="lineNoCov">          0 :             for (final StopTime stop_time in trip) {</span>
-<span class="lineNum">      65 </span><span class="lineNoCov">          0 :               if (stop_time.stop.stop_name == destination) {</span>
-<span class="lineNum">      66 </span>            :                 supprime = false;
-<span class="lineNum">      67 </span>            :               }
-<span class="lineNum">      68 </span>            :               if (supprime) {
-<span class="lineNum">      69 </span><span class="lineNoCov">          0 :                 trip.remove(stop_time);</span>
-<span class="lineNum">      70 </span>            :               }
-<span class="lineNum">      71 </span>            :             }
-<span class="lineNum">      72 </span>            :           }
-<span class="lineNum">      73 </span><span class="lineNoCov">          0 :           yield state.loaded(</span>
-<span class="lineNum">      74 </span>            :               isBus, stop_name, last_stop, stop_times, trip, destination);
-<span class="lineNum">      75 </span><span class="lineNoCov">          0 :         } on Exception catch (e) {</span>
-<span class="lineNum">      76 </span><span class="lineNoCov">          0 :           yield state.error(e);</span>
-<span class="lineNum">      77 </span>            :         }
-<span class="lineNum">      78 </span>            :       },
-<span class="lineNum">      79 </span><span class="lineNoCov">          0 :       hide: () async* {</span>
-<span class="lineNum">      80 </span><span class="lineNoCov">          0 :         yield StopDetailsState.initial();</span>
-<span class="lineNum">      81 </span>            :       },
-<span class="lineNum">      82 </span>            :     );
-<span class="lineNum">      83 </span>            :   }
-<span class="lineNum">      84 </span>            : }
+<span class="lineNum">      45 </span><span class="lineNoCov">          0 :             if (direction.index == sens.index) {</span>
+<span class="lineNum">      46 </span><span class="lineNoCov">          0 :               arrivalTimes.add(trips[2 * i + sens.index]</span>
+<span class="lineNum">      47 </span><span class="lineNoCov">          0 :                   .stop_time</span>
+<span class="lineNum">      48 </span><span class="lineNoCov">          0 :                   .firstWhere(</span>
+<span class="lineNum">      49 </span><span class="lineNoCov">          0 :                       (stop_time) =&gt; stop_time.stop.stop_name == stop_name)</span>
+<span class="lineNum">      50 </span><span class="lineNoCov">          0 :                   .arrival_time);</span>
+<span class="lineNum">      51 </span>            :             } else {
+<span class="lineNum">      52 </span><span class="lineNoCov">          0 :               arrivalTimes.add(trips[6 + 2 * i + sens.index]</span>
+<span class="lineNum">      53 </span><span class="lineNoCov">          0 :                   .stop_time</span>
+<span class="lineNum">      54 </span><span class="lineNoCov">          0 :                   .firstWhere(</span>
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 :                       (stop_time) =&gt; stop_time.stop.stop_name == stop_name)</span>
+<span class="lineNum">      56 </span><span class="lineNoCov">          0 :                   .arrival_time);</span>
+<span class="lineNum">      57 </span>            :             }
+<span class="lineNum">      58 </span>            :           }
+<span class="lineNum">      59 </span><span class="lineNoCov">          0 :           yield state.loaded(</span>
+<span class="lineNum">      60 </span>            :             stop_name,
+<span class="lineNum">      61 </span>            :             last_stop,
+<span class="lineNum">      62 </span>            :             arrivalTimes,
+<span class="lineNum">      63 </span>            :             trip,
+<span class="lineNum">      64 </span>            :             destination,
+<span class="lineNum">      65 </span>            :           );
+<span class="lineNum">      66 </span><span class="lineNoCov">          0 :         } on Exception catch (e) {</span>
+<span class="lineNum">      67 </span><span class="lineNoCov">          0 :           yield state.error(e);</span>
+<span class="lineNum">      68 </span>            :         }
+<span class="lineNum">      69 </span>            :       },
+<span class="lineNum">      70 </span><span class="lineNoCov">          0 :       hide: () async* {</span>
+<span class="lineNum">      71 </span><span class="lineNoCov">          0 :         yield StopDetailsState.initial();</span>
+<span class="lineNum">      72 </span>            :       },
+<span class="lineNum">      73 </span>            :     );
+<span class="lineNum">      74 </span>            :   }
+<span class="lineNum">      75 </span>            : }
 </pre>
       </td>
     </tr>

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-05-24 15:16:42</td>
+            <td class="headerValue">2020-05-30 01:07:11</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -87,12 +87,12 @@
 <span class="lineNum">      25 </span>            :   }) {
 <span class="lineNum">      26 </span>            :     final List&lt;TripModel&gt; filteredTripModels1 = tripModels
 <span class="lineNum">      27 </span><span class="lineNoCov">          0 :         .where((tripModel) =&gt; tripModel.route_id.compareTo(this.route_id) == 0)</span>
-<span class="lineNum">      28 </span><span class="lineNoCov">          0 :         .toList();</span>
+<span class="lineNum">      28 </span><span class="lineNoCov">          0 :         .toList(); //ne prend que les trips de la route</span>
 <span class="lineNum">      29 </span>            :     final List&lt;TripModel&gt; filteredTripModels2 = filteredTripModels1
 <span class="lineNum">      30 </span><span class="lineNoCov">          0 :         .where((tripModel) =&gt; calendarModels</span>
 <span class="lineNum">      31 </span><span class="lineNoCov">          0 :             .map((e) =&gt; e.service_id)</span>
 <span class="lineNum">      32 </span><span class="lineNoCov">          0 :             .contains(tripModel.service_id))</span>
-<span class="lineNum">      33 </span><span class="lineNoCov">          0 :         .toList();</span>
+<span class="lineNum">      33 </span><span class="lineNoCov">          0 :         .toList(); //ne prend que les trips avec un calendar</span>
 <span class="lineNum">      34 </span><span class="lineNoCov">          0 :     return Route(</span>
 <span class="lineNum">      35 </span><span class="lineNoCov">          0 :       route_id: this.route_id,</span>
 <span class="lineNum">      36 </span><span class="lineNoCov">          0 :       route_long_name: this.route_long_name,</span>

@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - lib/domain/entities/mobility/trip.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../index.html">top level</a> - <a href="index.html">lib/domain/entities/mobility</a> - trip.dart<span style="font-size: 80%;"> (source / <a href="trip.dart.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">21</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2020-05-30 01:07:11</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : import 'dart:ui' show Offset;</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            : import 'package:app_pym/core/constants/mobility.dart';
+<span class="lineNum">       4 </span>            : import 'package:app_pym/domain/entities/mobility/calendar.dart';
+<span class="lineNum">       5 </span>            : import 'package:app_pym/domain/entities/mobility/stop_time.dart';
+<span class="lineNum">       6 </span>            : import 'package:freezed_annotation/freezed_annotation.dart';
+<span class="lineNum">       7 </span>            : import 'package:google_maps_flutter/google_maps_flutter.dart'
+<span class="lineNum">       8 </span>            :     show BitmapDescriptor, InfoWindow, LatLng, Marker, MarkerId;
+<span class="lineNum">       9 </span>            : 
+<span class="lineNum">      10 </span>            : part 'trip.freezed.dart';
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span>            : class LatLngNamed extends LatLng {
+<span class="lineNum">      13 </span>            :   final String name;
+<span class="lineNum">      14 </span>            : 
+<span class="lineNum">      15 </span><span class="lineNoCov">          0 :   const LatLngNamed(double latitude, double longitude, {@required this.name})</span>
+<span class="lineNum">      16 </span><span class="lineNoCov">          0 :       : super(latitude, longitude);</span>
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span><span class="lineNoCov">          0 :   Marker toMarker({</span>
+<span class="lineNum">      19 </span>            :     @required BitmapDescriptor icon,
+<span class="lineNum">      20 </span>            :     @required InfoWindow infoWindow,
+<span class="lineNum">      21 </span>            :   }) {
+<span class="lineNum">      22 </span><span class="lineNoCov">          0 :     return Marker(</span>
+<span class="lineNum">      23 </span><span class="lineNoCov">          0 :       markerId: MarkerId(this.name),</span>
+<span class="lineNum">      24 </span>            :       anchor: const Offset(0.5, 0.5),
+<span class="lineNum">      25 </span>            :       position: this,
+<span class="lineNum">      26 </span>            :       visible: true,
+<span class="lineNum">      27 </span>            :       icon: icon,
+<span class="lineNum">      28 </span>            :       infoWindow: infoWindow,
+<span class="lineNum">      29 </span>            :     );
+<span class="lineNum">      30 </span>            :   }
+<span class="lineNum">      31 </span>            : }
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span>            : @freezed
+<span class="lineNum">      34 </span>            : abstract class Trip with _$Trip {
+<span class="lineNum">      35 </span>            :   const factory Trip({
+<span class="lineNum">      36 </span>            :     String service_id,
+<span class="lineNum">      37 </span>            :     String route_id,
+<span class="lineNum">      38 </span>            :     String trip_id,
+<span class="lineNum">      39 </span>            :     String trip_headsign,
+<span class="lineNum">      40 </span>            :     Sens direction_id,
+<span class="lineNum">      41 </span>            :     Calendar calendar,
+<span class="lineNum">      42 </span>            :     List&lt;StopTime&gt; stop_time,
+<span class="lineNum">      43 </span>            :   }) = _Trip;
+<span class="lineNum">      44 </span>            : }
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span>            : extension TripX on Trip {
+<span class="lineNum">      47 </span><span class="lineNoCov">          0 :   Stream&lt;LatLngNamed&gt; toPoints(</span>
+<span class="lineNum">      48 </span>            :     Direction direction, {
+<span class="lineNum">      49 </span>            :     @required String polylineId,
+<span class="lineNum">      50 </span>            :   }) async* {
+<span class="lineNum">      51 </span>            :     // Si c'est Aller, on va du début jusqu'à la destination,
+<span class="lineNum">      52 </span>            :     // sinon on ajoute qu'à partir de la destination.
+<span class="lineNum">      53 </span><span class="lineNoCov">          0 :     bool ajouteBus = direction == Direction.Aller;</span>
+<span class="lineNum">      54 </span><span class="lineNoCov">          0 :     bool ajouteTrain = direction == Direction.Aller;</span>
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 :     for (final StopTime stopTime in this.stop_time) {</span>
+<span class="lineNum">      56 </span><span class="lineNoCov">          0 :       final LatLngNamed position = LatLngNamed(</span>
+<span class="lineNum">      57 </span><span class="lineNoCov">          0 :         double.parse(stopTime.stop.stop_lat),</span>
+<span class="lineNum">      58 </span><span class="lineNoCov">          0 :         double.parse(stopTime.stop.stop_long),</span>
+<span class="lineNum">      59 </span><span class="lineNoCov">          0 :         name: stopTime.stop.stop_name,</span>
+<span class="lineNum">      60 </span>            :       );
+<span class="lineNum">      61 </span>            : 
+<span class="lineNum">      62 </span><span class="lineNoCov">          0 :       if (polylineId.startsWith(&quot;bus&quot;)) {</span>
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 :         if (stopTime.stop.stop_name == MobilityConstants.pymStop) {</span>
+<span class="lineNum">      64 </span>            :           ajouteBus = !ajouteBus;
+<span class="lineNum">      65 </span><span class="lineNoCov">          0 :           yield position;</span>
+<span class="lineNum">      66 </span>            :         } else if (ajouteBus) {
+<span class="lineNum">      67 </span><span class="lineNoCov">          0 :           yield position;</span>
+<span class="lineNum">      68 </span>            :         }
+<span class="lineNum">      69 </span>            :       }
+<span class="lineNum">      70 </span><span class="lineNoCov">          0 :       if (polylineId.startsWith(&quot;train&quot;)) {</span>
+<span class="lineNum">      71 </span><span class="lineNoCov">          0 :         if (stopTime.stop.stop_name == MobilityConstants.gareGardanne) {</span>
+<span class="lineNum">      72 </span>            :           ajouteTrain = !ajouteTrain;
+<span class="lineNum">      73 </span><span class="lineNoCov">          0 :           yield position;</span>
+<span class="lineNum">      74 </span>            :         } else if (ajouteTrain) {
+<span class="lineNum">      75 </span><span class="lineNoCov">          0 :           yield position;</span>
+<span class="lineNum">      76 </span>            :         }
+<span class="lineNum">      77 </span>            :       }
+<span class="lineNum">      78 </span>            :     }
+<span class="lineNum">      79 </span>            :   }
+<span class="lineNum">      80 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

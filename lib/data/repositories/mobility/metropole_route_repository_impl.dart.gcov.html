@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">22</td>
+            <td class="headerCovTableEntry">23</td>
             <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-05-24 15:16:42</td>
+            <td class="headerValue">2020-05-30 01:07:11</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -60,61 +60,63 @@
       <td>
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
-<a name="1"><span class="lineNum">       1 </span>            : import 'package:app_pym/core/network/network_info.dart';</a>
-<span class="lineNum">       2 </span>            : import 'package:app_pym/data/datasources/metropole_local_data_source.dart';
-<span class="lineNum">       3 </span>            : import 'package:app_pym/data/datasources/metropole_remote_data_source.dart';
-<span class="lineNum">       4 </span>            : import 'package:app_pym/data/models/mobility/route_model.dart';
-<span class="lineNum">       5 </span>            : import 'package:app_pym/domain/entities/mobility/route.dart';
-<span class="lineNum">       6 </span>            : import 'package:app_pym/domain/repositories/mobility/route_repository.dart';
-<span class="lineNum">       7 </span>            : import 'package:connectivity/connectivity.dart';
-<span class="lineNum">       8 </span>            : import 'package:flutter/foundation.dart';
-<span class="lineNum">       9 </span>            : import 'package:injectable/injectable.dart';
-<span class="lineNum">      10 </span>            : 
-<span class="lineNum">      11 </span>            : @prod
-<span class="lineNum">      12 </span>            : @LazySingleton(as: MetropoleRouteRepository)
-<span class="lineNum">      13 </span>            : class MetropoleRouteRepositoryImpl implements MetropoleRouteRepository {
-<span class="lineNum">      14 </span>            :   final MetropoleRemoteDataSource remoteDataSource;
-<span class="lineNum">      15 </span>            :   final MetropoleLocalDataSource localDataSource;
-<span class="lineNum">      16 </span>            :   final NetworkInfo networkInfo;
-<span class="lineNum">      17 </span>            : 
-<span class="lineNum">      18 </span><span class="lineNoCov">          0 :   const MetropoleRouteRepositoryImpl({</span>
-<span class="lineNum">      19 </span>            :     @required this.localDataSource,
-<span class="lineNum">      20 </span>            :     @required this.remoteDataSource,
-<span class="lineNum">      21 </span>            :     @required this.networkInfo,
-<span class="lineNum">      22 </span>            :   });
-<span class="lineNum">      23 </span>            : 
-<span class="lineNum">      24 </span><span class="lineNoCov">          0 :   @override</span>
-<span class="lineNum">      25 </span>            :   Stream&lt;Route&gt; fetchRoutes() {
-<span class="lineNum">      26 </span><span class="lineNoCov">          0 :     return _fetchRoute();</span>
-<span class="lineNum">      27 </span>            :   }
-<span class="lineNum">      28 </span>            : 
-<span class="lineNum">      29 </span><span class="lineNoCov">          0 :   Stream&lt;Route&gt; _fetchRoute() async* {</span>
-<span class="lineNum">      30 </span><span class="lineNoCov">          0 :     if (await networkInfo.result != ConnectivityResult.none) {</span>
-<span class="lineNum">      31 </span><span class="lineNoCov">          0 :       final timestamp = await remoteDataSource.timestamp;</span>
-<span class="lineNum">      32 </span><span class="lineNoCov">          0 :       if (timestamp != await localDataSource.timestamp) {</span>
-<span class="lineNum">      33 </span><span class="lineNoCov">          0 :         await localDataSource.setTimestamp(timestamp);</span>
-<span class="lineNum">      34 </span><span class="lineNoCov">          0 :         final stream = remoteDataSource.download();</span>
-<span class="lineNum">      35 </span><span class="lineNoCov">          0 :         await localDataSource.writeFile(stream);</span>
-<span class="lineNum">      36 </span>            :       }
-<span class="lineNum">      37 </span>            :     }
-<span class="lineNum">      38 </span>            : 
-<span class="lineNum">      39 </span><span class="lineNoCov">          0 :     final routeModels = localDataSource.fetchRoutes();</span>
-<span class="lineNum">      40 </span><span class="lineNoCov">          0 :     final tripModels = localDataSource.fetchTrips();</span>
-<span class="lineNum">      41 </span><span class="lineNoCov">          0 :     final calendarModels = localDataSource.fetchCalendars();</span>
-<span class="lineNum">      42 </span><span class="lineNoCov">          0 :     final stopTimeModels = localDataSource.fetchStopTimes();</span>
-<span class="lineNum">      43 </span><span class="lineNoCov">          0 :     final stopModels = localDataSource.fetchStops();</span>
-<span class="lineNum">      44 </span>            : 
-<span class="lineNum">      45 </span><span class="lineNoCov">          0 :     for (final routeModel in await routeModels) {</span>
-<span class="lineNum">      46 </span><span class="lineNoCov">          0 :       final route = routeModel.toEntity(</span>
-<span class="lineNum">      47 </span><span class="lineNoCov">          0 :         calendarModels: await calendarModels,</span>
-<span class="lineNum">      48 </span><span class="lineNoCov">          0 :         stopModels: await stopModels,</span>
-<span class="lineNum">      49 </span><span class="lineNoCov">          0 :         stopTimeModels: await stopTimeModels,</span>
-<span class="lineNum">      50 </span><span class="lineNoCov">          0 :         tripModels: await tripModels,</span>
-<span class="lineNum">      51 </span>            :       );
-<span class="lineNum">      52 </span><span class="lineNoCov">          0 :       yield route;</span>
-<span class="lineNum">      53 </span>            :     }
-<span class="lineNum">      54 </span>            :   }
-<span class="lineNum">      55 </span>            : }
+<a name="1"><span class="lineNum">       1 </span>            : import 'package:app_pym/core/constants/mobility.dart';</a>
+<span class="lineNum">       2 </span>            : import 'package:app_pym/core/network/network_info.dart';
+<span class="lineNum">       3 </span>            : import 'package:app_pym/data/datasources/metropole_local_data_source.dart';
+<span class="lineNum">       4 </span>            : import 'package:app_pym/data/datasources/metropole_remote_data_source.dart';
+<span class="lineNum">       5 </span>            : import 'package:app_pym/data/models/mobility/route_model.dart';
+<span class="lineNum">       6 </span>            : import 'package:app_pym/domain/entities/mobility/route.dart';
+<span class="lineNum">       7 </span>            : import 'package:app_pym/domain/repositories/mobility/route_repository.dart';
+<span class="lineNum">       8 </span>            : import 'package:connectivity/connectivity.dart';
+<span class="lineNum">       9 </span>            : import 'package:flutter/foundation.dart';
+<span class="lineNum">      10 </span>            : import 'package:injectable/injectable.dart';
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span>            : @prod
+<span class="lineNum">      13 </span>            : @LazySingleton(as: MetropoleRouteRepository)
+<span class="lineNum">      14 </span>            : class MetropoleRouteRepositoryImpl implements MetropoleRouteRepository {
+<span class="lineNum">      15 </span>            :   final MetropoleRemoteDataSource remoteDataSource;
+<span class="lineNum">      16 </span>            :   final MetropoleLocalDataSource localDataSource;
+<span class="lineNum">      17 </span>            :   final NetworkInfo networkInfo;
+<span class="lineNum">      18 </span>            : 
+<span class="lineNum">      19 </span><span class="lineNoCov">          0 :   const MetropoleRouteRepositoryImpl({</span>
+<span class="lineNum">      20 </span>            :     @required this.localDataSource,
+<span class="lineNum">      21 </span>            :     @required this.remoteDataSource,
+<span class="lineNum">      22 </span>            :     @required this.networkInfo,
+<span class="lineNum">      23 </span>            :   });
+<span class="lineNum">      24 </span>            : 
+<span class="lineNum">      25 </span><span class="lineNoCov">          0 :   @override</span>
+<span class="lineNum">      26 </span>            :   Stream&lt;Route&gt; fetchRoutes() {
+<span class="lineNum">      27 </span><span class="lineNoCov">          0 :     return _fetchRoute();</span>
+<span class="lineNum">      28 </span>            :   }
+<span class="lineNum">      29 </span>            : 
+<span class="lineNum">      30 </span><span class="lineNoCov">          0 :   Stream&lt;Route&gt; _fetchRoute() async* {</span>
+<span class="lineNum">      31 </span><span class="lineNoCov">          0 :     if (await networkInfo.result != ConnectivityResult.none) {</span>
+<span class="lineNum">      32 </span><span class="lineNoCov">          0 :       final timestamp = await remoteDataSource.timestamp;</span>
+<span class="lineNum">      33 </span><span class="lineNoCov">          0 :       if (timestamp != await localDataSource.timestamp) {</span>
+<span class="lineNum">      34 </span><span class="lineNoCov">          0 :         await localDataSource.setTimestamp(timestamp);</span>
+<span class="lineNum">      35 </span><span class="lineNoCov">          0 :         final stream = remoteDataSource.download();</span>
+<span class="lineNum">      36 </span><span class="lineNoCov">          0 :         await localDataSource.writeFile(stream);</span>
+<span class="lineNum">      37 </span>            :       }
+<span class="lineNum">      38 </span>            :     }
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span><span class="lineNoCov">          0 :     final routeModels = localDataSource.fetchRoutes();</span>
+<span class="lineNum">      41 </span><span class="lineNoCov">          0 :     final tripModels = localDataSource.fetchTrips();</span>
+<span class="lineNum">      42 </span><span class="lineNoCov">          0 :     final calendarModels = localDataSource.fetchCalendars();</span>
+<span class="lineNum">      43 </span><span class="lineNoCov">          0 :     final stopTimeModels = localDataSource.fetchStopTimes();</span>
+<span class="lineNum">      44 </span><span class="lineNoCov">          0 :     final stopModels = localDataSource.fetchStops();</span>
+<span class="lineNum">      45 </span>            : 
+<span class="lineNum">      46 </span>            :     //la seule route qui nous intéresse
+<span class="lineNum">      47 </span><span class="lineNoCov">          0 :     final routeModel = (await routeModels).firstWhere((routeModel) =&gt;</span>
+<span class="lineNum">      48 </span><span class="lineNoCov">          0 :         routeModel.route_id.compareTo(MobilityConstants.busLine) == 0);</span>
+<span class="lineNum">      49 </span><span class="lineNoCov">          0 :     final route = routeModel.toEntity(</span>
+<span class="lineNum">      50 </span><span class="lineNoCov">          0 :       calendarModels: await calendarModels,</span>
+<span class="lineNum">      51 </span><span class="lineNoCov">          0 :       stopModels: await stopModels,</span>
+<span class="lineNum">      52 </span><span class="lineNoCov">          0 :       stopTimeModels: await stopTimeModels,</span>
+<span class="lineNum">      53 </span><span class="lineNoCov">          0 :       tripModels: await tripModels,</span>
+<span class="lineNum">      54 </span>            :     );
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 :     yield route;</span>
+<span class="lineNum">      56 </span>            :   }
+<span class="lineNum">      57 </span>            : }
 </pre>
       </td>
     </tr>
