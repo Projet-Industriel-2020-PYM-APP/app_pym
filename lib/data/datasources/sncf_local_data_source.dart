@@ -98,6 +98,7 @@ class SNCFLocalDataSourceImpl implements SNCFLocalDataSource {
 
   @override
   Future<void> writeFile(Stream<List<int>> bytes) async {
+    //write the Zip file
     final File file =
         File('${await directoryManager.sncf}/export-ter-gtfs-last.zip');
     final IOSink sink = file.openWrite();

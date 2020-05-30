@@ -1,5 +1,4 @@
 import 'package:app_pym/presentation/blocs/mobility/maps/maps_bloc.dart';
-import 'package:app_pym/presentation/blocs/mobility/trips/trips_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -15,25 +14,21 @@ class MapsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MapsBloc, MapsState>(
-      builder: (BuildContext context, MapsState state) {
+      builder: (context, state) {
         return GoogleMap(
           mapType: MapType.normal,
-          polylines: state.polylines,
-          markers: state.markers,
+          polylines: context.bloc<MapsBloc>().polylines,
+          markers: context.bloc<MapsBloc>().markers,
+          myLocationEnabled: true,
           initialCameraPosition:
               CameraPosition(target: initialPosition, zoom: 15),
           onMapCreated: (GoogleMapController controller) {
-            final tripsState = context.bloc<TripsBloc>().state;
-            context.bloc<MapsBloc>().add(
-                  MapsEvent.load(
-                    busTrips: tripsState.busTrips,
-                    isBus: tripsState.isBusLoaded,
-                    trainTrips: tripsState.trainTrips,
-                    isTrain: tripsState.isTrainLoaded,
-                    direction: tripsState.direction,
-                  ),
-                );
+            context.bloc<MapsBloc>().controller.complete(controller);
           },
+          buildingsEnabled: true,
+          compassEnabled: true,
+          indoorViewEnabled: true,
+          key: const Key('google_maps'),
         );
       },
     );

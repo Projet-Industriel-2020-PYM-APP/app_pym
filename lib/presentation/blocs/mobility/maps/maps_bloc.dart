@@ -1,11 +1,23 @@
 import 'dart:async';
 
 import 'package:app_pym/core/constants/mobility.dart';
-import 'package:app_pym/data/devices/geolocator_device.dart';
-import 'package:app_pym/domain/entities/mobility/stop_time.dart';
+import 'package:app_pym/core/permission_handler/permission_handler.dart';
+import 'package:app_pym/core/utils/icons_utils.dart';
 import 'package:app_pym/domain/entities/mobility/trip.dart';
+import 'package:app_pym/presentation/blocs/mobility/trips/trips_bloc.dart';
+import 'package:app_pym/presentation/widgets/mobility/details_bottom_sheet.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'
+    show
+        BorderRadiusDirectional,
+        Color,
+        Colors,
+        Icons,
+        Offset,
+        Radius,
+        RoundedRectangleBorder,
+        ScaffoldState,
+        TextStyle;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -18,11 +30,14 @@ part 'maps_state.dart';
 @prod
 @injectable
 class MapsBloc extends Bloc<MapsEvent, MapsState> {
-  final GeolocatorDevice geolocatorDevice;
-  GoogleMapController controller;
-  StreamSubscription<LatLng> streamSubscription;
+  final PermissionHandler permissionHandler;
+  Completer<GoogleMapController> controller = Completer<GoogleMapController>();
+  final Set<Polyline> polylines = <Polyline>{};
+  final Set<Marker> markers = <Marker>{};
 
-  MapsBloc({@required this.geolocatorDevice});
+  MapsBloc({
+    @required this.permissionHandler,
+  });
 
   @override
   MapsState get initialState => MapsState.initial();
@@ -32,119 +47,258 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
     MapsEvent event,
   ) async* {
     yield* event.when(
-      load: (isBus, isTrain, direction, busTrips, trainTrips) async* {
-        yield state.loading();
-        try {
-          final Set<Polyline> polylines = {};
-          final Set<Marker> markers = {};
-          if (isBus) {
-            polylines.add(polylineFromTrip(
-                busTrips[0], direction, "bus_${direction}_1_", Colors.black));
-            markers.addAll(
-                markersFromTrip(busTrips[0], direction, "bus_${direction}_1_"));
-            polylines.add(polylineFromTrip(
-                busTrips[1], direction, "bus_${direction}_2_", Colors.black));
-            markers.addAll(
-                markersFromTrip(busTrips[1], direction, "bus_${direction}_2_"));
-            yield state.busLoaded(polylines: polylines, markers: markers);
-          }
-          if (isTrain) {
-            polylines.add(polylineFromTrip(trainTrips[0], direction,
-                "train_${direction}_1_", Colors.orange));
-            markers.addAll(markersFromTrip(
-                trainTrips[0], direction, "train_${direction}_1_"));
-            polylines.add(polylineFromTrip(trainTrips[1], direction,
-                "train_${direction}_2_", Colors.orange));
-            markers.addAll(markersFromTrip(
-                trainTrips[1], direction, "train_${direction}_2_"));
-            yield state.trainLoaded(polylines: polylines, markers: markers);
-          }
-        } on Exception catch (e) {
-          yield state.error(e);
-        }
-      },
-      hide: (isBus, isTrain, direction) async* {
-        if (isBus) {
-          yield state.hideBus(direction);
-        }
-        if (isTrain) {
-          yield state.hideTrain(direction);
-        }
-        if (direction == Direction.Aller) {
-          yield state.hideTrain(Direction.Retour);
-          yield state.hideBus(Direction.Retour);
-        } else {
-          yield state.hideTrain(Direction.Aller);
-          yield state.hideBus(Direction.Aller);
-        }
-      },
+      load: _mapLoadEventToState,
+      appStarted: _mapAppStartedToState,
     );
   }
 
-  @override
-  Future<void> close() async {
-    await streamSubscription?.cancel();
-    return super.close();
+  Stream<MapsState> _mapAppStartedToState() async* {
+    await permissionHandler.requestPermissionLocationWhenInUse;
+    await permissionHandler.locationIsEnabled;
+    yield state;
   }
 
-  Polyline polylineFromTrip(
-      Trip trip, Direction direction, String id, Color couleur) {
-    final List<LatLng> list = <LatLng>[];
-    bool ajoute = direction == Direction.Aller;
-    for (final StopTime stopTime in trip.stop_time) {
-      final LatLng position = LatLng(double.parse(stopTime.stop.stop_lat),
-          double.parse(stopTime.stop.stop_long));
-      if (id.startsWith("bus")) {
-        if (stopTime.stop.stop_name == MobilityConstants.pymStop) {
-          list.add(position);
-          ajoute = !ajoute;
-        } else if (ajoute) {
-          list.add(position);
-        }
-      } else {
-        if (stopTime.stop.stop_name == MobilityConstants.gareGardanne) {
-          list.add(position);
-          ajoute = !ajoute;
-        } else if (ajoute) {
-          list.add(position);
+  Stream<MapsState> _mapLoadEventToState(
+    TripsState tripsState,
+    ScaffoldState scaffoldState,
+  ) async* {
+    yield state.loading();
+    markers.clear();
+    polylines.clear();
+    try {
+      final busEndCap = await Icons.arrow_upward.toBitmapDescriptor(
+        const TextStyle(color: Colors.blueGrey),
+        size: 100,
+        offset: const Offset(0.0, 48.0),
+      );
+      final trainEndCap = await Icons.arrow_upward.toBitmapDescriptor(
+        const TextStyle(color: Colors.orange),
+        size: 100,
+        offset: const Offset(0.0, 48.0),
+      );
+      final busMarker = await Icons.fiber_manual_record.toBitmapDescriptor(
+        const TextStyle(color: Colors.blue),
+        size: 64,
+      );
+      final trainMarker = await Icons.fiber_manual_record.toBitmapDescriptor(
+        const TextStyle(color: Colors.red),
+        size: 64,
+      );
+
+      if (tripsState.isBusLoaded) {
+        await Future.wait<void>([
+          tripsState.busTrips[0].trace(
+            markers,
+            direction: tripsState.direction,
+            isBus: true,
+            markerIcon: busMarker,
+            endCapIcon: Cap.customCapFromBitmap(busEndCap),
+            polylineId: "bus_${tripsState.direction}_${Sens.Aller}_",
+            color: Colors.blueGrey,
+            onTapMarker: (markerId) {
+              scaffoldState.showBottomSheet<void>(
+                (context) => DetailsBottomSheet(
+                  tripsState.busTrips,
+                  isBus: true,
+                  markerId: markerId,
+                ),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadiusDirectional.only(
+                    topStart: Radius.circular(10.0),
+                    topEnd: Radius.circular(10.0),
+                  ),
+                ),
+              );
+            },
+          ).then(polylines.add),
+          tripsState.busTrips[1].trace(
+            markers,
+            direction: tripsState.direction,
+            isBus: true,
+            markerIcon: busMarker,
+            endCapIcon: Cap.customCapFromBitmap(busEndCap),
+            polylineId: "bus_${tripsState.direction}_${Sens.Retour}_",
+            color: Colors.blueGrey,
+            onTapMarker: (markerId) {
+              scaffoldState.showBottomSheet<void>(
+                (context) => DetailsBottomSheet(
+                  tripsState.busTrips,
+                  isBus: true,
+                  markerId: markerId,
+                ),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadiusDirectional.only(
+                    topStart: Radius.circular(10.0),
+                    topEnd: Radius.circular(10.0),
+                  ),
+                ),
+              );
+            },
+          ).then(polylines.add),
+        ]);
+        yield state.busLoaded();
+      }
+      if (tripsState.isTrainLoaded) {
+        //pour les trains, on traite différemment Aller et Partir car tous les trains ne vont pas à Aix
+        if (tripsState.direction == Direction.Aller) {
+          await Future.wait<void>([
+            tripsState.trainTrips[0].trace(
+              markers,
+              direction: tripsState.direction,
+              isBus: false,
+              markerIcon: trainMarker,
+              endCapIcon: Cap.customCapFromBitmap(trainEndCap),
+              polylineId: "train_${tripsState.direction}_${Sens.Aller}_",
+              color: Colors.orange,
+              onTapMarker: (markerId) {
+                scaffoldState.showBottomSheet<void>(
+                  (context) => DetailsBottomSheet(
+                    tripsState.trainTrips,
+                    isBus: false,
+                    markerId: markerId,
+                  ),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadiusDirectional.only(
+                      topStart: Radius.circular(10.0),
+                      topEnd: Radius.circular(10.0),
+                    ),
+                  ),
+                );
+              },
+            ).then(polylines.add),
+            tripsState.trainTrips[7].trace(
+              markers,
+              direction: tripsState.direction,
+              isBus: false,
+              markerIcon: trainMarker,
+              endCapIcon: Cap.customCapFromBitmap(trainEndCap),
+              polylineId: "train_${tripsState.direction}_${Sens.Retour}_",
+              color: Colors.orange,
+              onTapMarker: (markerId) {
+                scaffoldState.showBottomSheet<void>(
+                  (context) => DetailsBottomSheet(
+                    tripsState.trainTrips,
+                    isBus: false,
+                    markerId: markerId,
+                  ),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadiusDirectional.only(
+                      topStart: Radius.circular(10.0),
+                      topEnd: Radius.circular(10.0),
+                    ),
+                  ),
+                );
+              },
+            ).then(polylines.add),
+          ]);
+          yield state.trainLoaded();
+        } else {
+          await Future.wait<void>([
+            tripsState.trainTrips[6].trace(
+              markers,
+              direction: tripsState.direction,
+              isBus: false,
+              markerIcon: trainMarker,
+              endCapIcon: Cap.customCapFromBitmap(trainEndCap),
+              polylineId: "train_${tripsState.direction}_${Sens.Aller}_",
+              color: Colors.orange,
+              onTapMarker: (markerId) {
+                scaffoldState.showBottomSheet<void>(
+                  (context) => DetailsBottomSheet(
+                    tripsState.trainTrips,
+                    isBus: false,
+                    markerId: markerId,
+                  ),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadiusDirectional.only(
+                      topStart: Radius.circular(10.0),
+                      topEnd: Radius.circular(10.0),
+                    ),
+                  ),
+                );
+              },
+            ).then(polylines.add),
+            tripsState.trainTrips[1].trace(
+              markers,
+              direction: tripsState.direction,
+              isBus: false,
+              markerIcon: trainMarker,
+              endCapIcon: Cap.customCapFromBitmap(trainEndCap),
+              polylineId: "train_${tripsState.direction}_${Sens.Retour}_",
+              color: Colors.orange,
+              onTapMarker: (markerId) {
+                scaffoldState.showBottomSheet<void>(
+                  (context) => DetailsBottomSheet(
+                    tripsState.trainTrips,
+                    isBus: false,
+                    markerId: markerId,
+                  ),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadiusDirectional.only(
+                      topStart: Radius.circular(10.0),
+                      topEnd: Radius.circular(10.0),
+                    ),
+                  ),
+                );
+              },
+            ).then(polylines.add),
+          ]);
+          yield state.trainLoaded();
         }
       }
+    } on Exception catch (e) {
+      yield state.error(e);
     }
+  }
+}
+
+extension on Trip {
+  Future<Polyline> trace(
+    Set<Marker> markers, {
+    @required Direction direction,
+    @required bool isBus,
+    @required BitmapDescriptor markerIcon,
+    @required Color color,
+    @required String polylineId,
+    @required void Function(String) onTapMarker,
+    Cap endCapIcon = Cap.buttCap,
+    Cap startCapIcon = Cap.buttCap,
+  }) async {
+    final points =
+        await this.toPoints(direction, polylineId: polylineId).map((point) {
+      final BitmapDescriptor icone =
+          point.name.compareTo(MobilityConstants.gareGardanne) == 0 ||
+                  point.name.compareTo(MobilityConstants.pymStop) == 0
+              ? BitmapDescriptor.defaultMarker
+              : markerIcon;
+      final String transportType = isBus ? 'Bus ' : 'TER ';
+      final marker = point.toMarker(
+        icon: icone,
+        infoWindow: InfoWindow(
+          title: transportType + this.route_id,
+          snippet: this
+                  .stop_time
+                  .firstWhere((stopTime) =>
+                      stopTime.stop.stop_name.compareTo(point.name) == 0)
+                  .arrival_time +
+              ' -> ' +
+              this.stop_time.last.stop.stop_name,
+          onTap: () =>
+              onTapMarker(point.name + '_${direction}_${this.direction_id}'),
+        ),
+      );
+      markers.add(marker);
+      return point;
+    }).toList();
+
     return Polyline(
-      polylineId: PolylineId(id),
-      color: couleur,
-      points: list,
+      polylineId: PolylineId(polylineId),
+      color: color,
+      points: points,
+      endCap: endCapIcon,
+      startCap: startCapIcon,
       visible: true,
       width: 4,
     );
-  }
-
-  Set<Marker> markersFromTrip(Trip trip, Direction direction, String id) {
-    final Set<Marker> markers = {};
-    bool ajoute = direction == Direction.Aller;
-    for (final StopTime stopTime in trip.stop_time) {
-      final Marker marker = Marker(
-        markerId: MarkerId(id + stopTime.stop.stop_name),
-        position: LatLng(double.parse(stopTime.stop.stop_lat),
-            double.parse(stopTime.stop.stop_long)),
-        visible: true,
-      );
-      if (id.startsWith("bus")) {
-        if (stopTime.stop.stop_name == MobilityConstants.pymStop) {
-          markers.add(marker);
-          ajoute = !ajoute;
-        } else if (ajoute) {
-          markers.add(marker);
-        }
-      } else {
-        if (stopTime.stop.stop_name == MobilityConstants.gareGardanne) {
-          markers.add(marker);
-          ajoute = !ajoute;
-        } else if (ajoute) {
-          markers.add(marker);
-        }
-      }
-    }
-    return markers;
   }
 }

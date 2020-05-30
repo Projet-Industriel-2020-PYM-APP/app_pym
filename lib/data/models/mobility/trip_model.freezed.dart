@@ -17,7 +17,7 @@ class _$TripModelTearOff {
       String route_id,
       String trip_id,
       String trip_headsign,
-      Direction direction_id}) {
+      Sens direction_id}) {
     return _TripModel(
       service_id: service_id,
       route_id: route_id,
@@ -36,7 +36,7 @@ mixin _$TripModel {
   String get route_id;
   String get trip_id;
   String get trip_headsign;
-  Direction get direction_id;
+  Sens get direction_id;
 
   $TripModelCopyWith<TripModel> get copyWith;
 }
@@ -49,7 +49,7 @@ abstract class $TripModelCopyWith<$Res> {
       String route_id,
       String trip_id,
       String trip_headsign,
-      Direction direction_id});
+      Sens direction_id});
 }
 
 class _$TripModelCopyWithImpl<$Res> implements $TripModelCopyWith<$Res> {
@@ -75,9 +75,8 @@ class _$TripModelCopyWithImpl<$Res> implements $TripModelCopyWith<$Res> {
       trip_headsign: trip_headsign == freezed
           ? _value.trip_headsign
           : trip_headsign as String,
-      direction_id: direction_id == freezed
-          ? _value.direction_id
-          : direction_id as Direction,
+      direction_id:
+          direction_id == freezed ? _value.direction_id : direction_id as Sens,
     ));
   }
 }
@@ -92,7 +91,7 @@ abstract class _$TripModelCopyWith<$Res> implements $TripModelCopyWith<$Res> {
       String route_id,
       String trip_id,
       String trip_headsign,
-      Direction direction_id});
+      Sens direction_id});
 }
 
 class __$TripModelCopyWithImpl<$Res> extends _$TripModelCopyWithImpl<$Res>
@@ -119,9 +118,8 @@ class __$TripModelCopyWithImpl<$Res> extends _$TripModelCopyWithImpl<$Res>
       trip_headsign: trip_headsign == freezed
           ? _value.trip_headsign
           : trip_headsign as String,
-      direction_id: direction_id == freezed
-          ? _value.direction_id
-          : direction_id as Direction,
+      direction_id:
+          direction_id == freezed ? _value.direction_id : direction_id as Sens,
     ));
   }
 }
@@ -143,7 +141,7 @@ class _$_TripModel implements _TripModel {
   @override
   final String trip_headsign;
   @override
-  final Direction direction_id;
+  final Sens direction_id;
 
   @override
   String toString() {
@@ -191,7 +189,7 @@ abstract class _TripModel implements TripModel {
       String route_id,
       String trip_id,
       String trip_headsign,
-      Direction direction_id}) = _$_TripModel;
+      Sens direction_id}) = _$_TripModel;
 
   @override
   String get service_id;
@@ -202,7 +200,7 @@ abstract class _TripModel implements TripModel {
   @override
   String get trip_headsign;
   @override
-  Direction get direction_id;
+  Sens get direction_id;
   @override
   _$TripModelCopyWith<_TripModel> get copyWith;
 }

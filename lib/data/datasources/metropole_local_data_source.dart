@@ -48,7 +48,7 @@ class MetropoleLocalDataSourceImpl implements MetropoleLocalDataSource {
 
   @override
   Future<List<CalendarModel>> fetchCalendars() async {
-    final file = File('${await directoryManager.metropole}/calendars.txt');
+    final file = File('${await directoryManager.metropole}/calendar.txt');
     if (file.existsSync()) {
       return file.parseCalendars();
     } else {
@@ -98,8 +98,8 @@ class MetropoleLocalDataSourceImpl implements MetropoleLocalDataSource {
 
   @override
   Future<void> writeFile(Stream<List<int>> bytes) async {
-    final File file = File(
-        '${await directoryManager.metropole}/export-ter-gtfs-last.zip'); //TODO change name.zip
+    //write the Zip file
+    final File file = File('${await directoryManager.metropole}/CPA.zip');
     final IOSink sink = file.openWrite();
     await bytes.forEach(sink.add);
     await sink.close();

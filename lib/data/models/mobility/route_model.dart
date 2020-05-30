@@ -25,12 +25,12 @@ extension RouteModelX on RouteModel {
   }) {
     final List<TripModel> filteredTripModels1 = tripModels
         .where((tripModel) => tripModel.route_id.compareTo(this.route_id) == 0)
-        .toList();
+        .toList(); //ne prend que les trips de la route
     final List<TripModel> filteredTripModels2 = filteredTripModels1
         .where((tripModel) => calendarModels
             .map((e) => e.service_id)
             .contains(tripModel.service_id))
-        .toList();
+        .toList(); //ne prend que les trips avec un calendar
     return Route(
       route_id: this.route_id,
       route_long_name: this.route_long_name,

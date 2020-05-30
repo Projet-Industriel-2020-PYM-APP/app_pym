@@ -45,7 +45,7 @@ extension GTFSUtils on File {
         route_id: fields[data['route_id']],
         trip_id: fields[data['trip_id']],
         trip_headsign: fields[data['trip_headsign']],
-        direction_id: Direction.values[int.parse(fields[data['direction_id']])],
+        direction_id: Sens.values[int.parse(fields[data['direction_id']])],
       ));
     }
     return routes;

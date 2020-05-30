@@ -17,7 +17,7 @@ class _$TripTearOff {
       String route_id,
       String trip_id,
       String trip_headsign,
-      Direction direction_id,
+      Sens direction_id,
       Calendar calendar,
       List<StopTime> stop_time}) {
     return _Trip(
@@ -40,7 +40,7 @@ mixin _$Trip {
   String get route_id;
   String get trip_id;
   String get trip_headsign;
-  Direction get direction_id;
+  Sens get direction_id;
   Calendar get calendar;
   List<StopTime> get stop_time;
 
@@ -55,7 +55,7 @@ abstract class $TripCopyWith<$Res> {
       String route_id,
       String trip_id,
       String trip_headsign,
-      Direction direction_id,
+      Sens direction_id,
       Calendar calendar,
       List<StopTime> stop_time});
 
@@ -87,9 +87,8 @@ class _$TripCopyWithImpl<$Res> implements $TripCopyWith<$Res> {
       trip_headsign: trip_headsign == freezed
           ? _value.trip_headsign
           : trip_headsign as String,
-      direction_id: direction_id == freezed
-          ? _value.direction_id
-          : direction_id as Direction,
+      direction_id:
+          direction_id == freezed ? _value.direction_id : direction_id as Sens,
       calendar: calendar == freezed ? _value.calendar : calendar as Calendar,
       stop_time:
           stop_time == freezed ? _value.stop_time : stop_time as List<StopTime>,
@@ -116,7 +115,7 @@ abstract class _$TripCopyWith<$Res> implements $TripCopyWith<$Res> {
       String route_id,
       String trip_id,
       String trip_headsign,
-      Direction direction_id,
+      Sens direction_id,
       Calendar calendar,
       List<StopTime> stop_time});
 
@@ -150,9 +149,8 @@ class __$TripCopyWithImpl<$Res> extends _$TripCopyWithImpl<$Res>
       trip_headsign: trip_headsign == freezed
           ? _value.trip_headsign
           : trip_headsign as String,
-      direction_id: direction_id == freezed
-          ? _value.direction_id
-          : direction_id as Direction,
+      direction_id:
+          direction_id == freezed ? _value.direction_id : direction_id as Sens,
       calendar: calendar == freezed ? _value.calendar : calendar as Calendar,
       stop_time:
           stop_time == freezed ? _value.stop_time : stop_time as List<StopTime>,
@@ -179,7 +177,7 @@ class _$_Trip implements _Trip {
   @override
   final String trip_headsign;
   @override
-  final Direction direction_id;
+  final Sens direction_id;
   @override
   final Calendar calendar;
   @override
@@ -239,7 +237,7 @@ abstract class _Trip implements Trip {
       String route_id,
       String trip_id,
       String trip_headsign,
-      Direction direction_id,
+      Sens direction_id,
       Calendar calendar,
       List<StopTime> stop_time}) = _$_Trip;
 
@@ -252,7 +250,7 @@ abstract class _Trip implements Trip {
   @override
   String get trip_headsign;
   @override
-  Direction get direction_id;
+  Sens get direction_id;
   @override
   Calendar get calendar;
   @override

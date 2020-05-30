@@ -1,4 +1,5 @@
 import 'package:app_pym/core/constants/mobility.dart';
+import 'package:app_pym/core/utils/url_launcher_utils.dart';
 import 'package:app_pym/injection_container.dart';
 import 'package:app_pym/presentation/blocs/mobility/stop_details/stop_details_bloc.dart';
 import 'package:app_pym/presentation/pages/mobility/maps_screen.dart';
@@ -22,15 +23,12 @@ class MobilitePage extends StatelessWidget {
       body: MultiBlocProvider(
         providers: [
           BlocProvider<TripsBloc>(
-            create: (_) {
-              final bloc = sl<TripsBloc>();
-              //TODO bloc.add(TripsEvent.fetchBus(bloc.state.direction));
-              bloc.add(TripsEvent.fetchTrain(bloc.state.direction));
-              return bloc;
-            },
+            create: (_) => sl<TripsBloc>()
+              ..add(const TripsEvent.fetchBus(Direction.Aller))
+              ..add(const TripsEvent.fetchTrain(Direction.Aller)),
           ),
           BlocProvider<MapsBloc>(
-            create: (_) => sl<MapsBloc>(),
+            create: (_) => sl<MapsBloc>()..add(const MapsEvent.appStarted()),
           ),
           BlocProvider<StopDetailsBloc>(
             create: (_) => sl<StopDetailsBloc>(),
@@ -49,84 +47,13 @@ class MobiliteListenersWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<TripsBloc, TripsState>(
-          listener: (context, state) {
-            Direction hideDirection = Direction.Aller;
-            if (state.direction == Direction.Aller) {
-              hideDirection = Direction.Retour;
-            }
-            context.bloc<MapsBloc>().add(MapsEvent.hide(
-                  isBus: !state.isBusLoaded,
-                  isTrain: !state.isTrainLoaded,
-                  direction: state.direction,
-                )); //cache ce qui n'est pas chargé
-            context.bloc<MapsBloc>().add(MapsEvent.hide(
-                  isBus: state.isBusLoaded,
-                  isTrain: state.isTrainLoaded,
-                  direction: hideDirection,
-                )); //cache ce qui est chargé mais dans la mauvaise direction
-            context.bloc<MapsBloc>().add(MapsEvent.load(
-                  isBus: state.isBusLoaded,
-                  isTrain: state.isTrainLoaded,
-                  direction: state.direction,
-                  trainTrips: state.trainTrips,
-                  busTrips: state.busTrips,
-                )); //affiche les polylines et markers
-          },
-        ),
-        BlocListener<MapsBloc, MapsState>(
-          listener: (context, state) {
-            final tripState = context.bloc<TripsBloc>().state;
-            if (state.isBusLoaded) {
-              for (final Marker marker in state.markers) {
-                if (marker.markerId.value.startsWith("bus")) {
-                  final Marker newMarker = Marker(
-                    markerId: MarkerId("!" + marker.markerId.value),
-                    consumeTapEvents: true,
-                    onTap: () {
-                      context.bloc<StopDetailsBloc>().add(StopDetailsEvent.show(
-                            id: marker.markerId.value,
-                            trips: tripState.busTrips,
-                            isBus: true,
-                          ));
-                      Scaffold.of(context).showBottomSheet<dynamic>((context) {
-                        return const Details();
-                      });
-                    },
-                    position: marker.position,
-                    visible: true,
-                  );
-                  state.markers.remove(marker);
-                  state.markers.add(newMarker);
-                }
-              }
-            }
-            if (state.isTrainLoaded) {
-              for (final Marker marker in state.markers) {
-                if (marker.markerId.value.startsWith("train")) {
-                  final Marker newMarker = Marker(
-                    markerId: MarkerId("!" + marker.markerId.value),
-                    consumeTapEvents: true,
-                    onTap: () {
-                      context.bloc<StopDetailsBloc>().add(StopDetailsEvent.show(
-                            id: marker.markerId.value,
-                            trips: tripState.trainTrips,
-                            isBus: false,
-                          ));
-                    },
-                    position: marker.position,
-                    visible: true,
-                  );
-                  state.markers.remove(marker);
-                  state.markers.add(newMarker);
-                }
-              }
-            }
-          },
-        ),
-      ],
+    return BlocListener<TripsBloc, TripsState>(
+      listener: (context, state) {
+        context.bloc<MapsBloc>().add(MapsEvent.load(
+              tripsState: state,
+              scaffoldState: Scaffold.of(context),
+            )); // Affiche les polylines et markers
+      },
       child: const MobiliteBody(),
     );
   }
@@ -137,133 +64,115 @@ class MobiliteBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            flex: 3,
-            child: Stack(
-              alignment: Alignment.topCenter,
-              children: <Widget>[
-                if (context.bloc<TripsBloc>().state.isLoading)
-                  const LinearProgressIndicator(),
-                const MapsScreen(
-                  initialPosition: LatLng(43.4506539, 5.4459134),
-                ),
-                const MobilityControls(),
-              ],
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Container(
-              padding: const EdgeInsets.all(5.0),
-              child: Card(
-                margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Column(
-                  children: <Widget>[
-                    const Text("Autres transports"),
-                    Wrap(
-                      children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            //TODO autres transports
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+    return Column(
+      children: <Widget>[
+        Expanded(
+          flex: 3,
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: <Widget>[
+              BlocBuilder<MapsBloc, MapsState>(
+                builder: (context, state) {
+                  if (state.isLoading) {
+                    return const LinearProgressIndicator();
+                  } else {
+                    return Container();
+                  }
+                },
               ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class Details extends StatelessWidget {
-  const Details({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomSheet(
-      onClosing: () =>
-          context.bloc<StopDetailsBloc>().add(const StopDetailsEvent.hide()),
-      builder: (BuildContext context) {
-        final stopDetailsState = context.bloc<StopDetailsBloc>().state;
-        if (stopDetailsState.isLoading) {
-          return const CircularProgressIndicator();
-        } else if (stopDetailsState.isError) {
-          return Text(stopDetailsState.exception.toString());
-        } else {
-          IconData icone;
-          String ligne_name;
-          if (stopDetailsState.isBus) {
-            icone = Icons.directions_bus;
-            ligne_name = MobilityConstants.busLines[0];
-          } else {
-            icone = Icons.train;
-            ligne_name = MobilityConstants.trainLines[0];
-          }
-          return Column(
-            children: [
-              Row(
-                children: [
-                  Icon(icone),
-                  Text(ligne_name),
-                ],
+              BlocBuilder<TripsBloc, TripsState>(
+                builder: (context, state) {
+                  if (state.isLoading) {
+                    return const LinearProgressIndicator();
+                  } else if (state.isError) {
+                    return Text(state.exception.toString());
+                  } else {
+                    return Container();
+                  }
+                },
               ),
-              Row(
-                children: [
-                  const Icon(Icons.arrow_forward),
-                  Text("Direction " + stopDetailsState.last_stop),
-                ],
+              const MapsScreen(
+                initialPosition: LatLng(43.4506539, 5.4459134),
               ),
-              Text(stopDetailsState.stop_name),
-              Row(
-                children: [
-                  const Icon(Icons.arrow_right),
-                  Text(stopDetailsState.stop_times[0]),
-                ],
-              ),
-              Text(stopDetailsState.stop_times[1]),
-              Text(stopDetailsState.stop_times[2]),
-              ListView.builder(itemBuilder: (context, index) {
-                Color couleur = Colors.black;
-                IconData icone = Icons.arrow_drop_down;
-                if (stopDetailsState.trip[index].stop.stop_name ==
-                    stopDetailsState.last_stop) {
-                  icone = Icons.fiber_manual_record;
-                }
-                if (stopDetailsState.trip[index].stop.stop_name ==
-                    stopDetailsState.destination) {
-                  couleur = Colors.red;
-                }
-                final TextStyle style =
-                    TextStyle(inherit: true, color: couleur);
-                return Row(
-                  children: [
-                    Icon(
-                      icone,
-                      color: couleur,
-                    ),
-                    Text(
-                      stopDetailsState.trip[index].stop.stop_name,
-                      style: style,
-                    ),
-                    Text(
-                      stopDetailsState.trip[index].arrival_time,
-                      style: style,
-                    ),
-                  ],
-                );
-              }),
+              const MobilityControls(),
             ],
-          );
-        }
-      },
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Card(
+            elevation: 4.0,
+            margin: const EdgeInsets.all(10.0),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Autres transports",
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            margin: const EdgeInsets.all(10.0),
+                            height: 40.0,
+                            width: 40.0,
+                            child: Tooltip(
+                              message: "BlaBlaCar",
+                              child: InkWell(
+                                onTap: () => UrlLauncherUtils.launch(
+                                    "https://www.blablacar.fr/"),
+                                child: Image.asset(
+                                  "assets/images/mobilite/Logo_BlaBlaCar.png",
+                                  fit: BoxFit.contain,
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          .color
+                                      : null,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.all(10.0),
+                            height: 40.0,
+                            width: 40.0,
+                            child: Tooltip(
+                              message: "Uber",
+                              child: InkWell(
+                                onTap: () => UrlLauncherUtils.launch(
+                                    "https://www.uber.com/"),
+                                child: Image.asset(
+                                  "assets/images/mobilite/Logo_Uber.png",
+                                  fit: BoxFit.contain,
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          .color
+                                      : null,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

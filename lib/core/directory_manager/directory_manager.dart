@@ -1,9 +1,11 @@
 import 'package:injectable/injectable.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:flutter/services.dart' show ByteData, rootBundle;
 
 abstract class DirectoryManager {
   Future<String> get metropole;
   Future<String> get sncf;
+  Future<ByteData> get cpaZip;
 }
 
 @prod
@@ -20,4 +22,7 @@ class DirectoryManagerImpl implements DirectoryManager {
     final dir = path_provider.getApplicationDocumentsDirectory();
     return "${(await dir).path}/sncf";
   }
+
+  @override
+  Future<ByteData> get cpaZip => rootBundle.load('assets/bus_data/CPA.zip');
 }

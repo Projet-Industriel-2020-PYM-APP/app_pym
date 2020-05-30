@@ -55,7 +55,6 @@ import 'package:app_pym/domain/usecases/fil_actualite/get_posts.dart';
 import 'package:app_pym/domain/usecases/mobility/fetch_bus_route.dart';
 import 'package:app_pym/domain/usecases/mobility/fetch_bus_trips.dart';
 import 'package:app_pym/domain/usecases/mobility/fetch_train_route.dart';
-import 'package:app_pym/domain/usecases/mobility/fetch_train_stops.dart';
 import 'package:app_pym/domain/usecases/mobility/fetch_train_trips.dart';
 import 'package:app_pym/domain/usecases/services/booking/add_booking_to_service.dart';
 import 'package:app_pym/domain/usecases/services/booking/delete_booking_of_service.dart';
@@ -234,10 +233,6 @@ abstract class DevRegisterModule {
   @dev
   @lazySingleton
   FetchTrainRoute get fetchTrainRoute;
-
-  @dev
-  @lazySingleton
-  FetchTrainStops get fetchTrainStops;
 
   @dev
   @lazySingleton

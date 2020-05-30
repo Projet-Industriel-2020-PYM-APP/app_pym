@@ -29,24 +29,24 @@ import 'package:app_pym/data/models/app_pym/post_model.dart';
 import 'package:app_pym/data/models/app_pym/service_categorie_model.dart';
 import 'package:app_pym/data/models/app_pym/service_model.dart';
 import 'package:http/src/client.dart';
-import 'package:app_pym/data/devices/compass_device_mock.dart';
 import 'package:app_pym/data/devices/compass_device.dart';
+import 'package:app_pym/data/devices/compass_device_mock.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:app_pym/domain/repositories/app_pym/mock_contact_categorie_repository.dart';
 import 'package:app_pym/domain/repositories/app_pym/contact_categorie_repository.dart';
 import 'package:app_pym/domain/repositories/app_pym/mock_contact_repository.dart';
 import 'package:app_pym/domain/repositories/app_pym/contact_repository.dart';
 import 'package:app_pym/domain/usecases/services/booking/delete_booking_of_service.dart';
-import 'package:app_pym/core/directory_manager/mock_directory_manager.dart';
 import 'package:app_pym/core/directory_manager/directory_manager.dart';
+import 'package:app_pym/core/directory_manager/mock_directory_manager.dart';
 import 'package:app_pym/domain/repositories/map_pym/mock_entreprise_repository.dart';
 import 'package:app_pym/domain/repositories/map_pym/entreprise_repository.dart';
 import 'package:app_pym/domain/usecases/services/booking/fetch_all_bookings_of_service.dart';
 import 'package:app_pym/presentation/blocs/services/booking/fetch_all_bookings_of_service/fetch_all_bookings_of_service_bloc.dart';
 import 'package:app_pym/domain/usecases/contacts/mock_fetch_contact_categories.dart';
 import 'package:app_pym/domain/usecases/contacts/fetch_contact_categories.dart';
-import 'package:app_pym/domain/usecases/contacts/fetch_contact_of_categorie.dart';
 import 'package:app_pym/domain/usecases/contacts/mock_fetch_contact_of_categorie.dart';
+import 'package:app_pym/domain/usecases/contacts/fetch_contact_of_categorie.dart';
 import 'package:app_pym/domain/usecases/services/mock_fetch_service_categories.dart';
 import 'package:app_pym/domain/usecases/services/fetch_service_categories.dart';
 import 'package:app_pym/domain/usecases/services/mock_fetch_services_of_categorie.dart';
@@ -72,7 +72,6 @@ import 'package:app_pym/data/datasources/map_pym_local_data_source.dart';
 import 'package:app_pym/data/datasources/map_pym_remote_data_source.dart';
 import 'package:app_pym/data/datasources/mock_map_pym_remote_data_source.dart';
 import 'package:app_pym/data/datasources/map_pym_remote_data_source_dev_impl.dart';
-import 'package:app_pym/presentation/blocs/mobility/maps/maps_bloc.dart';
 import 'package:app_pym/data/datasources/metropole_remote_data_source.dart';
 import 'package:app_pym/core/network/network_info.dart';
 import 'package:app_pym/core/network/mock_network_info.dart';
@@ -111,6 +110,7 @@ import 'package:app_pym/presentation/blocs/cartographie/entreprise/entreprise_bl
 import 'package:app_pym/data/repositories/map_pym/entreprise_repository_impl.dart';
 import 'package:app_pym/presentation/blocs/fil_actualite/fil_actualite_bloc.dart';
 import 'package:app_pym/presentation/blocs/authentication/forgot/forgot_bloc.dart';
+import 'package:app_pym/presentation/blocs/mobility/maps/maps_bloc.dart';
 import 'package:app_pym/data/datasources/metropole_local_data_source.dart';
 import 'package:app_pym/data/repositories/mobility/metropole_route_repository_impl.dart';
 import 'package:app_pym/domain/repositories/mobility/route_repository.dart';
@@ -122,7 +122,6 @@ import 'package:app_pym/domain/usecases/mobility/fetch_bus_trips.dart';
 import 'package:app_pym/domain/usecases/mobility/fetch_train_route.dart';
 import 'package:app_pym/domain/usecases/mobility/fetch_train_trips.dart';
 import 'package:app_pym/presentation/blocs/mobility/trips/trips_bloc.dart';
-import 'package:app_pym/domain/usecases/mobility/fetch_train_stops.dart';
 import 'package:get_it/get_it.dart';
 
 Future<void> $initGetIt(GetIt g, {String environment}) async {
@@ -238,7 +237,6 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerFactory<MainPageBloc>(() => devRegisterModule.mainPageBloc);
     g.registerLazySingleton<MapPymRemoteDataSource>(
         () => devRegisterModule.mapPymRemoteDataSource);
-    g.registerFactory<MapsBloc>(() => devRegisterModule.mapsBloc);
     g.registerLazySingleton<MetropoleRemoteDataSource>(
         () => devRegisterModule.metropoleRemoteDataSource);
     g.registerLazySingleton<NetworkInfo>(() => devRegisterModule.networkInfo);
@@ -301,6 +299,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerLazySingleton<GetPosts>(() => devRegisterModule.getPosts);
     g.registerLazySingleton<MapPymLocalDataSource>(
         () => devRegisterModule.mapPymLocalDataSource);
+    g.registerFactory<MapsBloc>(() => devRegisterModule.mapsBloc);
     g.registerLazySingleton<MetropoleLocalDataSource>(
         () => devRegisterModule.metropoleLocalDataSource);
     g.registerLazySingleton<MetropoleRouteRepository>(
@@ -318,8 +317,6 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerLazySingleton<FetchTrainTrips>(
         () => devRegisterModule.fetchTrainTrips);
     g.registerFactory<TripsBloc>(() => devRegisterModule.tripsBloc);
-    g.registerLazySingleton<FetchTrainStops>(
-        () => devRegisterModule.fetchTrainStops);
   }
 
   //Register prod Dependencies --------
@@ -372,10 +369,9 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerFactory<MainPageBloc>(() => MainPageBloc());
     g.registerLazySingleton<MapPymRemoteDataSource>(
         () => MapPymRemoteDataSourceImpl(client: g<Client>()));
-    g.registerFactory<MapsBloc>(
-        () => MapsBloc(geolocatorDevice: g<GeolocatorDevice>()));
-    g.registerLazySingleton<MetropoleRemoteDataSource>(
-        () => MetropoleRemoteDataSourceImpl(client: g<Client>()));
+    g.registerLazySingleton<MetropoleRemoteDataSource>(() =>
+        MetropoleRemoteDataSourceReplacementImpl(
+            directoryManager: g<DirectoryManager>()));
     g.registerLazySingleton<NetworkInfo>(
         () => NetworkInfoImpl(g<Connectivity>()));
     g.registerLazySingleton<PermissionHandler>(() => PermissionHandlerImpl());
@@ -493,6 +489,8 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
               bookingsBox: g<Box<BookingModel>>(),
               prefs: g<SharedPreferences>(),
             ));
+    g.registerFactory<MapsBloc>(
+        () => MapsBloc(permissionHandler: g<PermissionHandler>()));
     g.registerLazySingleton<MetropoleLocalDataSource>(() =>
         MetropoleLocalDataSourceImpl(
             directoryManager: g<DirectoryManager>(),
@@ -521,8 +519,6 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerFactory<TripsBloc>(() => TripsBloc(
         fetchBusTrips: g<FetchBusTrips>(),
         fetchTrainTrips: g<FetchTrainTrips>()));
-    g.registerLazySingleton<FetchTrainStops>(
-        () => FetchTrainStops(g<FetchTrainTrips>()));
   }
 
   //Eager singletons must be registered in the right order
@@ -590,8 +586,6 @@ class _$DevRegisterModule extends DevRegisterModule {
   @override
   MapPymRemoteDataSourceDevImpl get mapPymRemoteDataSource =>
       MapPymRemoteDataSourceDevImpl();
-  @override
-  MapsBloc get mapsBloc => MapsBloc(geolocatorDevice: _g<GeolocatorDevice>());
   @override
   MetropoleRemoteDataSourceImpl get metropoleRemoteDataSource =>
       MetropoleRemoteDataSourceImpl(client: _g<Client>());
@@ -737,6 +731,8 @@ class _$DevRegisterModule extends DevRegisterModule {
         prefs: _g<SharedPreferences>(),
       );
   @override
+  MapsBloc get mapsBloc => MapsBloc(permissionHandler: _g<PermissionHandler>());
+  @override
   MetropoleLocalDataSourceImpl get metropoleLocalDataSource =>
       MetropoleLocalDataSourceImpl(
           directoryManager: _g<DirectoryManager>(),
@@ -775,8 +771,6 @@ class _$DevRegisterModule extends DevRegisterModule {
   TripsBloc get tripsBloc => TripsBloc(
       fetchBusTrips: _g<FetchBusTrips>(),
       fetchTrainTrips: _g<FetchTrainTrips>());
-  @override
-  FetchTrainStops get fetchTrainStops => FetchTrainStops(_g<FetchTrainTrips>());
 }
 
 class _$RegisterModule extends RegisterModule {

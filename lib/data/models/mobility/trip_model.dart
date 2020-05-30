@@ -14,7 +14,7 @@ abstract class TripModel with _$TripModel {
     String route_id,
     String trip_id,
     String trip_headsign,
-    Direction direction_id,
+    Sens direction_id,
   }) = _TripModel;
 }
 

@@ -1,3 +1,4 @@
+import 'package:app_pym/core/constants/mobility.dart';
 import 'package:app_pym/core/network/network_info.dart';
 import 'package:app_pym/data/datasources/metropole_local_data_source.dart';
 import 'package:app_pym/data/datasources/metropole_remote_data_source.dart';
@@ -42,14 +43,15 @@ class MetropoleRouteRepositoryImpl implements MetropoleRouteRepository {
     final stopTimeModels = localDataSource.fetchStopTimes();
     final stopModels = localDataSource.fetchStops();
 
-    for (final routeModel in await routeModels) {
-      final route = routeModel.toEntity(
-        calendarModels: await calendarModels,
-        stopModels: await stopModels,
-        stopTimeModels: await stopTimeModels,
-        tripModels: await tripModels,
-      );
-      yield route;
-    }
+    //la seule route qui nous intéresse
+    final routeModel = (await routeModels).firstWhere((routeModel) =>
+        routeModel.route_id.compareTo(MobilityConstants.busLine) == 0);
+    final route = routeModel.toEntity(
+      calendarModels: await calendarModels,
+      stopModels: await stopModels,
+      stopTimeModels: await stopTimeModels,
+      tripModels: await tripModels,
+    );
+    yield route;
   }
 }

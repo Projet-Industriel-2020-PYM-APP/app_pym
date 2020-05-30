@@ -24,54 +24,45 @@ class StopDetailsBloc extends Bloc<StopDetailsEvent, StopDetailsState> {
       show: (id, trips, isBus) async* {
         yield state.loading();
         try {
-          final List<String> infos = id.split("_");
-          final String stop_name = infos[3];
-          String destination;
-          if (isBus) {
-            destination = MobilityConstants.pymStop;
-          } else {
-            destination = MobilityConstants.gareGardanne;
-          }
-          Direction direction;
-          if (infos[1] == "Direction.Aller") {
-            direction = Direction.Aller;
-          } else {
-            direction = Direction.Retour;
-          }
-          final List<StopTime> trip = trips[direction.index].stop_time;
+          final List<String> infos = id.split(
+              "_"); // id au format bus_direction(aller/partir)_sens(aller/retour)_nom
+          final String stop_name = infos[0];
+          final String destination = isBus
+              ? MobilityConstants.pymStop
+              : MobilityConstants.gareGardanne;
+          final Direction direction = infos[1] == "Direction.Aller"
+              ? Direction.Aller
+              : Direction.Partir;
+          final Sens sens = infos[2] == "Sens.Aller" ? Sens.Aller : Sens.Retour;
+
+          final List<StopTime> trip = direction.index == sens.index
+              ? trips[sens.index].stop_time
+              : trips[6 + sens.index].stop_time;
           final String last_stop = trip.last.stop.stop_name;
-          final List<String> stop_times = [];
+          final List<String> arrivalTimes = [];
+          // Le top 3 des horaires du marker
           for (int i = 0; i < 3; i++) {
-            for (final StopTime stop_time
-                in trips[i + direction.index].stop_time) {
-              if (stop_time.stop.stop_name == destination) {
-                stop_times.add(stop_time.arrival_time);
-              }
-            }
-          }
-          if (direction == Direction.Aller) {
-            bool supprime = true;
-            for (final StopTime stop_time in trip) {
-              if (stop_time.stop.stop_name == stop_name) {
-                supprime = false;
-              }
-              if (supprime) {
-                trip.remove(stop_time);
-              }
-            }
-          } else {
-            bool supprime = true;
-            for (final StopTime stop_time in trip) {
-              if (stop_time.stop.stop_name == destination) {
-                supprime = false;
-              }
-              if (supprime) {
-                trip.remove(stop_time);
-              }
+            if (direction.index == sens.index) {
+              arrivalTimes.add(trips[2 * i + sens.index]
+                  .stop_time
+                  .firstWhere(
+                      (stop_time) => stop_time.stop.stop_name == stop_name)
+                  .arrival_time);
+            } else {
+              arrivalTimes.add(trips[6 + 2 * i + sens.index]
+                  .stop_time
+                  .firstWhere(
+                      (stop_time) => stop_time.stop.stop_name == stop_name)
+                  .arrival_time);
             }
           }
           yield state.loaded(
-              isBus, stop_name, last_stop, stop_times, trip, destination);
+            stop_name,
+            last_stop,
+            arrivalTimes,
+            trip,
+            destination,
+          );
         } on Exception catch (e) {
           yield state.error(e);
         }

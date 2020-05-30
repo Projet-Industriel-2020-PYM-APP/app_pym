@@ -4,6 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 abstract class PermissionHandler {
   Future<Map<Permission, PermissionStatus>> get requestPermissions;
   Future<bool> get locationIsEnabled;
+  Future<PermissionStatus> get requestPermissionLocationWhenInUse;
 }
 
 @prod
@@ -14,6 +15,11 @@ class PermissionHandlerImpl implements PermissionHandler {
         Permission.camera,
         Permission.locationWhenInUse,
       ].request();
+
+  @override
+  Future<PermissionStatus> get requestPermissionLocationWhenInUse {
+    return Permission.locationWhenInUse.request();
+  }
 
   @override
   Future<bool> get locationIsEnabled =>

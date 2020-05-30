@@ -321,20 +321,18 @@ class _$StopDetailsStateTearOff {
   _StopDetailsState call(
       {@required bool isLoading,
       @required bool isError,
-      @required bool isBus,
       @required String stop_name,
       @required String last_stop,
-      @required List<String> stop_times,
+      @required List<String> arrivalTimes,
       @required List<StopTime> trip,
       @required String destination,
       Exception exception}) {
     return _StopDetailsState(
       isLoading: isLoading,
       isError: isError,
-      isBus: isBus,
       stop_name: stop_name,
       last_stop: last_stop,
-      stop_times: stop_times,
+      arrivalTimes: arrivalTimes,
       trip: trip,
       destination: destination,
       exception: exception,
@@ -348,10 +346,9 @@ const $StopDetailsState = _$StopDetailsStateTearOff();
 mixin _$StopDetailsState {
   bool get isLoading;
   bool get isError;
-  bool get isBus;
   String get stop_name;
   String get last_stop;
-  List<String> get stop_times;
+  List<String> get arrivalTimes;
   List<StopTime> get trip;
   String get destination;
   Exception get exception;
@@ -366,10 +363,9 @@ abstract class $StopDetailsStateCopyWith<$Res> {
   $Res call(
       {bool isLoading,
       bool isError,
-      bool isBus,
       String stop_name,
       String last_stop,
-      List<String> stop_times,
+      List<String> arrivalTimes,
       List<StopTime> trip,
       String destination,
       Exception exception});
@@ -387,10 +383,9 @@ class _$StopDetailsStateCopyWithImpl<$Res>
   $Res call({
     Object isLoading = freezed,
     Object isError = freezed,
-    Object isBus = freezed,
     Object stop_name = freezed,
     Object last_stop = freezed,
-    Object stop_times = freezed,
+    Object arrivalTimes = freezed,
     Object trip = freezed,
     Object destination = freezed,
     Object exception = freezed,
@@ -398,12 +393,11 @@ class _$StopDetailsStateCopyWithImpl<$Res>
     return _then(_value.copyWith(
       isLoading: isLoading == freezed ? _value.isLoading : isLoading as bool,
       isError: isError == freezed ? _value.isError : isError as bool,
-      isBus: isBus == freezed ? _value.isBus : isBus as bool,
       stop_name: stop_name == freezed ? _value.stop_name : stop_name as String,
       last_stop: last_stop == freezed ? _value.last_stop : last_stop as String,
-      stop_times: stop_times == freezed
-          ? _value.stop_times
-          : stop_times as List<String>,
+      arrivalTimes: arrivalTimes == freezed
+          ? _value.arrivalTimes
+          : arrivalTimes as List<String>,
       trip: trip == freezed ? _value.trip : trip as List<StopTime>,
       destination:
           destination == freezed ? _value.destination : destination as String,
@@ -422,10 +416,9 @@ abstract class _$StopDetailsStateCopyWith<$Res>
   $Res call(
       {bool isLoading,
       bool isError,
-      bool isBus,
       String stop_name,
       String last_stop,
-      List<String> stop_times,
+      List<String> arrivalTimes,
       List<StopTime> trip,
       String destination,
       Exception exception});
@@ -445,10 +438,9 @@ class __$StopDetailsStateCopyWithImpl<$Res>
   $Res call({
     Object isLoading = freezed,
     Object isError = freezed,
-    Object isBus = freezed,
     Object stop_name = freezed,
     Object last_stop = freezed,
-    Object stop_times = freezed,
+    Object arrivalTimes = freezed,
     Object trip = freezed,
     Object destination = freezed,
     Object exception = freezed,
@@ -456,12 +448,11 @@ class __$StopDetailsStateCopyWithImpl<$Res>
     return _then(_StopDetailsState(
       isLoading: isLoading == freezed ? _value.isLoading : isLoading as bool,
       isError: isError == freezed ? _value.isError : isError as bool,
-      isBus: isBus == freezed ? _value.isBus : isBus as bool,
       stop_name: stop_name == freezed ? _value.stop_name : stop_name as String,
       last_stop: last_stop == freezed ? _value.last_stop : last_stop as String,
-      stop_times: stop_times == freezed
-          ? _value.stop_times
-          : stop_times as List<String>,
+      arrivalTimes: arrivalTimes == freezed
+          ? _value.arrivalTimes
+          : arrivalTimes as List<String>,
       trip: trip == freezed ? _value.trip : trip as List<StopTime>,
       destination:
           destination == freezed ? _value.destination : destination as String,
@@ -477,19 +468,17 @@ class _$_StopDetailsState
   const _$_StopDetailsState(
       {@required this.isLoading,
       @required this.isError,
-      @required this.isBus,
       @required this.stop_name,
       @required this.last_stop,
-      @required this.stop_times,
+      @required this.arrivalTimes,
       @required this.trip,
       @required this.destination,
       this.exception})
       : assert(isLoading != null),
         assert(isError != null),
-        assert(isBus != null),
         assert(stop_name != null),
         assert(last_stop != null),
-        assert(stop_times != null),
+        assert(arrivalTimes != null),
         assert(trip != null),
         assert(destination != null);
 
@@ -498,13 +487,11 @@ class _$_StopDetailsState
   @override
   final bool isError;
   @override
-  final bool isBus;
-  @override
   final String stop_name;
   @override
   final String last_stop;
   @override
-  final List<String> stop_times;
+  final List<String> arrivalTimes;
   @override
   final List<StopTime> trip;
   @override
@@ -514,7 +501,7 @@ class _$_StopDetailsState
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'StopDetailsState(isLoading: $isLoading, isError: $isError, isBus: $isBus, stop_name: $stop_name, last_stop: $last_stop, stop_times: $stop_times, trip: $trip, destination: $destination, exception: $exception)';
+    return 'StopDetailsState(isLoading: $isLoading, isError: $isError, stop_name: $stop_name, last_stop: $last_stop, arrivalTimes: $arrivalTimes, trip: $trip, destination: $destination, exception: $exception)';
   }
 
   @override
@@ -524,10 +511,9 @@ class _$_StopDetailsState
       ..add(DiagnosticsProperty('type', 'StopDetailsState'))
       ..add(DiagnosticsProperty('isLoading', isLoading))
       ..add(DiagnosticsProperty('isError', isError))
-      ..add(DiagnosticsProperty('isBus', isBus))
       ..add(DiagnosticsProperty('stop_name', stop_name))
       ..add(DiagnosticsProperty('last_stop', last_stop))
-      ..add(DiagnosticsProperty('stop_times', stop_times))
+      ..add(DiagnosticsProperty('arrivalTimes', arrivalTimes))
       ..add(DiagnosticsProperty('trip', trip))
       ..add(DiagnosticsProperty('destination', destination))
       ..add(DiagnosticsProperty('exception', exception));
@@ -543,17 +529,15 @@ class _$_StopDetailsState
             (identical(other.isError, isError) ||
                 const DeepCollectionEquality()
                     .equals(other.isError, isError)) &&
-            (identical(other.isBus, isBus) ||
-                const DeepCollectionEquality().equals(other.isBus, isBus)) &&
             (identical(other.stop_name, stop_name) ||
                 const DeepCollectionEquality()
                     .equals(other.stop_name, stop_name)) &&
             (identical(other.last_stop, last_stop) ||
                 const DeepCollectionEquality()
                     .equals(other.last_stop, last_stop)) &&
-            (identical(other.stop_times, stop_times) ||
+            (identical(other.arrivalTimes, arrivalTimes) ||
                 const DeepCollectionEquality()
-                    .equals(other.stop_times, stop_times)) &&
+                    .equals(other.arrivalTimes, arrivalTimes)) &&
             (identical(other.trip, trip) ||
                 const DeepCollectionEquality().equals(other.trip, trip)) &&
             (identical(other.destination, destination) ||
@@ -569,10 +553,9 @@ class _$_StopDetailsState
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(isLoading) ^
       const DeepCollectionEquality().hash(isError) ^
-      const DeepCollectionEquality().hash(isBus) ^
       const DeepCollectionEquality().hash(stop_name) ^
       const DeepCollectionEquality().hash(last_stop) ^
-      const DeepCollectionEquality().hash(stop_times) ^
+      const DeepCollectionEquality().hash(arrivalTimes) ^
       const DeepCollectionEquality().hash(trip) ^
       const DeepCollectionEquality().hash(destination) ^
       const DeepCollectionEquality().hash(exception);
@@ -586,10 +569,9 @@ abstract class _StopDetailsState implements StopDetailsState {
   const factory _StopDetailsState(
       {@required bool isLoading,
       @required bool isError,
-      @required bool isBus,
       @required String stop_name,
       @required String last_stop,
-      @required List<String> stop_times,
+      @required List<String> arrivalTimes,
       @required List<StopTime> trip,
       @required String destination,
       Exception exception}) = _$_StopDetailsState;
@@ -599,13 +581,11 @@ abstract class _StopDetailsState implements StopDetailsState {
   @override
   bool get isError;
   @override
-  bool get isBus;
-  @override
   String get stop_name;
   @override
   String get last_stop;
   @override
-  List<String> get stop_times;
+  List<String> get arrivalTimes;
   @override
   List<StopTime> get trip;
   @override

@@ -5,10 +5,9 @@ abstract class StopDetailsState with _$StopDetailsState {
   const factory StopDetailsState({
     @required bool isLoading,
     @required bool isError,
-    @required bool isBus,
-    @required String stop_name,
+    @required @required String stop_name,
     @required String last_stop,
-    @required List<String> stop_times,
+    @required List<String> arrivalTimes,
     @required List<StopTime> trip,
     @required String destination,
     Exception exception,
@@ -16,12 +15,11 @@ abstract class StopDetailsState with _$StopDetailsState {
 
   factory StopDetailsState.initial() {
     return const StopDetailsState(
-      isBus: true,
-      isLoading: false,
+      isLoading: true,
       isError: false,
       stop_name: "",
       last_stop: "",
-      stop_times: ["", "", ""],
+      arrivalTimes: ["", "", ""],
       trip: [],
       destination: "",
     );
@@ -36,15 +34,14 @@ extension StopDetailsStateX on StopDetailsState {
     );
   }
 
-  StopDetailsState loaded(bool isBus, String stop_name, String last_stop,
-      List<String> stop_times, List<StopTime> trip, String destination) {
+  StopDetailsState loaded(String stop_name, String last_stop,
+      List<String> arrivalTimes, List<StopTime> trip, String destination) {
     return this.copyWith(
-      isBus: isBus,
       isLoading: false,
       isError: false,
       stop_name: stop_name,
       last_stop: last_stop,
-      stop_times: stop_times,
+      arrivalTimes: arrivalTimes,
       trip: trip,
       destination: destination,
     );

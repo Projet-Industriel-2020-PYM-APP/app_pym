@@ -20,6 +20,8 @@ abstract class TripsState with _$TripsState {
       isBusLoaded: false,
       isTrainLoaded: false,
       direction: direction,
+      busTrips: <Trip>[],
+      trainTrips: <Trip>[],
     );
   }
 }
@@ -55,8 +57,6 @@ extension TripsStateX on TripsState {
     return this.copyWith(
       isLoading: true,
       isError: false,
-      isBusLoaded: false,
-      isTrainLoaded: false,
     );
   }
 
