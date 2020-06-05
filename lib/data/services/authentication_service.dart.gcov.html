@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-05-30 20:20:53</td>
+            <td class="headerValue">2020-06-05 01:22:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -115,7 +115,7 @@
 <span class="lineNum">      53 </span>            :       return;
 <span class="lineNum">      54 </span>            :     } else {
 <span class="lineNum">      55 </span><span class="lineCov">          1 :       throw ServerException(</span>
-<span class="lineNum">      56 </span><span class="lineCov">          4 :           'Forget Password Failed : ${response.statusCode}, ${response.reasonPhrase}\n${response.body}');</span>
+<span class="lineNum">      56 </span><span class="lineCov">          3 :           'Forget Password Failed : ${response.statusCode}, ${response.reasonPhrase}');</span>
 <span class="lineNum">      57 </span>            :     }
 <span class="lineNum">      58 </span>            :   }
 <span class="lineNum">      59 </span>            : 
@@ -130,7 +130,7 @@
 <span class="lineNum">      68 </span>            :       return;
 <span class="lineNum">      69 </span>            :     } else {
 <span class="lineNum">      70 </span><span class="lineCov">          1 :       throw ServerException(</span>
-<span class="lineNum">      71 </span><span class="lineCov">          4 :           'Email Verification Failed : ${response.statusCode}, ${response.reasonPhrase}\n${response.body}');</span>
+<span class="lineNum">      71 </span><span class="lineCov">          3 :           'Email Verification Failed : ${response.statusCode}, ${response.reasonPhrase}');</span>
 <span class="lineNum">      72 </span>            :     }
 <span class="lineNum">      73 </span>            :   }
 <span class="lineNum">      74 </span>            : 
@@ -152,7 +152,7 @@
 <span class="lineNum">      90 </span><span class="lineCov">          2 :       return _token = response.body;</span>
 <span class="lineNum">      91 </span>            :     } else {
 <span class="lineNum">      92 </span><span class="lineCov">          1 :       throw ServerException(</span>
-<span class="lineNum">      93 </span><span class="lineCov">          4 :           'Cannot log in : ${response.statusCode}, ${response.reasonPhrase}\n${response.body}');</span>
+<span class="lineNum">      93 </span><span class="lineCov">          3 :           'Cannot log in : ${response.statusCode}, ${response.reasonPhrase}');</span>
 <span class="lineNum">      94 </span>            :     }
 <span class="lineNum">      95 </span>            :   }
 <span class="lineNum">      96 </span>            : 
@@ -183,7 +183,7 @@
 <span class="lineNum">     121 </span><span class="lineCov">          2 :       return _token = response.body;</span>
 <span class="lineNum">     122 </span>            :     } else {
 <span class="lineNum">     123 </span><span class="lineCov">          1 :       throw ServerException(</span>
-<span class="lineNum">     124 </span><span class="lineCov">          4 :           'Cannot register : ${response.statusCode}, ${response.reasonPhrase}\n${response.body}');</span>
+<span class="lineNum">     124 </span><span class="lineCov">          3 :           'Cannot register : ${response.statusCode}, ${response.reasonPhrase}');</span>
 <span class="lineNum">     125 </span>            :     }
 <span class="lineNum">     126 </span>            :   }
 <span class="lineNum">     127 </span>            : }

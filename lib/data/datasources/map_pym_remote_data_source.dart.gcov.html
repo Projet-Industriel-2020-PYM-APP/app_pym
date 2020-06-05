@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-05-30 20:20:53</td>
+            <td class="headerValue">2020-06-05 01:22:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -139,7 +139,7 @@
 <span class="lineNum">      77 </span>            :       return;
 <span class="lineNum">      78 </span>            :     } else {
 <span class="lineNum">      79 </span><span class="lineCov">          1 :       throw ServerException(</span>
-<span class="lineNum">      80 </span><span class="lineCov">          4 :           'Failed to create booking : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');</span>
+<span class="lineNum">      80 </span><span class="lineCov">          3 :           'Failed to create booking : ${response.statusCode} ${response.reasonPhrase}');</span>
 <span class="lineNum">      81 </span>            :     }
 <span class="lineNum">      82 </span>            :   }
 <span class="lineNum">      83 </span>            : 
@@ -157,7 +157,7 @@
 <span class="lineNum">      95 </span>            :       return;
 <span class="lineNum">      96 </span>            :     } else {
 <span class="lineNum">      97 </span><span class="lineCov">          1 :       throw ServerException(</span>
-<span class="lineNum">      98 </span><span class="lineCov">          4 :           'Failed to delete booking : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');</span>
+<span class="lineNum">      98 </span><span class="lineCov">          3 :           'Failed to delete booking : ${response.statusCode} ${response.reasonPhrase}');</span>
 <span class="lineNum">      99 </span>            :     }
 <span class="lineNum">     100 </span>            :   }
 <span class="lineNum">     101 </span>            : 
@@ -173,7 +173,7 @@
 <span class="lineNum">     111 </span><span class="lineCov">          1 :           ?.toList();</span>
 <span class="lineNum">     112 </span>            :     } else {
 <span class="lineNum">     113 </span><span class="lineCov">          1 :       throw ServerException(</span>
-<span class="lineNum">     114 </span><span class="lineCov">          4 :           'Failed to load batiments : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');</span>
+<span class="lineNum">     114 </span><span class="lineCov">          3 :           'Failed to load batiments : ${response.statusCode} ${response.reasonPhrase}');</span>
 <span class="lineNum">     115 </span>            :     }
 <span class="lineNum">     116 </span>            :   }
 <span class="lineNum">     117 </span>            : 
@@ -191,7 +191,7 @@
 <span class="lineNum">     129 </span><span class="lineCov">          1 :           ?.toList();</span>
 <span class="lineNum">     130 </span>            :     } else {
 <span class="lineNum">     131 </span><span class="lineCov">          1 :       throw ServerException(</span>
-<span class="lineNum">     132 </span><span class="lineCov">          4 :           'Failed to load bookings of service ${service_id} : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');</span>
+<span class="lineNum">     132 </span><span class="lineCov">          3 :           'Failed to load bookings of service ${service_id} : ${response.statusCode} ${response.reasonPhrase}');</span>
 <span class="lineNum">     133 </span>            :     }
 <span class="lineNum">     134 </span>            :   }
 <span class="lineNum">     135 </span>            : 
@@ -207,7 +207,7 @@
 <span class="lineNum">     145 </span><span class="lineCov">          1 :           ?.toList();</span>
 <span class="lineNum">     146 </span>            :     } else {
 <span class="lineNum">     147 </span><span class="lineCov">          1 :       throw ServerException(</span>
-<span class="lineNum">     148 </span><span class="lineCov">          4 :           'Failed to load categorie : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');</span>
+<span class="lineNum">     148 </span><span class="lineCov">          3 :           'Failed to load categorie : ${response.statusCode} ${response.reasonPhrase}');</span>
 <span class="lineNum">     149 </span>            :     }
 <span class="lineNum">     150 </span>            :   }
 <span class="lineNum">     151 </span>            : 
@@ -222,7 +222,7 @@
 <span class="lineNum">     160 </span><span class="lineCov">          1 :           ?.toList();</span>
 <span class="lineNum">     161 </span>            :     } else {
 <span class="lineNum">     162 </span><span class="lineCov">          1 :       throw ServerException(</span>
-<span class="lineNum">     163 </span><span class="lineCov">          4 :           'Failed to load Posts : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');</span>
+<span class="lineNum">     163 </span><span class="lineCov">          3 :           'Failed to load Posts : ${response.statusCode} ${response.reasonPhrase}');</span>
 <span class="lineNum">     164 </span>            :     }
 <span class="lineNum">     165 </span>            :   }
 <span class="lineNum">     166 </span>            : 
@@ -238,7 +238,7 @@
 <span class="lineNum">     176 </span><span class="lineCov">          1 :           ?.toList();</span>
 <span class="lineNum">     177 </span>            :     } else {
 <span class="lineNum">     178 </span><span class="lineCov">          1 :       throw ServerException(</span>
-<span class="lineNum">     179 </span><span class="lineCov">          4 :           'Failed to load categorie : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');</span>
+<span class="lineNum">     179 </span><span class="lineCov">          3 :           'Failed to load categorie : ${response.statusCode} ${response.reasonPhrase}');</span>
 <span class="lineNum">     180 </span>            :     }
 <span class="lineNum">     181 </span>            :   }
 <span class="lineNum">     182 </span>            : 
@@ -254,7 +254,7 @@
 <span class="lineNum">     192 </span><span class="lineCov">          4 :           ?.firstWhere((element) =&gt; element.id == id);</span>
 <span class="lineNum">     193 </span>            :     } else {
 <span class="lineNum">     194 </span><span class="lineCov">          1 :       throw ServerException(</span>
-<span class="lineNum">     195 </span><span class="lineCov">          4 :           'Failed to load batiments : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');</span>
+<span class="lineNum">     195 </span><span class="lineCov">          3 :           'Failed to load batiments : ${response.statusCode} ${response.reasonPhrase}');</span>
 <span class="lineNum">     196 </span>            :     }
 <span class="lineNum">     197 </span>            :   }
 <span class="lineNum">     198 </span>            : 
@@ -269,7 +269,7 @@
 <span class="lineNum">     207 </span><span class="lineCov">          4 :           ?.firstWhere((e) =&gt; e.id == id);</span>
 <span class="lineNum">     208 </span>            :     } else {
 <span class="lineNum">     209 </span><span class="lineCov">          1 :       throw ServerException(</span>
-<span class="lineNum">     210 </span><span class="lineCov">          4 :           'Failed to fetch contact $id : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');</span>
+<span class="lineNum">     210 </span><span class="lineCov">          3 :           'Failed to fetch contact $id : ${response.statusCode} ${response.reasonPhrase}');</span>
 <span class="lineNum">     211 </span>            :     }
 <span class="lineNum">     212 </span>            :   }
 <span class="lineNum">     213 </span>            : 
@@ -287,7 +287,7 @@
 <span class="lineNum">     225 </span><span class="lineCov">          1 :           ?.toList();</span>
 <span class="lineNum">     226 </span>            :     } else {
 <span class="lineNum">     227 </span><span class="lineCov">          1 :       throw ServerException(</span>
-<span class="lineNum">     228 </span><span class="lineCov">          4 :           'Failed to load entreprises : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');</span>
+<span class="lineNum">     228 </span><span class="lineCov">          3 :           'Failed to load entreprises : ${response.statusCode} ${response.reasonPhrase}');</span>
 <span class="lineNum">     229 </span>            :     }
 <span class="lineNum">     230 </span>            :   }
 <span class="lineNum">     231 </span>            : 
@@ -303,7 +303,7 @@
 <span class="lineNum">     241 </span><span class="lineCov">          1 :           ?.toList();</span>
 <span class="lineNum">     242 </span>            :     } else {
 <span class="lineNum">     243 </span><span class="lineCov">          1 :       throw ServerException(</span>
-<span class="lineNum">     244 </span><span class="lineCov">          4 :           'Failed to load services of categorie ${categorie_id} : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');</span>
+<span class="lineNum">     244 </span><span class="lineCov">          3 :           'Failed to load services of categorie ${categorie_id} : ${response.statusCode} ${response.reasonPhrase}');</span>
 <span class="lineNum">     245 </span>            :     }
 <span class="lineNum">     246 </span>            :   }
 <span class="lineNum">     247 </span>            : 
@@ -319,7 +319,7 @@
 <span class="lineNum">     257 </span><span class="lineCov">          1 :       return AppUserModel.fromJson(body);</span>
 <span class="lineNum">     258 </span>            :     } else {
 <span class="lineNum">     259 </span><span class="lineCov">          1 :       throw ServerException(</span>
-<span class="lineNum">     260 </span><span class="lineCov">          4 :           'Failed to load user : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');</span>
+<span class="lineNum">     260 </span><span class="lineCov">          3 :           'Failed to load user : ${response.statusCode} ${response.reasonPhrase}');</span>
 <span class="lineNum">     261 </span>            :     }
 <span class="lineNum">     262 </span>            :   }
 <span class="lineNum">     263 </span>            : 
@@ -342,7 +342,7 @@
 <span class="lineNum">     280 </span>            :       return;
 <span class="lineNum">     281 </span>            :     } else {
 <span class="lineNum">     282 </span><span class="lineCov">          1 :       throw ServerException(</span>
-<span class="lineNum">     283 </span><span class="lineCov">          4 :           'Failed to edit booking : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');</span>
+<span class="lineNum">     283 </span><span class="lineCov">          3 :           'Failed to edit booking : ${response.statusCode} ${response.reasonPhrase}');</span>
 <span class="lineNum">     284 </span>            :     }
 <span class="lineNum">     285 </span>            :   }
 <span class="lineNum">     286 </span>            : }

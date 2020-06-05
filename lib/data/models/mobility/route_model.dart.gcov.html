@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">0</td>
             <td class="headerCovTableEntry">13</td>
-            <td class="headerCovTableEntryLo">0.0 %</td>
+            <td class="headerCovTableEntry">13</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-05-30 20:20:53</td>
+            <td class="headerValue">2020-06-05 01:22:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -79,34 +79,33 @@
 <span class="lineNum">      17 </span>            : }
 <span class="lineNum">      18 </span>            : 
 <span class="lineNum">      19 </span>            : extension RouteModelX on RouteModel {
-<span class="lineNum">      20 </span><span class="lineNoCov">          0 :   Route toEntity({</span>
+<span class="lineNum">      20 </span><span class="lineCov">          1 :   Route toEntity({</span>
 <span class="lineNum">      21 </span>            :     @required List&lt;TripModel&gt; tripModels,
 <span class="lineNum">      22 </span>            :     @required List&lt;CalendarModel&gt; calendarModels,
 <span class="lineNum">      23 </span>            :     @required List&lt;StopTimeModel&gt; stopTimeModels,
 <span class="lineNum">      24 </span>            :     @required List&lt;StopModel&gt; stopModels,
 <span class="lineNum">      25 </span>            :   }) {
-<span class="lineNum">      26 </span>            :     final List&lt;TripModel&gt; filteredTripModels1 = tripModels
-<span class="lineNum">      27 </span><span class="lineNoCov">          0 :         .where((tripModel) =&gt; tripModel.route_id.compareTo(this.route_id) == 0)</span>
-<span class="lineNum">      28 </span><span class="lineNoCov">          0 :         .toList(); //ne prend que les trips de la route</span>
-<span class="lineNum">      29 </span>            :     final List&lt;TripModel&gt; filteredTripModels2 = filteredTripModels1
-<span class="lineNum">      30 </span><span class="lineNoCov">          0 :         .where((tripModel) =&gt; calendarModels</span>
-<span class="lineNum">      31 </span><span class="lineNoCov">          0 :             .map((e) =&gt; e.service_id)</span>
-<span class="lineNum">      32 </span><span class="lineNoCov">          0 :             .contains(tripModel.service_id))</span>
-<span class="lineNum">      33 </span><span class="lineNoCov">          0 :         .toList(); //ne prend que les trips avec un calendar</span>
-<span class="lineNum">      34 </span><span class="lineNoCov">          0 :     return Route(</span>
-<span class="lineNum">      35 </span><span class="lineNoCov">          0 :       route_id: this.route_id,</span>
-<span class="lineNum">      36 </span><span class="lineNoCov">          0 :       route_long_name: this.route_long_name,</span>
-<span class="lineNum">      37 </span><span class="lineNoCov">          0 :       route_short_name: this.route_short_name,</span>
-<span class="lineNum">      38 </span>            :       trips: filteredTripModels2
-<span class="lineNum">      39 </span><span class="lineNoCov">          0 :           .map((e) =&gt; e.toEntity(</span>
-<span class="lineNum">      40 </span>            :                 calendarModels: calendarModels,
-<span class="lineNum">      41 </span>            :                 stopModels: stopModels,
-<span class="lineNum">      42 </span>            :                 stopTimeModels: stopTimeModels,
-<span class="lineNum">      43 </span>            :               ))
-<span class="lineNum">      44 </span><span class="lineNoCov">          0 :           .toList(),</span>
-<span class="lineNum">      45 </span>            :     );
-<span class="lineNum">      46 </span>            :   }
-<span class="lineNum">      47 </span>            : }
+<span class="lineNum">      26 </span>            :     final List&lt;TripModel&gt; filteredTripModels = tripModels
+<span class="lineNum">      27 </span><span class="lineCov">          2 :         .where((tripModel) =&gt;</span>
+<span class="lineNum">      28 </span><span class="lineCov">          2 :             tripModel.route_id ==</span>
+<span class="lineNum">      29 </span><span class="lineCov">          1 :             this.route_id) // Ne prend que les trips de la route</span>
+<span class="lineNum">      30 </span><span class="lineCov">          6 :         .where((tripModel) =&gt; calendarModels.map((e) =&gt; e.service_id).contains(</span>
+<span class="lineNum">      31 </span><span class="lineCov">          1 :             tripModel.service_id)) // Ne prend que les trips avec un calendar</span>
+<span class="lineNum">      32 </span><span class="lineCov">          1 :         .toList();</span>
+<span class="lineNum">      33 </span><span class="lineCov">          1 :     return Route(</span>
+<span class="lineNum">      34 </span><span class="lineCov">          1 :       route_id: this.route_id,</span>
+<span class="lineNum">      35 </span><span class="lineCov">          1 :       route_long_name: this.route_long_name,</span>
+<span class="lineNum">      36 </span><span class="lineCov">          1 :       route_short_name: this.route_short_name,</span>
+<span class="lineNum">      37 </span>            :       trips: filteredTripModels
+<span class="lineNum">      38 </span><span class="lineCov">          3 :           .map((e) =&gt; e.toEntity(</span>
+<span class="lineNum">      39 </span>            :                 calendarModels: calendarModels,
+<span class="lineNum">      40 </span>            :                 stopModels: stopModels,
+<span class="lineNum">      41 </span>            :                 stopTimeModels: stopTimeModels,
+<span class="lineNum">      42 </span>            :               ))
+<span class="lineNum">      43 </span><span class="lineCov">          1 :           .toList(),</span>
+<span class="lineNum">      44 </span>            :     );
+<span class="lineNum">      45 </span>            :   }
+<span class="lineNum">      46 </span>            : }
 </pre>
       </td>
     </tr>

@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">0</td>
             <td class="headerCovTableEntry">13</td>
-            <td class="headerCovTableEntryLo">0.0 %</td>
+            <td class="headerCovTableEntry">13</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-05-30 20:20:53</td>
+            <td class="headerValue">2020-06-05 01:22:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -82,20 +82,20 @@
 <span class="lineNum">      20 </span>            : }
 <span class="lineNum">      21 </span>            : 
 <span class="lineNum">      22 </span>            : extension CalendarModelX on CalendarModel {
-<span class="lineNum">      23 </span><span class="lineNoCov">          0 :   Calendar toEntity() {</span>
-<span class="lineNum">      24 </span><span class="lineNoCov">          0 :     return Calendar(</span>
-<span class="lineNum">      25 </span><span class="lineNoCov">          0 :       service_id: this.service_id,</span>
-<span class="lineNum">      26 </span><span class="lineNoCov">          0 :       weekdays: [</span>
-<span class="lineNum">      27 </span><span class="lineNoCov">          0 :         this.monday,</span>
-<span class="lineNum">      28 </span><span class="lineNoCov">          0 :         this.tuesday,</span>
-<span class="lineNum">      29 </span><span class="lineNoCov">          0 :         this.wednesday,</span>
-<span class="lineNum">      30 </span><span class="lineNoCov">          0 :         this.thursday,</span>
-<span class="lineNum">      31 </span><span class="lineNoCov">          0 :         this.friday,</span>
-<span class="lineNum">      32 </span><span class="lineNoCov">          0 :         this.saturday,</span>
-<span class="lineNum">      33 </span><span class="lineNoCov">          0 :         this.sunday</span>
+<span class="lineNum">      23 </span><span class="lineCov">          3 :   Calendar toEntity() {</span>
+<span class="lineNum">      24 </span><span class="lineCov">          3 :     return Calendar(</span>
+<span class="lineNum">      25 </span><span class="lineCov">          3 :       service_id: this.service_id,</span>
+<span class="lineNum">      26 </span><span class="lineCov">          3 :       weekdays: [</span>
+<span class="lineNum">      27 </span><span class="lineCov">          3 :         this.monday,</span>
+<span class="lineNum">      28 </span><span class="lineCov">          3 :         this.tuesday,</span>
+<span class="lineNum">      29 </span><span class="lineCov">          3 :         this.wednesday,</span>
+<span class="lineNum">      30 </span><span class="lineCov">          3 :         this.thursday,</span>
+<span class="lineNum">      31 </span><span class="lineCov">          3 :         this.friday,</span>
+<span class="lineNum">      32 </span><span class="lineCov">          3 :         this.saturday,</span>
+<span class="lineNum">      33 </span><span class="lineCov">          3 :         this.sunday</span>
 <span class="lineNum">      34 </span>            :       ],
-<span class="lineNum">      35 </span><span class="lineNoCov">          0 :       start_date: this.start_date,</span>
-<span class="lineNum">      36 </span><span class="lineNoCov">          0 :       end_date: this.end_date,</span>
+<span class="lineNum">      35 </span><span class="lineCov">          3 :       start_date: this.start_date,</span>
+<span class="lineNum">      36 </span><span class="lineCov">          3 :       end_date: this.end_date,</span>
 <span class="lineNum">      37 </span>            :     );
 <span class="lineNum">      38 </span>            :   }
 <span class="lineNum">      39 </span>            : }

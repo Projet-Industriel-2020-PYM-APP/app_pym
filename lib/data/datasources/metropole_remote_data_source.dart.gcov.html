@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">18</td>
             <td class="headerCovTableEntry">25</td>
-            <td class="headerCovTableEntryLo">0.0 %</td>
+            <td class="headerCovTableEntryLo">72.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-05-30 20:20:53</td>
+            <td class="headerValue">2020-06-05 01:22:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -80,45 +80,45 @@
 <span class="lineNum">      18 </span>            : class MetropoleRemoteDataSourceImpl implements MetropoleRemoteDataSource {
 <span class="lineNum">      19 </span>            :   final http.Client client;
 <span class="lineNum">      20 </span>            : 
-<span class="lineNum">      21 </span><span class="lineNoCov">          0 :   MetropoleRemoteDataSourceImpl({@required this.client});</span>
+<span class="lineNum">      21 </span><span class="lineCov">          1 :   MetropoleRemoteDataSourceImpl({@required this.client});</span>
 <span class="lineNum">      22 </span>            : 
 <span class="lineNum">      23 </span>            :   @override
-<span class="lineNum">      24 </span><span class="lineNoCov">          0 :   Stream&lt;List&lt;int&gt;&gt; download() async* {</span>
+<span class="lineNum">      24 </span><span class="lineCov">          1 :   Stream&lt;List&lt;int&gt;&gt; download() async* {</span>
 <span class="lineNum">      25 </span>            :     // Download file
-<span class="lineNum">      26 </span><span class="lineNoCov">          0 :     final http.Request request = http.Request(</span>
+<span class="lineNum">      26 </span><span class="lineCov">          1 :     final http.Request request = http.Request(</span>
 <span class="lineNum">      27 </span>            :       'GET',
-<span class="lineNum">      28 </span><span class="lineNoCov">          0 :       Uri.parse(</span>
+<span class="lineNum">      28 </span><span class="lineCov">          1 :       Uri.parse(</span>
 <span class="lineNum">      29 </span>            :           &quot;http://tsvc.pilote4.cityway.fr/api/Export/v1/GetExportedDataFile?ExportFormat=Gtfs&amp;OperatorCode=CPA&quot;),
 <span class="lineNum">      30 </span>            :     );
-<span class="lineNum">      31 </span><span class="lineNoCov">          0 :     final http.StreamedResponse streamedResponse = await client.send(request);</span>
+<span class="lineNum">      31 </span><span class="lineCov">          3 :     final http.StreamedResponse streamedResponse = await client.send(request);</span>
 <span class="lineNum">      32 </span>            : 
-<span class="lineNum">      33 </span><span class="lineNoCov">          0 :     if (streamedResponse.statusCode != HttpStatus.ok) {</span>
-<span class="lineNum">      34 </span><span class="lineNoCov">          0 :       throw ServerException(</span>
-<span class="lineNum">      35 </span><span class="lineNoCov">          0 :           'http://tsvc.pilote4.cityway.fr/api/: ${streamedResponse.statusCode} ${streamedResponse.reasonPhrase}');</span>
+<span class="lineNum">      33 </span><span class="lineCov">          2 :     if (streamedResponse.statusCode != HttpStatus.ok) {</span>
+<span class="lineNum">      34 </span><span class="lineCov">          1 :       throw ServerException(</span>
+<span class="lineNum">      35 </span><span class="lineCov">          3 :           'http://tsvc.pilote4.cityway.fr/api/: ${streamedResponse.statusCode} ${streamedResponse.reasonPhrase}');</span>
 <span class="lineNum">      36 </span>            :     }
 <span class="lineNum">      37 </span>            : 
-<span class="lineNum">      38 </span><span class="lineNoCov">          0 :     yield* streamedResponse.stream;</span>
+<span class="lineNum">      38 </span><span class="lineCov">          2 :     yield* streamedResponse.stream;</span>
 <span class="lineNum">      39 </span>            :   }
 <span class="lineNum">      40 </span>            : 
 <span class="lineNum">      41 </span>            :   @override
-<span class="lineNum">      42 </span><span class="lineNoCov">          0 :   Future&lt;DateTime&gt; get timestamp async {</span>
+<span class="lineNum">      42 </span><span class="lineCov">          1 :   Future&lt;DateTime&gt; get timestamp async {</span>
 <span class="lineNum">      43 </span>            :     // Get zip url
-<span class="lineNum">      44 </span><span class="lineNoCov">          0 :     final http.Request request = http.Request(</span>
+<span class="lineNum">      44 </span><span class="lineCov">          1 :     final http.Request request = http.Request(</span>
 <span class="lineNum">      45 </span>            :       'GET',
-<span class="lineNum">      46 </span><span class="lineNoCov">          0 :       Uri.parse(</span>
+<span class="lineNum">      46 </span><span class="lineCov">          1 :       Uri.parse(</span>
 <span class="lineNum">      47 </span>            :           &quot;http://tsvc.pilote4.cityway.fr/api/Export/v1/GetExportedDataFile?ExportFormat=Gtfs&amp;OperatorCode=CPA&quot;),
 <span class="lineNum">      48 </span>            :     );
-<span class="lineNum">      49 </span><span class="lineNoCov">          0 :     final http.StreamedResponse streamedResponse = await client.send(request);</span>
+<span class="lineNum">      49 </span><span class="lineCov">          3 :     final http.StreamedResponse streamedResponse = await client.send(request);</span>
 <span class="lineNum">      50 </span>            : 
-<span class="lineNum">      51 </span><span class="lineNoCov">          0 :     if (streamedResponse.statusCode != HttpStatus.ok) {</span>
-<span class="lineNum">      52 </span><span class="lineNoCov">          0 :       throw ServerException(</span>
-<span class="lineNum">      53 </span><span class="lineNoCov">          0 :           'http://tsvc.pilote4.cityway.fr/api/: ${streamedResponse.statusCode} ${streamedResponse.reasonPhrase}');</span>
+<span class="lineNum">      51 </span><span class="lineCov">          2 :     if (streamedResponse.statusCode != HttpStatus.ok) {</span>
+<span class="lineNum">      52 </span><span class="lineCov">          1 :       throw ServerException(</span>
+<span class="lineNum">      53 </span><span class="lineCov">          3 :           'http://tsvc.pilote4.cityway.fr/api/: ${streamedResponse.statusCode} ${streamedResponse.reasonPhrase}');</span>
 <span class="lineNum">      54 </span>            :     }
 <span class="lineNum">      55 </span>            : 
-<span class="lineNum">      56 </span><span class="lineNoCov">          0 :     final contentDisposition = streamedResponse.headers[</span>
+<span class="lineNum">      56 </span><span class="lineCov">          2 :     final contentDisposition = streamedResponse.headers[</span>
 <span class="lineNum">      57 </span>            :         'Content-Disposition']; // attachment; filename=Gtfs_CPA___2020-05-27.zip
 <span class="lineNum">      58 </span>            : 
-<span class="lineNum">      59 </span><span class="lineNoCov">          0 :     return DateTime.parse(contentDisposition.substring(32, 42));</span>
+<span class="lineNum">      59 </span><span class="lineCov">          2 :     return DateTime.parse(contentDisposition.substring(32, 42));</span>
 <span class="lineNum">      60 </span>            :   }
 <span class="lineNum">      61 </span>            : }
 <span class="lineNum">      62 </span>            : 
