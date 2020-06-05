@@ -23,19 +23,18 @@ extension RouteModelX on RouteModel {
     @required List<StopTimeModel> stopTimeModels,
     @required List<StopModel> stopModels,
   }) {
-    final List<TripModel> filteredTripModels1 = tripModels
-        .where((tripModel) => tripModel.route_id.compareTo(this.route_id) == 0)
-        .toList(); //ne prend que les trips de la route
-    final List<TripModel> filteredTripModels2 = filteredTripModels1
-        .where((tripModel) => calendarModels
-            .map((e) => e.service_id)
-            .contains(tripModel.service_id))
-        .toList(); //ne prend que les trips avec un calendar
+    final List<TripModel> filteredTripModels = tripModels
+        .where((tripModel) =>
+            tripModel.route_id ==
+            this.route_id) // Ne prend que les trips de la route
+        .where((tripModel) => calendarModels.map((e) => e.service_id).contains(
+            tripModel.service_id)) // Ne prend que les trips avec un calendar
+        .toList();
     return Route(
       route_id: this.route_id,
       route_long_name: this.route_long_name,
       route_short_name: this.route_short_name,
-      trips: filteredTripModels2
+      trips: filteredTripModels
           .map((e) => e.toEntity(
                 calendarModels: calendarModels,
                 stopModels: stopModels,

@@ -33,7 +33,7 @@ class _DirectionControlsState extends State<DirectionControls> {
                       .add(const TripsEvent.changeDirection(Direction.Aller));
                 }
               : null,
-          child: Text(
+          child: const Text(
             "ALLER",
             style: TextStyle(
               color: Colors.white,
@@ -52,7 +52,7 @@ class _DirectionControlsState extends State<DirectionControls> {
                       .add(const TripsEvent.changeDirection(Direction.Partir));
                 }
               : null,
-          child: Text(
+          child: const Text(
             "PARTIR",
             style: TextStyle(
               color: Colors.white,

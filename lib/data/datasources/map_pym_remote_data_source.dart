@@ -77,7 +77,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
       return;
     } else {
       throw ServerException(
-          'Failed to create booking : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
+          'Failed to create booking : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -95,7 +95,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
       return;
     } else {
       throw ServerException(
-          'Failed to delete booking : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
+          'Failed to delete booking : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -111,7 +111,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load batiments : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
+          'Failed to load batiments : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -129,7 +129,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load bookings of service ${service_id} : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
+          'Failed to load bookings of service ${service_id} : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -145,7 +145,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load categorie : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
+          'Failed to load categorie : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -160,7 +160,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load Posts : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
+          'Failed to load Posts : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -176,7 +176,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load categorie : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
+          'Failed to load categorie : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -192,7 +192,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.firstWhere((element) => element.id == id);
     } else {
       throw ServerException(
-          'Failed to load batiments : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
+          'Failed to load batiments : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -207,7 +207,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.firstWhere((e) => e.id == id);
     } else {
       throw ServerException(
-          'Failed to fetch contact $id : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
+          'Failed to fetch contact $id : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -225,7 +225,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load entreprises : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
+          'Failed to load entreprises : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -241,7 +241,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
           ?.toList();
     } else {
       throw ServerException(
-          'Failed to load services of categorie ${categorie_id} : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
+          'Failed to load services of categorie ${categorie_id} : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -257,7 +257,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
       return AppUserModel.fromJson(body);
     } else {
       throw ServerException(
-          'Failed to load user : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
+          'Failed to load user : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -280,7 +280,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
       return;
     } else {
       throw ServerException(
-          'Failed to edit booking : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
+          'Failed to edit booking : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 }

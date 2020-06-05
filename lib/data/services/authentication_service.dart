@@ -53,7 +53,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
       return;
     } else {
       throw ServerException(
-          'Forget Password Failed : ${response.statusCode}, ${response.reasonPhrase}\n${response.body}');
+          'Forget Password Failed : ${response.statusCode}, ${response.reasonPhrase}');
     }
   }
 
@@ -68,7 +68,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
       return;
     } else {
       throw ServerException(
-          'Email Verification Failed : ${response.statusCode}, ${response.reasonPhrase}\n${response.body}');
+          'Email Verification Failed : ${response.statusCode}, ${response.reasonPhrase}');
     }
   }
 
@@ -90,7 +90,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
       return _token = response.body;
     } else {
       throw ServerException(
-          'Cannot log in : ${response.statusCode}, ${response.reasonPhrase}\n${response.body}');
+          'Cannot log in : ${response.statusCode}, ${response.reasonPhrase}');
     }
   }
 
@@ -121,7 +121,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
       return _token = response.body;
     } else {
       throw ServerException(
-          'Cannot register : ${response.statusCode}, ${response.reasonPhrase}\n${response.body}');
+          'Cannot register : ${response.statusCode}, ${response.reasonPhrase}');
     }
   }
 }

@@ -43,7 +43,7 @@ class SNCFLocalDataSourceImpl implements SNCFLocalDataSource {
     final path = await directoryManager.sncf;
     Directory(path).createSync(recursive: true);
     final File file = File('${path}/timestamp.txt');
-    await file.writeAsString(timestamp.toIso8601String());
+    return file.writeAsString(timestamp.toIso8601String());
   }
 
   @override
@@ -114,11 +114,12 @@ class SNCFLocalDataSourceImpl implements SNCFLocalDataSource {
     final List<Future<void>> futures = <Future<void>>[];
 
     // Extract the contents of the Zip archive to disk.
-    for (final ArchiveFile file in archive) {
-      if (file.isFile) {
-        final List<int> data = file.content as List<int>;
-        final openFile = File('${await directoryManager.sncf}/' + file.name)
-          ..createSync(recursive: true);
+    for (final ArchiveFile archiveFile in archive) {
+      if (archiveFile.isFile) {
+        final List<int> data = archiveFile.content as List<int>;
+        final openFile =
+            File('${await directoryManager.sncf}/' + archiveFile.name)
+              ..createSync(recursive: true);
         futures.add(openFile.writeAsBytes(data));
       }
     }

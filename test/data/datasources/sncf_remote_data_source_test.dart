@@ -137,4 +137,31 @@ void main() {
       );
     });
   });
+
+  group('get timestamp', () {
+    test('send GET request', () async {
+      // Arrange
+      when(mockHttpClient.get(
+        'https://ressources.data.sncf.com/api/records/1.0/search/?dataset=sncf-ter-gtfs',
+      )).thenAnswer((_) async =>
+          http.Response(fixture('sncf/sncf-ter-gtfs.json'), HttpStatus.ok));
+      // Act
+      final result = await dataSource.timestamp;
+      // Assert
+      verify(mockHttpClient.get(
+        'https://ressources.data.sncf.com/api/records/1.0/search/?dataset=sncf-ter-gtfs',
+      ));
+      expect(
+          result, equals(DateTime.parse("2020-04-03T08:38:30.405000+00:00")));
+    });
+
+    test('throws a ServerException if server error', () async {
+      // Arrange
+      when(mockHttpClient.get(
+        'https://ressources.data.sncf.com/api/records/1.0/search/?dataset=sncf-ter-gtfs',
+      )).thenAnswer((_) async => http.Response('failure', HttpStatus.notFound));
+      // Act and assert
+      expect(dataSource.timestamp, throwsA(isA<ServerException>()));
+    });
+  });
 }

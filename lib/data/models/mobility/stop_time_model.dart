@@ -24,8 +24,7 @@ extension StopTimeModelX on StopTimeModel {
       stop_id: this.stop_id,
       stop_sequence: this.stop_sequence,
       stop: stopModels
-          .firstWhere(
-              (stopModel) => this.stop_id.compareTo(stopModel.stop_id) == 0)
+          .firstWhere((stopModel) => this.stop_id == stopModel.stop_id)
           .toEntity(),
     );
   }

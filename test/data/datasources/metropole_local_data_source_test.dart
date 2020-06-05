@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:app_pym/core/directory_manager/directory_manager.dart';
 import 'package:app_pym/core/error/exceptions.dart';
-import 'package:app_pym/data/datasources/sncf_local_data_source.dart';
+import 'package:app_pym/data/datasources/metropole_local_data_source.dart';
 import 'package:app_pym/data/models/mobility/calendar_model.dart';
 import 'package:app_pym/data/models/mobility/route_model.dart';
 import 'package:app_pym/data/models/mobility/stop_model.dart';
@@ -17,7 +17,7 @@ import 'package:mockito/mockito.dart';
 import '../../fixtures/fixture_reader.dart';
 
 void main() {
-  SNCFLocalDataSource dataSource;
+  MetropoleLocalDataSource dataSource;
   DirectoryManager mockDirectoryManager;
   ZipDecoder mockZipDecoder;
 
@@ -27,7 +27,7 @@ void main() {
     mockZipDecoder = ZipDecoder();
     mockDirectoryManager = sl<DirectoryManager>();
 
-    dataSource = SNCFLocalDataSourceImpl(
+    dataSource = MetropoleLocalDataSourceImpl(
       directoryManager: mockDirectoryManager,
       zipDecoder: mockZipDecoder,
     );
@@ -36,8 +36,8 @@ void main() {
   group('get timestamp', () {
     test('if exist', () async {
       // Arrange
-      when(mockDirectoryManager.sncf)
-          .thenAnswer((_) async => "$testDirectory/fixtures/sncf");
+      when(mockDirectoryManager.metropole)
+          .thenAnswer((_) async => "$testDirectory/fixtures/metropole");
       // Act
       final result = await dataSource.timestamp;
       // Assert
@@ -45,7 +45,7 @@ void main() {
     });
     test('return default if not exist', () async {
       // Arrange
-      when(mockDirectoryManager.sncf).thenAnswer((_) async => ".");
+      when(mockDirectoryManager.metropole).thenAnswer((_) async => ".");
       // Act
       final result = await dataSource.timestamp;
       // Assert
@@ -57,12 +57,13 @@ void main() {
     /// This test has side effects. It create/overwrite a file.
     test('set timestamp', () async {
       // Arrange
-      when(mockDirectoryManager.sncf)
-          .thenAnswer((_) async => "$testDirectory/fixtures/sncf");
+      when(mockDirectoryManager.metropole)
+          .thenAnswer((_) async => "$testDirectory/fixtures/metropole");
       // Act
       await dataSource.setTimestamp(DateTime.parse("2020-01-01 12:00:00"));
       // Assert
-      expect(File("$testDirectory/fixtures/sncf/timestamp.txt").existsSync(),
+      expect(
+          File("$testDirectory/fixtures/metropole/timestamp.txt").existsSync(),
           true);
     });
   });
@@ -71,8 +72,8 @@ void main() {
     /// This test has side effects. It create/overwrite a file.
     test('if exist', () async {
       // Arrange
-      when(mockDirectoryManager.sncf)
-          .thenAnswer((_) async => "$testDirectory/fixtures/sncf");
+      when(mockDirectoryManager.metropole)
+          .thenAnswer((_) async => "$testDirectory/fixtures/metropole");
       // Act
       final result = await dataSource.fetchCalendars();
       // Assert
@@ -81,7 +82,7 @@ void main() {
 
     test('throw CacheException if not exist', () async {
       // Arrange
-      when(mockDirectoryManager.sncf).thenAnswer((_) async => ".");
+      when(mockDirectoryManager.metropole).thenAnswer((_) async => ".");
       // Act
       final call = dataSource.fetchCalendars;
       // Assert
@@ -93,8 +94,8 @@ void main() {
     /// This test has side effects. It create/overwrite a file.
     test('if exist', () async {
       // Arrange
-      when(mockDirectoryManager.sncf)
-          .thenAnswer((_) async => "$testDirectory/fixtures/sncf");
+      when(mockDirectoryManager.metropole)
+          .thenAnswer((_) async => "$testDirectory/fixtures/metropole");
       // Act
       final result = await dataSource.fetchRoutes();
       // Assert
@@ -103,7 +104,7 @@ void main() {
 
     test('throw CacheException if not exist', () async {
       // Arrange
-      when(mockDirectoryManager.sncf).thenAnswer((_) async => ".");
+      when(mockDirectoryManager.metropole).thenAnswer((_) async => ".");
       // Act
       final call = dataSource.fetchRoutes;
       // Assert
@@ -115,8 +116,8 @@ void main() {
     /// This test has side effects. It create/overwrite a file.
     test('if exist', () async {
       // Arrange
-      when(mockDirectoryManager.sncf)
-          .thenAnswer((_) async => "$testDirectory/fixtures/sncf");
+      when(mockDirectoryManager.metropole)
+          .thenAnswer((_) async => "$testDirectory/fixtures/metropole");
       // Act
       final result = await dataSource.fetchStops();
       // Assert
@@ -125,7 +126,7 @@ void main() {
 
     test('throw CacheException if not exist', () async {
       // Arrange
-      when(mockDirectoryManager.sncf).thenAnswer((_) async => ".");
+      when(mockDirectoryManager.metropole).thenAnswer((_) async => ".");
       // Act
       final call = dataSource.fetchStops;
       // Assert
@@ -137,8 +138,8 @@ void main() {
     /// This test has side effects. It create/overwrite a file.
     test('if exist', () async {
       // Arrange
-      when(mockDirectoryManager.sncf)
-          .thenAnswer((_) async => "$testDirectory/fixtures/sncf");
+      when(mockDirectoryManager.metropole)
+          .thenAnswer((_) async => "$testDirectory/fixtures/metropole");
       // Act
       final result = await dataSource.fetchStopTimes();
       // Assert
@@ -147,7 +148,7 @@ void main() {
 
     test('throw CacheException if not exist', () async {
       // Arrange
-      when(mockDirectoryManager.sncf).thenAnswer((_) async => ".");
+      when(mockDirectoryManager.metropole).thenAnswer((_) async => ".");
       // Act
       final call = dataSource.fetchStopTimes;
       // Assert
@@ -159,8 +160,8 @@ void main() {
     /// This test has side effects. It create/overwrite a file.
     test('if exist', () async {
       // Arrange
-      when(mockDirectoryManager.sncf)
-          .thenAnswer((_) async => "$testDirectory/fixtures/sncf");
+      when(mockDirectoryManager.metropole)
+          .thenAnswer((_) async => "$testDirectory/fixtures/metropole");
       // Act
       final result = await dataSource.fetchTrips();
       // Assert
@@ -169,7 +170,7 @@ void main() {
 
     test('throw CacheException if not exist', () async {
       // Arrange
-      when(mockDirectoryManager.sncf).thenAnswer((_) async => ".");
+      when(mockDirectoryManager.metropole).thenAnswer((_) async => ".");
       // Act
       final call = dataSource.fetchTrips;
       // Assert
@@ -182,14 +183,14 @@ void main() {
     test('write a fixture', () async {
       // Arrange
       Directory("test_outputs").createSync();
-      when(mockDirectoryManager.sncf).thenAnswer((_) async => "test_outputs");
-      final file =
-          File("$testDirectory/fixtures/sncf/export-ter-gtfs-last.zip");
+      when(mockDirectoryManager.metropole)
+          .thenAnswer((_) async => "test_outputs");
+      final file = File("$testDirectory/fixtures/metropole/CPA.zip");
       final Stream<List<int>> stream = file.openRead();
       // Act
       await dataSource.writeFile(stream);
       // Assert
-      expect(File("test_outputs/export-ter-gtfs-last.zip").existsSync(), true);
+      expect(File("test_outputs/CPA.zip").existsSync(), true);
       expect(File("test_outputs/routes.txt").existsSync(), true);
       expect(File("test_outputs/trips.txt").existsSync(), true);
       expect(File("test_outputs/stop_times.txt").existsSync(), true);
