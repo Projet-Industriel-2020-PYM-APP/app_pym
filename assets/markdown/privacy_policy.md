@@ -1,11 +1,51 @@
-# Politique de confidentalité
+# Politique de confidentialité
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tincidunt nec velit et facilisis. Maecenas viverra, tellus eleifend sodales sodales, odio leo semper mi, vitae sodales diam urna vitae orci. Ut tempor, erat vitae aliquet fermentum, urna nibh condimentum risus, et sollicitudin magna urna vitae libero. Donec egestas erat aliquet dolor molestie sollicitudin. Sed faucibus varius laoreet. Aenean id pretium eros. Vestibulum vel consequat nisl. Aliquam eu tellus efficitur, molestie risus sed, volutpat ipsum. Nulla posuere placerat diam vitae dignissim. Proin varius, lectus a maximus volutpat, massa metus porta metus, et aliquet felis orci et lectus. Nunc mollis eros ut felis tempor, vel aliquet nunc elementum. Praesent non dui auctor magna hendrerit tempus non rutrum eros.
+Cette application fonctionne sur les [Services Google Play pour la Réalité Augmentée](https://play.google.com/store/apps/details?id=com.google.ar.core) (ARCore), qui sont fournis par Google LLC et régis par les [Règles de confidentialité de Google](https://policies.google.com/privacy).
 
-Quisque aliquam libero sem, nec ultricies risus imperdiet eget. Aenean tincidunt tempus malesuada. Fusce rutrum vel ante in hendrerit. Pellentesque non ex ut nulla vulputate fermentum. Nulla lacinia non nunc et vestibulum. Donec bibendum purus eget mauris dictum accumsan quis non eros. Nunc accumsan risus ex, consequat ullamcorper est faucibus quis. Proin fermentum laoreet pulvinar. Morbi vitae fermentum justo. Ut euismod sollicitudin pharetra.
+## Données collectées et leurs utilisations
 
-Curabitur eros elit, dictum quis egestas sit amet, scelerisque eget diam. Pellentesque tristique eros at nisi sodales, sit amet gravida lorem ultricies. Ut mattis dignissim tempor. Aliquam interdum sollicitudin sem ac eleifend. Fusce blandit, tellus in rutrum ornare, velit neque efficitur lorem, accumsan dignissim ipsum turpis vitae nibh. Pellentesque rutrum egestas nibh at pharetra. Nulla non libero volutpat, posuere massa non, sollicitudin dui. Sed in nibh gravida nisl tempor laoreet ut ac ex. Cras commodo ornare ante non viverra. Suspendisse potenti. Ut aliquam elit vitae lectus aliquam, et gravida nisl eleifend. Maecenas in euismod nisi. Praesent malesuada dapibus malesuada. In blandit lacus vel tortor varius, id fermentum tortor convallis. Aliquam sed enim pulvinar, venenatis diam in, ultrices libero.
+La protection de vos données personnelles est importante pour nous. Cette notice de confidentialité explique comment l’application du Pôle Yvon Morandat collecte vos données personnelles, pourquoi nous les collectons et avec qui nous sommes susceptible de les partager. Cette notice explique également quels sont vos droits vis-à-vis de ces données personnelles.  
 
-Aenean tincidunt leo vel tempor rutrum. In pellentesque turpis eu bibendum imperdiet. Morbi commodo nisi sed orci pellentesque blandit. Nam nec felis felis. Morbi aliquet bibendum risus non ultricies. In dignissim quis arcu et convallis. Nam ultrices sapien vulputate sagittis faucibus. Nulla gravida tincidunt neque. Nunc varius euismod orci, ac mollis velit consequat nec. Nullam porttitor a erat at dapibus. Sed in efficitur urna. Vestibulum consectetur et massa id molestie. Suspendisse euismod nulla et ex semper, euismod mattis risus viverra. Aenean varius elementum quam et pellentesque. Aliquam a quam nibh.
+Nous utilisons les données personnelles suivantes :
 
-Aliquam ut dolor ultricies urna iaculis rhoncus. Sed eget venenatis ligula, vel fringilla tortor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec vitae metus vitae est ultricies blandit sed at sapien. Sed efficitur, urna et mollis volutpat, nulla dui fermentum diam, in ornare erat dui sit amet est. Fusce neque tellus, tristique tempor hendrerit in, faucibus molestie leo. Praesent ut mauris placerat, rhoncus sapien eget, vestibulum dui.
+- Données d’inscription (e-mail, mot de passe)
+
+- Coordonnées GPS lors de l'utilisation de l'application
+
+- Appareil Photo
+
+Afin de :
+
+- Utiliser les coordonnées GPS et de l’appareil photo pour le service de réalité augmentée
+
+Nous ne détenons aucune information sur vos origines, vos croyances religieuses ou philosophiques, votre orientation sexuelle, vos opinions politiques, vos affiliations syndicales ou votre santé.
+
+En cas de questions supplémentaires concernant le traitement de vos données, utilisez l’onglet "Contacts".
+
+## Comment sont collectées vos données personnelles ?
+
+Nous collectons vos données personnelles directement auprès de vous et des outils de votre téléphone portable.
+
+Ces données sont collectées uniquement lors de l'utilisation de l'application.
+
+## Comment sécurisons-nous vos données
+
+Vos données GPS ne sont pas conservées et sont seulement traitées pour votre usage en temps réel. Bien qu’aucun système de sécurité ne peut éviter d’éventuelles failles de sécurité, sachez que nous essayons de protéger au maximum les informations que nous traitons et maintenons.
+
+Vos e-mail sont conservés dans nos serveurs, 
+
+## Vos droits et vos choix
+
+Vous avez le droit de demander des informations sur la façon dont nous utilisons vos données personnelles et avec qui nous les partageons. Vous avez également le droit de consulter et d’obtenir une copie des données personnelles que nous avons vous concernant, de demander leur correction, leur limitation ou de définir des directives relatives au sort de vos données personnelles après votre mort. Il peut toutefois exister des limitations à notre capacité à nous conformer à votre demande.
+
+Dans la mesure où le traitement est fondé sur le respect d’une obligation légale, les personnes concernées par la collecte des données ne disposent ni du droit d’opposition, ni du droit à l’effacement des données, ni du droit à la portabilité des données.
+
+## Comment nous contacter ?
+
+Vous pouvez faire une des demandes mentionnées ci-dessus en nous contactant via l’onglet « Contact » de l’application ou par courrier au siège social de la société SEMAG 1480 Avenue d'Arménie, 13120 Gardanne.
+
+Vous pouvez également utiliser ces contacts pour nous poser d'éventuelles questions au sujet de la présente notice de confidentialité.
+
+Dans le cas où vous ne seriez pas satisfait de la réponse qui vous sera donnée ou si vous estimez que le traitement de vos données personnelles n'est pas fait conformément à la législation, vous pouvez également adresser une réclamation auprès de la CNIL.
+
+**Dernière date de mise à jour : le 06 juin 2020**

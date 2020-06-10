@@ -30,20 +30,17 @@ class MetropoleLocalDataSourceImpl implements MetropoleLocalDataSource {
   });
 
   @override
+  Future<bool> get fileExists async {
+    return File('${await directoryManager.metropole}/CPA.zip').existsSync();
+  }
+
+  @override
   Future<DateTime> get timestamp async {
     final file = File('${await directoryManager.metropole}/timestamp.txt');
     if (file.existsSync()) {
       return DateTime.parse(file.readAsLinesSync().first);
     }
     return DateTime.parse("1970-01-01 12:00:00");
-  }
-
-  @override
-  Future<void> setTimestamp(DateTime timestamp) async {
-    final path = await directoryManager.metropole;
-    Directory(path).createSync(recursive: true);
-    final File file = File('${path}/timestamp.txt');
-    await file.writeAsString(timestamp.toIso8601String());
   }
 
   @override
@@ -97,6 +94,21 @@ class MetropoleLocalDataSourceImpl implements MetropoleLocalDataSource {
   }
 
   @override
+  Future<void> setTimestamp(DateTime timestamp) async {
+    final path = await directoryManager.metropole;
+    Directory(path).createSync(recursive: true);
+    final File file = File('${path}/timestamp.txt');
+    await file.writeAsString(timestamp.toIso8601String());
+  }
+
+  @override
+  Stream<List<int>> useAsset() async* {
+    final bytedata = await directoryManager.cpaZip;
+    final buffer = bytedata.buffer;
+    yield buffer.asUint8List(bytedata.offsetInBytes, bytedata.lengthInBytes);
+  }
+
+  @override
   Future<void> writeFile(Stream<List<int>> bytes) async {
     //write the Zip file
     final File file = File('${await directoryManager.metropole}/CPA.zip');
@@ -110,19 +122,15 @@ class MetropoleLocalDataSourceImpl implements MetropoleLocalDataSource {
     // Decode the Zip file
     final Archive archive = zipDecoder.decodeBytes(file.readAsBytesSync());
 
-    final List<Future<void>> futures = <Future<void>>[];
-
     // Extract the contents of the Zip archive to disk.
-    for (final ArchiveFile file in archive) {
-      if (file.isFile) {
-        final List<int> data = file.content as List<int>;
+    for (final ArchiveFile archiveFile in archive) {
+      if (archiveFile.isFile) {
+        final List<int> data = archiveFile.content as List<int>;
         final openFile =
-            File('${await directoryManager.metropole}/' + file.name)
+            File('${await directoryManager.metropole}/' + archiveFile.name)
               ..createSync(recursive: true);
-        futures.add(openFile.writeAsBytes(data));
+        openFile.writeAsBytesSync(data);
       }
     }
-
-    return Future.wait<void>(futures);
   }
 }

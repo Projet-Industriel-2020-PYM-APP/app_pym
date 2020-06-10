@@ -58,12 +58,9 @@ class FetchTrainTrips extends Usecase<Future<List<Trip>>, NoParams> {
         if (!alreadyExists) {
           //on traite différement si les trains vont à Aix
           final bool goToAix = sens == 0
-              ? trip.stop_time.last.stop.stop_name
-                      .compareTo(MobilityConstants.gareAix) ==
-                  0
-              : trip.stop_time.first.stop.stop_name
-                      .compareTo(MobilityConstants.gareAix) ==
-                  0;
+              ? trip.stop_time.last.stop.stop_name == MobilityConstants.gareAix
+              : trip.stop_time.first.stop.stop_name ==
+                  MobilityConstants.gareAix;
           if (arrivalTimeOfTrip.isAfter(now) &&
               arrivalTimeOfTrip.isBefore(minTimes[4 + sens])) {
             //si meilleur que le 3e meilleur
@@ -133,12 +130,9 @@ class FetchTrainTrips extends Usecase<Future<List<Trip>>, NoParams> {
         if (!alreadyExists) {
           //on traite différement si les trains vont à Aix
           final bool goToAix = sens == 0
-              ? trip.stop_time.last.stop.stop_name
-                      .compareTo(MobilityConstants.gareAix) ==
-                  0
-              : trip.stop_time.first.stop.stop_name
-                      .compareTo(MobilityConstants.gareAix) ==
-                  0;
+              ? trip.stop_time.last.stop.stop_name == MobilityConstants.gareAix
+              : trip.stop_time.first.stop.stop_name ==
+                  MobilityConstants.gareAix;
           if (arrivalTimeOfTrip.isAfter(midnight) &&
               arrivalTimeOfTrip.isBefore(minTimesTomorrow[4 + sens])) {
             //si meilleur que le 3e meilleur

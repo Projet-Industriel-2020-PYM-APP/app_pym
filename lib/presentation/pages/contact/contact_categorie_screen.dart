@@ -49,26 +49,7 @@ class ContactCategorieCard extends StatelessWidget {
         child: Row(
           children: <Widget>[
             if (categorie.img_url != null && categorie.img_url.isNotEmpty)
-              AspectRatio(
-                aspectRatio: 2 / 3,
-                child: CachedNetworkImage(
-                  imageUrl: categorie.img_url,
-                  fit: BoxFit.fitHeight,
-                  errorWidget: (context, url, dynamic error) {
-                    print(error);
-                    return Center(
-                      child: Text(error.toString()),
-                    );
-                  },
-                  progressIndicatorBuilder: (context, url, downloadProgress) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: downloadProgress.progress,
-                      ),
-                    );
-                  },
-                ),
-              ),
+              buildImage(),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,6 +95,29 @@ class ContactCategorieCard extends StatelessWidget {
       ),
     );
   }
+
+  AspectRatio buildImage() {
+    return AspectRatio(
+      aspectRatio: 2 / 3,
+      child: CachedNetworkImage(
+        imageUrl: categorie.img_url,
+        fit: BoxFit.fitHeight,
+        errorWidget: (context, url, dynamic error) {
+          print(error);
+          return Center(
+            child: Text(error.toString()),
+          );
+        },
+        progressIndicatorBuilder: (context, url, downloadProgress) {
+          return Center(
+            child: CircularProgressIndicator(
+              value: downloadProgress.progress,
+            ),
+          );
+        },
+      ),
+    );
+  }
 }
 
 class ActionButton extends StatelessWidget {
@@ -128,29 +132,65 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      onPressed: () async {
-        final fetchContactOfCategorie = sl<FetchContactOfCategorie>();
-        final contact = await fetchContactOfCategorie(categorie.contact_id);
-        if (action.html_url != null && action.html_url.isNotEmpty) {
+    if (action.html_url != null && action.html_url.isNotEmpty) {
+      FlatButton(
+        onPressed: () async {
           await UrlLauncherUtils.launch(action.html_url);
-        }
-        if (action.name != null) {
-          if (action.name.toUpperCase().contains('SMS')) {
+        },
+        child: Text(action.name?.toUpperCase() ?? "Action"),
+      );
+    } else if (action.name != null) {
+      if (action.name.toUpperCase().contains('SMS')) {
+        return IconButton(
+          icon: Icon(
+            Icons.sms,
+            color: Theme.of(context).primaryColor,
+          ),
+          onPressed: () async {
+            final fetchContactOfCategorie = sl<FetchContactOfCategorie>();
+            final contact = await fetchContactOfCategorie(categorie.contact_id);
             await UrlLauncherUtils.launch("sms:${contact?.telephone}");
-          } else if (action.name != null &&
-                  action.name.toLowerCase().contains('telephone') ||
-              action.name.toLowerCase().contains('téléphone')) {
+          },
+        );
+      } else if (action.name != null &&
+              action.name.toLowerCase().contains('telephone') ||
+          action.name.toLowerCase().contains('téléphone')) {
+        return IconButton(
+          icon: Icon(
+            Icons.phone,
+            color: Theme.of(context).primaryColor,
+          ),
+          onPressed: () async {
+            final fetchContactOfCategorie = sl<FetchContactOfCategorie>();
+            final contact = await fetchContactOfCategorie(categorie.contact_id);
             await UrlLauncherUtils.launch("tel:${contact?.telephone}");
-          } else if (action.name.toUpperCase().contains('MAIL')) {
-            await UrlLauncherUtils.launch("mailto:${contact?.mail}");
-          } else if (action.name.toLowerCase().contains('localise')) {
+          },
+        );
+      } else if (action.name.toUpperCase().contains('MAIL')) {
+        return IconButton(
+          icon: Icon(
+            Icons.mail,
+            color: Theme.of(context).primaryColor,
+          ),
+          onPressed: () async {
+            final fetchContactOfCategorie = sl<FetchContactOfCategorie>();
+            final contact = await fetchContactOfCategorie(categorie.contact_id);
+            await UrlLauncherUtils.launch("tel:${contact?.mail}");
+          },
+        );
+      } else if (action.name.toLowerCase().contains('localise')) {
+        return IconButton(
+          icon: Icon(
+            Icons.place,
+            color: Theme.of(context).primaryColor,
+          ),
+          onPressed: () async {
             await UrlLauncherUtils.launch(
                 'https://maps.google.com/?q=${categorie.address}');
-          }
-        }
-      },
-      child: Text(action.name?.toUpperCase() ?? "Action"),
-    );
+          },
+        );
+      }
+    }
+    return Container();
   }
 }

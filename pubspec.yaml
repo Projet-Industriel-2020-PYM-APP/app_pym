@@ -15,34 +15,36 @@ dependencies:
   http: ^0.12.1 # dart.dev
   hive: ^1.4.1+1
   hive_flutter: ^0.3.0+2
-  connectivity: ^0.4.8+2 # flutter.dev # Not web compatible
+  connectivity: '>=0.4.8+6 <2.0.0' # flutter.dev # Not web compatible
   get_it: ^4.0.2 # fluttercommunity.dev
   json_annotation: ^3.0.1 # dart.dev
-  firebase_core: ^0.4.4+3
-  firebase_messaging: ^6.0.15 # Not web compatible
-  rxdart: ^0.24.0
-  injectable: ^0.4.0
+  firebase_core: ^0.4.5
+  firebase_messaging: ^6.0.16 # Not web compatible
+  rxdart: ^0.24.1
+  injectable: ^0.4.0+1
   mockito: ^4.1.1 # dart.dev
-  path_provider: ^1.6.8 # Not web compatible
-  shared_preferences: ^0.5.7+2
-  google_maps_flutter: ^0.5.27+3 # Not web compatible
+  path_provider: ^1.6.10 # Not web compatible
+  shared_preferences: ^0.5.7+3
+  google_maps_flutter: ^0.5.28+1 # Not web compatible
   font_awesome_flutter: ^8.8.1
-  webview_flutter: ^0.3.21 # Not web compatible
+  webview_flutter: ^0.3.22+1 # Not web compatible
   flutter_unity_widget: # Not web compatible
     git:
       url: git://github.com/Projet-Industriel-2020-PYM-APP/flutter-unity-view-widget.git
       ref: e311b2a2f5a84bccad10a140d2a9919784ec755e
-  permission_handler: ^5.0.0+hotfix.5 # Not web compatible
-  geolocator: ^5.3.1
+  permission_handler: ^5.0.0+hotfix.9 # Not web compatible
+  geolocator: ^5.3.2+2
   flutter_compass: ^0.4.2+1
-  url_launcher: ^5.4.7
+  url_launcher: ^5.4.10
   freezed_annotation: ^0.7.1
-  package_info: ^0.4.0+18
-  flutter_markdown: ^0.3.5
+  package_info: '>=0.4.1 <2.0.0'
+  flutter_markdown: ^0.4.1
   breakpoint: ^1.0.1+2
   archive: ^2.0.13
   intl: ^0.16.1
   cached_network_image: ^2.2.0+1
+  share: '>=0.6.4+3 <2.0.0'
+  flutter_html: ^1.0.0
 
 dependency_overrides:
   dartx: 0.4.1
@@ -86,6 +88,7 @@ flutter:
     - assets/markdown/
     - assets/icon/
     - assets/bus_data/
+    - assets/train_data/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

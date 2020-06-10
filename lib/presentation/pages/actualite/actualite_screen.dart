@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:app_pym/core/utils/time_formatter.dart';
 import 'package:app_pym/domain/entities/app_pym/post.dart';
 import 'package:app_pym/presentation/pages/actualite/post_page.dart';
@@ -35,7 +37,7 @@ class ActualiteScreen extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             Image.asset(
-              'assets/images/actualite/Puits_Morandat.jpg',
+              'assets/images/actualite/bg.jpeg',
               fit: BoxFit.cover,
             )
           ],
@@ -53,7 +55,7 @@ class ActualiteScreen extends StatelessWidget {
       ),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: (_breakpoint.columns / 6).ceil(),
-        childAspectRatio: 2 / 1,
+        childAspectRatio: 4 / 3,
       ),
     );
   }
@@ -67,111 +69,118 @@ class PostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final postImage = _getImg(post.content);
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Card(
-        color: Theme.of(context).brightness == Brightness.light
-            ? Colors.white
-            : Colors.transparent,
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-              color: Theme.of(context).brightness == Brightness.light
-                  ? Colors.black26
-                  : Colors.white12,
-              width: 1.0),
-          borderRadius: BorderRadius.circular(4.0),
-        ),
-        child: InkWell(
-          onTap: () => Navigator.of(context).push<void>(MaterialPageRoute(
-            builder: (context) {
-              return PostPage(
-                title: post.title,
-                content: post.content,
-              );
-            },
-          )),
-          child: Padding(
+    return Card(
+      color: Theme.of(context).brightness == Brightness.light
+          ? Colors.white
+          : Colors.black12,
+      elevation: 2,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          post.title,
-                          style: Theme.of(context).textTheme.headline6,
-                          textAlign: TextAlign.start,
-                        ),
-                        Text(
-                          post.published.formatTime(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle1
-                              .apply(fontSizeDelta: -4),
-                          textAlign: TextAlign.start,
-                        ),
-                        const Divider(color: Colors.transparent),
-                        Expanded(
-                          child: Text(
-                            _getText(post.content) ?? "",
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle1
-                                .apply(fontSizeDelta: -2),
-                            textAlign: TextAlign.start,
-                            overflow: TextOverflow.fade,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  post.title,
+                  style: Theme.of(context).textTheme.headline6,
+                  textAlign: TextAlign.start,
                 ),
-                if (postImage != null)
-                  AspectRatio(
-                    aspectRatio: 2 / 3,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: CachedNetworkImage(
-                        imageUrl: postImage,
-                        fit: BoxFit.fitHeight,
-                        errorWidget: (context, url, dynamic error) {
-                          print(error);
-                          return Center(
-                            child: Text(error.toString()),
-                          );
-                        },
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) {
-                          return Center(
-                            child: CircularProgressIndicator(
-                              value: downloadProgress.progress,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+                if (post.subtitle != null)
+                  Text(
+                    post.subtitle,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5
+                        .apply(fontSizeDelta: 4),
+                    textAlign: TextAlign.start,
                   ),
+                Text(
+                  post.published.formatTime(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      .apply(fontSizeDelta: -4),
+                  textAlign: TextAlign.start,
+                ),
               ],
             ),
           ),
-        ),
+          buildCachedNetworkImage(postImage),
+          Expanded(
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                _getText(post.content) ?? "",
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle1
+                    .apply(fontSizeDelta: -2),
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.fade,
+              ),
+            ),
+          ),
+          const Divider(),
+          ButtonBar(
+            children: [
+              FlatButton(
+                onPressed: () =>
+                    Navigator.of(context).push<void>(MaterialPageRoute(
+                  builder: (context) {
+                    return PostPage(post);
+                  },
+                )),
+                child: const Text('VOIR PLUS'),
+              )
+            ],
+          ),
+        ],
       ),
     );
+  }
+
+  Widget buildCachedNetworkImage(String postImage) {
+    if (postImage != null) {
+      return Expanded(
+        flex: 3,
+        child: CachedNetworkImage(
+          imageUrl: postImage,
+          progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+              child:
+                  CircularProgressIndicator(value: downloadProgress.progress)),
+          imageBuilder: (context, imageProvider) {
+            return Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            );
+          },
+        ),
+      );
+    } else {
+      return Container();
+    }
   }
 
   String _getImg(String content) {
     if (content != null) {
       final html_dom.Document document = html_parser.parse(content);
       try {
-        final html_dom.Element element =
-            document.getElementsByTagName("img")?.first;
-        final String url = element?.attributes['src'];
-        return url;
+        final List<html_dom.Element> elements =
+            document.getElementsByTagName("img");
+        if (elements.isNotEmpty) {
+          final html_dom.Element element = elements.first;
+          final String url = element?.attributes['src'];
+          return url;
+        } else {
+          return null;
+        }
       } catch (e) {
         print(e);
         return null;

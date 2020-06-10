@@ -30,20 +30,18 @@ class SNCFLocalDataSourceImpl implements SNCFLocalDataSource {
   });
 
   @override
+  Future<bool> get fileExists async {
+    return File('${await directoryManager.sncf}/export-ter-gtfs-last.zip')
+        .existsSync();
+  }
+
+  @override
   Future<DateTime> get timestamp async {
     final file = File('${await directoryManager.sncf}/timestamp.txt');
     if (file.existsSync()) {
       return DateTime.parse(file.readAsLinesSync().first);
     }
     return DateTime.parse("1970-01-01 12:00:00");
-  }
-
-  @override
-  Future<void> setTimestamp(DateTime timestamp) async {
-    final path = await directoryManager.sncf;
-    Directory(path).createSync(recursive: true);
-    final File file = File('${path}/timestamp.txt');
-    return file.writeAsString(timestamp.toIso8601String());
   }
 
   @override
@@ -97,6 +95,21 @@ class SNCFLocalDataSourceImpl implements SNCFLocalDataSource {
   }
 
   @override
+  Future<void> setTimestamp(DateTime timestamp) async {
+    final path = await directoryManager.sncf;
+    Directory(path).createSync(recursive: true);
+    final File file = File('${path}/timestamp.txt');
+    return file.writeAsString(timestamp.toIso8601String());
+  }
+
+  @override
+  Stream<List<int>> useAsset() async* {
+    final bytedata = await directoryManager.terZip;
+    final buffer = bytedata.buffer;
+    yield buffer.asUint8List(bytedata.offsetInBytes, bytedata.lengthInBytes);
+  }
+
+  @override
   Future<void> writeFile(Stream<List<int>> bytes) async {
     //write the Zip file
     final File file =
@@ -111,8 +124,6 @@ class SNCFLocalDataSourceImpl implements SNCFLocalDataSource {
     // Decode the Zip file
     final Archive archive = zipDecoder.decodeBytes(file.readAsBytesSync());
 
-    final List<Future<void>> futures = <Future<void>>[];
-
     // Extract the contents of the Zip archive to disk.
     for (final ArchiveFile archiveFile in archive) {
       if (archiveFile.isFile) {
@@ -120,9 +131,8 @@ class SNCFLocalDataSourceImpl implements SNCFLocalDataSource {
         final openFile =
             File('${await directoryManager.sncf}/' + archiveFile.name)
               ..createSync(recursive: true);
-        futures.add(openFile.writeAsBytes(data));
+        openFile.writeAsBytesSync(data);
       }
     }
-    return Future.wait<void>(futures);
   }
 }

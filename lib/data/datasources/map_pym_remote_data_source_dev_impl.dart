@@ -158,6 +158,8 @@ class MapPymRemoteDataSourceDevImpl implements MapPymRemoteDataSource {
       id: 0,
       published: DateTime.now(),
       updated: DateTime.now(),
+      tags: ["tag"],
+      subtitle: "subtitle",
       url: 'https://google.fr',
       title: 'NOW',
       content:

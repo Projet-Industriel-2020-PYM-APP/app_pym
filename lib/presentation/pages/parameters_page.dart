@@ -1,3 +1,6 @@
+import 'package:app_pym/core/keys/keys.dart';
+import 'package:app_pym/core/routes/routes.dart';
+import 'package:app_pym/presentation/blocs/authentication/authentication/authentication_bloc.dart';
 import 'package:app_pym/presentation/widgets/parameters/authentication_status.dart';
 import 'package:app_pym/presentation/widgets/parameters/cgu_page.dart';
 import 'package:app_pym/presentation/widgets/parameters/notification_status.dart';
@@ -6,7 +9,6 @@ import 'package:app_pym/presentation/widgets/parameters/theme_status.dart';
 import 'package:app_pym/presentation/widgets/parameters/version_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:app_pym/presentation/blocs/authentication/authentication/authentication_bloc.dart';
 
 class ParametersPage extends StatelessWidget {
   const ParametersPage({Key key}) : super(key: key);
@@ -22,11 +24,17 @@ class ParametersPage extends StatelessWidget {
         children: [
           const AuthenticationStatus(),
           const Divider(),
-          const ThemeStatus(),
-          const Divider(),
           const NotificationStatus(),
           const Divider(),
-          const VersionStatus(),
+          const ThemeStatus(),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.contacts),
+            key: const Key(KeysStringNavigation.contacts),
+            title: const Text("Contacter la SEMAG"),
+            onTap: () =>
+                Navigator.of(context).pushNamed<void>(RoutePaths.contacts),
+          ),
           const Divider(),
           ListTile(
             title: const Text("Politique de confidentalité"),
@@ -88,6 +96,7 @@ class ParametersPage extends StatelessWidget {
                   "SOFTWARE.\n",
             ),
           ),
+          const VersionStatus(),
         ],
       ),
     );

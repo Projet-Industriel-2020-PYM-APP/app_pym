@@ -88,7 +88,7 @@ void main() {
             Stream.value('Success').transform(utf8.encoder),
             200,
             headers: <String, String>{
-              'Content-Disposition':
+              'content-disposition':
                   "attachment; filename=Gtfs_CPA___2020-05-27.zip"
             },
           );

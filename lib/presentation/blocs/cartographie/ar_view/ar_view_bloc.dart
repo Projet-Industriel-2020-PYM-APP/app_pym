@@ -12,7 +12,6 @@ part 'ar_view_bloc.freezed.dart';
 part 'ar_view_event.dart';
 part 'ar_view_state.dart';
 
-// TODO : https://developers.google.com/ar/distribute/privacy-requirements
 @prod
 @injectable
 class ArViewBloc extends Bloc<ArViewEvent, ArViewState> {

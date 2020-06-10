@@ -35,6 +35,8 @@ class SNCFRouteRepositoryImpl implements SNCFRouteRepository {
         final stream = remoteDataSource.download();
         await localDataSource.writeFile(stream);
       }
+    } else if (!(await localDataSource.fileExists)) {
+      await localDataSource.writeFile(localDataSource.useAsset());
     }
 
     final routeModels = localDataSource.fetchRoutes();
@@ -44,8 +46,8 @@ class SNCFRouteRepositoryImpl implements SNCFRouteRepository {
     final stopModels = localDataSource.fetchStops();
 
     //la seule route qui nous intéresse
-    final routeModel = (await routeModels).firstWhere((routeModel) =>
-        routeModel.route_id.compareTo(MobilityConstants.trainLine) == 0);
+    final routeModel = (await routeModels).firstWhere(
+        (routeModel) => routeModel.route_id == MobilityConstants.trainLine);
     final route = routeModel.toEntity(
       calendarModels: await calendarModels,
       stopModels: await stopModels,

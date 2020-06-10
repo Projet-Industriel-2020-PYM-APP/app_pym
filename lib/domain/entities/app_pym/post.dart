@@ -11,5 +11,7 @@ abstract class Post with _$Post {
     @nullable @required String url,
     @nullable @required String title,
     @nullable @required String content,
+    @required @nullable String subtitle,
+    @required @nullable List<String> tags,
   }) = _Post;
 }

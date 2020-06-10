@@ -278,8 +278,8 @@ extension on Trip {
           title: transportType + this.route_id,
           snippet: this
                   .stop_time
-                  .firstWhere((stopTime) =>
-                      stopTime.stop.stop_name.compareTo(point.name) == 0)
+                  .firstWhere(
+                      (stopTime) => stopTime.stop.stop_name == point.name)
                   .arrival_time +
               ' -> ' +
               this.stop_time.last.stop.stop_name,

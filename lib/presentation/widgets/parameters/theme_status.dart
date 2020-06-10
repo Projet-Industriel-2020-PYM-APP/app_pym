@@ -10,7 +10,7 @@ class ThemeStatus extends StatelessWidget {
     return Column(
       children: [
         const ListTile(
-          title: Text("Theme"),
+          title: Text("Thème"),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),

@@ -23,13 +23,15 @@ class _$_PostModelAdapter extends TypeAdapter<_$_PostModel> {
       url: fields[3] as String,
       title: fields[4] as String,
       content: fields[5] as String,
+      subtitle: fields[6] as String,
+      tags: (fields[7] as List)?.cast<String>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, _$_PostModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -41,7 +43,11 @@ class _$_PostModelAdapter extends TypeAdapter<_$_PostModel> {
       ..writeByte(4)
       ..write(obj.title)
       ..writeByte(5)
-      ..write(obj.content);
+      ..write(obj.content)
+      ..writeByte(6)
+      ..write(obj.subtitle)
+      ..writeByte(7)
+      ..write(obj.tags);
   }
 }
 
@@ -61,6 +67,8 @@ _$_PostModel _$_$_PostModelFromJson(Map<String, dynamic> json) {
     url: json['url'] as String,
     title: json['title'] as String,
     content: json['content'] as String,
+    subtitle: json['subtitle'] as String,
+    tags: (json['tags'] as List)?.map((e) => e as String)?.toList(),
   );
 }
 
@@ -72,4 +80,6 @@ Map<String, dynamic> _$_$_PostModelToJson(_$_PostModel instance) =>
       'url': instance.url,
       'title': instance.title,
       'content': instance.content,
+      'subtitle': instance.subtitle,
+      'tags': instance.tags,
     };

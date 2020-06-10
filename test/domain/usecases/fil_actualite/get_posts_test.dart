@@ -21,6 +21,8 @@ void main() {
   final DateTime tDateTime = DateTime.parse("1970-01-01T00:00:00.000Z");
   final tPost = Post(
     content: 'content',
+    tags: ["tag"],
+    subtitle: "subtitle",
     id: 0,
     published: tDateTime,
     title: 'title',

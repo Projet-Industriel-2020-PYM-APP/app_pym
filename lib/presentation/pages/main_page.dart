@@ -21,7 +21,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   static const List<String> titles = [
-    "Actualité",
+    "Actualités",
     "Mobilité",
     "Cartographie",
     "Services",
@@ -30,9 +30,9 @@ class _MainPageState extends State<MainPage> {
 
   static const List<Widget> pages = <Widget>[
     ActualitePage(),
+    ServicesPage(),
     MobilitePage(),
     CartographiePage(),
-    ServicesPage(),
   ];
 
   @override
@@ -125,42 +125,9 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
-  RelativeRect buttonMenuPosition(BuildContext context) {
-    final RenderBox bar = context.findRenderObject() as RenderBox;
-    final RenderBox overlay =
-        Overlay.of(context).context.findRenderObject() as RenderBox;
-    final RelativeRect position = RelativeRect.fromRect(
-      Rect.fromPoints(
-        bar.localToGlobal(bar.size.bottomRight(Offset.zero), ancestor: overlay),
-        bar.localToGlobal(bar.size.bottomRight(Offset.zero), ancestor: overlay),
-      ),
-      Offset.zero & overlay.size,
-    );
-    return position;
-  }
-
   Future<void> onTabTapped(BuildContext context, int newIndex) async {
     if (newIndex == 4) {
-      final position = buttonMenuPosition(context);
-      final result = await showMenu<String>(
-        context: context,
-        position: position,
-        items: <PopupMenuItem<String>>[
-          const PopupMenuItem<String>(
-            key: Key(KeysStringNavigation.parameters),
-            value: RoutePaths.parameters,
-            child: Text('Paramètres'),
-          ),
-          const PopupMenuItem<String>(
-            key: Key(KeysStringNavigation.contacts),
-            value: RoutePaths.contacts,
-            child: Text('Contacts'),
-          ),
-        ],
-      );
-      if (result != null) {
-        await Navigator.of(context).pushNamed(result);
-      }
+      await Navigator.of(context).pushNamed(RoutePaths.parameters);
     } else if (newIndex != context.bloc<MainPageBloc>().state.currentIndex) {
       context.bloc<MainPageBloc>().add(GoToPageEvent(newIndex));
     }
@@ -177,6 +144,16 @@ class _MainPageState extends State<MainPage> {
           key: Key(KeysStringNavigation.actualite),
         ),
         title: Text(titles[0]),
+      ),
+      BottomNavigationBarItem(
+        activeIcon: const Icon(
+          Icons.store,
+        ),
+        icon: const Icon(
+          Icons.store,
+          key: Key(KeysStringNavigation.services),
+        ),
+        title: Text(titles[3]),
       ),
       BottomNavigationBarItem(
         activeIcon: const Icon(
@@ -199,19 +176,9 @@ class _MainPageState extends State<MainPage> {
         title: Text(titles[2]),
       ),
       BottomNavigationBarItem(
-        activeIcon: const Icon(
-          FontAwesomeIcons.utensils,
-        ),
         icon: const Icon(
-          Icons.room_service,
-          key: Key(KeysStringNavigation.services),
-        ),
-        title: Text(titles[3]),
-      ),
-      BottomNavigationBarItem(
-        icon: const Icon(
-          Icons.more_vert,
-          key: Key(KeysStringNavigation.more),
+          Icons.settings,
+          key: Key(KeysStringNavigation.parameters),
         ),
         title: Text(titles[4]),
       ),

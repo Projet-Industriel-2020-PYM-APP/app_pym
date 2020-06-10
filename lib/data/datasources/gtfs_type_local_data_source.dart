@@ -10,5 +10,13 @@ abstract class GTFSTypeLocalDataSource {
   Future<List<StopModel>> fetchStops();
   Future<List<StopTimeModel>> fetchStopTimes();
   Future<List<TripModel>> fetchTrips();
+
+  /// Write zip and extract file to be used in Cartographie
   Future<void> writeFile(Stream<List<int>> bytes);
+
+  /// Get a backup of the API
+  Stream<List<int>> useAsset();
+
+  /// Check if zip file exist in Application Directory
+  Future<bool> get fileExists;
 }

@@ -65,50 +65,15 @@ void main() {
         await driver.tap(find.byValueKey(KeysStringNavigation.services));
         await takeScreenshot(driver, ScreenshotsPaths.services);
       });
-      test('Open More', () async {
-        await driver.tap(find.byValueKey(KeysStringNavigation.more));
-      });
-
-      test('Close More', () async {
-        await driver.tap(find.byType('ModalBarrier'));
-      });
 
       test('Move to Parameters', () async {
-        await driver.tap(find.byValueKey(KeysStringNavigation.more));
         await driver.tap(find.byValueKey(KeysStringNavigation.parameters));
         await takeScreenshot(driver, ScreenshotsPaths.parameters);
-        try {
-          await driver.tap(find.pageBack()).timeout(const Duration(seconds: 5),
-              onTimeout: () {
-            throw Exception("pageBack failed. Using french tooltip...");
-          });
-        } catch (e) {
-          print(e);
-          await driver
-              .tap(find.byTooltip('Retour'))
-              .timeout(const Duration(seconds: 5), onTimeout: () {
-            throw Exception("tooltip 'Retour' failed.");
-          });
-        }
       });
 
       test('Move to Contact', () async {
-        await driver.tap(find.byValueKey(KeysStringNavigation.more));
         await driver.tap(find.byValueKey(KeysStringNavigation.contacts));
         await takeScreenshot(driver, ScreenshotsPaths.contacts);
-        try {
-          await driver.tap(find.pageBack()).timeout(const Duration(seconds: 5),
-              onTimeout: () {
-            throw Exception("pageBack failed. Using french tooltip...");
-          });
-        } catch (e) {
-          print(e);
-          await driver
-              .tap(find.byTooltip('Retour'))
-              .timeout(const Duration(seconds: 5), onTimeout: () {
-            throw Exception("tooltip 'Retour' failed.");
-          });
-        }
       });
     }, timeout: const Timeout(Duration(minutes: 15)));
   }, timeout: const Timeout(Duration(minutes: 15)));

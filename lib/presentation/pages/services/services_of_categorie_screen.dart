@@ -23,23 +23,68 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      onPressed: () async {
-        if (action.html_url != null && action.html_url.isNotEmpty) {
+    if (action.html_url != null && action.html_url.isNotEmpty) {
+      return FlatButton(
+        onPressed: () async {
           await UrlLauncherUtils.launch(action.html_url);
-        } else if (action.name != null) {
-          if (action.name.toLowerCase().contains('réserve')) {
+        },
+        child: Text(action.name?.toUpperCase() ?? "Action"),
+      );
+    } else if (action.name != null) {
+      if (action.name.toLowerCase().contains('réserve')) {
+        return IconButton(
+          icon: Icon(
+            Icons.insert_invitation,
+            color: Theme.of(context).primaryColor,
+          ),
+          onPressed: () async {
             await Navigator.of(context).push<void>(
               MaterialPageRoute(
                 builder: (context) => FetchAllBookingsPage(service),
               ),
             );
-          } else if (action.name.toUpperCase() == 'SMS') {
-            await UrlLauncherUtils.launch("sms:${service?.telephone}");
-          } else if (action.name.toLowerCase().contains('téléphone') ||
-              action.name.toLowerCase().contains('telephone')) {
-            await UrlLauncherUtils.launch('tel:${service.telephone}');
-          } else if (action.name.toLowerCase().contains('web')) {
+          },
+        );
+      } else if (action.name.toUpperCase().contains('SMS')) {
+        return IconButton(
+          icon: Icon(
+            Icons.sms,
+            color: Theme.of(context).primaryColor,
+          ),
+          onPressed: () async {
+            await UrlLauncherUtils.launch("sms:${service.telephone}");
+          },
+        );
+      } else if (action.name != null &&
+              action.name.toLowerCase().contains('telephone') ||
+          action.name.toLowerCase().contains('téléphone')) {
+        return IconButton(
+          icon: Icon(
+            Icons.phone,
+            color: Theme.of(context).primaryColor,
+          ),
+          onPressed: () async {
+            await UrlLauncherUtils.launch("tel:${service.telephone}");
+          },
+        );
+      } else if (action.name.toLowerCase().contains('localise')) {
+        return IconButton(
+          icon: Icon(
+            Icons.place,
+            color: Theme.of(context).primaryColor,
+          ),
+          onPressed: () async {
+            await UrlLauncherUtils.launch(
+                'https://maps.google.com/?q=${service.address}');
+          },
+        );
+      } else if (action.name.toLowerCase().contains('web')) {
+        return IconButton(
+          icon: Icon(
+            Icons.web,
+            color: Theme.of(context).primaryColor,
+          ),
+          onPressed: () async {
             await Navigator.of(context)
                 .push<void>(MaterialPageRoute(builder: (context) {
               return ScaffoldWebView(
@@ -47,17 +92,17 @@ class ActionButton extends StatelessWidget {
                 title: service.website,
               );
             }));
-          } else if (action.name.toLowerCase().contains('localise')) {
-            await UrlLauncherUtils.launch(
-                'https://maps.google.com/?q=${service.address}');
-          }
-        } else {
-          await Navigator.of(context).push<void>(
-            MaterialPageRoute(
-              builder: (context) => FetchAllBookingsPage(service),
-            ),
-          );
-        }
+          },
+        );
+      }
+    }
+    return FlatButton(
+      onPressed: () async {
+        await Navigator.of(context).push<void>(
+          MaterialPageRoute(
+            builder: (context) => FetchAllBookingsPage(service),
+          ),
+        );
       },
       child: Text(action.name?.toUpperCase() ?? "Action"),
     );
@@ -79,26 +124,7 @@ class ServiceCard extends StatelessWidget {
         child: Row(
           children: <Widget>[
             if (service.img_url != null && service.img_url.isNotEmpty)
-              AspectRatio(
-                aspectRatio: 2 / 3,
-                child: CachedNetworkImage(
-                  imageUrl: service.img_url,
-                  fit: BoxFit.fitHeight,
-                  errorWidget: (context, url, dynamic error) {
-                    print(error);
-                    return Center(
-                      child: Text(error.toString()),
-                    );
-                  },
-                  progressIndicatorBuilder: (context, url, downloadProgress) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: downloadProgress.progress,
-                      ),
-                    );
-                  },
-                ),
-              ),
+              buildImage(),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -145,6 +171,29 @@ class ServiceCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  AspectRatio buildImage() {
+    return AspectRatio(
+      aspectRatio: 2 / 3,
+      child: CachedNetworkImage(
+        imageUrl: service.img_url,
+        fit: BoxFit.fitHeight,
+        errorWidget: (context, url, dynamic error) {
+          print(error);
+          return Center(
+            child: Text(error.toString()),
+          );
+        },
+        progressIndicatorBuilder: (context, url, downloadProgress) {
+          return Center(
+            child: CircularProgressIndicator(
+              value: downloadProgress.progress,
+            ),
+          );
+        },
       ),
     );
   }

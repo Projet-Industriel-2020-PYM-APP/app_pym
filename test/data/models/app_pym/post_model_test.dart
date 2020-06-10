@@ -7,6 +7,8 @@ void main() {
   final PostModel model = PostModel(
     content: "content",
     id: 0,
+    tags: ["tag"],
+    subtitle: "subtitle",
     published: tDateTime,
     title: "title",
     updated: tDateTime,
@@ -19,6 +21,8 @@ void main() {
     title: "title",
     updated: tDateTime,
     url: "url",
+    tags: ["tag"],
+    subtitle: "subtitle",
   );
   group('toEntity', () {
     test(

@@ -17,6 +17,8 @@ abstract class PostModel with _$PostModel {
     @required @nullable @HiveField(3) String url,
     @required @nullable @HiveField(4) String title,
     @required @nullable @HiveField(5) String content,
+    @required @nullable @HiveField(6) String subtitle,
+    @required @nullable @HiveField(7) List<String> tags,
   }) = _PostModel;
 
   factory PostModel.fromJson(Map<String, dynamic> json) =>
@@ -34,6 +36,8 @@ extension PostModelX on PostModel {
       title: this.title,
       updated: this.updated,
       url: this.url,
+      subtitle: this.subtitle,
+      tags: this.tags,
     );
   }
 }

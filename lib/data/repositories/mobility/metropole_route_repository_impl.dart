@@ -35,6 +35,8 @@ class MetropoleRouteRepositoryImpl implements MetropoleRouteRepository {
         final stream = remoteDataSource.download();
         await localDataSource.writeFile(stream);
       }
+    } else if (!(await localDataSource.fileExists)) {
+      await localDataSource.writeFile(localDataSource.useAsset());
     }
 
     final routeModels = localDataSource.fetchRoutes();
@@ -44,8 +46,8 @@ class MetropoleRouteRepositoryImpl implements MetropoleRouteRepository {
     final stopModels = localDataSource.fetchStops();
 
     //la seule route qui nous intéresse
-    final routeModel = (await routeModels).firstWhere((routeModel) =>
-        routeModel.route_id.compareTo(MobilityConstants.busLine) == 0);
+    final routeModel = (await routeModels).firstWhere(
+        (routeModel) => routeModel.route_id == MobilityConstants.busLine);
     final route = routeModel.toEntity(
       calendarModels: await calendarModels,
       stopModels: await stopModels,

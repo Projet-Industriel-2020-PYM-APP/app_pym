@@ -21,7 +21,9 @@ class _$PostModelTearOff {
       @required @nullable @HiveField(2) DateTime updated,
       @required @nullable @HiveField(3) String url,
       @required @nullable @HiveField(4) String title,
-      @required @nullable @HiveField(5) String content}) {
+      @required @nullable @HiveField(5) String content,
+      @required @nullable @HiveField(6) String subtitle,
+      @required @nullable @HiveField(7) List<String> tags}) {
     return _PostModel(
       id: id,
       published: published,
@@ -29,6 +31,8 @@ class _$PostModelTearOff {
       url: url,
       title: title,
       content: content,
+      subtitle: subtitle,
+      tags: tags,
     );
   }
 }
@@ -54,6 +58,12 @@ mixin _$PostModel {
   @nullable
   @HiveField(5)
   String get content;
+  @nullable
+  @HiveField(6)
+  String get subtitle;
+  @nullable
+  @HiveField(7)
+  List<String> get tags;
 
   Map<String, dynamic> toJson();
   $PostModelCopyWith<PostModel> get copyWith;
@@ -68,7 +78,9 @@ abstract class $PostModelCopyWith<$Res> {
       @nullable @HiveField(2) DateTime updated,
       @nullable @HiveField(3) String url,
       @nullable @HiveField(4) String title,
-      @nullable @HiveField(5) String content});
+      @nullable @HiveField(5) String content,
+      @nullable @HiveField(6) String subtitle,
+      @nullable @HiveField(7) List<String> tags});
 }
 
 class _$PostModelCopyWithImpl<$Res> implements $PostModelCopyWith<$Res> {
@@ -86,6 +98,8 @@ class _$PostModelCopyWithImpl<$Res> implements $PostModelCopyWith<$Res> {
     Object url = freezed,
     Object title = freezed,
     Object content = freezed,
+    Object subtitle = freezed,
+    Object tags = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -95,6 +109,8 @@ class _$PostModelCopyWithImpl<$Res> implements $PostModelCopyWith<$Res> {
       url: url == freezed ? _value.url : url as String,
       title: title == freezed ? _value.title : title as String,
       content: content == freezed ? _value.content : content as String,
+      subtitle: subtitle == freezed ? _value.subtitle : subtitle as String,
+      tags: tags == freezed ? _value.tags : tags as List<String>,
     ));
   }
 }
@@ -110,7 +126,9 @@ abstract class _$PostModelCopyWith<$Res> implements $PostModelCopyWith<$Res> {
       @nullable @HiveField(2) DateTime updated,
       @nullable @HiveField(3) String url,
       @nullable @HiveField(4) String title,
-      @nullable @HiveField(5) String content});
+      @nullable @HiveField(5) String content,
+      @nullable @HiveField(6) String subtitle,
+      @nullable @HiveField(7) List<String> tags});
 }
 
 class __$PostModelCopyWithImpl<$Res> extends _$PostModelCopyWithImpl<$Res>
@@ -129,6 +147,8 @@ class __$PostModelCopyWithImpl<$Res> extends _$PostModelCopyWithImpl<$Res>
     Object url = freezed,
     Object title = freezed,
     Object content = freezed,
+    Object subtitle = freezed,
+    Object tags = freezed,
   }) {
     return _then(_PostModel(
       id: id == freezed ? _value.id : id as int,
@@ -138,6 +158,8 @@ class __$PostModelCopyWithImpl<$Res> extends _$PostModelCopyWithImpl<$Res>
       url: url == freezed ? _value.url : url as String,
       title: title == freezed ? _value.title : title as String,
       content: content == freezed ? _value.content : content as String,
+      subtitle: subtitle == freezed ? _value.subtitle : subtitle as String,
+      tags: tags == freezed ? _value.tags : tags as List<String>,
     ));
   }
 }
@@ -151,7 +173,9 @@ class _$_PostModel implements _PostModel {
       @required @nullable @HiveField(2) this.updated,
       @required @nullable @HiveField(3) this.url,
       @required @nullable @HiveField(4) this.title,
-      @required @nullable @HiveField(5) this.content})
+      @required @nullable @HiveField(5) this.content,
+      @required @nullable @HiveField(6) this.subtitle,
+      @required @nullable @HiveField(7) this.tags})
       : assert(id != null);
 
   factory _$_PostModel.fromJson(Map<String, dynamic> json) =>
@@ -180,10 +204,18 @@ class _$_PostModel implements _PostModel {
   @nullable
   @HiveField(5)
   final String content;
+  @override
+  @nullable
+  @HiveField(6)
+  final String subtitle;
+  @override
+  @nullable
+  @HiveField(7)
+  final List<String> tags;
 
   @override
   String toString() {
-    return 'PostModel(id: $id, published: $published, updated: $updated, url: $url, title: $title, content: $content)';
+    return 'PostModel(id: $id, published: $published, updated: $updated, url: $url, title: $title, content: $content, subtitle: $subtitle, tags: $tags)';
   }
 
   @override
@@ -203,7 +235,13 @@ class _$_PostModel implements _PostModel {
             (identical(other.title, title) ||
                 const DeepCollectionEquality().equals(other.title, title)) &&
             (identical(other.content, content) ||
-                const DeepCollectionEquality().equals(other.content, content)));
+                const DeepCollectionEquality()
+                    .equals(other.content, content)) &&
+            (identical(other.subtitle, subtitle) ||
+                const DeepCollectionEquality()
+                    .equals(other.subtitle, subtitle)) &&
+            (identical(other.tags, tags) ||
+                const DeepCollectionEquality().equals(other.tags, tags)));
   }
 
   @override
@@ -214,7 +252,9 @@ class _$_PostModel implements _PostModel {
       const DeepCollectionEquality().hash(updated) ^
       const DeepCollectionEquality().hash(url) ^
       const DeepCollectionEquality().hash(title) ^
-      const DeepCollectionEquality().hash(content);
+      const DeepCollectionEquality().hash(content) ^
+      const DeepCollectionEquality().hash(subtitle) ^
+      const DeepCollectionEquality().hash(tags);
 
   @override
   _$PostModelCopyWith<_PostModel> get copyWith =>
@@ -233,7 +273,9 @@ abstract class _PostModel implements PostModel {
       @required @nullable @HiveField(2) DateTime updated,
       @required @nullable @HiveField(3) String url,
       @required @nullable @HiveField(4) String title,
-      @required @nullable @HiveField(5) String content}) = _$_PostModel;
+      @required @nullable @HiveField(5) String content,
+      @required @nullable @HiveField(6) String subtitle,
+      @required @nullable @HiveField(7) List<String> tags}) = _$_PostModel;
 
   factory _PostModel.fromJson(Map<String, dynamic> json) =
       _$_PostModel.fromJson;
@@ -261,6 +303,14 @@ abstract class _PostModel implements PostModel {
   @nullable
   @HiveField(5)
   String get content;
+  @override
+  @nullable
+  @HiveField(6)
+  String get subtitle;
+  @override
+  @nullable
+  @HiveField(7)
+  List<String> get tags;
   @override
   _$PostModelCopyWith<_PostModel> get copyWith;
 }

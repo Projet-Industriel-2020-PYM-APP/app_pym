@@ -18,7 +18,9 @@ class _$PostTearOff {
       @required @nullable DateTime updated,
       @required @nullable String url,
       @required @nullable String title,
-      @required @nullable String content}) {
+      @required @nullable String content,
+      @required @nullable String subtitle,
+      @required @nullable List<String> tags}) {
     return _Post(
       id: id,
       published: published,
@@ -26,6 +28,8 @@ class _$PostTearOff {
       url: url,
       title: title,
       content: content,
+      subtitle: subtitle,
+      tags: tags,
     );
   }
 }
@@ -45,6 +49,10 @@ mixin _$Post {
   String get title;
   @nullable
   String get content;
+  @nullable
+  String get subtitle;
+  @nullable
+  List<String> get tags;
 
   $PostCopyWith<Post> get copyWith;
 }
@@ -58,7 +66,9 @@ abstract class $PostCopyWith<$Res> {
       @nullable DateTime updated,
       @nullable String url,
       @nullable String title,
-      @nullable String content});
+      @nullable String content,
+      @nullable String subtitle,
+      @nullable List<String> tags});
 }
 
 class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
@@ -76,6 +86,8 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
     Object url = freezed,
     Object title = freezed,
     Object content = freezed,
+    Object subtitle = freezed,
+    Object tags = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -85,6 +97,8 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
       url: url == freezed ? _value.url : url as String,
       title: title == freezed ? _value.title : title as String,
       content: content == freezed ? _value.content : content as String,
+      subtitle: subtitle == freezed ? _value.subtitle : subtitle as String,
+      tags: tags == freezed ? _value.tags : tags as List<String>,
     ));
   }
 }
@@ -99,7 +113,9 @@ abstract class _$PostCopyWith<$Res> implements $PostCopyWith<$Res> {
       @nullable DateTime updated,
       @nullable String url,
       @nullable String title,
-      @nullable String content});
+      @nullable String content,
+      @nullable String subtitle,
+      @nullable List<String> tags});
 }
 
 class __$PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
@@ -118,6 +134,8 @@ class __$PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
     Object url = freezed,
     Object title = freezed,
     Object content = freezed,
+    Object subtitle = freezed,
+    Object tags = freezed,
   }) {
     return _then(_Post(
       id: id == freezed ? _value.id : id as int,
@@ -127,6 +145,8 @@ class __$PostCopyWithImpl<$Res> extends _$PostCopyWithImpl<$Res>
       url: url == freezed ? _value.url : url as String,
       title: title == freezed ? _value.title : title as String,
       content: content == freezed ? _value.content : content as String,
+      subtitle: subtitle == freezed ? _value.subtitle : subtitle as String,
+      tags: tags == freezed ? _value.tags : tags as List<String>,
     ));
   }
 }
@@ -138,7 +158,9 @@ class _$_Post implements _Post {
       @required @nullable this.updated,
       @required @nullable this.url,
       @required @nullable this.title,
-      @required @nullable this.content})
+      @required @nullable this.content,
+      @required @nullable this.subtitle,
+      @required @nullable this.tags})
       : assert(id != null);
 
   @override
@@ -158,10 +180,16 @@ class _$_Post implements _Post {
   @override
   @nullable
   final String content;
+  @override
+  @nullable
+  final String subtitle;
+  @override
+  @nullable
+  final List<String> tags;
 
   @override
   String toString() {
-    return 'Post(id: $id, published: $published, updated: $updated, url: $url, title: $title, content: $content)';
+    return 'Post(id: $id, published: $published, updated: $updated, url: $url, title: $title, content: $content, subtitle: $subtitle, tags: $tags)';
   }
 
   @override
@@ -181,7 +209,13 @@ class _$_Post implements _Post {
             (identical(other.title, title) ||
                 const DeepCollectionEquality().equals(other.title, title)) &&
             (identical(other.content, content) ||
-                const DeepCollectionEquality().equals(other.content, content)));
+                const DeepCollectionEquality()
+                    .equals(other.content, content)) &&
+            (identical(other.subtitle, subtitle) ||
+                const DeepCollectionEquality()
+                    .equals(other.subtitle, subtitle)) &&
+            (identical(other.tags, tags) ||
+                const DeepCollectionEquality().equals(other.tags, tags)));
   }
 
   @override
@@ -192,7 +226,9 @@ class _$_Post implements _Post {
       const DeepCollectionEquality().hash(updated) ^
       const DeepCollectionEquality().hash(url) ^
       const DeepCollectionEquality().hash(title) ^
-      const DeepCollectionEquality().hash(content);
+      const DeepCollectionEquality().hash(content) ^
+      const DeepCollectionEquality().hash(subtitle) ^
+      const DeepCollectionEquality().hash(tags);
 
   @override
   _$PostCopyWith<_Post> get copyWith =>
@@ -206,7 +242,9 @@ abstract class _Post implements Post {
       @required @nullable DateTime updated,
       @required @nullable String url,
       @required @nullable String title,
-      @required @nullable String content}) = _$_Post;
+      @required @nullable String content,
+      @required @nullable String subtitle,
+      @required @nullable List<String> tags}) = _$_Post;
 
   @override
   int get id;
@@ -225,6 +263,12 @@ abstract class _Post implements Post {
   @override
   @nullable
   String get content;
+  @override
+  @nullable
+  String get subtitle;
+  @override
+  @nullable
+  List<String> get tags;
   @override
   _$PostCopyWith<_Post> get copyWith;
 }

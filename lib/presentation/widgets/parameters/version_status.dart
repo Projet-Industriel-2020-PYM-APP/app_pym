@@ -7,6 +7,7 @@ class VersionStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      leading: const Spacer(),
       title: const Text("Version"),
       subtitle: FutureBuilder<PackageInfo>(
         future: PackageInfo.fromPlatform(),

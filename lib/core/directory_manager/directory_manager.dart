@@ -6,6 +6,7 @@ abstract class DirectoryManager {
   Future<String> get metropole;
   Future<String> get sncf;
   Future<ByteData> get cpaZip;
+  Future<ByteData> get terZip;
 }
 
 @prod
@@ -25,4 +26,8 @@ class DirectoryManagerImpl implements DirectoryManager {
 
   @override
   Future<ByteData> get cpaZip => rootBundle.load('assets/bus_data/CPA.zip');
+
+  @override
+  Future<ByteData> get terZip =>
+      rootBundle.load('assets/train_data/export-ter-gtfs-last.zip');
 }
