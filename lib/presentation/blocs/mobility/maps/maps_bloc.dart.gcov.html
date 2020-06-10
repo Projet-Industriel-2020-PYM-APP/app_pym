@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-06-05 01:22:09</td>
+            <td class="headerValue">2020-06-10 12:27:00</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -340,8 +340,8 @@
 <span class="lineNum">     278 </span><span class="lineNoCov">          0 :           title: transportType + this.route_id,</span>
 <span class="lineNum">     279 </span>            :           snippet: this
 <span class="lineNum">     280 </span><span class="lineNoCov">          0 :                   .stop_time</span>
-<span class="lineNum">     281 </span><span class="lineNoCov">          0 :                   .firstWhere((stopTime) =&gt;</span>
-<span class="lineNum">     282 </span><span class="lineNoCov">          0 :                       stopTime.stop.stop_name.compareTo(point.name) == 0)</span>
+<span class="lineNum">     281 </span><span class="lineNoCov">          0 :                   .firstWhere(</span>
+<span class="lineNum">     282 </span><span class="lineNoCov">          0 :                       (stopTime) =&gt; stopTime.stop.stop_name == point.name)</span>
 <span class="lineNum">     283 </span><span class="lineNoCov">          0 :                   .arrival_time +</span>
 <span class="lineNum">     284 </span><span class="lineNoCov">          0 :               ' -&gt; ' +</span>
 <span class="lineNum">     285 </span><span class="lineNoCov">          0 :               this.stop_time.last.stop.stop_name,</span>
