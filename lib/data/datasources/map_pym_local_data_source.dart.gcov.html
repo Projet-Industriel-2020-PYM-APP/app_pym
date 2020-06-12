@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">72</td>
-            <td class="headerCovTableEntry">73</td>
-            <td class="headerCovTableEntryHi">98.6 %</td>
+            <td class="headerCovTableEntry">75</td>
+            <td class="headerCovTableEntryHi">96.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-06-10 12:27:00</td>
+            <td class="headerValue">2020-06-12 21:52:22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -114,242 +114,250 @@
 <span class="lineNum">      52 </span>            : 
 <span class="lineNum">      53 </span>            :   List&lt;ContactCategorieModel&gt; fetchAllContactCategories();
 <span class="lineNum">      54 </span>            : 
-<span class="lineNum">      55 </span>            :   List&lt;PostModel&gt; fetchAllPosts();
+<span class="lineNum">      55 </span>            :   List&lt;EntrepriseModel&gt; fetchAllEntreprises();
 <span class="lineNum">      56 </span>            : 
-<span class="lineNum">      57 </span>            :   List&lt;ServiceCategorieModel&gt; fetchAllServiceCategories();
+<span class="lineNum">      57 </span>            :   List&lt;PostModel&gt; fetchAllPosts();
 <span class="lineNum">      58 </span>            : 
-<span class="lineNum">      59 </span>            :   /// Fetch a Batiment from cache.
-<span class="lineNum">      60 </span>            :   ///
-<span class="lineNum">      61 </span>            :   /// Throws [CacheException] if not found.
-<span class="lineNum">      62 </span>            :   BatimentModel fetchBatiment(int id);
-<span class="lineNum">      63 </span>            : 
-<span class="lineNum">      64 </span>            :   /// Fetch a Contact from cache.
-<span class="lineNum">      65 </span>            :   ///
-<span class="lineNum">      66 </span>            :   /// Throws [CacheException] if not found.
-<span class="lineNum">      67 </span>            :   ContactModel fetchContact(int id);
-<span class="lineNum">      68 </span>            : 
-<span class="lineNum">      69 </span>            :   /// Fetch Entreprises from cache. Filtered by [idBatiment].
-<span class="lineNum">      70 </span>            :   ///
-<span class="lineNum">      71 </span>            :   /// Empty list if not found.
-<span class="lineNum">      72 </span>            :   List&lt;EntrepriseModel&gt; fetchEntreprisesOfBatiment(int idBatiment);
-<span class="lineNum">      73 </span>            : 
-<span class="lineNum">      74 </span>            :   /// Fetch Services from cache. Filtered by [categorie_id].
-<span class="lineNum">      75 </span>            :   ///
-<span class="lineNum">      76 </span>            :   /// Empty list if not found.
-<span class="lineNum">      77 </span>            :   List&lt;ServiceModel&gt; fetchServicesOf(int categorie_id);
-<span class="lineNum">      78 </span>            : 
-<span class="lineNum">      79 </span>            :   /// Fetch a user from cache.
-<span class="lineNum">      80 </span>            :   ///
-<span class="lineNum">      81 </span>            :   /// Throws [CacheException] if not found.
-<span class="lineNum">      82 </span>            :   AppUserModel fetchUser();
-<span class="lineNum">      83 </span>            : }
-<span class="lineNum">      84 </span>            : 
-<span class="lineNum">      85 </span>            : @prod
-<span class="lineNum">      86 </span>            : @LazySingleton(as: MapPymLocalDataSource)
-<span class="lineNum">      87 </span>            : class MapPymLocalDataSourceImpl implements MapPymLocalDataSource {
-<span class="lineNum">      88 </span>            :   final Box&lt;BatimentModel&gt; batimentsBox;
-<span class="lineNum">      89 </span>            :   final Box&lt;EntrepriseModel&gt; entreprisesBox;
-<span class="lineNum">      90 </span>            :   final Box&lt;PostModel&gt; postsBox;
-<span class="lineNum">      91 </span>            :   final Box&lt;ServiceCategorieModel&gt; serviceCategoriesBox;
-<span class="lineNum">      92 </span>            :   final Box&lt;ServiceModel&gt; servicesBox;
-<span class="lineNum">      93 </span>            :   final Box&lt;ContactCategorieModel&gt; contactCategoriesBox;
-<span class="lineNum">      94 </span>            :   final Box&lt;ContactModel&gt; contactsBox;
-<span class="lineNum">      95 </span>            :   final Box&lt;BookingModel&gt; bookingsBox;
-<span class="lineNum">      96 </span>            :   final SharedPreferences prefs;
-<span class="lineNum">      97 </span>            : 
-<span class="lineNum">      98 </span><span class="lineCov">          1 :   const MapPymLocalDataSourceImpl({</span>
-<span class="lineNum">      99 </span>            :     @required this.serviceCategoriesBox,
-<span class="lineNum">     100 </span>            :     @required this.servicesBox,
-<span class="lineNum">     101 </span>            :     @required this.contactCategoriesBox,
-<span class="lineNum">     102 </span>            :     @required this.batimentsBox,
-<span class="lineNum">     103 </span>            :     @required this.entreprisesBox,
-<span class="lineNum">     104 </span>            :     @required this.postsBox,
-<span class="lineNum">     105 </span>            :     @required this.contactsBox,
-<span class="lineNum">     106 </span>            :     @required this.bookingsBox,
-<span class="lineNum">     107 </span>            :     @required this.prefs,
-<span class="lineNum">     108 </span>            :   });
-<span class="lineNum">     109 </span>            : 
-<span class="lineNum">     110 </span>            :   @override
-<span class="lineNum">     111 </span><span class="lineCov">          1 :   Future&lt;void&gt; cacheAllBatiment(Iterable&lt;BatimentModel&gt; batiments) async {</span>
-<span class="lineNum">     112 </span><span class="lineCov">          2 :     return batiments.forEach(cacheBatiment);</span>
-<span class="lineNum">     113 </span>            :   }
-<span class="lineNum">     114 </span>            : 
-<span class="lineNum">     115 </span>            :   @override
-<span class="lineNum">     116 </span><span class="lineCov">          1 :   Future&lt;void&gt; cacheAllBookings(Iterable&lt;BookingModel&gt; bookings) async {</span>
-<span class="lineNum">     117 </span><span class="lineCov">          2 :     return bookings.forEach(cacheBooking);</span>
-<span class="lineNum">     118 </span>            :   }
-<span class="lineNum">     119 </span>            : 
-<span class="lineNum">     120 </span>            :   @override
-<span class="lineNum">     121 </span><span class="lineCov">          1 :   Future&lt;void&gt; cacheAllContactCategories(</span>
-<span class="lineNum">     122 </span>            :       Iterable&lt;ContactCategorieModel&gt; categories) async {
-<span class="lineNum">     123 </span><span class="lineCov">          2 :     return categories.forEach(_cacheContactCategorie);</span>
-<span class="lineNum">     124 </span>            :   }
-<span class="lineNum">     125 </span>            : 
-<span class="lineNum">     126 </span>            :   @override
-<span class="lineNum">     127 </span><span class="lineCov">          1 :   Future&lt;void&gt; cacheAllEntreprise(Iterable&lt;EntrepriseModel&gt; entreprises) async {</span>
-<span class="lineNum">     128 </span><span class="lineCov">          2 :     return entreprises.forEach(_cacheEntreprise);</span>
-<span class="lineNum">     129 </span>            :   }
-<span class="lineNum">     130 </span>            : 
-<span class="lineNum">     131 </span>            :   @override
-<span class="lineNum">     132 </span><span class="lineCov">          1 :   Future&lt;void&gt; cacheAllPosts(Iterable&lt;PostModel&gt; posts) async {</span>
-<span class="lineNum">     133 </span><span class="lineCov">          2 :     return posts.forEach(_cachePost);</span>
-<span class="lineNum">     134 </span>            :   }
-<span class="lineNum">     135 </span>            : 
-<span class="lineNum">     136 </span>            :   @override
-<span class="lineNum">     137 </span><span class="lineCov">          1 :   Future&lt;void&gt; cacheAllServiceCategories(</span>
-<span class="lineNum">     138 </span>            :       Iterable&lt;ServiceCategorieModel&gt; categories) async {
-<span class="lineNum">     139 </span><span class="lineCov">          2 :     return categories.forEach(_cacheServiceCategory);</span>
-<span class="lineNum">     140 </span>            :   }
-<span class="lineNum">     141 </span>            : 
-<span class="lineNum">     142 </span>            :   @override
-<span class="lineNum">     143 </span><span class="lineCov">          1 :   Future&lt;void&gt; cacheAllServices(Iterable&lt;ServiceModel&gt; services) async {</span>
-<span class="lineNum">     144 </span><span class="lineCov">          2 :     return services.forEach(_cacheService);</span>
-<span class="lineNum">     145 </span>            :   }
-<span class="lineNum">     146 </span>            : 
-<span class="lineNum">     147 </span><span class="lineCov">          1 :   @override</span>
-<span class="lineNum">     148 </span>            :   Future&lt;void&gt; cacheBatiment(BatimentModel batiment) {
-<span class="lineNum">     149 </span><span class="lineCov">          2 :     return batimentsBox.put(</span>
-<span class="lineNum">     150 </span><span class="lineCov">          2 :       '/batiments/${batiment.id}',</span>
-<span class="lineNum">     151 </span>            :       batiment,
-<span class="lineNum">     152 </span>            :     );
-<span class="lineNum">     153 </span>            :   }
-<span class="lineNum">     154 </span>            : 
-<span class="lineNum">     155 </span><span class="lineCov">          1 :   @override</span>
-<span class="lineNum">     156 </span>            :   Future&lt;void&gt; cacheBooking(BookingModel booking) {
-<span class="lineNum">     157 </span><span class="lineCov">          4 :     return bookingsBox.put('/bookings/${booking.id}', booking);</span>
-<span class="lineNum">     158 </span>            :   }
-<span class="lineNum">     159 </span>            : 
-<span class="lineNum">     160 </span><span class="lineCov">          1 :   @override</span>
-<span class="lineNum">     161 </span>            :   Future&lt;void&gt; cacheContact(ContactModel contact) {
-<span class="lineNum">     162 </span><span class="lineCov">          2 :     return contactsBox.put(</span>
-<span class="lineNum">     163 </span><span class="lineCov">          2 :       '/contacts/${contact.id}',</span>
-<span class="lineNum">     164 </span>            :       contact,
-<span class="lineNum">     165 </span>            :     );
-<span class="lineNum">     166 </span>            :   }
-<span class="lineNum">     167 </span>            : 
-<span class="lineNum">     168 </span><span class="lineCov">          1 :   @override</span>
-<span class="lineNum">     169 </span>            :   Future&lt;void&gt; cacheUser(AppUserModel user) {
-<span class="lineNum">     170 </span><span class="lineCov">          4 :     return prefs.setString('user', json.encode(user.toJson()));</span>
-<span class="lineNum">     171 </span>            :   }
-<span class="lineNum">     172 </span>            : 
-<span class="lineNum">     173 </span><span class="lineCov">          1 :   @override</span>
-<span class="lineNum">     174 </span>            :   Future&lt;void&gt; deleteBooking(int booking_id) {
-<span class="lineNum">     175 </span><span class="lineCov">          3 :     return bookingsBox.delete('/bookings/${booking_id}');</span>
-<span class="lineNum">     176 </span>            :   }
-<span class="lineNum">     177 </span>            : 
-<span class="lineNum">     178 </span><span class="lineCov">          1 :   @override</span>
-<span class="lineNum">     179 </span>            :   List&lt;BatimentModel&gt; fetchAllBatiment() {
-<span class="lineNum">     180 </span>            :     final List&lt;BatimentModel&gt; batimentModels =
-<span class="lineNum">     181 </span><span class="lineCov">          3 :         batimentsBox?.values?.toList() ?? [];</span>
-<span class="lineNum">     182 </span>            :     return batimentModels;
-<span class="lineNum">     183 </span>            :   }
-<span class="lineNum">     184 </span>            : 
-<span class="lineNum">     185 </span><span class="lineCov">          1 :   @override</span>
-<span class="lineNum">     186 </span>            :   List&lt;BookingModel&gt; fetchAllBookingsOf(int service_id) {
-<span class="lineNum">     187 </span><span class="lineCov">          2 :     final models = bookingsBox?.values</span>
-<span class="lineNum">     188 </span><span class="lineCov">          4 :             ?.where((e) =&gt; e.service_id == service_id)</span>
-<span class="lineNum">     189 </span><span class="lineCov">          1 :             ?.toList() ??</span>
-<span class="lineNum">     190 </span><span class="lineNoCov">          0 :         [];</span>
-<span class="lineNum">     191 </span>            :     return models;
-<span class="lineNum">     192 </span>            :   }
-<span class="lineNum">     193 </span>            : 
-<span class="lineNum">     194 </span><span class="lineCov">          1 :   @override</span>
-<span class="lineNum">     195 </span>            :   List&lt;ContactCategorieModel&gt; fetchAllContactCategories() {
-<span class="lineNum">     196 </span><span class="lineCov">          3 :     final data = contactCategoriesBox?.values?.toList() ?? [];</span>
-<span class="lineNum">     197 </span>            : 
-<span class="lineNum">     198 </span>            :     return data;
-<span class="lineNum">     199 </span>            :   }
-<span class="lineNum">     200 </span>            : 
-<span class="lineNum">     201 </span><span class="lineCov">          1 :   @override</span>
-<span class="lineNum">     202 </span>            :   List&lt;PostModel&gt; fetchAllPosts() {
-<span class="lineNum">     203 </span><span class="lineCov">          3 :     final models = postsBox?.values?.toList() ?? [];</span>
-<span class="lineNum">     204 </span>            :     return models;
-<span class="lineNum">     205 </span>            :   }
-<span class="lineNum">     206 </span>            : 
-<span class="lineNum">     207 </span><span class="lineCov">          1 :   @override</span>
-<span class="lineNum">     208 </span>            :   List&lt;ServiceCategorieModel&gt; fetchAllServiceCategories() {
-<span class="lineNum">     209 </span><span class="lineCov">          3 :     final data = serviceCategoriesBox?.values?.toList() ?? [];</span>
-<span class="lineNum">     210 </span>            : 
-<span class="lineNum">     211 </span>            :     return data;
-<span class="lineNum">     212 </span>            :   }
-<span class="lineNum">     213 </span>            : 
-<span class="lineNum">     214 </span><span class="lineCov">          1 :   @override</span>
-<span class="lineNum">     215 </span>            :   BatimentModel fetchBatiment(int id) {
-<span class="lineNum">     216 </span><span class="lineCov">          3 :     final BatimentModel batimentModel = batimentsBox.get('/batiments/${id}');</span>
-<span class="lineNum">     217 </span>            :     if (batimentModel != null) {
-<span class="lineNum">     218 </span>            :       return batimentModel;
-<span class="lineNum">     219 </span>            :     } else {
-<span class="lineNum">     220 </span><span class="lineCov">          1 :       throw CacheException('No Batiment in cache.');</span>
-<span class="lineNum">     221 </span>            :     }
-<span class="lineNum">     222 </span>            :   }
-<span class="lineNum">     223 </span>            : 
-<span class="lineNum">     224 </span><span class="lineCov">          1 :   @override</span>
-<span class="lineNum">     225 </span>            :   ContactModel fetchContact(int id) {
-<span class="lineNum">     226 </span><span class="lineCov">          3 :     final ContactModel contactModel = contactsBox.get('/contacts/${id}');</span>
-<span class="lineNum">     227 </span>            :     if (contactModel != null) {
-<span class="lineNum">     228 </span>            :       return contactModel;
-<span class="lineNum">     229 </span>            :     } else {
-<span class="lineNum">     230 </span><span class="lineCov">          2 :       throw CacheException('No Contact $id in cache.');</span>
-<span class="lineNum">     231 </span>            :     }
-<span class="lineNum">     232 </span>            :   }
-<span class="lineNum">     233 </span>            : 
-<span class="lineNum">     234 </span><span class="lineCov">          1 :   @override</span>
-<span class="lineNum">     235 </span>            :   List&lt;EntrepriseModel&gt; fetchEntreprisesOfBatiment(int idBatiment) {
-<span class="lineNum">     236 </span><span class="lineCov">          2 :     final entreprisesOfBatiment = entreprisesBox?.values</span>
-<span class="lineNum">     237 </span><span class="lineCov">          4 :             ?.where((element) =&gt; element.idBatiment == idBatiment)</span>
-<span class="lineNum">     238 </span><span class="lineCov">          1 :             ?.toList() ??</span>
-<span class="lineNum">     239 </span><span class="lineCov">          1 :         [];</span>
-<span class="lineNum">     240 </span>            :     return entreprisesOfBatiment;
-<span class="lineNum">     241 </span>            :   }
-<span class="lineNum">     242 </span>            : 
-<span class="lineNum">     243 </span><span class="lineCov">          1 :   @override</span>
-<span class="lineNum">     244 </span>            :   List&lt;ServiceModel&gt; fetchServicesOf(int categorie_id) {
-<span class="lineNum">     245 </span><span class="lineCov">          2 :     final models = servicesBox?.values</span>
-<span class="lineNum">     246 </span><span class="lineCov">          4 :             ?.where((element) =&gt; element.categorie_id == categorie_id)</span>
-<span class="lineNum">     247 </span><span class="lineCov">          1 :             ?.toList() ??</span>
-<span class="lineNum">     248 </span><span class="lineCov">          1 :         [];</span>
-<span class="lineNum">     249 </span>            :     return models;
-<span class="lineNum">     250 </span>            :   }
-<span class="lineNum">     251 </span>            : 
-<span class="lineNum">     252 </span><span class="lineCov">          1 :   @override</span>
-<span class="lineNum">     253 </span>            :   AppUserModel fetchUser() {
-<span class="lineNum">     254 </span><span class="lineCov">          2 :     final user = prefs.getString('user');</span>
-<span class="lineNum">     255 </span>            :     if (user != null) {
-<span class="lineNum">     256 </span><span class="lineCov">          2 :       return AppUserModel.fromJson(json.decode(user) as Map&lt;String, dynamic&gt;);</span>
-<span class="lineNum">     257 </span>            :     } else {
-<span class="lineNum">     258 </span><span class="lineCov">          1 :       throw CacheException('No Users in cache');</span>
-<span class="lineNum">     259 </span>            :     }
-<span class="lineNum">     260 </span>            :   }
-<span class="lineNum">     261 </span>            : 
-<span class="lineNum">     262 </span><span class="lineCov">          1 :   Future&lt;void&gt; _cacheContactCategorie(ContactCategorieModel category) {</span>
-<span class="lineNum">     263 </span><span class="lineCov">          2 :     return contactCategoriesBox.put(</span>
-<span class="lineNum">     264 </span><span class="lineCov">          2 :       '/contact_categories/${category.id}',</span>
-<span class="lineNum">     265 </span>            :       category,
-<span class="lineNum">     266 </span>            :     );
-<span class="lineNum">     267 </span>            :   }
-<span class="lineNum">     268 </span>            : 
-<span class="lineNum">     269 </span><span class="lineCov">          1 :   Future&lt;void&gt; _cacheEntreprise(EntrepriseModel entreprise) {</span>
-<span class="lineNum">     270 </span><span class="lineCov">          2 :     return entreprisesBox.put(</span>
-<span class="lineNum">     271 </span><span class="lineCov">          2 :       '/entreprises/${entreprise.id}',</span>
-<span class="lineNum">     272 </span>            :       entreprise,
-<span class="lineNum">     273 </span>            :     );
-<span class="lineNum">     274 </span>            :   }
-<span class="lineNum">     275 </span>            : 
-<span class="lineNum">     276 </span><span class="lineCov">          1 :   Future&lt;void&gt; _cachePost(PostModel post) {</span>
-<span class="lineNum">     277 </span><span class="lineCov">          4 :     return postsBox.put('/posts/${post.id}', post);</span>
-<span class="lineNum">     278 </span>            :   }
-<span class="lineNum">     279 </span>            : 
-<span class="lineNum">     280 </span><span class="lineCov">          1 :   Future&lt;void&gt; _cacheService(ServiceModel service) {</span>
-<span class="lineNum">     281 </span><span class="lineCov">          4 :     return servicesBox.put('/services/${service.id}', service);</span>
-<span class="lineNum">     282 </span>            :   }
-<span class="lineNum">     283 </span>            : 
-<span class="lineNum">     284 </span><span class="lineCov">          1 :   Future&lt;void&gt; _cacheServiceCategory(ServiceCategorieModel category) {</span>
-<span class="lineNum">     285 </span><span class="lineCov">          2 :     return serviceCategoriesBox.put(</span>
-<span class="lineNum">     286 </span><span class="lineCov">          2 :       '/service_categories/${category.id}',</span>
-<span class="lineNum">     287 </span>            :       category,
-<span class="lineNum">     288 </span>            :     );
-<span class="lineNum">     289 </span>            :   }
-<span class="lineNum">     290 </span>            : }
+<span class="lineNum">      59 </span>            :   List&lt;ServiceCategorieModel&gt; fetchAllServiceCategories();
+<span class="lineNum">      60 </span>            : 
+<span class="lineNum">      61 </span>            :   /// Fetch a Batiment from cache.
+<span class="lineNum">      62 </span>            :   ///
+<span class="lineNum">      63 </span>            :   /// Throws [CacheException] if not found.
+<span class="lineNum">      64 </span>            :   BatimentModel fetchBatiment(int id);
+<span class="lineNum">      65 </span>            : 
+<span class="lineNum">      66 </span>            :   /// Fetch a Contact from cache.
+<span class="lineNum">      67 </span>            :   ///
+<span class="lineNum">      68 </span>            :   /// Throws [CacheException] if not found.
+<span class="lineNum">      69 </span>            :   ContactModel fetchContact(int id);
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span>            :   /// Fetch Entreprises from cache. Filtered by [idBatiment].
+<span class="lineNum">      72 </span>            :   ///
+<span class="lineNum">      73 </span>            :   /// Empty list if not found.
+<span class="lineNum">      74 </span>            :   List&lt;EntrepriseModel&gt; fetchEntreprisesOfBatiment(int idBatiment);
+<span class="lineNum">      75 </span>            : 
+<span class="lineNum">      76 </span>            :   /// Fetch Services from cache. Filtered by [categorie_id].
+<span class="lineNum">      77 </span>            :   ///
+<span class="lineNum">      78 </span>            :   /// Empty list if not found.
+<span class="lineNum">      79 </span>            :   List&lt;ServiceModel&gt; fetchServicesOf(int categorie_id);
+<span class="lineNum">      80 </span>            : 
+<span class="lineNum">      81 </span>            :   /// Fetch a user from cache.
+<span class="lineNum">      82 </span>            :   ///
+<span class="lineNum">      83 </span>            :   /// Throws [CacheException] if not found.
+<span class="lineNum">      84 </span>            :   AppUserModel fetchUser();
+<span class="lineNum">      85 </span>            : }
+<span class="lineNum">      86 </span>            : 
+<span class="lineNum">      87 </span>            : @prod
+<span class="lineNum">      88 </span>            : @LazySingleton(as: MapPymLocalDataSource)
+<span class="lineNum">      89 </span>            : class MapPymLocalDataSourceImpl implements MapPymLocalDataSource {
+<span class="lineNum">      90 </span>            :   final Box&lt;BatimentModel&gt; batimentsBox;
+<span class="lineNum">      91 </span>            :   final Box&lt;EntrepriseModel&gt; entreprisesBox;
+<span class="lineNum">      92 </span>            :   final Box&lt;PostModel&gt; postsBox;
+<span class="lineNum">      93 </span>            :   final Box&lt;ServiceCategorieModel&gt; serviceCategoriesBox;
+<span class="lineNum">      94 </span>            :   final Box&lt;ServiceModel&gt; servicesBox;
+<span class="lineNum">      95 </span>            :   final Box&lt;ContactCategorieModel&gt; contactCategoriesBox;
+<span class="lineNum">      96 </span>            :   final Box&lt;ContactModel&gt; contactsBox;
+<span class="lineNum">      97 </span>            :   final Box&lt;BookingModel&gt; bookingsBox;
+<span class="lineNum">      98 </span>            :   final SharedPreferences prefs;
+<span class="lineNum">      99 </span>            : 
+<span class="lineNum">     100 </span><span class="lineCov">          1 :   const MapPymLocalDataSourceImpl({</span>
+<span class="lineNum">     101 </span>            :     @required this.serviceCategoriesBox,
+<span class="lineNum">     102 </span>            :     @required this.servicesBox,
+<span class="lineNum">     103 </span>            :     @required this.contactCategoriesBox,
+<span class="lineNum">     104 </span>            :     @required this.batimentsBox,
+<span class="lineNum">     105 </span>            :     @required this.entreprisesBox,
+<span class="lineNum">     106 </span>            :     @required this.postsBox,
+<span class="lineNum">     107 </span>            :     @required this.contactsBox,
+<span class="lineNum">     108 </span>            :     @required this.bookingsBox,
+<span class="lineNum">     109 </span>            :     @required this.prefs,
+<span class="lineNum">     110 </span>            :   });
+<span class="lineNum">     111 </span>            : 
+<span class="lineNum">     112 </span>            :   @override
+<span class="lineNum">     113 </span><span class="lineCov">          1 :   Future&lt;void&gt; cacheAllBatiment(Iterable&lt;BatimentModel&gt; batiments) async {</span>
+<span class="lineNum">     114 </span><span class="lineCov">          2 :     return batiments.forEach(cacheBatiment);</span>
+<span class="lineNum">     115 </span>            :   }
+<span class="lineNum">     116 </span>            : 
+<span class="lineNum">     117 </span>            :   @override
+<span class="lineNum">     118 </span><span class="lineCov">          1 :   Future&lt;void&gt; cacheAllBookings(Iterable&lt;BookingModel&gt; bookings) async {</span>
+<span class="lineNum">     119 </span><span class="lineCov">          2 :     return bookings.forEach(cacheBooking);</span>
+<span class="lineNum">     120 </span>            :   }
+<span class="lineNum">     121 </span>            : 
+<span class="lineNum">     122 </span>            :   @override
+<span class="lineNum">     123 </span><span class="lineCov">          1 :   Future&lt;void&gt; cacheAllContactCategories(</span>
+<span class="lineNum">     124 </span>            :       Iterable&lt;ContactCategorieModel&gt; categories) async {
+<span class="lineNum">     125 </span><span class="lineCov">          2 :     return categories.forEach(_cacheContactCategorie);</span>
+<span class="lineNum">     126 </span>            :   }
+<span class="lineNum">     127 </span>            : 
+<span class="lineNum">     128 </span>            :   @override
+<span class="lineNum">     129 </span><span class="lineCov">          1 :   Future&lt;void&gt; cacheAllEntreprise(Iterable&lt;EntrepriseModel&gt; entreprises) async {</span>
+<span class="lineNum">     130 </span><span class="lineCov">          2 :     return entreprises.forEach(_cacheEntreprise);</span>
+<span class="lineNum">     131 </span>            :   }
+<span class="lineNum">     132 </span>            : 
+<span class="lineNum">     133 </span>            :   @override
+<span class="lineNum">     134 </span><span class="lineCov">          1 :   Future&lt;void&gt; cacheAllPosts(Iterable&lt;PostModel&gt; posts) async {</span>
+<span class="lineNum">     135 </span><span class="lineCov">          2 :     return posts.forEach(_cachePost);</span>
+<span class="lineNum">     136 </span>            :   }
+<span class="lineNum">     137 </span>            : 
+<span class="lineNum">     138 </span>            :   @override
+<span class="lineNum">     139 </span><span class="lineCov">          1 :   Future&lt;void&gt; cacheAllServiceCategories(</span>
+<span class="lineNum">     140 </span>            :       Iterable&lt;ServiceCategorieModel&gt; categories) async {
+<span class="lineNum">     141 </span><span class="lineCov">          2 :     return categories.forEach(_cacheServiceCategory);</span>
+<span class="lineNum">     142 </span>            :   }
+<span class="lineNum">     143 </span>            : 
+<span class="lineNum">     144 </span>            :   @override
+<span class="lineNum">     145 </span><span class="lineCov">          1 :   Future&lt;void&gt; cacheAllServices(Iterable&lt;ServiceModel&gt; services) async {</span>
+<span class="lineNum">     146 </span><span class="lineCov">          2 :     return services.forEach(_cacheService);</span>
+<span class="lineNum">     147 </span>            :   }
+<span class="lineNum">     148 </span>            : 
+<span class="lineNum">     149 </span><span class="lineCov">          1 :   @override</span>
+<span class="lineNum">     150 </span>            :   Future&lt;void&gt; cacheBatiment(BatimentModel batiment) {
+<span class="lineNum">     151 </span><span class="lineCov">          2 :     return batimentsBox.put(</span>
+<span class="lineNum">     152 </span><span class="lineCov">          2 :       '/batiments/${batiment.id}',</span>
+<span class="lineNum">     153 </span>            :       batiment,
+<span class="lineNum">     154 </span>            :     );
+<span class="lineNum">     155 </span>            :   }
+<span class="lineNum">     156 </span>            : 
+<span class="lineNum">     157 </span><span class="lineCov">          1 :   @override</span>
+<span class="lineNum">     158 </span>            :   Future&lt;void&gt; cacheBooking(BookingModel booking) {
+<span class="lineNum">     159 </span><span class="lineCov">          4 :     return bookingsBox.put('/bookings/${booking.id}', booking);</span>
+<span class="lineNum">     160 </span>            :   }
+<span class="lineNum">     161 </span>            : 
+<span class="lineNum">     162 </span><span class="lineCov">          1 :   @override</span>
+<span class="lineNum">     163 </span>            :   Future&lt;void&gt; cacheContact(ContactModel contact) {
+<span class="lineNum">     164 </span><span class="lineCov">          2 :     return contactsBox.put(</span>
+<span class="lineNum">     165 </span><span class="lineCov">          2 :       '/contacts/${contact.id}',</span>
+<span class="lineNum">     166 </span>            :       contact,
+<span class="lineNum">     167 </span>            :     );
+<span class="lineNum">     168 </span>            :   }
+<span class="lineNum">     169 </span>            : 
+<span class="lineNum">     170 </span><span class="lineCov">          1 :   @override</span>
+<span class="lineNum">     171 </span>            :   Future&lt;void&gt; cacheUser(AppUserModel user) {
+<span class="lineNum">     172 </span><span class="lineCov">          4 :     return prefs.setString('user', json.encode(user.toJson()));</span>
+<span class="lineNum">     173 </span>            :   }
+<span class="lineNum">     174 </span>            : 
+<span class="lineNum">     175 </span><span class="lineCov">          1 :   @override</span>
+<span class="lineNum">     176 </span>            :   Future&lt;void&gt; deleteBooking(int booking_id) {
+<span class="lineNum">     177 </span><span class="lineCov">          3 :     return bookingsBox.delete('/bookings/${booking_id}');</span>
+<span class="lineNum">     178 </span>            :   }
+<span class="lineNum">     179 </span>            : 
+<span class="lineNum">     180 </span><span class="lineCov">          1 :   @override</span>
+<span class="lineNum">     181 </span>            :   List&lt;BatimentModel&gt; fetchAllBatiment() {
+<span class="lineNum">     182 </span>            :     final List&lt;BatimentModel&gt; batimentModels =
+<span class="lineNum">     183 </span><span class="lineCov">          3 :         batimentsBox?.values?.toList() ?? [];</span>
+<span class="lineNum">     184 </span>            :     return batimentModels;
+<span class="lineNum">     185 </span>            :   }
+<span class="lineNum">     186 </span>            : 
+<span class="lineNum">     187 </span><span class="lineCov">          1 :   @override</span>
+<span class="lineNum">     188 </span>            :   List&lt;BookingModel&gt; fetchAllBookingsOf(int service_id) {
+<span class="lineNum">     189 </span><span class="lineCov">          2 :     final models = bookingsBox?.values</span>
+<span class="lineNum">     190 </span><span class="lineCov">          4 :             ?.where((e) =&gt; e.service_id == service_id)</span>
+<span class="lineNum">     191 </span><span class="lineCov">          1 :             ?.toList() ??</span>
+<span class="lineNum">     192 </span><span class="lineNoCov">          0 :         [];</span>
+<span class="lineNum">     193 </span>            :     return models;
+<span class="lineNum">     194 </span>            :   }
+<span class="lineNum">     195 </span>            : 
+<span class="lineNum">     196 </span><span class="lineCov">          1 :   @override</span>
+<span class="lineNum">     197 </span>            :   List&lt;ContactCategorieModel&gt; fetchAllContactCategories() {
+<span class="lineNum">     198 </span><span class="lineCov">          3 :     final data = contactCategoriesBox?.values?.toList() ?? [];</span>
+<span class="lineNum">     199 </span>            : 
+<span class="lineNum">     200 </span>            :     return data;
+<span class="lineNum">     201 </span>            :   }
+<span class="lineNum">     202 </span>            : 
+<span class="lineNum">     203 </span><span class="lineCov">          1 :   @override</span>
+<span class="lineNum">     204 </span>            :   List&lt;PostModel&gt; fetchAllPosts() {
+<span class="lineNum">     205 </span><span class="lineCov">          3 :     final models = postsBox?.values?.toList() ?? [];</span>
+<span class="lineNum">     206 </span>            :     return models;
+<span class="lineNum">     207 </span>            :   }
+<span class="lineNum">     208 </span>            : 
+<span class="lineNum">     209 </span><span class="lineCov">          1 :   @override</span>
+<span class="lineNum">     210 </span>            :   List&lt;ServiceCategorieModel&gt; fetchAllServiceCategories() {
+<span class="lineNum">     211 </span><span class="lineCov">          3 :     final data = serviceCategoriesBox?.values?.toList() ?? [];</span>
+<span class="lineNum">     212 </span>            : 
+<span class="lineNum">     213 </span>            :     return data;
+<span class="lineNum">     214 </span>            :   }
+<span class="lineNum">     215 </span>            : 
+<span class="lineNum">     216 </span><span class="lineCov">          1 :   @override</span>
+<span class="lineNum">     217 </span>            :   BatimentModel fetchBatiment(int id) {
+<span class="lineNum">     218 </span><span class="lineCov">          3 :     final BatimentModel batimentModel = batimentsBox.get('/batiments/${id}');</span>
+<span class="lineNum">     219 </span>            :     if (batimentModel != null) {
+<span class="lineNum">     220 </span>            :       return batimentModel;
+<span class="lineNum">     221 </span>            :     } else {
+<span class="lineNum">     222 </span><span class="lineCov">          1 :       throw CacheException('No Batiment in cache.');</span>
+<span class="lineNum">     223 </span>            :     }
+<span class="lineNum">     224 </span>            :   }
+<span class="lineNum">     225 </span>            : 
+<span class="lineNum">     226 </span><span class="lineCov">          1 :   @override</span>
+<span class="lineNum">     227 </span>            :   ContactModel fetchContact(int id) {
+<span class="lineNum">     228 </span><span class="lineCov">          3 :     final ContactModel contactModel = contactsBox.get('/contacts/${id}');</span>
+<span class="lineNum">     229 </span>            :     if (contactModel != null) {
+<span class="lineNum">     230 </span>            :       return contactModel;
+<span class="lineNum">     231 </span>            :     } else {
+<span class="lineNum">     232 </span><span class="lineCov">          2 :       throw CacheException('No Contact $id in cache.');</span>
+<span class="lineNum">     233 </span>            :     }
+<span class="lineNum">     234 </span>            :   }
+<span class="lineNum">     235 </span>            : 
+<span class="lineNum">     236 </span><span class="lineCov">          1 :   @override</span>
+<span class="lineNum">     237 </span>            :   List&lt;EntrepriseModel&gt; fetchEntreprisesOfBatiment(int idBatiment) {
+<span class="lineNum">     238 </span><span class="lineCov">          2 :     final entreprisesOfBatiment = entreprisesBox?.values</span>
+<span class="lineNum">     239 </span><span class="lineCov">          4 :             ?.where((element) =&gt; element.idBatiment == idBatiment)</span>
+<span class="lineNum">     240 </span><span class="lineCov">          1 :             ?.toList() ??</span>
+<span class="lineNum">     241 </span><span class="lineCov">          1 :         [];</span>
+<span class="lineNum">     242 </span>            :     return entreprisesOfBatiment;
+<span class="lineNum">     243 </span>            :   }
+<span class="lineNum">     244 </span>            : 
+<span class="lineNum">     245 </span><span class="lineCov">          1 :   @override</span>
+<span class="lineNum">     246 </span>            :   List&lt;ServiceModel&gt; fetchServicesOf(int categorie_id) {
+<span class="lineNum">     247 </span><span class="lineCov">          2 :     final models = servicesBox?.values</span>
+<span class="lineNum">     248 </span><span class="lineCov">          4 :             ?.where((element) =&gt; element.categorie_id == categorie_id)</span>
+<span class="lineNum">     249 </span><span class="lineCov">          1 :             ?.toList() ??</span>
+<span class="lineNum">     250 </span><span class="lineCov">          1 :         [];</span>
+<span class="lineNum">     251 </span>            :     return models;
+<span class="lineNum">     252 </span>            :   }
+<span class="lineNum">     253 </span>            : 
+<span class="lineNum">     254 </span><span class="lineCov">          1 :   @override</span>
+<span class="lineNum">     255 </span>            :   AppUserModel fetchUser() {
+<span class="lineNum">     256 </span><span class="lineCov">          2 :     final user = prefs.getString('user');</span>
+<span class="lineNum">     257 </span>            :     if (user != null) {
+<span class="lineNum">     258 </span><span class="lineCov">          2 :       return AppUserModel.fromJson(json.decode(user) as Map&lt;String, dynamic&gt;);</span>
+<span class="lineNum">     259 </span>            :     } else {
+<span class="lineNum">     260 </span><span class="lineCov">          1 :       throw CacheException('No Users in cache');</span>
+<span class="lineNum">     261 </span>            :     }
+<span class="lineNum">     262 </span>            :   }
+<span class="lineNum">     263 </span>            : 
+<span class="lineNum">     264 </span><span class="lineCov">          1 :   Future&lt;void&gt; _cacheContactCategorie(ContactCategorieModel category) {</span>
+<span class="lineNum">     265 </span><span class="lineCov">          2 :     return contactCategoriesBox.put(</span>
+<span class="lineNum">     266 </span><span class="lineCov">          2 :       '/contact_categories/${category.id}',</span>
+<span class="lineNum">     267 </span>            :       category,
+<span class="lineNum">     268 </span>            :     );
+<span class="lineNum">     269 </span>            :   }
+<span class="lineNum">     270 </span>            : 
+<span class="lineNum">     271 </span><span class="lineCov">          1 :   Future&lt;void&gt; _cacheEntreprise(EntrepriseModel entreprise) {</span>
+<span class="lineNum">     272 </span><span class="lineCov">          2 :     return entreprisesBox.put(</span>
+<span class="lineNum">     273 </span><span class="lineCov">          2 :       '/entreprises/${entreprise.id}',</span>
+<span class="lineNum">     274 </span>            :       entreprise,
+<span class="lineNum">     275 </span>            :     );
+<span class="lineNum">     276 </span>            :   }
+<span class="lineNum">     277 </span>            : 
+<span class="lineNum">     278 </span><span class="lineCov">          1 :   Future&lt;void&gt; _cachePost(PostModel post) {</span>
+<span class="lineNum">     279 </span><span class="lineCov">          4 :     return postsBox.put('/posts/${post.id}', post);</span>
+<span class="lineNum">     280 </span>            :   }
+<span class="lineNum">     281 </span>            : 
+<span class="lineNum">     282 </span><span class="lineCov">          1 :   Future&lt;void&gt; _cacheService(ServiceModel service) {</span>
+<span class="lineNum">     283 </span><span class="lineCov">          4 :     return servicesBox.put('/services/${service.id}', service);</span>
+<span class="lineNum">     284 </span>            :   }
+<span class="lineNum">     285 </span>            : 
+<span class="lineNum">     286 </span><span class="lineCov">          1 :   Future&lt;void&gt; _cacheServiceCategory(ServiceCategorieModel category) {</span>
+<span class="lineNum">     287 </span><span class="lineCov">          2 :     return serviceCategoriesBox.put(</span>
+<span class="lineNum">     288 </span><span class="lineCov">          2 :       '/service_categories/${category.id}',</span>
+<span class="lineNum">     289 </span>            :       category,
+<span class="lineNum">     290 </span>            :     );
+<span class="lineNum">     291 </span>            :   }
+<span class="lineNum">     292 </span>            : 
+<span class="lineNum">     293 </span><span class="lineNoCov">          0 :   @override</span>
+<span class="lineNum">     294 </span>            :   List&lt;EntrepriseModel&gt; fetchAllEntreprises() {
+<span class="lineNum">     295 </span><span class="lineNoCov">          0 :     final entreprisesOfBatiment = entreprisesBox?.values?.toList() ?? [];</span>
+<span class="lineNum">     296 </span>            :     return entreprisesOfBatiment;
+<span class="lineNum">     297 </span>            :   }
+<span class="lineNum">     298 </span>            : }
 </pre>
       </td>
     </tr>

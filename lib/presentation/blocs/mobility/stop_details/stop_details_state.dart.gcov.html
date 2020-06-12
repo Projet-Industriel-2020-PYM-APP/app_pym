@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-06-10 12:27:00</td>
+            <td class="headerValue">2020-06-12 21:52:22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -65,58 +65,63 @@
 <span class="lineNum">       3 </span>            : @freezed
 <span class="lineNum">       4 </span>            : abstract class StopDetailsState with _$StopDetailsState {
 <span class="lineNum">       5 </span>            :   const factory StopDetailsState({
-<span class="lineNum">       6 </span>            :     @required bool isLoading,
-<span class="lineNum">       7 </span>            :     @required bool isError,
-<span class="lineNum">       8 </span>            :     @required @required String stop_name,
-<span class="lineNum">       9 </span>            :     @required String last_stop,
-<span class="lineNum">      10 </span>            :     @required List&lt;String&gt; arrivalTimes,
-<span class="lineNum">      11 </span>            :     @required List&lt;StopTime&gt; trip,
-<span class="lineNum">      12 </span>            :     @required String destination,
-<span class="lineNum">      13 </span>            :     Exception exception,
-<span class="lineNum">      14 </span>            :   }) = _StopDetailsState;
-<span class="lineNum">      15 </span>            : 
-<span class="lineNum">      16 </span><span class="lineNoCov">          0 :   factory StopDetailsState.initial() {</span>
-<span class="lineNum">      17 </span>            :     return const StopDetailsState(
-<span class="lineNum">      18 </span>            :       isLoading: true,
-<span class="lineNum">      19 </span>            :       isError: false,
-<span class="lineNum">      20 </span>            :       stop_name: &quot;&quot;,
-<span class="lineNum">      21 </span>            :       last_stop: &quot;&quot;,
-<span class="lineNum">      22 </span>            :       arrivalTimes: [&quot;&quot;, &quot;&quot;, &quot;&quot;],
-<span class="lineNum">      23 </span>            :       trip: [],
-<span class="lineNum">      24 </span>            :       destination: &quot;&quot;,
-<span class="lineNum">      25 </span>            :     );
-<span class="lineNum">      26 </span>            :   }
-<span class="lineNum">      27 </span>            : }
-<span class="lineNum">      28 </span>            : 
-<span class="lineNum">      29 </span>            : extension StopDetailsStateX on StopDetailsState {
-<span class="lineNum">      30 </span><span class="lineNoCov">          0 :   StopDetailsState loading() {</span>
-<span class="lineNum">      31 </span><span class="lineNoCov">          0 :     return this.copyWith(</span>
-<span class="lineNum">      32 </span>            :       isLoading: true,
-<span class="lineNum">      33 </span>            :       isError: false,
-<span class="lineNum">      34 </span>            :     );
-<span class="lineNum">      35 </span>            :   }
-<span class="lineNum">      36 </span>            : 
-<span class="lineNum">      37 </span><span class="lineNoCov">          0 :   StopDetailsState loaded(String stop_name, String last_stop,</span>
-<span class="lineNum">      38 </span>            :       List&lt;String&gt; arrivalTimes, List&lt;StopTime&gt; trip, String destination) {
-<span class="lineNum">      39 </span><span class="lineNoCov">          0 :     return this.copyWith(</span>
-<span class="lineNum">      40 </span>            :       isLoading: false,
-<span class="lineNum">      41 </span>            :       isError: false,
-<span class="lineNum">      42 </span>            :       stop_name: stop_name,
-<span class="lineNum">      43 </span>            :       last_stop: last_stop,
-<span class="lineNum">      44 </span>            :       arrivalTimes: arrivalTimes,
-<span class="lineNum">      45 </span>            :       trip: trip,
-<span class="lineNum">      46 </span>            :       destination: destination,
-<span class="lineNum">      47 </span>            :     );
-<span class="lineNum">      48 </span>            :   }
-<span class="lineNum">      49 </span>            : 
-<span class="lineNum">      50 </span><span class="lineNoCov">          0 :   StopDetailsState error(Exception exception) {</span>
-<span class="lineNum">      51 </span><span class="lineNoCov">          0 :     return this.copyWith(</span>
-<span class="lineNum">      52 </span>            :       isLoading: false,
-<span class="lineNum">      53 </span>            :       isError: true,
-<span class="lineNum">      54 </span>            :       exception: exception,
-<span class="lineNum">      55 </span>            :     );
-<span class="lineNum">      56 </span>            :   }
-<span class="lineNum">      57 </span>            : }
+<span class="lineNum">       6 </span>            :     @required bool isBus,
+<span class="lineNum">       7 </span>            :     @required bool isLoading,
+<span class="lineNum">       8 </span>            :     @required bool isError,
+<span class="lineNum">       9 </span>            :     @required String stop_name,
+<span class="lineNum">      10 </span>            :     @required String last_stop,
+<span class="lineNum">      11 </span>            :     @required List&lt;String&gt; arrivalTimes,
+<span class="lineNum">      12 </span>            :     @required List&lt;StopTime&gt; trip,
+<span class="lineNum">      13 </span>            :     @required String destination,
+<span class="lineNum">      14 </span>            :     Exception exception,
+<span class="lineNum">      15 </span>            :   }) = _StopDetailsState;
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span><span class="lineNoCov">          0 :   factory StopDetailsState.initial() {</span>
+<span class="lineNum">      18 </span>            :     return const StopDetailsState(
+<span class="lineNum">      19 </span>            :       isBus: true,
+<span class="lineNum">      20 </span>            :       isLoading: true,
+<span class="lineNum">      21 </span>            :       isError: false,
+<span class="lineNum">      22 </span>            :       stop_name: &quot;&quot;,
+<span class="lineNum">      23 </span>            :       last_stop: &quot;&quot;,
+<span class="lineNum">      24 </span>            :       arrivalTimes: [&quot;&quot;, &quot;&quot;, &quot;&quot;],
+<span class="lineNum">      25 </span>            :       trip: [],
+<span class="lineNum">      26 </span>            :       destination: &quot;&quot;,
+<span class="lineNum">      27 </span>            :     );
+<span class="lineNum">      28 </span>            :   }
+<span class="lineNum">      29 </span>            : }
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span>            : extension StopDetailsStateX on StopDetailsState {
+<span class="lineNum">      32 </span><span class="lineNoCov">          0 :   StopDetailsState loading() {</span>
+<span class="lineNum">      33 </span><span class="lineNoCov">          0 :     return this.copyWith(</span>
+<span class="lineNum">      34 </span>            :       isBus: true,
+<span class="lineNum">      35 </span>            :       isLoading: true,
+<span class="lineNum">      36 </span>            :       isError: false,
+<span class="lineNum">      37 </span>            :     );
+<span class="lineNum">      38 </span>            :   }
+<span class="lineNum">      39 </span>            : 
+<span class="lineNum">      40 </span><span class="lineNoCov">          0 :   StopDetailsState loaded(bool isBus, String stop_name, String last_stop,</span>
+<span class="lineNum">      41 </span>            :       List&lt;String&gt; arrivalTimes, List&lt;StopTime&gt; trip, String destination) {
+<span class="lineNum">      42 </span><span class="lineNoCov">          0 :     return this.copyWith(</span>
+<span class="lineNum">      43 </span>            :       isBus: isBus,
+<span class="lineNum">      44 </span>            :       isLoading: false,
+<span class="lineNum">      45 </span>            :       isError: false,
+<span class="lineNum">      46 </span>            :       stop_name: stop_name,
+<span class="lineNum">      47 </span>            :       last_stop: last_stop,
+<span class="lineNum">      48 </span>            :       arrivalTimes: arrivalTimes,
+<span class="lineNum">      49 </span>            :       trip: trip,
+<span class="lineNum">      50 </span>            :       destination: destination,
+<span class="lineNum">      51 </span>            :     );
+<span class="lineNum">      52 </span>            :   }
+<span class="lineNum">      53 </span>            : 
+<span class="lineNum">      54 </span><span class="lineNoCov">          0 :   StopDetailsState error(Exception exception) {</span>
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 :     return this.copyWith(</span>
+<span class="lineNum">      56 </span>            :       isBus: true,
+<span class="lineNum">      57 </span>            :       isLoading: false,
+<span class="lineNum">      58 </span>            :       isError: true,
+<span class="lineNum">      59 </span>            :       exception: exception,
+<span class="lineNum">      60 </span>            :     );
+<span class="lineNum">      61 </span>            :   }
+<span class="lineNum">      62 </span>            : }
 </pre>
       </td>
     </tr>

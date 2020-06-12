@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">13</td>
             <td class="headerCovTableEntry">14</td>
-            <td class="headerCovTableEntryHi">92.9 %</td>
+            <td class="headerCovTableEntry">15</td>
+            <td class="headerCovTableEntryHi">93.3 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-06-10 12:27:00</td>
+            <td class="headerValue">2020-06-12 21:52:22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -83,29 +83,31 @@
 <span class="lineNum">      21 </span>            :     @nullable @required @HiveField(6) String adresse,
 <span class="lineNum">      22 </span>            :     @nullable @required @HiveField(7) double latitude,
 <span class="lineNum">      23 </span>            :     @nullable @required @HiveField(8) double longitude,
-<span class="lineNum">      24 </span>            :   }) = _BatimentModel;
-<span class="lineNum">      25 </span>            : 
-<span class="lineNum">      26 </span><span class="lineCov">          3 :   factory BatimentModel.fromJson(Map&lt;String, dynamic&gt; json) =&gt;</span>
-<span class="lineNum">      27 </span><span class="lineCov">          3 :       _$BatimentModelFromJson(json);</span>
-<span class="lineNum">      28 </span>            : }
-<span class="lineNum">      29 </span>            : 
-<span class="lineNum">      30 </span><span class="lineNoCov">          0 : TypeAdapter&lt;BatimentModel&gt; BatimentModelAdapter() =&gt; _$_BatimentModelAdapter();</span>
-<span class="lineNum">      31 </span>            : 
-<span class="lineNum">      32 </span>            : extension BatimentModelX on BatimentModel {
-<span class="lineNum">      33 </span><span class="lineCov">          2 :   Batiment toEntity() {</span>
-<span class="lineNum">      34 </span><span class="lineCov">          2 :     return Batiment(</span>
-<span class="lineNum">      35 </span><span class="lineCov">          2 :       accesHandicape: this.accesHandicape,</span>
-<span class="lineNum">      36 </span><span class="lineCov">          2 :       adresse: this.adresse,</span>
-<span class="lineNum">      37 </span><span class="lineCov">          2 :       description: this.description,</span>
-<span class="lineNum">      38 </span><span class="lineCov">          2 :       nbEtage: this.nbEtage,</span>
-<span class="lineNum">      39 </span><span class="lineCov">          2 :       nom: this.nom,</span>
-<span class="lineNum">      40 </span><span class="lineCov">          2 :       url: this.url,</span>
-<span class="lineNum">      41 </span><span class="lineCov">          2 :       id: this.id,</span>
-<span class="lineNum">      42 </span><span class="lineCov">          2 :       latitude: this.latitude,</span>
-<span class="lineNum">      43 </span><span class="lineCov">          2 :       longitude: this.longitude,</span>
-<span class="lineNum">      44 </span>            :     );
-<span class="lineNum">      45 </span>            :   }
-<span class="lineNum">      46 </span>            : }
+<span class="lineNum">      24 </span>            :     @nullable @required @HiveField(9) bool isVisibleAR,
+<span class="lineNum">      25 </span>            :   }) = _BatimentModel;
+<span class="lineNum">      26 </span>            : 
+<span class="lineNum">      27 </span><span class="lineCov">          3 :   factory BatimentModel.fromJson(Map&lt;String, dynamic&gt; json) =&gt;</span>
+<span class="lineNum">      28 </span><span class="lineCov">          3 :       _$BatimentModelFromJson(json);</span>
+<span class="lineNum">      29 </span>            : }
+<span class="lineNum">      30 </span>            : 
+<span class="lineNum">      31 </span><span class="lineNoCov">          0 : TypeAdapter&lt;BatimentModel&gt; BatimentModelAdapter() =&gt; _$_BatimentModelAdapter();</span>
+<span class="lineNum">      32 </span>            : 
+<span class="lineNum">      33 </span>            : extension BatimentModelX on BatimentModel {
+<span class="lineNum">      34 </span><span class="lineCov">          2 :   Batiment toEntity() {</span>
+<span class="lineNum">      35 </span><span class="lineCov">          2 :     return Batiment(</span>
+<span class="lineNum">      36 </span><span class="lineCov">          2 :       accesHandicape: this.accesHandicape,</span>
+<span class="lineNum">      37 </span><span class="lineCov">          2 :       adresse: this.adresse,</span>
+<span class="lineNum">      38 </span><span class="lineCov">          2 :       description: this.description,</span>
+<span class="lineNum">      39 </span><span class="lineCov">          2 :       nbEtage: this.nbEtage,</span>
+<span class="lineNum">      40 </span><span class="lineCov">          2 :       nom: this.nom,</span>
+<span class="lineNum">      41 </span><span class="lineCov">          2 :       url: this.url,</span>
+<span class="lineNum">      42 </span><span class="lineCov">          2 :       id: this.id,</span>
+<span class="lineNum">      43 </span><span class="lineCov">          2 :       latitude: this.latitude,</span>
+<span class="lineNum">      44 </span><span class="lineCov">          2 :       longitude: this.longitude,</span>
+<span class="lineNum">      45 </span><span class="lineCov">          2 :       isVisibleAR: this.isVisibleAR,</span>
+<span class="lineNum">      46 </span>            :     );
+<span class="lineNum">      47 </span>            :   }
+<span class="lineNum">      48 </span>            : }
 </pre>
       </td>
     </tr>

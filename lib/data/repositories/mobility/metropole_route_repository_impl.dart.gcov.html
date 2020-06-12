@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">0</td>
-            <td class="headerCovTableEntry">25</td>
+            <td class="headerCovTableEntry">41</td>
             <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-06-10 12:27:00</td>
+            <td class="headerValue">2020-06-12 21:52:22</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -61,64 +61,104 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : import 'package:app_pym/core/constants/mobility.dart';</a>
-<span class="lineNum">       2 </span>            : import 'package:app_pym/core/network/network_info.dart';
-<span class="lineNum">       3 </span>            : import 'package:app_pym/data/datasources/metropole_local_data_source.dart';
-<span class="lineNum">       4 </span>            : import 'package:app_pym/data/datasources/metropole_remote_data_source.dart';
-<span class="lineNum">       5 </span>            : import 'package:app_pym/data/models/mobility/route_model.dart';
-<span class="lineNum">       6 </span>            : import 'package:app_pym/domain/entities/mobility/route.dart';
-<span class="lineNum">       7 </span>            : import 'package:app_pym/domain/repositories/mobility/route_repository.dart';
-<span class="lineNum">       8 </span>            : import 'package:connectivity/connectivity.dart';
-<span class="lineNum">       9 </span>            : import 'package:flutter/foundation.dart';
-<span class="lineNum">      10 </span>            : import 'package:injectable/injectable.dart';
-<span class="lineNum">      11 </span>            : 
-<span class="lineNum">      12 </span>            : @prod
-<span class="lineNum">      13 </span>            : @LazySingleton(as: MetropoleRouteRepository)
-<span class="lineNum">      14 </span>            : class MetropoleRouteRepositoryImpl implements MetropoleRouteRepository {
-<span class="lineNum">      15 </span>            :   final MetropoleRemoteDataSource remoteDataSource;
-<span class="lineNum">      16 </span>            :   final MetropoleLocalDataSource localDataSource;
-<span class="lineNum">      17 </span>            :   final NetworkInfo networkInfo;
-<span class="lineNum">      18 </span>            : 
-<span class="lineNum">      19 </span><span class="lineNoCov">          0 :   const MetropoleRouteRepositoryImpl({</span>
-<span class="lineNum">      20 </span>            :     @required this.localDataSource,
-<span class="lineNum">      21 </span>            :     @required this.remoteDataSource,
-<span class="lineNum">      22 </span>            :     @required this.networkInfo,
-<span class="lineNum">      23 </span>            :   });
-<span class="lineNum">      24 </span>            : 
-<span class="lineNum">      25 </span><span class="lineNoCov">          0 :   @override</span>
-<span class="lineNum">      26 </span>            :   Stream&lt;Route&gt; fetchRoutes() {
-<span class="lineNum">      27 </span><span class="lineNoCov">          0 :     return _fetchRoute();</span>
-<span class="lineNum">      28 </span>            :   }
+<span class="lineNum">       2 </span>            : import 'package:app_pym/core/error/exceptions.dart';
+<span class="lineNum">       3 </span>            : import 'package:app_pym/core/network/network_info.dart';
+<span class="lineNum">       4 </span>            : import 'package:app_pym/data/datasources/metropole_local_data_source.dart';
+<span class="lineNum">       5 </span>            : import 'package:app_pym/data/datasources/metropole_remote_data_source.dart';
+<span class="lineNum">       6 </span>            : import 'package:app_pym/data/models/mobility/calendar_model.dart';
+<span class="lineNum">       7 </span>            : import 'package:app_pym/data/models/mobility/route_model.dart';
+<span class="lineNum">       8 </span>            : import 'package:app_pym/data/models/mobility/stop_model.dart';
+<span class="lineNum">       9 </span>            : import 'package:app_pym/data/models/mobility/stop_time_model.dart';
+<span class="lineNum">      10 </span>            : import 'package:app_pym/data/models/mobility/trip_model.dart';
+<span class="lineNum">      11 </span>            : import 'package:app_pym/domain/entities/mobility/route.dart';
+<span class="lineNum">      12 </span>            : import 'package:app_pym/domain/repositories/mobility/route_repository.dart';
+<span class="lineNum">      13 </span>            : import 'package:connectivity/connectivity.dart';
+<span class="lineNum">      14 </span>            : import 'package:flutter/foundation.dart';
+<span class="lineNum">      15 </span>            : import 'package:injectable/injectable.dart';
+<span class="lineNum">      16 </span>            : 
+<span class="lineNum">      17 </span>            : @prod
+<span class="lineNum">      18 </span>            : @LazySingleton(as: MetropoleRouteRepository)
+<span class="lineNum">      19 </span>            : class MetropoleRouteRepositoryImpl implements MetropoleRouteRepository {
+<span class="lineNum">      20 </span>            :   final MetropoleRemoteDataSource remoteDataSource;
+<span class="lineNum">      21 </span>            :   final MetropoleLocalDataSource localDataSource;
+<span class="lineNum">      22 </span>            :   final NetworkInfo networkInfo;
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span><span class="lineNoCov">          0 :   const MetropoleRouteRepositoryImpl({</span>
+<span class="lineNum">      25 </span>            :     @required this.localDataSource,
+<span class="lineNum">      26 </span>            :     @required this.remoteDataSource,
+<span class="lineNum">      27 </span>            :     @required this.networkInfo,
+<span class="lineNum">      28 </span>            :   });
 <span class="lineNum">      29 </span>            : 
-<span class="lineNum">      30 </span><span class="lineNoCov">          0 :   Stream&lt;Route&gt; _fetchRoute() async* {</span>
-<span class="lineNum">      31 </span><span class="lineNoCov">          0 :     if (await networkInfo.result != ConnectivityResult.none) {</span>
-<span class="lineNum">      32 </span><span class="lineNoCov">          0 :       final timestamp = await remoteDataSource.timestamp;</span>
-<span class="lineNum">      33 </span><span class="lineNoCov">          0 :       if (timestamp != await localDataSource.timestamp) {</span>
-<span class="lineNum">      34 </span><span class="lineNoCov">          0 :         await localDataSource.setTimestamp(timestamp);</span>
-<span class="lineNum">      35 </span><span class="lineNoCov">          0 :         final stream = remoteDataSource.download();</span>
-<span class="lineNum">      36 </span><span class="lineNoCov">          0 :         await localDataSource.writeFile(stream);</span>
-<span class="lineNum">      37 </span>            :       }
-<span class="lineNum">      38 </span><span class="lineNoCov">          0 :     } else if (!(await localDataSource.fileExists)) {</span>
-<span class="lineNum">      39 </span><span class="lineNoCov">          0 :       await localDataSource.writeFile(localDataSource.useAsset());</span>
-<span class="lineNum">      40 </span>            :     }
-<span class="lineNum">      41 </span>            : 
-<span class="lineNum">      42 </span><span class="lineNoCov">          0 :     final routeModels = localDataSource.fetchRoutes();</span>
-<span class="lineNum">      43 </span><span class="lineNoCov">          0 :     final tripModels = localDataSource.fetchTrips();</span>
-<span class="lineNum">      44 </span><span class="lineNoCov">          0 :     final calendarModels = localDataSource.fetchCalendars();</span>
-<span class="lineNum">      45 </span><span class="lineNoCov">          0 :     final stopTimeModels = localDataSource.fetchStopTimes();</span>
-<span class="lineNum">      46 </span><span class="lineNoCov">          0 :     final stopModels = localDataSource.fetchStops();</span>
-<span class="lineNum">      47 </span>            : 
-<span class="lineNum">      48 </span>            :     //la seule route qui nous intéresse
-<span class="lineNum">      49 </span><span class="lineNoCov">          0 :     final routeModel = (await routeModels).firstWhere(</span>
-<span class="lineNum">      50 </span><span class="lineNoCov">          0 :         (routeModel) =&gt; routeModel.route_id == MobilityConstants.busLine);</span>
-<span class="lineNum">      51 </span><span class="lineNoCov">          0 :     final route = routeModel.toEntity(</span>
-<span class="lineNum">      52 </span><span class="lineNoCov">          0 :       calendarModels: await calendarModels,</span>
-<span class="lineNum">      53 </span><span class="lineNoCov">          0 :       stopModels: await stopModels,</span>
-<span class="lineNum">      54 </span><span class="lineNoCov">          0 :       stopTimeModels: await stopTimeModels,</span>
-<span class="lineNum">      55 </span><span class="lineNoCov">          0 :       tripModels: await tripModels,</span>
-<span class="lineNum">      56 </span>            :     );
-<span class="lineNum">      57 </span><span class="lineNoCov">          0 :     yield route;</span>
-<span class="lineNum">      58 </span>            :   }
-<span class="lineNum">      59 </span>            : }
+<span class="lineNum">      30 </span><span class="lineNoCov">          0 :   @override</span>
+<span class="lineNum">      31 </span>            :   Stream&lt;Route&gt; fetchRoutes() {
+<span class="lineNum">      32 </span><span class="lineNoCov">          0 :     return _fetchRoute();</span>
+<span class="lineNum">      33 </span>            :   }
+<span class="lineNum">      34 </span>            : 
+<span class="lineNum">      35 </span><span class="lineNoCov">          0 :   Stream&lt;Route&gt; _fetchRoute() async* {</span>
+<span class="lineNum">      36 </span><span class="lineNoCov">          0 :     if (await networkInfo.result != ConnectivityResult.none) {</span>
+<span class="lineNum">      37 </span><span class="lineNoCov">          0 :       final timestamp = await remoteDataSource.timestamp;</span>
+<span class="lineNum">      38 </span><span class="lineNoCov">          0 :       if (timestamp != await localDataSource.timestamp) {</span>
+<span class="lineNum">      39 </span><span class="lineNoCov">          0 :         await localDataSource.setTimestamp(timestamp);</span>
+<span class="lineNum">      40 </span><span class="lineNoCov">          0 :         final stream = remoteDataSource.download();</span>
+<span class="lineNum">      41 </span><span class="lineNoCov">          0 :         await localDataSource.writeFile(stream);</span>
+<span class="lineNum">      42 </span>            :       }
+<span class="lineNum">      43 </span><span class="lineNoCov">          0 :     } else if (!(await localDataSource.fileExists)) {</span>
+<span class="lineNum">      44 </span><span class="lineNoCov">          0 :       await localDataSource.writeFile(localDataSource.useAsset());</span>
+<span class="lineNum">      45 </span>            :     }
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span>            :     List&lt;RouteModel&gt; routeModels;
+<span class="lineNum">      48 </span>            :     List&lt;TripModel&gt; tripModels;
+<span class="lineNum">      49 </span>            :     List&lt;CalendarModel&gt; calendarModels;
+<span class="lineNum">      50 </span>            :     List&lt;StopTimeModel&gt; stopTimeModels;
+<span class="lineNum">      51 </span>            :     List&lt;StopModel&gt; stopModels;
+<span class="lineNum">      52 </span>            :     try {
+<span class="lineNum">      53 </span><span class="lineNoCov">          0 :       routeModels = await localDataSource.fetchRoutes();</span>
+<span class="lineNum">      54 </span><span class="lineNoCov">          0 :     } on CacheException catch (_) {</span>
+<span class="lineNum">      55 </span><span class="lineNoCov">          0 :       await localDataSource.writeFile(localDataSource.useAsset());</span>
+<span class="lineNum">      56 </span><span class="lineNoCov">          0 :       await localDataSource.setTimestamp(DateTime(2019));</span>
+<span class="lineNum">      57 </span><span class="lineNoCov">          0 :       routeModels = await localDataSource.fetchRoutes();</span>
+<span class="lineNum">      58 </span>            :     }
+<span class="lineNum">      59 </span>            :     try {
+<span class="lineNum">      60 </span><span class="lineNoCov">          0 :       tripModels = await localDataSource.fetchTrips();</span>
+<span class="lineNum">      61 </span><span class="lineNoCov">          0 :     } on CacheException catch (_) {</span>
+<span class="lineNum">      62 </span><span class="lineNoCov">          0 :       await localDataSource.writeFile(localDataSource.useAsset());</span>
+<span class="lineNum">      63 </span><span class="lineNoCov">          0 :       await localDataSource.setTimestamp(DateTime(2019));</span>
+<span class="lineNum">      64 </span><span class="lineNoCov">          0 :       tripModels = await localDataSource.fetchTrips();</span>
+<span class="lineNum">      65 </span>            :     }
+<span class="lineNum">      66 </span>            :     try {
+<span class="lineNum">      67 </span><span class="lineNoCov">          0 :       calendarModels = await localDataSource.fetchCalendars();</span>
+<span class="lineNum">      68 </span><span class="lineNoCov">          0 :     } on CacheException catch (_) {</span>
+<span class="lineNum">      69 </span><span class="lineNoCov">          0 :       await localDataSource.writeFile(localDataSource.useAsset());</span>
+<span class="lineNum">      70 </span><span class="lineNoCov">          0 :       await localDataSource.setTimestamp(DateTime(2019));</span>
+<span class="lineNum">      71 </span><span class="lineNoCov">          0 :       calendarModels = await localDataSource.fetchCalendars();</span>
+<span class="lineNum">      72 </span>            :     }
+<span class="lineNum">      73 </span>            :     try {
+<span class="lineNum">      74 </span><span class="lineNoCov">          0 :       stopTimeModels = await localDataSource.fetchStopTimes();</span>
+<span class="lineNum">      75 </span><span class="lineNoCov">          0 :     } on CacheException catch (_) {</span>
+<span class="lineNum">      76 </span><span class="lineNoCov">          0 :       await localDataSource.writeFile(localDataSource.useAsset());</span>
+<span class="lineNum">      77 </span><span class="lineNoCov">          0 :       await localDataSource.setTimestamp(DateTime(2019));</span>
+<span class="lineNum">      78 </span><span class="lineNoCov">          0 :       stopTimeModels = await localDataSource.fetchStopTimes();</span>
+<span class="lineNum">      79 </span>            :     }
+<span class="lineNum">      80 </span>            :     try {
+<span class="lineNum">      81 </span><span class="lineNoCov">          0 :       stopModels = await localDataSource.fetchStops();</span>
+<span class="lineNum">      82 </span><span class="lineNoCov">          0 :     } on CacheException catch (_) {</span>
+<span class="lineNum">      83 </span><span class="lineNoCov">          0 :       await localDataSource.writeFile(localDataSource.useAsset());</span>
+<span class="lineNum">      84 </span><span class="lineNoCov">          0 :       await localDataSource.setTimestamp(DateTime(2019));</span>
+<span class="lineNum">      85 </span><span class="lineNoCov">          0 :       stopModels = await localDataSource.fetchStops();</span>
+<span class="lineNum">      86 </span>            :     }
+<span class="lineNum">      87 </span>            : 
+<span class="lineNum">      88 </span>            :     //la seule route qui nous intéresse
+<span class="lineNum">      89 </span><span class="lineNoCov">          0 :     final routeModel = routeModels.firstWhere(</span>
+<span class="lineNum">      90 </span><span class="lineNoCov">          0 :         (routeModel) =&gt; routeModel.route_id == MobilityConstants.busLine);</span>
+<span class="lineNum">      91 </span><span class="lineNoCov">          0 :     final route = routeModel.toEntity(</span>
+<span class="lineNum">      92 </span>            :       calendarModels: calendarModels,
+<span class="lineNum">      93 </span>            :       stopModels: stopModels,
+<span class="lineNum">      94 </span>            :       stopTimeModels: stopTimeModels,
+<span class="lineNum">      95 </span>            :       tripModels: tripModels,
+<span class="lineNum">      96 </span>            :     );
+<span class="lineNum">      97 </span><span class="lineNoCov">          0 :     yield route;</span>
+<span class="lineNum">      98 </span>            :   }
+<span class="lineNum">      99 </span>            : }
 </pre>
       </td>
     </tr>
