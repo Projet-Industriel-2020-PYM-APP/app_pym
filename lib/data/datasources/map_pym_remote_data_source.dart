@@ -28,6 +28,8 @@ abstract class MapPymRemoteDataSource {
   /// Retourne les catégories de contact_type
   Future<List<ContactCategorieModel>> fetchAllContactCategories();
 
+  Future<List<EntrepriseModel>> fetchAllEntreprises();
+
   /// Récupère les posts du fil d'actualité
   Future<List<PostModel>> fetchAllPosts();
 
@@ -77,7 +79,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
       return;
     } else {
       throw ServerException(
-          'Failed to create booking : ${response.statusCode} ${response.reasonPhrase}');
+          'Failed to create booking : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
     }
   }
 
@@ -146,6 +148,22 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
     } else {
       throw ServerException(
           'Failed to load categorie : ${response.statusCode} ${response.reasonPhrase}');
+    }
+  }
+
+  @override
+  Future<List<EntrepriseModel>> fetchAllEntreprises() async {
+    final response =
+        await client.get('https://admin.map-pym.com/api/entreprises');
+
+    if (response.statusCode == HttpStatus.ok) {
+      return (json.decode(response.body) as List)
+          ?.map((dynamic data) =>
+              EntrepriseModel.fromJson(data as Map<String, dynamic>))
+          ?.toList();
+    } else {
+      throw ServerException(
+          'Failed to load entreprises : ${response.statusCode} ${response.reasonPhrase}');
     }
   }
 
@@ -267,6 +285,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
     final bookingMap = booking.toJson()..remove('id');
 
     final data = json.encode(bookingMap);
+    print(data);
     final response = await client.patch(
       'https://admin.map-pym.com/api/bookings/${booking.id}',
       headers: {
@@ -280,7 +299,7 @@ class MapPymRemoteDataSourceImpl implements MapPymRemoteDataSource {
       return;
     } else {
       throw ServerException(
-          'Failed to edit booking : ${response.statusCode} ${response.reasonPhrase}');
+          'Failed to edit booking : ${response.statusCode} ${response.reasonPhrase}\n${response.body}');
     }
   }
 }

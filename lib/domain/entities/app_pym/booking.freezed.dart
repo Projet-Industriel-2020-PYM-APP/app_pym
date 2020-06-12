@@ -17,13 +17,15 @@ class _$BookingTearOff {
       @required int service_id,
       @required DateTime start_date,
       @required DateTime end_date,
-      @required String title}) {
+      @required String title,
+      @required bool superpose}) {
     return _Booking(
       id: id,
       service_id: service_id,
       start_date: start_date,
       end_date: end_date,
       title: title,
+      superpose: superpose,
     );
   }
 }
@@ -37,6 +39,7 @@ mixin _$Booking {
   DateTime get start_date;
   DateTime get end_date;
   String get title;
+  bool get superpose;
 
   $BookingCopyWith<Booking> get copyWith;
 }
@@ -49,7 +52,8 @@ abstract class $BookingCopyWith<$Res> {
       int service_id,
       DateTime start_date,
       DateTime end_date,
-      String title});
+      String title,
+      bool superpose});
 }
 
 class _$BookingCopyWithImpl<$Res> implements $BookingCopyWith<$Res> {
@@ -66,6 +70,7 @@ class _$BookingCopyWithImpl<$Res> implements $BookingCopyWith<$Res> {
     Object start_date = freezed,
     Object end_date = freezed,
     Object title = freezed,
+    Object superpose = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -74,6 +79,7 @@ class _$BookingCopyWithImpl<$Res> implements $BookingCopyWith<$Res> {
           start_date == freezed ? _value.start_date : start_date as DateTime,
       end_date: end_date == freezed ? _value.end_date : end_date as DateTime,
       title: title == freezed ? _value.title : title as String,
+      superpose: superpose == freezed ? _value.superpose : superpose as bool,
     ));
   }
 }
@@ -87,7 +93,8 @@ abstract class _$BookingCopyWith<$Res> implements $BookingCopyWith<$Res> {
       int service_id,
       DateTime start_date,
       DateTime end_date,
-      String title});
+      String title,
+      bool superpose});
 }
 
 class __$BookingCopyWithImpl<$Res> extends _$BookingCopyWithImpl<$Res>
@@ -105,6 +112,7 @@ class __$BookingCopyWithImpl<$Res> extends _$BookingCopyWithImpl<$Res>
     Object start_date = freezed,
     Object end_date = freezed,
     Object title = freezed,
+    Object superpose = freezed,
   }) {
     return _then(_Booking(
       id: id == freezed ? _value.id : id as int,
@@ -113,6 +121,7 @@ class __$BookingCopyWithImpl<$Res> extends _$BookingCopyWithImpl<$Res>
           start_date == freezed ? _value.start_date : start_date as DateTime,
       end_date: end_date == freezed ? _value.end_date : end_date as DateTime,
       title: title == freezed ? _value.title : title as String,
+      superpose: superpose == freezed ? _value.superpose : superpose as bool,
     ));
   }
 }
@@ -123,12 +132,14 @@ class _$_Booking implements _Booking {
       @required this.service_id,
       @required this.start_date,
       @required this.end_date,
-      @required this.title})
+      @required this.title,
+      @required this.superpose})
       : assert(id != null),
         assert(service_id != null),
         assert(start_date != null),
         assert(end_date != null),
-        assert(title != null);
+        assert(title != null),
+        assert(superpose != null);
 
   @override
   final int id;
@@ -140,10 +151,12 @@ class _$_Booking implements _Booking {
   final DateTime end_date;
   @override
   final String title;
+  @override
+  final bool superpose;
 
   @override
   String toString() {
-    return 'Booking(id: $id, service_id: $service_id, start_date: $start_date, end_date: $end_date, title: $title)';
+    return 'Booking(id: $id, service_id: $service_id, start_date: $start_date, end_date: $end_date, title: $title, superpose: $superpose)';
   }
 
   @override
@@ -162,7 +175,10 @@ class _$_Booking implements _Booking {
                 const DeepCollectionEquality()
                     .equals(other.end_date, end_date)) &&
             (identical(other.title, title) ||
-                const DeepCollectionEquality().equals(other.title, title)));
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.superpose, superpose) ||
+                const DeepCollectionEquality()
+                    .equals(other.superpose, superpose)));
   }
 
   @override
@@ -172,7 +188,8 @@ class _$_Booking implements _Booking {
       const DeepCollectionEquality().hash(service_id) ^
       const DeepCollectionEquality().hash(start_date) ^
       const DeepCollectionEquality().hash(end_date) ^
-      const DeepCollectionEquality().hash(title);
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(superpose);
 
   @override
   _$BookingCopyWith<_Booking> get copyWith =>
@@ -185,7 +202,8 @@ abstract class _Booking implements Booking {
       @required int service_id,
       @required DateTime start_date,
       @required DateTime end_date,
-      @required String title}) = _$_Booking;
+      @required String title,
+      @required bool superpose}) = _$_Booking;
 
   @override
   int get id;
@@ -197,6 +215,8 @@ abstract class _Booking implements Booking {
   DateTime get end_date;
   @override
   String get title;
+  @override
+  bool get superpose;
   @override
   _$BookingCopyWith<_Booking> get copyWith;
 }

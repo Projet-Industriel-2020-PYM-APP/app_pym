@@ -1,36 +1,103 @@
 import 'dart:ui';
 
-import 'package:app_pym/core/utils/time_formatter.dart';
+import 'package:app_pym/core/routes/routes.dart';
 import 'package:app_pym/domain/entities/app_pym/post.dart';
-import 'package:app_pym/presentation/pages/actualite/post_page.dart';
+import 'package:app_pym/presentation/blocs/authentication/authentication/authentication_bloc.dart';
+import 'package:app_pym/presentation/widgets/actualite/post_card.dart';
 import 'package:breakpoint/breakpoint.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:html/dom.dart' as html_dom;
-import 'package:html/parser.dart' as html_parser;
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ActualiteScreen extends StatelessWidget {
+class ActualiteScreen extends StatefulWidget {
   final List<Post> posts;
 
   const ActualiteScreen(this.posts, {Key key}) : super(key: key);
 
   @override
+  _ActualiteScreenState createState() => _ActualiteScreenState();
+}
+
+class _ActualiteScreenState extends State<ActualiteScreen> {
+  List<Post> filteredPosts = [];
+  String filter = "";
+  FocusNode focusNode;
+
+  @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      child: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: <Widget>[
-          _buildSliverAppBar(context),
-          _buildSliverGrid(context)
-        ],
+    return Column(
+      children: [
+        _buildSearchBar(context),
+        Expanded(
+          child: GestureDetector(
+            onTap: focusNode.unfocus,
+            child: Scrollbar(
+              child: CustomScrollView(
+                physics: const BouncingScrollPhysics(),
+                slivers: <Widget>[
+                  _buildSliverAppBar(context),
+                  _buildSliverGrid(context)
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  void dispose() {
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    filteredPosts = widget.posts;
+    focusNode = FocusNode();
+    super.initState();
+  }
+
+  Widget _buildSearchBar(BuildContext context) {
+    return AppBar(
+      leading: Center(
+        child: IconButton(
+          icon: Icon(
+            Icons.account_circle,
+            color: context.bloc<AuthenticationBloc>().state is Authenticated
+                ? Colors.green
+                : Theme.of(context).iconTheme.color,
+          ),
+          onPressed: () {
+            if (context.bloc<AuthenticationBloc>().state is! Authenticated) {
+              Navigator.of(context)
+                  .pushNamed(RoutePaths.login)
+                  .then<void>((value) => setState(() {}));
+            }
+          },
+        ),
+      ),
+      title: TextField(
+        focusNode: focusNode,
+        keyboardType: TextInputType.text,
+        decoration: InputDecoration(
+          filled: true,
+          border: InputBorder.none,
+          focusedBorder: const UnderlineInputBorder(),
+          suffixIcon: IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              focusNode.unfocus();
+            },
+          ),
+        ),
+        onChanged: _onInput,
       ),
     );
   }
 
   SliverAppBar _buildSliverAppBar(BuildContext context) {
     return SliverAppBar(
-      floating: false,
-      snap: false,
       expandedHeight: MediaQuery.of(context).size.height / 2,
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
@@ -46,164 +113,52 @@ class ActualiteScreen extends StatelessWidget {
     );
   }
 
-  SliverGrid _buildSliverGrid(BuildContext context) {
+  Widget _buildSliverGrid(BuildContext context) {
     final _breakpoint = Breakpoint.fromMediaQuery(context);
-    return SliverGrid(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) => PostCard(posts[index]),
-        childCount: posts.length,
-      ),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: (_breakpoint.columns / 6).ceil(),
-        childAspectRatio: 4 / 3,
-      ),
-    );
-  }
-}
-
-class PostCard extends StatelessWidget {
-  final Post post;
-
-  const PostCard(this.post, {Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final postImage = _getImg(post.content);
-    return Card(
-      color: Theme.of(context).brightness == Brightness.light
-          ? Colors.white
-          : Colors.black12,
-      elevation: 2,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  post.title,
-                  style: Theme.of(context).textTheme.headline6,
-                  textAlign: TextAlign.start,
-                ),
-                if (post.subtitle != null)
-                  Text(
-                    post.subtitle,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5
-                        .apply(fontSizeDelta: 4),
-                    textAlign: TextAlign.start,
-                  ),
-                Text(
-                  post.published.formatTime(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1
-                      .apply(fontSizeDelta: -4),
-                  textAlign: TextAlign.start,
-                ),
-              ],
-            ),
-          ),
-          buildCachedNetworkImage(postImage),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                _getText(post.content) ?? "",
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1
-                    .apply(fontSizeDelta: -2),
-                textAlign: TextAlign.start,
-                overflow: TextOverflow.fade,
-              ),
-            ),
-          ),
-          const Divider(),
-          ButtonBar(
-            children: [
-              FlatButton(
-                onPressed: () =>
-                    Navigator.of(context).push<void>(MaterialPageRoute(
-                  builder: (context) {
-                    return PostPage(post);
-                  },
-                )),
-                child: const Text('VOIR PLUS'),
-              )
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildCachedNetworkImage(String postImage) {
-    if (postImage != null) {
-      return Expanded(
-        flex: 3,
-        child: CachedNetworkImage(
-          imageUrl: postImage,
-          progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-              child:
-                  CircularProgressIndicator(value: downloadProgress.progress)),
-          imageBuilder: (context, imageProvider) {
-            return Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            );
-          },
+    if (filteredPosts.isNotEmpty) {
+      return SliverGrid(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) => PostCard(filteredPosts[index]),
+          childCount: filteredPosts.length,
+        ),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: (_breakpoint.columns / 6).ceil(),
+          childAspectRatio: 4 / 3,
         ),
       );
     } else {
-      return Container();
+      return SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            return Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(50),
+              child: Text(
+                "Aucun article trouvé avec : '$filter'",
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            );
+          },
+          childCount: 1,
+        ),
+      );
     }
   }
 
-  String _getImg(String content) {
-    if (content != null) {
-      final html_dom.Document document = html_parser.parse(content);
-      try {
-        final List<html_dom.Element> elements =
-            document.getElementsByTagName("img");
-        if (elements.isNotEmpty) {
-          final html_dom.Element element = elements.first;
-          final String url = element?.attributes['src'];
-          return url;
-        } else {
-          return null;
+  void _onInput(String value) {
+    setState(() {
+      filter = value.toLowerCase();
+      final keywords = filter.split(' ');
+      filteredPosts = widget.posts.where((post) {
+        if (value == null || value.isEmpty) {
+          return true;
         }
-      } catch (e) {
-        print(e);
-        return null;
-      }
-    } else {
-      return null;
-    }
-  }
-
-  String _getText(String content) {
-    if (content != null) {
-      final html_dom.Document document = html_parser.parse(content);
-      try {
-        final String parsedString =
-            html_parser.parse(document.body.text).documentElement.text;
-
-        return parsedString;
-      } catch (e) {
-        print(e);
-        return null;
-      }
-    } else {
-      return null;
-    }
+        return keywords.every((keyword) {
+          return (post.title ?? "").toLowerCase().contains(keyword) ||
+              (post.subtitle ?? "").toLowerCase().contains(keyword) ||
+              (post.tags ?? []).any((element) => element.contains(keyword));
+        });
+      }).toList();
+    });
   }
 }

@@ -1,79 +1,41 @@
 import 'package:app_pym/domain/entities/map_pym/batiment.dart';
-import 'package:app_pym/injection_container.dart';
-import 'package:app_pym/presentation/blocs/cartographie/batiment/batiment_bloc.dart';
+import 'package:app_pym/domain/entities/map_pym/entreprise.dart';
 import 'package:app_pym/presentation/widgets/cartographie/entreprise_detail.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BatimentDetailDisplay extends StatelessWidget {
-  final int idBatiment;
-
-  const BatimentDetailDisplay({@required this.idBatiment, Key key})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<BatimentBloc>(
-      create: (context) =>
-          sl<BatimentBloc>()..add(GetBatimentDetailEvent(idBatiment)),
-      child: BlocBuilder<BatimentBloc, BatimentState>(
-        builder: (context, state) {
-          return state.when(
-            initial: () => Container(
-              height: 100,
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-            loaded: (batiment) => BatimentDetailContent(batiment),
-            loading: () => Container(
-              height: 100,
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-            error: (e) => ListTile(
-              title: Text(
-                e.toString(),
-                style: Theme.of(context).textTheme.bodyText1.apply(
-                      color: Theme.of(context).errorColor,
-                    ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class BatimentDetailContent extends StatelessWidget {
   final Batiment batiment;
+  final List<Entreprise> entreprises;
 
-  const BatimentDetailContent(this.batiment, {Key key}) : super(key: key);
+  const BatimentDetailDisplay({
+    @required this.batiment,
+    this.entreprises,
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      // mainAxisAlignment: MainAxisAlignment.center,
-      alignment: WrapAlignment.start,
-      children: <Widget>[
-        ListTile(
-          title: Text(
-            batiment.nom,
-            style: Theme.of(context).textTheme.headline5,
-          ),
-        ),
-        const Divider(),
-        ListTile(title: Text(batiment.description)),
-        ListTile(title: Text("Adresse: ${batiment.adresse}")),
-        ListTile(title: Text("Nombre d'étages: ${batiment.nbEtage}")),
-        ListTile(
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: ListView(
+        children: <Widget>[
+          ListTile(
             title: Text(
-                "Accès handicapés: ${batiment.accesHandicape ? "oui" : "non"}")),
-        const Divider(),
-        EntrepriseListDisplay(idBatiment: batiment.id),
-      ],
+              batiment.nom ?? "",
+              style: Theme.of(context).textTheme.headline5,
+            ),
+          ),
+          const Divider(),
+          ListTile(title: Text(batiment.description ?? "")),
+          ListTile(title: Text("Adresse: ${batiment.adresse ?? ""}")),
+          ListTile(title: Text("Nombre d'étages: ${batiment.nbEtage ?? 0}")),
+          ListTile(
+              title: Text(
+                  "Accès handicapés: ${(batiment.accesHandicape ?? false) ? "oui" : "non"}")),
+          const Divider(),
+          ...entreprises.map((e) => EntrepriseTile(e)).toList(),
+        ],
+      ),
     );
   }
 }

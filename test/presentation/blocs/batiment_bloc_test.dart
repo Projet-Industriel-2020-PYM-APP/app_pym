@@ -35,6 +35,7 @@ void main() {
       url: "Super",
       latitude: 1.0,
       longitude: 2.0,
+      isVisibleAR: true,
     );
 
     test(

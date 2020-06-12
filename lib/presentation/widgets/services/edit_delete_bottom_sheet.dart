@@ -27,6 +27,7 @@ class BookingEditDeleteBottomSheetState
   ValueNotifier<TimeOfDay> _startHour;
   ValueNotifier<DateTime> _endDate;
   ValueNotifier<TimeOfDay> _endHour;
+  ValueNotifier<bool> _superpose;
   BookingOfServiceBloc _bloc;
 
   @override
@@ -65,8 +66,7 @@ class BookingEditDeleteBottomSheetState
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+        child: ListView(
           children: <Widget>[
             Row(
               children: [
@@ -134,6 +134,7 @@ class BookingEditDeleteBottomSheetState
                               start_date: start_date,
                               end_date: end_time,
                               service_id: widget.booking.service_id,
+                              superpose: _superpose.value,
                             ),
                             appUser: state.user,
                           ),
@@ -239,6 +240,18 @@ class BookingEditDeleteBottomSheetState
                 ],
               ),
             ),
+            ListTile(
+              leading: ValueListenableBuilder<bool>(
+                valueListenable: _superpose,
+                builder: (BuildContext context, bool value, Widget _) {
+                  return Checkbox(
+                    value: value,
+                    onChanged: (value) => _superpose.value = value,
+                  );
+                },
+              ),
+              title: const Text("Peut chevaucher d'autres événements"),
+            ),
           ],
         ),
       ),
@@ -270,6 +283,7 @@ class BookingEditDeleteBottomSheetState
     _endDate = ValueNotifier<DateTime>(widget.booking.end_date);
     _endHour = ValueNotifier<TimeOfDay>(
         TimeOfDay.fromDateTime(widget.booking.end_date));
+    _superpose = ValueNotifier<bool>(widget.booking.superpose);
 
     super.initState();
   }

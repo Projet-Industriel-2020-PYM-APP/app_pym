@@ -1,10 +1,10 @@
 import 'package:app_pym/core/constants/mobility.dart';
-import 'package:app_pym/core/utils/url_launcher_utils.dart';
 import 'package:app_pym/injection_container.dart';
 import 'package:app_pym/presentation/blocs/mobility/stop_details/stop_details_bloc.dart';
 import 'package:app_pym/presentation/pages/mobility/maps_screen.dart';
 import 'package:app_pym/presentation/blocs/mobility/maps/maps_bloc.dart';
 import 'package:app_pym/presentation/blocs/mobility/trips/trips_bloc.dart';
+import 'package:app_pym/presentation/widgets/mobility/autres_transports.dart';
 import 'package:app_pym/presentation/widgets/mobility/mobility_controls.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,29 +19,34 @@ class MobilitePage extends StatelessWidget {
   }
 
   Widget buildBody(BuildContext context) {
-    return Scaffold(
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider<TripsBloc>(
-            create: (_) => sl<TripsBloc>()
-              ..add(const TripsEvent.fetchBus(Direction.Aller))
-              ..add(const TripsEvent.fetchTrain(Direction.Aller)),
-          ),
-          BlocProvider<MapsBloc>(
-            create: (_) => sl<MapsBloc>()..add(const MapsEvent.appStarted()),
-          ),
-          BlocProvider<StopDetailsBloc>(
-            create: (_) => sl<StopDetailsBloc>(),
-          ),
-        ],
-        child: const MobiliteListenersWidget(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<TripsBloc>(
+          create: (_) => sl<TripsBloc>()
+            ..add(const TripsEvent.fetchBus(Direction.Aller))
+            ..add(const TripsEvent.fetchTrain(Direction.Aller)),
+        ),
+        BlocProvider<MapsBloc>(
+          create: (_) => sl<MapsBloc>()..add(const MapsEvent.appStarted()),
+        ),
+        BlocProvider<StopDetailsBloc>(
+          create: (_) => sl<StopDetailsBloc>(),
+        ),
+      ],
+      child: const Scaffold(
+        body: MobiliteListenersWidget(
+          child: MobiliteBody(),
+        ),
       ),
     );
   }
 }
 
 class MobiliteListenersWidget extends StatelessWidget {
+  final Widget child;
+
   const MobiliteListenersWidget({
+    @required this.child,
     Key key,
   }) : super(key: key);
 
@@ -54,7 +59,7 @@ class MobiliteListenersWidget extends StatelessWidget {
               scaffoldState: Scaffold.of(context),
             )); // Affiche les polylines et markers
       },
-      child: const MobiliteBody(),
+      child: child,
     );
   }
 }
@@ -64,115 +69,134 @@ class MobiliteBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Expanded(
-          flex: 3,
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: <Widget>[
-              BlocBuilder<MapsBloc, MapsState>(
-                builder: (context, state) {
-                  if (state.isLoading) {
-                    return const LinearProgressIndicator();
-                  } else {
-                    return Container();
-                  }
-                },
-              ),
-              BlocBuilder<TripsBloc, TripsState>(
-                builder: (context, state) {
-                  if (state.isLoading) {
-                    return const LinearProgressIndicator();
-                  } else if (state.isError) {
-                    return Text(state.exception.toString());
-                  } else {
-                    return Container();
-                  }
-                },
-              ),
-              const MapsScreen(
-                initialPosition: LatLng(43.4506539, 5.4459134),
-              ),
-              const MobilityControls(),
-            ],
+    return SafeArea(
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            flex: 3,
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: <Widget>[
+                BlocBuilder<MapsBloc, MapsState>(
+                  builder: (context, state) {
+                    if (state.isLoading) {
+                      return const LinearProgressIndicator();
+                    } else {
+                      return Container();
+                    }
+                  },
+                ),
+                BlocBuilder<TripsBloc, TripsState>(
+                  builder: (context, state) {
+                    if (state.isLoading) {
+                      return const LinearProgressIndicator();
+                    } else if (state.isError) {
+                      return Text(state.exception.toString());
+                    } else {
+                      return Container();
+                    }
+                  },
+                ),
+                const Material(
+                  elevation: 8.0,
+                  child: MapsScreen(
+                    initialPosition: LatLng(43.45600725, 5.46332194),
+                  ),
+                ),
+                const MobilityControls(),
+                const AutresTransports(),
+              ],
+            ),
           ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Card(
-            elevation: 4.0,
-            margin: const EdgeInsets.all(10.0),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Autres transports",
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            margin: const EdgeInsets.all(10.0),
-                            height: 40.0,
-                            width: 40.0,
-                            child: Tooltip(
-                              message: "BlaBlaCar",
-                              child: InkWell(
-                                onTap: () => UrlLauncherUtils.launch(
-                                    "https://www.blablacar.fr/"),
-                                child: Image.asset(
-                                  "assets/images/mobilite/Logo_BlaBlaCar.png",
-                                  fit: BoxFit.contain,
-                                  color: Theme.of(context).brightness ==
-                                          Brightness.dark
-                                      ? Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          .color
-                                      : null,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.all(10.0),
-                            height: 40.0,
-                            width: 40.0,
-                            child: Tooltip(
-                              message: "Uber",
-                              child: InkWell(
-                                onTap: () => UrlLauncherUtils.launch(
-                                    "https://www.uber.com/"),
-                                child: Image.asset(
-                                  "assets/images/mobilite/Logo_Uber.png",
-                                  fit: BoxFit.contain,
-                                  color: Theme.of(context).brightness ==
-                                          Brightness.dark
-                                      ? Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          .color
-                                      : null,
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+          const Expanded(
+            child: Scrollbar(
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: NextPassagesCard(),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
+  }
+}
+
+class NextPassagesCard extends StatelessWidget {
+  const NextPassagesCard({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: BlocBuilder<TripsBloc, TripsState>(
+          builder: (context, state) {
+            return Wrap(
+              children: <Widget>[
+                const ListTile(
+                  title: Text(
+                    "Prochains Bus de l'arrêt Puits Morandat",
+                  ),
+                ),
+                if (state.isBusLoaded) ..._buildBusTripWidgets(context, state),
+                const ListTile(
+                  title: Text(
+                    "Prochains TER de la Gare de Gardanne",
+                  ),
+                ),
+                if (state.isTrainLoaded)
+                  ..._buildTrainTripWidgets(context, state),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _buildBusTripWidgets(BuildContext context, TripsState state) {
+    return state.busTrips
+        .take(4)
+        .map((trip) => Row(
+              children: [
+                Text(trip.stop_time
+                    .firstWhere((stopTime) =>
+                        stopTime.stop.stop_name == MobilityConstants.pymStop)
+                    .arrival_time),
+                Icon(
+                  Icons.arrow_forward,
+                  color: Theme.of(context).textTheme.subtitle2.color,
+                ),
+                Expanded(
+                    child: Text(
+                        "Destination " + trip.stop_time.last.stop.stop_name)),
+              ],
+            ))
+        .toList();
+  }
+
+  List<Widget> _buildTrainTripWidgets(BuildContext context, TripsState state) {
+    return state.trainTrips
+        .take(4)
+        .map((trip) => Row(
+              children: [
+                Text(trip.stop_time
+                    .firstWhere((stopTime) =>
+                        stopTime.stop.stop_name ==
+                        MobilityConstants.gareGardanne)
+                    .arrival_time),
+                Icon(
+                  Icons.arrow_forward,
+                  color: Theme.of(context).textTheme.subtitle2.color,
+                ),
+                Expanded(
+                    child: Text(
+                        "Destination " + trip.stop_time.last.stop.stop_name)),
+              ],
+            ))
+        .toList();
   }
 }

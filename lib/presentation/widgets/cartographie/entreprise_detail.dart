@@ -1,52 +1,24 @@
 import 'package:app_pym/core/utils/url_launcher_utils.dart';
 import 'package:app_pym/domain/entities/map_pym/entreprise.dart';
-import 'package:app_pym/injection_container.dart';
-import 'package:app_pym/presentation/blocs/cartographie/entreprise/entreprise_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EntrepriseListDisplay extends StatelessWidget {
-  final int idBatiment;
+  final List<Entreprise> entreprises;
 
-  const EntrepriseListDisplay({@required this.idBatiment, Key key})
+  const EntrepriseListDisplay({@required this.entreprises, Key key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<EntrepriseBloc>(
-      create: (context) =>
-          sl<EntrepriseBloc>()..add(GetEntreprisesOfBatimentEvent(idBatiment)),
-      child: BlocBuilder<EntrepriseBloc, EntrepriseState>(
-        builder: (context, state) {
-          return state.when(
-            initial: () => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            entreprisesOfBatimentLoaded: (entreprises) {
-              if (entreprises != null) {
-                final children =
-                    entreprises.map((e) => EntrepriseTile(e)).toList();
-                return Column(children: children);
-              } else {
-                return Container();
-              }
-            },
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            error: (e) => ListTile(
-              title: Text(
-                e.toString(),
-                style: Theme.of(context).textTheme.bodyText1.apply(
-                      color: Theme.of(context).errorColor,
-                    ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
+    if (entreprises != null) {
+      final children = entreprises.map((e) => EntrepriseTile(e)).toList();
+      return ListView(
+        children: children,
+      );
+    } else {
+      return Container();
+    }
   }
 }
 
@@ -58,7 +30,7 @@ class EntrepriseTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: entreprise.logo != null
+      leading: entreprise.logo != null && entreprise.logo.isNotEmpty
           ? CachedNetworkImage(
               imageUrl:
                   "https://map-pym.com/sharedfolder/logos/${entreprise.logo}",
@@ -66,25 +38,19 @@ class EntrepriseTile extends StatelessWidget {
               height: 100,
               errorWidget: (context, url, dynamic error) {
                 print(error);
-                return Center(
-                  child: Text(error.toString()),
-                );
-              },
-              progressIndicatorBuilder: (context, url, downloadProgress) {
-                return Center(
-                  child: CircularProgressIndicator(
-                    value: downloadProgress.progress,
-                  ),
-                );
+                return const Icon(Icons.error);
               },
             )
           : null,
       title: Text(
-        entreprise.nom,
+        entreprise.nom ?? "",
         style: Theme.of(context).textTheme.bodyText2,
       ),
       onTap: () => showModalBottomSheet<void>(
         context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
         builder: (context) {
           return EntrepriseDetailContent(entreprise);
         },
@@ -103,7 +69,7 @@ class EntrepriseDetailContent extends StatelessWidget {
     return Wrap(
       alignment: WrapAlignment.center,
       children: <Widget>[
-        if (entreprise.logo != null)
+        if (entreprise.logo != null && entreprise.logo.isNotEmpty)
           CachedNetworkImage(
             imageUrl:
                 "https://map-pym.com/sharedfolder/logos/${entreprise.logo}",
@@ -127,25 +93,28 @@ class EntrepriseDetailContent extends StatelessWidget {
           Container(),
         ListTile(
           title: Text(
-            entreprise.nom,
+            entreprise.nom ?? "NO_NAME_ERROR",
             style: Theme.of(context).textTheme.headline4,
             textAlign: TextAlign.center,
           ),
         ),
         const Divider(),
         ListTile(
-          title: Text("Adresse e-mail: ${entreprise.mail}"),
-          onTap: () => UrlLauncherUtils.launch("mailto:${entreprise.mail}"),
+          title: Text("Adresse e-mail: ${entreprise.mail ?? ""}"),
+          onTap: () =>
+              UrlLauncherUtils.launch("mailto:${entreprise.mail ?? ""}"),
         ),
         ListTile(
-          title: Text("Site internet: ${entreprise.site_internet}"),
+          title: Text("Site internet: ${entreprise.site_internet ?? ""}"),
           onTap: () => UrlLauncherUtils.launch(
-              Uri.parse(entreprise.site_internet).toString()),
+              Uri.parse(entreprise.site_internet ?? "").toString()),
         ),
-        ListTile(title: Text("Nombre de salariés: ${entreprise.nb_salaries}")),
         ListTile(
-          title: Text("Numéro de téléphone: ${entreprise.telephone}"),
-          onTap: () => UrlLauncherUtils.launch("sms:${entreprise.telephone}"),
+            title: Text("Nombre de salariés: ${entreprise.nb_salaries ?? ""}")),
+        ListTile(
+          title: Text("Numéro de téléphone: ${entreprise.telephone ?? ""}"),
+          onTap: () =>
+              UrlLauncherUtils.launch("sms:${entreprise.telephone ?? ""}"),
         ),
       ],
     );

@@ -34,7 +34,7 @@ class _DirectionControlsState extends State<DirectionControls> {
                 }
               : null,
           child: const Text(
-            "ALLER",
+            "ALLER au Pôle",
             style: TextStyle(
               color: Colors.white,
             ),
@@ -53,7 +53,7 @@ class _DirectionControlsState extends State<DirectionControls> {
                 }
               : null,
           child: const Text(
-            "PARTIR",
+            "PARTIR du Pôle",
             style: TextStyle(
               color: Colors.white,
             ),

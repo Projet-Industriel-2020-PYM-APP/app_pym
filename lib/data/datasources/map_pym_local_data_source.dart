@@ -52,6 +52,8 @@ abstract class MapPymLocalDataSource {
 
   List<ContactCategorieModel> fetchAllContactCategories();
 
+  List<EntrepriseModel> fetchAllEntreprises();
+
   List<PostModel> fetchAllPosts();
 
   List<ServiceCategorieModel> fetchAllServiceCategories();
@@ -286,5 +288,11 @@ class MapPymLocalDataSourceImpl implements MapPymLocalDataSource {
       '/service_categories/${category.id}',
       category,
     );
+  }
+
+  @override
+  List<EntrepriseModel> fetchAllEntreprises() {
+    final entreprisesOfBatiment = entreprisesBox?.values?.toList() ?? [];
+    return entreprisesOfBatiment;
   }
 }

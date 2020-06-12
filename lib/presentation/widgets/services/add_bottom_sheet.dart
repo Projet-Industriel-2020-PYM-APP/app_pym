@@ -28,6 +28,7 @@ class BookingAddBottomSheetState extends State<BookingAddBottomSheet> {
   ValueNotifier<TimeOfDay> _startHour;
   ValueNotifier<DateTime> _endDate;
   ValueNotifier<TimeOfDay> _endHour;
+  ValueNotifier<bool> _superpose;
   BookingOfServiceBloc _bloc;
 
   @override
@@ -66,8 +67,7 @@ class BookingAddBottomSheetState extends State<BookingAddBottomSheet> {
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+        child: ListView(
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -120,6 +120,7 @@ class BookingAddBottomSheetState extends State<BookingAddBottomSheet> {
                               start_date: start_date,
                               end_date: end_time,
                               service_id: widget.service.id,
+                              superpose: _superpose.value,
                             ),
                             appUser: state.user,
                           ),
@@ -225,6 +226,18 @@ class BookingAddBottomSheetState extends State<BookingAddBottomSheet> {
                 ],
               ),
             ),
+            ListTile(
+              leading: ValueListenableBuilder<bool>(
+                valueListenable: _superpose,
+                builder: (BuildContext context, bool value, Widget _) {
+                  return Checkbox(
+                    value: value,
+                    onChanged: (value) => _superpose.value = value,
+                  );
+                },
+              ),
+              title: const Text("Peut chevaucher d'autres événements"),
+            ),
           ],
         ),
       ),
@@ -238,6 +251,7 @@ class BookingAddBottomSheetState extends State<BookingAddBottomSheet> {
     _startHour?.dispose();
     _endDate?.dispose();
     _endHour?.dispose();
+    _superpose?.dispose();
     _bloc?.close();
     super.dispose();
   }
@@ -255,6 +269,7 @@ class BookingAddBottomSheetState extends State<BookingAddBottomSheet> {
     _endDate = ValueNotifier<DateTime>(widget.hintDate);
     _endHour =
         ValueNotifier<TimeOfDay>(TimeOfDay.fromDateTime(widget.hintDate));
+    _superpose = ValueNotifier<bool>(true);
 
     super.initState();
   }

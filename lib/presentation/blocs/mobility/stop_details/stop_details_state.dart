@@ -3,9 +3,10 @@ part of 'stop_details_bloc.dart';
 @freezed
 abstract class StopDetailsState with _$StopDetailsState {
   const factory StopDetailsState({
+    @required bool isBus,
     @required bool isLoading,
     @required bool isError,
-    @required @required String stop_name,
+    @required String stop_name,
     @required String last_stop,
     @required List<String> arrivalTimes,
     @required List<StopTime> trip,
@@ -15,6 +16,7 @@ abstract class StopDetailsState with _$StopDetailsState {
 
   factory StopDetailsState.initial() {
     return const StopDetailsState(
+      isBus: true,
       isLoading: true,
       isError: false,
       stop_name: "",
@@ -29,14 +31,16 @@ abstract class StopDetailsState with _$StopDetailsState {
 extension StopDetailsStateX on StopDetailsState {
   StopDetailsState loading() {
     return this.copyWith(
+      isBus: true,
       isLoading: true,
       isError: false,
     );
   }
 
-  StopDetailsState loaded(String stop_name, String last_stop,
+  StopDetailsState loaded(bool isBus, String stop_name, String last_stop,
       List<String> arrivalTimes, List<StopTime> trip, String destination) {
     return this.copyWith(
+      isBus: isBus,
       isLoading: false,
       isError: false,
       stop_name: stop_name,
@@ -49,6 +53,7 @@ extension StopDetailsStateX on StopDetailsState {
 
   StopDetailsState error(Exception exception) {
     return this.copyWith(
+      isBus: true,
       isLoading: false,
       isError: true,
       exception: exception,

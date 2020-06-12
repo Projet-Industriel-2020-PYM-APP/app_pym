@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_pym/core/keys/keys.dart';
 import 'package:app_pym/core/routes/routes.dart';
 import 'package:app_pym/injection_container.dart';
@@ -8,6 +10,7 @@ import 'package:app_pym/presentation/pages/cartographie_page.dart';
 import 'package:app_pym/presentation/pages/mobilite_page.dart';
 import 'package:app_pym/presentation/pages/services_page.dart';
 import 'package:app_pym/presentation/widgets/custom_bottom_bar.dart';
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,12 +23,14 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
   static const List<String> titles = [
     "Actualités",
     "Mobilité",
     "Cartographie",
     "Services",
-    "Plus",
+    "Paramètres",
   ];
 
   static const List<Widget> pages = <Widget>[
@@ -39,13 +44,11 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return BlocProvider<MainPageBloc>(
       create: (_) => sl<MainPageBloc>(),
-      child: SafeArea(
-        child: BlocBuilder<MainPageBloc, MainPageState>(
-          builder: (context, state) => Scaffold(
-            body: buildBody(context, state),
-            bottomNavigationBar: buildBottomNavBar(context, state),
-            floatingActionButton: buildFloatingActionButton(context, state),
-          ),
+      child: BlocBuilder<MainPageBloc, MainPageState>(
+        builder: (context, state) => Scaffold(
+          body: buildBody(context, state),
+          bottomNavigationBar: buildBottomNavBar(context, state),
+          floatingActionButton: buildFloatingActionButton(context, state),
         ),
       ),
     );
@@ -86,6 +89,7 @@ class _MainPageState extends State<MainPage> {
 
     if (orientation == Orientation.landscape) {
       return CustomBottomNavigationBar(
+        elevation: 12.0,
         type: BottomNavigationBarType.shifting,
         selectedItemColor: Theme.of(context).primaryColor,
         unselectedItemColor: Theme.of(context).primaryColor.withAlpha(150),
@@ -95,6 +99,7 @@ class _MainPageState extends State<MainPage> {
       );
     } else {
       return BottomNavigationBar(
+        elevation: 12.0,
         type: BottomNavigationBarType.shifting,
         selectedItemColor: Theme.of(context).primaryColor,
         unselectedItemColor: Theme.of(context).primaryColor.withAlpha(150),
@@ -105,23 +110,48 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
-  FloatingActionButton buildFloatingActionButton(
-      BuildContext context, MainPageState state) {
-    if (state.currentIndex == 2) {
-      return FloatingActionButton(
-        key: const Key(KeysStringNavigation.ar),
-        tooltip: "Ouvrir la réalité augmentée",
-        onPressed: () {
-          Navigator.pushReplacementNamed(context, RoutePaths.ar);
-        },
-        child: Text(
-          "AR",
-          style: const TextStyle().copyWith(
-              fontSize: Theme.of(context).textTheme.headline6.fontSize),
+  Widget buildFloatingActionButton(BuildContext context, MainPageState state) {
+    if (state.currentIndex == 3) {
+      return filterABIs(
+        child: FloatingActionButton(
+          key: const Key(KeysStringNavigation.ar),
+          tooltip: "Ouvrir la réalité augmentée",
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, RoutePaths.ar);
+          },
+          child: Text(
+            "AR",
+            style: const TextStyle().copyWith(
+                fontSize: Theme.of(context).textTheme.headline6.fontSize),
+          ),
         ),
       );
     } else {
       return null;
+    }
+  }
+
+  Widget filterABIs({Widget child}) {
+    if (Platform.isAndroid) {
+      return FutureBuilder<AndroidDeviceInfo>(
+        future: deviceInfo.androidInfo,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final supportedAbis = snapshot.data.supportedAbis;
+            print(supportedAbis);
+            if (supportedAbis
+                .where((element) => element.contains("arm"))
+                .isNotEmpty) {
+              return child;
+            }
+          }
+          return Container();
+        },
+      );
+    } else if (Platform.isIOS) {
+      return child;
+    } else {
+      return Container();
     }
   }
 
@@ -185,23 +215,6 @@ class _MainPageState extends State<MainPage> {
     ];
   }
 
-  void _navigateToRoot() {
-    // Clear away dialogs
-    Navigator.popUntil(context, (Route<dynamic> route) => route is PageRoute);
-    Navigator.popUntil(context, (route) => route.isFirst);
-  }
-
-  Future<void> _showItemDialog(Map<String, dynamic> message) {
-    return showDialog<bool>(
-      context: context,
-      builder: (context) => _buildDialog(context, message),
-    ).then((bool shouldNavigate) {
-      if (shouldNavigate == true) {
-        _navigateToRoot();
-      }
-    });
-  }
-
   Widget _buildDialog(BuildContext context, Map<String, dynamic> message) {
     return AlertDialog(
       title: Text(message["notification"]["title"].toString()),
@@ -222,5 +235,22 @@ class _MainPageState extends State<MainPage> {
         ),
       ],
     );
+  }
+
+  void _navigateToRoot() {
+    // Clear away dialogs
+    Navigator.popUntil(context, (Route<dynamic> route) => route is PageRoute);
+    Navigator.popUntil(context, (route) => route.isFirst);
+  }
+
+  Future<void> _showItemDialog(Map<String, dynamic> message) {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => _buildDialog(context, message),
+    ).then((bool shouldNavigate) {
+      if (shouldNavigate == true) {
+        _navigateToRoot();
+      }
+    });
   }
 }

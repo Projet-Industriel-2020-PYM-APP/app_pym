@@ -1,96 +1,110 @@
 import 'package:app_pym/domain/entities/app_pym/service_categorie.dart';
-import 'package:app_pym/presentation/pages/services/services_of_categorie_screen.dart';
+import 'package:app_pym/presentation/widgets/services/categorie_card.dart';
 import 'package:breakpoint/breakpoint.dart';
 import 'package:flutter/material.dart';
 
-class CategoriesScreen extends StatelessWidget {
+class CategoriesScreen extends StatefulWidget {
   final List<ServiceCategorie> categories;
 
   const CategoriesScreen(this.categories);
 
   @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final _breakpoint = Breakpoint.fromConstraints(constraints);
-        return Scrollbar(
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: (_breakpoint.columns / 8).ceil(),
-              crossAxisSpacing: _breakpoint.gutters,
-              mainAxisSpacing: _breakpoint.gutters,
-              childAspectRatio: 5 / 2,
-            ),
-            itemCount: categories.length,
-            itemBuilder: (context, id) {
-              return CategorieCard(categories[id]);
-            },
-          ),
-        );
-      },
-    );
-  }
+  _CategoriesScreenState createState() => _CategoriesScreenState();
 }
 
-class CategorieCard extends StatelessWidget {
-  final ServiceCategorie categorie;
-
-  const CategorieCard(this.categorie);
+class _CategoriesScreenState extends State<CategoriesScreen> {
+  List<ServiceCategorie> filteredCategories = [];
+  String filter = "";
+  FocusNode focusNode;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Card(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  image:
-                      categorie.img_url != null && categorie.img_url.isNotEmpty
-                          ? DecorationImage(
-                              image: NetworkImage(categorie.img_url),
-                              fit: BoxFit.cover,
-                            )
-                          : null,
-                  color:
-                      categorie.primary_color ?? Theme.of(context).primaryColor,
-                ),
-                padding: const EdgeInsets.all(20.0),
-                alignment: Alignment.bottomLeft,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    categorie.name,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5
-                        .apply(color: Colors.white),
-                  ),
-                ),
-              ),
-            ),
-            ButtonBar(
-              buttonTextTheme: ButtonTextTheme.primary,
-              children: <Widget>[
-                FlatButton(
-                  textColor:
-                      categorie.primary_color ?? Theme.of(context).primaryColor,
-                  onPressed: () {
-                    Navigator.of(context).push<void>(MaterialPageRoute(
-                      builder: (context) => ServicesOfCategoriePage(categorie),
-                    ));
-                  },
-                  child: Text(
-                    categorie.action.name.toUpperCase(),
-                  ),
-                ),
-              ],
-            ),
-          ],
+    return Column(
+      children: [
+        _buildSearchBar(context),
+        Expanded(
+          child: GestureDetector(
+            onTap: focusNode.unfocus,
+            child: _buildGridView(),
+          ),
         ),
+      ],
+    );
+  }
+
+  @override
+  void dispose() {
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    filteredCategories = widget.categories;
+    focusNode = FocusNode();
+    super.initState();
+  }
+
+  Widget _buildGridView() {
+    final _breakpoint = Breakpoint.fromMediaQuery(context);
+    if (filteredCategories.isNotEmpty) {
+      return Scrollbar(
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: (_breakpoint.columns / 8).ceil(),
+            childAspectRatio: 5 / 2,
+          ),
+          itemCount: filteredCategories.length,
+          itemBuilder: (context, id) {
+            return CategorieCard(filteredCategories[id]);
+          },
+        ),
+      );
+    } else {
+      return Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.all(50),
+        child: Text(
+          "Aucune catégorie de service trouvée avec : '$filter'",
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+      );
+    }
+  }
+
+  Widget _buildSearchBar(BuildContext context) {
+    return AppBar(
+      title: TextField(
+        focusNode: focusNode,
+        keyboardType: TextInputType.text,
+        decoration: InputDecoration(
+          filled: true,
+          border: InputBorder.none,
+          focusedBorder: const UnderlineInputBorder(),
+          suffixIcon: IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              focusNode.unfocus();
+            },
+          ),
+        ),
+        onChanged: _onInput,
       ),
     );
+  }
+
+  void _onInput(String value) {
+    setState(() {
+      filter = value.toLowerCase();
+      final keywords = filter.split(' ');
+      filteredCategories = widget.categories.where((categorie) {
+        if (value == null || value.isEmpty) {
+          return true;
+        }
+        return keywords.every((keyword) {
+          return (categorie.name ?? "").toLowerCase().contains(keyword);
+        });
+      }).toList();
+    });
   }
 }

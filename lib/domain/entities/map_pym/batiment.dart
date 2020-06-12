@@ -15,5 +15,6 @@ abstract class Batiment with _$Batiment {
     @nullable @required String adresse,
     @nullable @required double latitude,
     @nullable @required double longitude,
+    @nullable @required bool isVisibleAR,
   }) = _Batiment;
 }

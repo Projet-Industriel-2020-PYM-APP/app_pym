@@ -14,6 +14,7 @@ abstract class BookingModel with _$BookingModel {
     @HiveField(2) @required DateTime start_date,
     @HiveField(3) @required DateTime end_date,
     @HiveField(4) @required String title,
+    @HiveField(5) @required bool superpose,
   }) = _BookingModel;
 
   factory BookingModel.fromJson(Map<String, dynamic> json) =>
@@ -28,6 +29,7 @@ extension BookingModelX on BookingModel {
       start_date: this.start_date.toLocal(),
       end_date: this.end_date.toLocal(),
       title: this.title,
+      superpose: this.superpose,
     );
   }
 }

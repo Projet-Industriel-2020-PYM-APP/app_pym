@@ -20,13 +20,15 @@ class _$BookingModelTearOff {
       @required @HiveField(1) int service_id,
       @required @HiveField(2) DateTime start_date,
       @required @HiveField(3) DateTime end_date,
-      @required @HiveField(4) String title}) {
+      @required @HiveField(4) String title,
+      @required @HiveField(5) bool superpose}) {
     return _BookingModel(
       id: id,
       service_id: service_id,
       start_date: start_date,
       end_date: end_date,
       title: title,
+      superpose: superpose,
     );
   }
 }
@@ -45,6 +47,8 @@ mixin _$BookingModel {
   DateTime get end_date;
   @HiveField(4)
   String get title;
+  @HiveField(5)
+  bool get superpose;
 
   Map<String, dynamic> toJson();
   $BookingModelCopyWith<BookingModel> get copyWith;
@@ -59,7 +63,8 @@ abstract class $BookingModelCopyWith<$Res> {
       @HiveField(1) int service_id,
       @HiveField(2) DateTime start_date,
       @HiveField(3) DateTime end_date,
-      @HiveField(4) String title});
+      @HiveField(4) String title,
+      @HiveField(5) bool superpose});
 }
 
 class _$BookingModelCopyWithImpl<$Res> implements $BookingModelCopyWith<$Res> {
@@ -76,6 +81,7 @@ class _$BookingModelCopyWithImpl<$Res> implements $BookingModelCopyWith<$Res> {
     Object start_date = freezed,
     Object end_date = freezed,
     Object title = freezed,
+    Object superpose = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -84,6 +90,7 @@ class _$BookingModelCopyWithImpl<$Res> implements $BookingModelCopyWith<$Res> {
           start_date == freezed ? _value.start_date : start_date as DateTime,
       end_date: end_date == freezed ? _value.end_date : end_date as DateTime,
       title: title == freezed ? _value.title : title as String,
+      superpose: superpose == freezed ? _value.superpose : superpose as bool,
     ));
   }
 }
@@ -99,7 +106,8 @@ abstract class _$BookingModelCopyWith<$Res>
       @HiveField(1) int service_id,
       @HiveField(2) DateTime start_date,
       @HiveField(3) DateTime end_date,
-      @HiveField(4) String title});
+      @HiveField(4) String title,
+      @HiveField(5) bool superpose});
 }
 
 class __$BookingModelCopyWithImpl<$Res> extends _$BookingModelCopyWithImpl<$Res>
@@ -118,6 +126,7 @@ class __$BookingModelCopyWithImpl<$Res> extends _$BookingModelCopyWithImpl<$Res>
     Object start_date = freezed,
     Object end_date = freezed,
     Object title = freezed,
+    Object superpose = freezed,
   }) {
     return _then(_BookingModel(
       id: id == freezed ? _value.id : id as int,
@@ -126,6 +135,7 @@ class __$BookingModelCopyWithImpl<$Res> extends _$BookingModelCopyWithImpl<$Res>
           start_date == freezed ? _value.start_date : start_date as DateTime,
       end_date: end_date == freezed ? _value.end_date : end_date as DateTime,
       title: title == freezed ? _value.title : title as String,
+      superpose: superpose == freezed ? _value.superpose : superpose as bool,
     ));
   }
 }
@@ -138,12 +148,14 @@ class _$_BookingModel implements _BookingModel {
       @required @HiveField(1) this.service_id,
       @required @HiveField(2) this.start_date,
       @required @HiveField(3) this.end_date,
-      @required @HiveField(4) this.title})
+      @required @HiveField(4) this.title,
+      @required @HiveField(5) this.superpose})
       : assert(id != null),
         assert(service_id != null),
         assert(start_date != null),
         assert(end_date != null),
-        assert(title != null);
+        assert(title != null),
+        assert(superpose != null);
 
   factory _$_BookingModel.fromJson(Map<String, dynamic> json) =>
       _$_$_BookingModelFromJson(json);
@@ -163,10 +175,13 @@ class _$_BookingModel implements _BookingModel {
   @override
   @HiveField(4)
   final String title;
+  @override
+  @HiveField(5)
+  final bool superpose;
 
   @override
   String toString() {
-    return 'BookingModel(id: $id, service_id: $service_id, start_date: $start_date, end_date: $end_date, title: $title)';
+    return 'BookingModel(id: $id, service_id: $service_id, start_date: $start_date, end_date: $end_date, title: $title, superpose: $superpose)';
   }
 
   @override
@@ -185,7 +200,10 @@ class _$_BookingModel implements _BookingModel {
                 const DeepCollectionEquality()
                     .equals(other.end_date, end_date)) &&
             (identical(other.title, title) ||
-                const DeepCollectionEquality().equals(other.title, title)));
+                const DeepCollectionEquality().equals(other.title, title)) &&
+            (identical(other.superpose, superpose) ||
+                const DeepCollectionEquality()
+                    .equals(other.superpose, superpose)));
   }
 
   @override
@@ -195,7 +213,8 @@ class _$_BookingModel implements _BookingModel {
       const DeepCollectionEquality().hash(service_id) ^
       const DeepCollectionEquality().hash(start_date) ^
       const DeepCollectionEquality().hash(end_date) ^
-      const DeepCollectionEquality().hash(title);
+      const DeepCollectionEquality().hash(title) ^
+      const DeepCollectionEquality().hash(superpose);
 
   @override
   _$BookingModelCopyWith<_BookingModel> get copyWith =>
@@ -213,7 +232,8 @@ abstract class _BookingModel implements BookingModel {
       @required @HiveField(1) int service_id,
       @required @HiveField(2) DateTime start_date,
       @required @HiveField(3) DateTime end_date,
-      @required @HiveField(4) String title}) = _$_BookingModel;
+      @required @HiveField(4) String title,
+      @required @HiveField(5) bool superpose}) = _$_BookingModel;
 
   factory _BookingModel.fromJson(Map<String, dynamic> json) =
       _$_BookingModel.fromJson;
@@ -233,6 +253,9 @@ abstract class _BookingModel implements BookingModel {
   @override
   @HiveField(4)
   String get title;
+  @override
+  @HiveField(5)
+  bool get superpose;
   @override
   _$BookingModelCopyWith<_BookingModel> get copyWith;
 }

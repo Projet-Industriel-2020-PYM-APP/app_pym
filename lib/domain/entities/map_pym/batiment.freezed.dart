@@ -21,7 +21,8 @@ class _$BatimentTearOff {
       @required @nullable String url,
       @required @nullable String adresse,
       @required @nullable double latitude,
-      @required @nullable double longitude}) {
+      @required @nullable double longitude,
+      @required @nullable bool isVisibleAR}) {
     return _Batiment(
       id: id,
       nom: nom,
@@ -32,6 +33,7 @@ class _$BatimentTearOff {
       adresse: adresse,
       latitude: latitude,
       longitude: longitude,
+      isVisibleAR: isVisibleAR,
     );
   }
 }
@@ -57,6 +59,8 @@ mixin _$Batiment {
   double get latitude;
   @nullable
   double get longitude;
+  @nullable
+  bool get isVisibleAR;
 
   $BatimentCopyWith<Batiment> get copyWith;
 }
@@ -73,7 +77,8 @@ abstract class $BatimentCopyWith<$Res> {
       @nullable String url,
       @nullable String adresse,
       @nullable double latitude,
-      @nullable double longitude});
+      @nullable double longitude,
+      @nullable bool isVisibleAR});
 }
 
 class _$BatimentCopyWithImpl<$Res> implements $BatimentCopyWith<$Res> {
@@ -94,6 +99,7 @@ class _$BatimentCopyWithImpl<$Res> implements $BatimentCopyWith<$Res> {
     Object adresse = freezed,
     Object latitude = freezed,
     Object longitude = freezed,
+    Object isVisibleAR = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -108,6 +114,8 @@ class _$BatimentCopyWithImpl<$Res> implements $BatimentCopyWith<$Res> {
       adresse: adresse == freezed ? _value.adresse : adresse as String,
       latitude: latitude == freezed ? _value.latitude : latitude as double,
       longitude: longitude == freezed ? _value.longitude : longitude as double,
+      isVisibleAR:
+          isVisibleAR == freezed ? _value.isVisibleAR : isVisibleAR as bool,
     ));
   }
 }
@@ -125,7 +133,8 @@ abstract class _$BatimentCopyWith<$Res> implements $BatimentCopyWith<$Res> {
       @nullable String url,
       @nullable String adresse,
       @nullable double latitude,
-      @nullable double longitude});
+      @nullable double longitude,
+      @nullable bool isVisibleAR});
 }
 
 class __$BatimentCopyWithImpl<$Res> extends _$BatimentCopyWithImpl<$Res>
@@ -147,6 +156,7 @@ class __$BatimentCopyWithImpl<$Res> extends _$BatimentCopyWithImpl<$Res>
     Object adresse = freezed,
     Object latitude = freezed,
     Object longitude = freezed,
+    Object isVisibleAR = freezed,
   }) {
     return _then(_Batiment(
       id: id == freezed ? _value.id : id as int,
@@ -161,6 +171,8 @@ class __$BatimentCopyWithImpl<$Res> extends _$BatimentCopyWithImpl<$Res>
       adresse: adresse == freezed ? _value.adresse : adresse as String,
       latitude: latitude == freezed ? _value.latitude : latitude as double,
       longitude: longitude == freezed ? _value.longitude : longitude as double,
+      isVisibleAR:
+          isVisibleAR == freezed ? _value.isVisibleAR : isVisibleAR as bool,
     ));
   }
 }
@@ -175,7 +187,8 @@ class _$_Batiment with DiagnosticableTreeMixin implements _Batiment {
       @required @nullable this.url,
       @required @nullable this.adresse,
       @required @nullable this.latitude,
-      @required @nullable this.longitude})
+      @required @nullable this.longitude,
+      @required @nullable this.isVisibleAR})
       : assert(id != null);
 
   @override
@@ -204,10 +217,13 @@ class _$_Batiment with DiagnosticableTreeMixin implements _Batiment {
   @override
   @nullable
   final double longitude;
+  @override
+  @nullable
+  final bool isVisibleAR;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Batiment(id: $id, nom: $nom, nbEtage: $nbEtage, description: $description, accesHandicape: $accesHandicape, url: $url, adresse: $adresse, latitude: $latitude, longitude: $longitude)';
+    return 'Batiment(id: $id, nom: $nom, nbEtage: $nbEtage, description: $description, accesHandicape: $accesHandicape, url: $url, adresse: $adresse, latitude: $latitude, longitude: $longitude, isVisibleAR: $isVisibleAR)';
   }
 
   @override
@@ -223,7 +239,8 @@ class _$_Batiment with DiagnosticableTreeMixin implements _Batiment {
       ..add(DiagnosticsProperty('url', url))
       ..add(DiagnosticsProperty('adresse', adresse))
       ..add(DiagnosticsProperty('latitude', latitude))
-      ..add(DiagnosticsProperty('longitude', longitude));
+      ..add(DiagnosticsProperty('longitude', longitude))
+      ..add(DiagnosticsProperty('isVisibleAR', isVisibleAR));
   }
 
   @override
@@ -253,7 +270,10 @@ class _$_Batiment with DiagnosticableTreeMixin implements _Batiment {
                     .equals(other.latitude, latitude)) &&
             (identical(other.longitude, longitude) ||
                 const DeepCollectionEquality()
-                    .equals(other.longitude, longitude)));
+                    .equals(other.longitude, longitude)) &&
+            (identical(other.isVisibleAR, isVisibleAR) ||
+                const DeepCollectionEquality()
+                    .equals(other.isVisibleAR, isVisibleAR)));
   }
 
   @override
@@ -267,7 +287,8 @@ class _$_Batiment with DiagnosticableTreeMixin implements _Batiment {
       const DeepCollectionEquality().hash(url) ^
       const DeepCollectionEquality().hash(adresse) ^
       const DeepCollectionEquality().hash(latitude) ^
-      const DeepCollectionEquality().hash(longitude);
+      const DeepCollectionEquality().hash(longitude) ^
+      const DeepCollectionEquality().hash(isVisibleAR);
 
   @override
   _$BatimentCopyWith<_Batiment> get copyWith =>
@@ -284,7 +305,8 @@ abstract class _Batiment implements Batiment {
       @required @nullable String url,
       @required @nullable String adresse,
       @required @nullable double latitude,
-      @required @nullable double longitude}) = _$_Batiment;
+      @required @nullable double longitude,
+      @required @nullable bool isVisibleAR}) = _$_Batiment;
 
   @override
   int get id;
@@ -312,6 +334,9 @@ abstract class _Batiment implements Batiment {
   @override
   @nullable
   double get longitude;
+  @override
+  @nullable
+  bool get isVisibleAR;
   @override
   _$BatimentCopyWith<_Batiment> get copyWith;
 }

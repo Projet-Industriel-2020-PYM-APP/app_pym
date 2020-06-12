@@ -82,18 +82,20 @@ class GeolocatorDeviceImpl implements GeolocatorDevice {
     num endLongitude,
   ) {
     const earthRadius = 6371e3; // Metres
-    final phi1 = startLatitude * math.pi / 180; // φ, λ in radians
-    final phi2 = endLatitude * math.pi / 180;
-    final dPhi = (endLatitude - startLatitude) * math.pi / 180;
-    final dLamb = (endLongitude - endLatitude) * math.pi / 180;
+    final startLongRad = startLongitude * math.pi / 180;
+    final endLongRad = endLongitude * math.pi / 180;
+    final startLatRad = startLatitude * math.pi / 180;
+    final endLatRad = endLatitude * math.pi / 180;
 
-    // Apply Haversine formula
-    final a = math.sin(dPhi / 2) * math.sin(dPhi / 2) +
-        math.cos(phi1) *
-            math.cos(phi2) *
-            math.sin(dLamb / 2) *
-            math.sin(dLamb / 2);
-    final c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
+    final dLon = endLongRad - startLongRad;
+    final dLat = endLatRad - startLatRad;
+
+    final a = math.pow(math.sin(dLat / 2), 2) +
+        math.cos(startLatRad) *
+            math.cos(endLatRad) *
+            math.pow(math.sin(dLon / 2), 2);
+
+    final c = 2 * math.asin(math.sqrt(a));
 
     return earthRadius * c;
   }

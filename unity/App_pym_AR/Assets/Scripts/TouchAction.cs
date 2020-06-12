@@ -47,18 +47,19 @@ public class TouchAction : MonoBehaviour
     private void OnHit(RaycastHit hit)
     {
         var selection = hit.transform;
-        var selectedBatiment = selection.gameObject.GetComponent<Batiment>();
+        var selectedBatiment = selection.gameObject.GetComponentInChildren<BatimentDataHolder>();
         if (selectedBatiment != null)
         {
+            var message = JsonUtility.ToJson(selectedBatiment.batiment);
             Colorize(selection, HighlightColor);
-            UnityMessageManager.Instance.SendMessageToFlutter($"{selectedBatiment.Id}");
+            UnityMessageManager.Instance.SendMessageToFlutter(message);
             _selection = selection;
         }
     }
 
     private void Colorize(Transform selection, Color color)
     {
-        var selectedRenderer = selection.gameObject.GetComponent<SpriteRenderer>();
+        var selectedRenderer = selection.gameObject.GetComponentInChildren<SpriteRenderer>();
         if (selectedRenderer != null)
         {
             _savedColor = selectedRenderer.color;

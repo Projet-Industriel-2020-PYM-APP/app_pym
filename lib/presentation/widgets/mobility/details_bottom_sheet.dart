@@ -1,5 +1,6 @@
 import 'package:app_pym/core/constants/mobility.dart';
 import 'package:app_pym/core/utils/time_formatter.dart';
+import 'package:app_pym/core/utils/url_launcher_utils.dart';
 import 'package:app_pym/domain/entities/mobility/trip.dart';
 import 'package:app_pym/injection_container.dart';
 import 'package:app_pym/presentation/blocs/mobility/stop_details/stop_details_bloc.dart';
@@ -49,12 +50,28 @@ class DetailsBottomSheet extends StatelessWidget {
                       children: [
                         Icon(
                           icon,
-                          size: Theme.of(context).textTheme.headline3.fontSize,
+                          size: Theme.of(context).textTheme.headline4.fontSize,
                         ),
                         Text(
                           line,
-                          style: Theme.of(context).textTheme.headline3,
-                        )
+                          style: Theme.of(context).textTheme.headline4,
+                        ),
+                        const Expanded(child: Text("")),
+                        Card(
+                          color: Theme.of(context).primaryColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0)),
+                          child: InkWell(
+                            onTap: () => UrlLauncherUtils.launch(isBus
+                                ? "https://www.lepilote.com/fr/horaires-des-lignes/6/LineTimeTable/183-8-mai-1945-gare-routiere-sncf/1598/gare-routiere-sncf/1"
+                                : "https://www.ter.sncf.com/sud-provence-alpes-cote-d-azur/depliant/recherche"),
+                            child: const Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: Text("Horaires complets",
+                                  style: TextStyle(color: Colors.white)),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     Text(

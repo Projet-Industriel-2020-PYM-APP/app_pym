@@ -33,4 +33,16 @@ class EntrepriseRepositoryImpl implements EntrepriseRepository {
       return data.map((e) => e?.toEntity()).toList();
     }
   }
+
+  @override
+  Future<List<Entreprise>> fetchAll() async {
+    if (await networkInfo.result != ConnectivityResult.none) {
+      final data = await remoteDataSource.fetchAllEntreprises() ?? [];
+      await localDataSource.cacheAllEntreprise(data);
+      return data.map((e) => e?.toEntity()).toList();
+    } else {
+      final data = localDataSource.fetchAllEntreprises() ?? [];
+      return data.map((e) => e?.toEntity()).toList();
+    }
+  }
 }

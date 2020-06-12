@@ -360,10 +360,12 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
     g.registerLazySingleton<GetEntreprisesOfBatiment>(() =>
         GetEntreprisesOfBatiment(
             entrepriseRepository: g<EntrepriseRepository>()));
-    g.registerLazySingleton<LoadPageAndPlaceBatiments>(() =>
-        LoadPageAndPlaceBatiments(
-            geolocatorDevice: g<GeolocatorDevice>(),
-            batimentRepository: g<BatimentRepository>()));
+    g.registerLazySingleton<LoadPageAndPlaceBatiments>(
+        () => LoadPageAndPlaceBatiments(
+              geolocatorDevice: g<GeolocatorDevice>(),
+              batimentRepository: g<BatimentRepository>(),
+              entrepriseRepository: g<EntrepriseRepository>(),
+            ));
     g.registerFactory<LoginBloc>(
         () => LoginBloc(g<AuthSignIn>(), g<AuthSignUp>()));
     g.registerFactory<MainPageBloc>(() => MainPageBloc());
@@ -576,8 +578,10 @@ class _$DevRegisterModule extends DevRegisterModule {
   @override
   LoadPageAndPlaceBatiments get loadPageAndPlaceBatiment =>
       LoadPageAndPlaceBatiments(
-          geolocatorDevice: _g<GeolocatorDevice>(),
-          batimentRepository: _g<BatimentRepository>());
+        geolocatorDevice: _g<GeolocatorDevice>(),
+        batimentRepository: _g<BatimentRepository>(),
+        entrepriseRepository: _g<EntrepriseRepository>(),
+      );
   @override
   LoginBloc get loginBloc => LoginBloc(_g<AuthSignIn>(), _g<AuthSignUp>());
   @override

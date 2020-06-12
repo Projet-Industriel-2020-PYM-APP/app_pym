@@ -36,6 +36,7 @@ class MapPymRemoteDataSourceDevImpl implements MapPymRemoteDataSource {
             start_date: DateTime(2000),
             end_date: DateTime.now() + 1.days,
             service_id: 0,
+            superpose: true,
           ),
           BookingModel(
             id: 1,
@@ -43,6 +44,7 @@ class MapPymRemoteDataSourceDevImpl implements MapPymRemoteDataSource {
             start_date: DateTime.now() + 1.days,
             end_date: DateTime.now() + 1.weeks,
             service_id: 0,
+            superpose: true,
           ),
           BookingModel(
             id: 2,
@@ -50,6 +52,7 @@ class MapPymRemoteDataSourceDevImpl implements MapPymRemoteDataSource {
             start_date: DateTime.now() - 2.days,
             end_date: DateTime.now() - 1.days,
             service_id: 0,
+            superpose: true,
           ),
           BookingModel(
             id: 3,
@@ -57,6 +60,7 @@ class MapPymRemoteDataSourceDevImpl implements MapPymRemoteDataSource {
             start_date: DateTime.now() + 1.hours,
             end_date: DateTime.now() + 2.hours,
             service_id: 0,
+            superpose: true,
           ),
         ]);
 
@@ -72,6 +76,7 @@ class MapPymRemoteDataSourceDevImpl implements MapPymRemoteDataSource {
       url: "https://myismin.emse.fr/",
       latitude: 43.445993,
       longitude: 5.480570,
+      isVisibleAR: true,
     ),
     const BatimentModel(
       id: 1,
@@ -83,6 +88,7 @@ class MapPymRemoteDataSourceDevImpl implements MapPymRemoteDataSource {
       url: "https://myismin.emse.fr/",
       latitude: 43.446301,
       longitude: 5.480492,
+      isVisibleAR: true,
     ),
     const BatimentModel(
       id: 2,
@@ -94,6 +100,7 @@ class MapPymRemoteDataSourceDevImpl implements MapPymRemoteDataSource {
       url: "https://myismin.emse.fr/",
       latitude: 43.446546,
       longitude: 5.480766,
+      isVisibleAR: true,
     ),
     const BatimentModel(
       id: 3,
@@ -105,6 +112,7 @@ class MapPymRemoteDataSourceDevImpl implements MapPymRemoteDataSource {
       url: "https://goo.gl/maps/wWmjWiRvoUrwgsx2A",
       latitude: 43.446197,
       longitude: 5.481150,
+      isVisibleAR: true,
     ),
   ];
   final List<ContactCategorieModel> fakeContactCategorieDB = [
@@ -349,6 +357,11 @@ Hébergé sur sur Google Cloud Run !</h4>
   @override
   Future<List<ContactCategorieModel>> fetchAllContactCategories() async {
     return fakeContactCategorieDB;
+  }
+
+  @override
+  Future<List<EntrepriseModel>> fetchAllEntreprises() async {
+    return fakeEntrepriseDB;
   }
 
   @override

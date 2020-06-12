@@ -22,13 +22,14 @@ class _$_BookingModelAdapter extends TypeAdapter<_$_BookingModel> {
       start_date: fields[2] as DateTime,
       end_date: fields[3] as DateTime,
       title: fields[4] as String,
+      superpose: fields[5] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, _$_BookingModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class _$_BookingModelAdapter extends TypeAdapter<_$_BookingModel> {
       ..writeByte(3)
       ..write(obj.end_date)
       ..writeByte(4)
-      ..write(obj.title);
+      ..write(obj.title)
+      ..writeByte(5)
+      ..write(obj.superpose);
   }
 }
 
@@ -57,6 +60,7 @@ _$_BookingModel _$_$_BookingModelFromJson(Map<String, dynamic> json) {
         ? null
         : DateTime.parse(json['end_date'] as String),
     title: json['title'] as String,
+    superpose: json['superpose'] as bool,
   );
 }
 
@@ -67,4 +71,5 @@ Map<String, dynamic> _$_$_BookingModelToJson(_$_BookingModel instance) =>
       'start_date': instance.start_date?.toIso8601String(),
       'end_date': instance.end_date?.toIso8601String(),
       'title': instance.title,
+      'superpose': instance.superpose,
     };

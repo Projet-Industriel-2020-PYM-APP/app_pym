@@ -1,3 +1,9 @@
+import 'dart:convert';
+
+import 'package:app_pym/data/models/map_pym/batiment_model.dart';
+import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
+import 'package:app_pym/domain/entities/map_pym/batiment.dart';
+import 'package:app_pym/domain/entities/map_pym/entreprise.dart';
 import 'package:app_pym/presentation/blocs/cartographie/ar_view/ar_view_bloc.dart';
 import 'package:app_pym/presentation/blocs/cartographie/compass/compass_bloc.dart';
 import 'package:app_pym/presentation/widgets/cartographie/batiment_detail.dart';
@@ -23,11 +29,24 @@ class ArView extends StatelessWidget {
     UnityWidgetController controller,
     dynamic message,
   ) {
-    print('Received message from unity: ${message.toString()}');
-    showBottomSheet<void>(
+    final Map<String, dynamic> data =
+        json.decode(message.toString()) as Map<String, dynamic>;
+    print(data);
+    final Batiment batiment = BatimentModel.fromJson(data).toEntity();
+    final List<Entreprise> entreprises = (data["entreprises"] as List)
+        ?.map((dynamic e) =>
+            EntrepriseModel.fromJson(e as Map<String, dynamic>).toEntity())
+        ?.toList();
+    assert(batiment != null && entreprises != null);
+
+    showModalBottomSheet<void>(
       context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
       builder: (context) => BatimentDetailDisplay(
-        idBatiment: int.tryParse(message.toString()),
+        batiment: batiment,
+        entreprises: entreprises,
       ),
     );
   }

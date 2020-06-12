@@ -1,203 +1,11 @@
-import 'package:app_pym/core/utils/url_launcher_utils.dart';
-import 'package:app_pym/domain/entities/app_pym/action.dart';
 import 'package:app_pym/domain/entities/app_pym/service.dart';
 import 'package:app_pym/domain/entities/app_pym/service_categorie.dart';
 import 'package:app_pym/injection_container.dart';
 import 'package:app_pym/presentation/blocs/services/services_of_categorie/services_of_categorie_bloc.dart';
-import 'package:app_pym/presentation/pages/services/fetch_all_bookings_screen.dart';
-import 'package:app_pym/presentation/widgets/webview_scaffold.dart' hide Action;
+import 'package:app_pym/presentation/widgets/services/service_card.dart';
 import 'package:breakpoint/breakpoint.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-class ActionButton extends StatelessWidget {
-  final Action action;
-  final Service service;
-
-  const ActionButton(
-    this.action, {
-    Key key,
-    @required this.service,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    if (action.html_url != null && action.html_url.isNotEmpty) {
-      return FlatButton(
-        onPressed: () async {
-          await UrlLauncherUtils.launch(action.html_url);
-        },
-        child: Text(action.name?.toUpperCase() ?? "Action"),
-      );
-    } else if (action.name != null) {
-      if (action.name.toLowerCase().contains('réserve')) {
-        return IconButton(
-          icon: Icon(
-            Icons.insert_invitation,
-            color: Theme.of(context).primaryColor,
-          ),
-          onPressed: () async {
-            await Navigator.of(context).push<void>(
-              MaterialPageRoute(
-                builder: (context) => FetchAllBookingsPage(service),
-              ),
-            );
-          },
-        );
-      } else if (action.name.toUpperCase().contains('SMS')) {
-        return IconButton(
-          icon: Icon(
-            Icons.sms,
-            color: Theme.of(context).primaryColor,
-          ),
-          onPressed: () async {
-            await UrlLauncherUtils.launch("sms:${service.telephone}");
-          },
-        );
-      } else if (action.name != null &&
-              action.name.toLowerCase().contains('telephone') ||
-          action.name.toLowerCase().contains('téléphone')) {
-        return IconButton(
-          icon: Icon(
-            Icons.phone,
-            color: Theme.of(context).primaryColor,
-          ),
-          onPressed: () async {
-            await UrlLauncherUtils.launch("tel:${service.telephone}");
-          },
-        );
-      } else if (action.name.toLowerCase().contains('localise')) {
-        return IconButton(
-          icon: Icon(
-            Icons.place,
-            color: Theme.of(context).primaryColor,
-          ),
-          onPressed: () async {
-            await UrlLauncherUtils.launch(
-                'https://maps.google.com/?q=${service.address}');
-          },
-        );
-      } else if (action.name.toLowerCase().contains('web')) {
-        return IconButton(
-          icon: Icon(
-            Icons.web,
-            color: Theme.of(context).primaryColor,
-          ),
-          onPressed: () async {
-            await Navigator.of(context)
-                .push<void>(MaterialPageRoute(builder: (context) {
-              return ScaffoldWebView(
-                initialUrl: service.website,
-                title: service.website,
-              );
-            }));
-          },
-        );
-      }
-    }
-    return FlatButton(
-      onPressed: () async {
-        await Navigator.of(context).push<void>(
-          MaterialPageRoute(
-            builder: (context) => FetchAllBookingsPage(service),
-          ),
-        );
-      },
-      child: Text(action.name?.toUpperCase() ?? "Action"),
-    );
-  }
-}
-
-class ServiceCard extends StatelessWidget {
-  final Service service;
-
-  const ServiceCard(this.service);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(4.0),
-      height: MediaQuery.of(context).size.height / 5,
-      child: Card(
-        clipBehavior: Clip.antiAlias,
-        child: Row(
-          children: <Widget>[
-            if (service.img_url != null && service.img_url.isNotEmpty)
-              buildImage(),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Flexible(
-                    child: Container(
-                      padding: const EdgeInsets.all(8.0),
-                      alignment: Alignment.centerLeft,
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: service.title + '\n',
-                                style: Theme.of(context).textTheme.headline5,
-                              ),
-                              TextSpan(
-                                text: service.subtitle,
-                                style: Theme.of(context).textTheme.subtitle1,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const Divider(),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        ButtonBar(
-                          buttonTextTheme: ButtonTextTheme.primary,
-                          children: service.actions
-                              .map((e) => ActionButton(e, service: service))
-                              .toList(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  AspectRatio buildImage() {
-    return AspectRatio(
-      aspectRatio: 2 / 3,
-      child: CachedNetworkImage(
-        imageUrl: service.img_url,
-        fit: BoxFit.fitHeight,
-        errorWidget: (context, url, dynamic error) {
-          print(error);
-          return Center(
-            child: Text(error.toString()),
-          );
-        },
-        progressIndicatorBuilder: (context, url, downloadProgress) {
-          return Center(
-            child: CircularProgressIndicator(
-              value: downloadProgress.progress,
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
 
 class ServicesOfCategoriePage extends StatelessWidget {
   final ServiceCategorie categorie;
@@ -207,7 +15,10 @@ class ServicesOfCategoriePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(categorie.name)),
+      appBar: AppBar(
+        title: Text(categorie.name),
+        elevation: 0,
+      ),
       body: buildServices(context, categorie),
     );
   }
@@ -243,30 +54,115 @@ class ServicesOfCategoriePage extends StatelessWidget {
   }
 }
 
-class ServicesOfCategorieScreen extends StatelessWidget {
+class ServicesOfCategorieScreen extends StatefulWidget {
   final ServiceCategorie categorie;
   final List<Service> services;
 
   const ServicesOfCategorieScreen(this.services, this.categorie);
 
   @override
+  _ServicesOfCategorieScreenState createState() =>
+      _ServicesOfCategorieScreenState();
+}
+
+class _ServicesOfCategorieScreenState extends State<ServicesOfCategorieScreen> {
+  List<Service> filteredServices = [];
+  String filter = "";
+  FocusNode focusNode;
+
+  @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final _breakpoint = Breakpoint.fromConstraints(constraints);
-        return Scrollbar(
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: (_breakpoint.columns / 8).ceil(),
-              childAspectRatio: 5 / 2,
-            ),
-            itemCount: services.length,
-            itemBuilder: (context, id) {
-              return ServiceCard(services[id]);
+    return Column(
+      children: [
+        _buildSearchBar(context),
+        Expanded(
+          child: GestureDetector(
+            onTap: focusNode.unfocus,
+            child: _buildGridView(context),
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  void dispose() {
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    filteredServices = widget.services;
+    focusNode = FocusNode();
+    super.initState();
+  }
+
+  Widget _buildGridView(BuildContext context) {
+    final _breakpoint = Breakpoint.fromMediaQuery(context);
+    if (filteredServices.isNotEmpty) {
+      return Scrollbar(
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: (_breakpoint.columns / 8).ceil(),
+            childAspectRatio: 5 / 2,
+          ),
+          itemCount: filteredServices.length,
+          itemBuilder: (context, id) {
+            return ServiceCard(filteredServices[id]);
+          },
+        ),
+      );
+    } else {
+      return Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.all(50),
+        child: Text(
+          "Aucun service trouvé avec : '$filter'",
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+      );
+    }
+  }
+
+  Widget _buildSearchBar(BuildContext context) {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      title: TextField(
+        focusNode: focusNode,
+        keyboardType: TextInputType.text,
+        decoration: InputDecoration(
+          filled: true,
+          border: InputBorder.none,
+          focusedBorder: const UnderlineInputBorder(),
+          suffixIcon: IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              focusNode.unfocus();
             },
           ),
-        );
-      },
+        ),
+        onChanged: _onInput,
+      ),
     );
+  }
+
+  void _onInput(String value) {
+    setState(() {
+      filter = value.toLowerCase();
+      final keywords = filter.split(' ');
+      filteredServices = widget.services.where((service) {
+        if (value == null || value.isEmpty) {
+          return true;
+        }
+        return keywords.every((keyword) {
+          return (service.title ?? "").toLowerCase().contains(keyword) ||
+              (service.address ?? "").toLowerCase().contains(keyword) ||
+              (service.subtitle ?? "").toLowerCase().contains(keyword) ||
+              (service.telephone ?? "").toLowerCase().contains(keyword) ||
+              (service.website ?? "").toLowerCase().contains(keyword);
+        });
+      }).toList();
+    });
   }
 }

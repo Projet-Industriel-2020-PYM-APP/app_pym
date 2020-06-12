@@ -163,7 +163,16 @@ class ArNotPermittedScreen extends StatelessWidget {
           RaisedButton(
             onPressed: () => openAppSettings(),
             child: Text(
-              "Ouvrir les paramètres",
+              "paramètres".toUpperCase(),
+              style: Theme.of(context).textTheme.button,
+            ),
+          ),
+          RaisedButton(
+            onPressed: () => context
+                .bloc<CompassBloc>()
+                .add(const CompassEvent.loadHeading()),
+            child: Text(
+              "rafraîchir".toUpperCase(),
               style: Theme.of(context).textTheme.button,
             ),
           ),

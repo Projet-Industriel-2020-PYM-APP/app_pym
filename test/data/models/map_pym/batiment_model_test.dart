@@ -13,6 +13,7 @@ void main() {
     url: "Super",
     latitude: 1.0,
     longitude: 2.0,
+    isVisibleAR: true,
   );
 
   const entity = Batiment(
@@ -25,6 +26,7 @@ void main() {
     url: "Super",
     latitude: 1.0,
     longitude: 2.0,
+    isVisibleAR: true,
   );
 
   group('toEntity', () {

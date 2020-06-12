@@ -6,9 +6,11 @@ class CartographiePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const WebView(
-      initialUrl: 'https://map-pym.com/',
-      javascriptMode: JavascriptMode.unrestricted,
+    return const SafeArea(
+      child: WebView(
+        initialUrl: 'https://map-pym.com/',
+        javascriptMode: JavascriptMode.unrestricted,
+      ),
     );
   }
 }

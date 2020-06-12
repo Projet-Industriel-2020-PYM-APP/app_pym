@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 [Serializable]
 public class ParsedPosition
@@ -17,17 +18,10 @@ public class ParsedColor
 }
 
 [Serializable]
-public class ParsedData
-{
-    public int id;
-    public string text;
-}
-
-[Serializable]
 public class ParsedMessage
 {
     public ParsedColor color;
     public ParsedPosition position;
-    public ParsedData data;
+    public Batiment batiment;
     public float distance;
 }

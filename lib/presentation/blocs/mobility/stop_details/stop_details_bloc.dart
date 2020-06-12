@@ -2,6 +2,7 @@ import 'package:app_pym/core/constants/mobility.dart';
 import 'package:app_pym/domain/entities/mobility/stop_time.dart';
 import 'package:app_pym/domain/entities/mobility/trip.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -57,6 +58,7 @@ class StopDetailsBloc extends Bloc<StopDetailsEvent, StopDetailsState> {
             }
           }
           yield state.loaded(
+            isBus,
             stop_name,
             last_stop,
             arrivalTimes,

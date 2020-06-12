@@ -1,4 +1,10 @@
 ﻿using UnityEngine;
+using TMPro;
+
+public class BatimentDataHolder : MonoBehaviour
+{
+    public Batiment batiment;
+}
 
 public class BatimentSpawner : MonoBehaviour
 {
@@ -29,8 +35,8 @@ public class BatimentSpawner : MonoBehaviour
         {
             foreach (var gameObject in gameObjects)
             {
-                var batiment = gameObject.GetComponent<Batiment>();
-                if (batiment != null && batiment.Id == id)
+                var data = gameObject.GetComponent<BatimentDataHolder>();
+                if (data != null && data.batiment.id == id)
                 {
                     Destroy(gameObject);
                 }
@@ -42,7 +48,7 @@ public class BatimentSpawner : MonoBehaviour
     }
 
     private void Colorize(Color color) {
-        SpawnedObject.GetComponent<SpriteRenderer>().color = color;
+        SpawnedObject.GetComponentInChildren<SpriteRenderer>().color = color;
     }
 
     /// <summary>
@@ -52,17 +58,31 @@ public class BatimentSpawner : MonoBehaviour
     /// <param name="distance">Distance between the camera and the building in meter</param>
     private void ChangeText(string text, float distance)
     {
-        var TextGameObject = SpawnedObject.transform.GetChild(0).gameObject;
-        TextMesh textMesh = TextGameObject.GetComponent<TextMesh>();
-        textMesh.text = text;
-        textMesh.characterSize = 10f / distance < 0.01f ? 10f / distance : 0.01f;
+        
+        var titleGameObject = SpawnedObject.transform.Find("Title");
+        if (titleGameObject != null)
+        {
+            TextMeshPro textMesh = titleGameObject.GetComponentInChildren<TextMeshPro>();
+            textMesh.text = text;
+        }
+        var distanceGameObject = SpawnedObject.transform.Find("Distance");
+        if (distanceGameObject != null)
+        {
+            TextMeshPro textMesh = distanceGameObject.GetComponentInChildren<TextMeshPro>();
+            if (distance < 2000.0f)
+            {
+                textMesh.text = $"{distance} m";
+            } else
+            {
+                textMesh.text = $"{(distance / 1000.0f):0.00} km";
+            }
+        }
     }
 
-    private void FillData(ParsedData data)
+    private void AddBatimentComponent(Batiment batiment)
     {
-        Batiment batiment = SpawnedObject.AddComponent<Batiment>();
-        batiment.Id = data.id;
-        batiment.Nom = data.text;
+        var batimentComponent = SpawnedObject.AddComponent<BatimentDataHolder>();
+        batimentComponent.batiment = batiment;
     }
 
     /// <summary>
@@ -74,10 +94,11 @@ public class BatimentSpawner : MonoBehaviour
         Debug.Log(message);
         ParsedMessage parsed = JsonUtility.FromJson<ParsedMessage>(message);
 
-        Spawn(parsed.position, parsed.data.id);
-        Color color = new Color32((byte)parsed.color.r, (byte)parsed.color.g, (byte)parsed.color.b, 255);
+        Spawn(parsed.position, parsed.batiment.id);
+        Color color = new Color32((byte)parsed.color.r, (byte)parsed.color.g, (byte)parsed.color.b, 150);
         Colorize(color);
-        FillData(parsed.data);
-        ChangeText(parsed.data.text, parsed.distance);
+        AddBatimentComponent(parsed.batiment);
+        var batimentComponent = SpawnedObject.GetComponent<BatimentDataHolder>();
+        ChangeText(batimentComponent.batiment.nom, parsed.distance);
     }
 }

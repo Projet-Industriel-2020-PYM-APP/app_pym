@@ -21,7 +21,7 @@ class MapsScreen extends StatelessWidget {
           markers: context.bloc<MapsBloc>().markers,
           myLocationEnabled: true,
           initialCameraPosition:
-              CameraPosition(target: initialPosition, zoom: 15),
+              CameraPosition(target: initialPosition, zoom: 13),
           onMapCreated: (GoogleMapController controller) {
             context.bloc<MapsBloc>().controller.complete(controller);
           },

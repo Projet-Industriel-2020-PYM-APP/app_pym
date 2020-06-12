@@ -319,7 +319,8 @@ class _$StopDetailsStateTearOff {
   const _$StopDetailsStateTearOff();
 
   _StopDetailsState call(
-      {@required bool isLoading,
+      {@required bool isBus,
+      @required bool isLoading,
       @required bool isError,
       @required String stop_name,
       @required String last_stop,
@@ -328,6 +329,7 @@ class _$StopDetailsStateTearOff {
       @required String destination,
       Exception exception}) {
     return _StopDetailsState(
+      isBus: isBus,
       isLoading: isLoading,
       isError: isError,
       stop_name: stop_name,
@@ -344,6 +346,7 @@ class _$StopDetailsStateTearOff {
 const $StopDetailsState = _$StopDetailsStateTearOff();
 
 mixin _$StopDetailsState {
+  bool get isBus;
   bool get isLoading;
   bool get isError;
   String get stop_name;
@@ -361,7 +364,8 @@ abstract class $StopDetailsStateCopyWith<$Res> {
           StopDetailsState value, $Res Function(StopDetailsState) then) =
       _$StopDetailsStateCopyWithImpl<$Res>;
   $Res call(
-      {bool isLoading,
+      {bool isBus,
+      bool isLoading,
       bool isError,
       String stop_name,
       String last_stop,
@@ -381,6 +385,7 @@ class _$StopDetailsStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object isBus = freezed,
     Object isLoading = freezed,
     Object isError = freezed,
     Object stop_name = freezed,
@@ -391,6 +396,7 @@ class _$StopDetailsStateCopyWithImpl<$Res>
     Object exception = freezed,
   }) {
     return _then(_value.copyWith(
+      isBus: isBus == freezed ? _value.isBus : isBus as bool,
       isLoading: isLoading == freezed ? _value.isLoading : isLoading as bool,
       isError: isError == freezed ? _value.isError : isError as bool,
       stop_name: stop_name == freezed ? _value.stop_name : stop_name as String,
@@ -414,7 +420,8 @@ abstract class _$StopDetailsStateCopyWith<$Res>
       __$StopDetailsStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {bool isLoading,
+      {bool isBus,
+      bool isLoading,
       bool isError,
       String stop_name,
       String last_stop,
@@ -436,6 +443,7 @@ class __$StopDetailsStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object isBus = freezed,
     Object isLoading = freezed,
     Object isError = freezed,
     Object stop_name = freezed,
@@ -446,6 +454,7 @@ class __$StopDetailsStateCopyWithImpl<$Res>
     Object exception = freezed,
   }) {
     return _then(_StopDetailsState(
+      isBus: isBus == freezed ? _value.isBus : isBus as bool,
       isLoading: isLoading == freezed ? _value.isLoading : isLoading as bool,
       isError: isError == freezed ? _value.isError : isError as bool,
       stop_name: stop_name == freezed ? _value.stop_name : stop_name as String,
@@ -466,7 +475,8 @@ class _$_StopDetailsState
     with DiagnosticableTreeMixin
     implements _StopDetailsState {
   const _$_StopDetailsState(
-      {@required this.isLoading,
+      {@required this.isBus,
+      @required this.isLoading,
       @required this.isError,
       @required this.stop_name,
       @required this.last_stop,
@@ -474,7 +484,8 @@ class _$_StopDetailsState
       @required this.trip,
       @required this.destination,
       this.exception})
-      : assert(isLoading != null),
+      : assert(isBus != null),
+        assert(isLoading != null),
         assert(isError != null),
         assert(stop_name != null),
         assert(last_stop != null),
@@ -482,6 +493,8 @@ class _$_StopDetailsState
         assert(trip != null),
         assert(destination != null);
 
+  @override
+  final bool isBus;
   @override
   final bool isLoading;
   @override
@@ -501,7 +514,7 @@ class _$_StopDetailsState
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'StopDetailsState(isLoading: $isLoading, isError: $isError, stop_name: $stop_name, last_stop: $last_stop, arrivalTimes: $arrivalTimes, trip: $trip, destination: $destination, exception: $exception)';
+    return 'StopDetailsState(isBus: $isBus, isLoading: $isLoading, isError: $isError, stop_name: $stop_name, last_stop: $last_stop, arrivalTimes: $arrivalTimes, trip: $trip, destination: $destination, exception: $exception)';
   }
 
   @override
@@ -509,6 +522,7 @@ class _$_StopDetailsState
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'StopDetailsState'))
+      ..add(DiagnosticsProperty('isBus', isBus))
       ..add(DiagnosticsProperty('isLoading', isLoading))
       ..add(DiagnosticsProperty('isError', isError))
       ..add(DiagnosticsProperty('stop_name', stop_name))
@@ -523,6 +537,8 @@ class _$_StopDetailsState
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _StopDetailsState &&
+            (identical(other.isBus, isBus) ||
+                const DeepCollectionEquality().equals(other.isBus, isBus)) &&
             (identical(other.isLoading, isLoading) ||
                 const DeepCollectionEquality()
                     .equals(other.isLoading, isLoading)) &&
@@ -551,6 +567,7 @@ class _$_StopDetailsState
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(isBus) ^
       const DeepCollectionEquality().hash(isLoading) ^
       const DeepCollectionEquality().hash(isError) ^
       const DeepCollectionEquality().hash(stop_name) ^
@@ -567,7 +584,8 @@ class _$_StopDetailsState
 
 abstract class _StopDetailsState implements StopDetailsState {
   const factory _StopDetailsState(
-      {@required bool isLoading,
+      {@required bool isBus,
+      @required bool isLoading,
       @required bool isError,
       @required String stop_name,
       @required String last_stop,
@@ -576,6 +594,8 @@ abstract class _StopDetailsState implements StopDetailsState {
       @required String destination,
       Exception exception}) = _$_StopDetailsState;
 
+  @override
+  bool get isBus;
   @override
   bool get isLoading;
   @override

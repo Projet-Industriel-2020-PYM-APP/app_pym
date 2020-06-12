@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:math' as math;
 
+import 'package:app_pym/core/constants/cartographie.dart';
 import 'package:app_pym/core/usecases/usecase.dart';
 import 'package:app_pym/data/devices/geolocator_device.dart';
 import 'package:app_pym/domain/entities/map_pym/batiment.dart';
+import 'package:app_pym/domain/entities/map_pym/entreprise.dart';
 import 'package:app_pym/domain/repositories/map_pym/batiment_repository.dart';
+import 'package:app_pym/domain/repositories/map_pym/entreprise_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
@@ -30,17 +33,21 @@ class LoadPageAndPlaceBatiments
     extends Usecase<Future<Position>, LoadPageAndPlaceBatimentParams> {
   final GeolocatorDevice geolocatorDevice;
   final BatimentRepository batimentRepository;
+  final EntrepriseRepository entrepriseRepository;
 
   const LoadPageAndPlaceBatiments({
     @required this.geolocatorDevice,
     @required this.batimentRepository,
+    @required this.entrepriseRepository,
   });
 
   @override
   Future<Position> call(LoadPageAndPlaceBatimentParams params) async {
     final num bearingBetweenCameraAndNorth =
         params.bearingBetweenCameraAndNorth * math.pi / 180;
-    final Future<List<Batiment>> batiments = batimentRepository.fetchAll();
+
+    final List<Entreprise> entreprises = await entrepriseRepository.fetchAll();
+
     final UnityWidgetController controller = params.controller;
 
     // Throttle to avoid spam
@@ -50,7 +57,47 @@ class LoadPageAndPlaceBatiments
     final num latitude = (await position).latitude;
     final num longitude = (await position).longitude;
 
-    for (final batiment in await batiments) {
+    if (geolocatorDevice.distanceBetween(
+          latitude,
+          longitude,
+          CartographieConstants.latitudePYM,
+          CartographieConstants.longitudePYM,
+        ) <
+        500) {
+      await _placeBatiments(
+        latitude,
+        longitude,
+        bearingBetweenCameraAndNorth,
+        entreprises,
+        controller,
+      );
+    } else {
+      _placePYM(
+        latitude,
+        longitude,
+        bearingBetweenCameraAndNorth,
+        entreprises,
+        controller,
+      );
+    }
+
+    return position;
+  }
+
+  Future<void> _placeBatiments(
+    num latitude,
+    num longitude,
+    num bearingBetweenCameraAndNorth,
+    List<Entreprise> entreprises,
+    UnityWidgetController controller,
+  ) async {
+    final Future<List<Batiment>> batiments = batimentRepository.fetchAll();
+
+    for (final batiment
+        in (await batiments).where((batiment) => batiment.isVisibleAR)) {
+      final entreprisesOfBatiment = entreprises
+          .where((entreprise) => entreprise.idBatiment == batiment.id)
+          .toList();
       final num bearingBetweenCameraAndBatiment =
           geolocatorDevice.bearingBetween(
         latitude,
@@ -69,22 +116,58 @@ class LoadPageAndPlaceBatiments
 
       // Calculate position in arcore/arkit axis
       final Vector3 vect = Vector3(
-        -math.sin(
-            bearingBetweenCameraAndNorth - bearingBetweenCameraAndBatiment),
+        -2 *
+            math.sin(
+                bearingBetweenCameraAndNorth - bearingBetweenCameraAndBatiment),
         0,
-        -math.cos(
-            bearingBetweenCameraAndNorth - bearingBetweenCameraAndBatiment),
+        -2 *
+            math.cos(
+                bearingBetweenCameraAndNorth - bearingBetweenCameraAndBatiment),
       );
 
       controller.spawnBatiment(
         vect,
         batiment: batiment,
+        entreprises: entreprisesOfBatiment,
         distance: distanceBetweenCameraAndBatiment,
       );
     }
-    controller.spawnCompass(bearingBetweenCameraAndNorth);
+  }
 
-    return position;
+  void _placePYM(
+    num latitude,
+    num longitude,
+    num bearingBetweenCameraAndNorth,
+    List<Entreprise> entreprises,
+    UnityWidgetController controller,
+  ) {
+    final num bearingBetweenCameraAndPYM = geolocatorDevice.bearingBetween(
+      latitude,
+      longitude,
+      CartographieConstants.latitudePYM,
+      CartographieConstants.longitudePYM,
+    );
+
+    final num distanceBetweenCameraAndPYM = geolocatorDevice.distanceBetween(
+      latitude,
+      longitude,
+      CartographieConstants.latitudePYM,
+      CartographieConstants.longitudePYM,
+    );
+
+    // Calculate position in arcore/arkit axis
+    final Vector3 vect = Vector3(
+      -2 * math.sin(bearingBetweenCameraAndNorth - bearingBetweenCameraAndPYM),
+      0,
+      -2 * math.cos(bearingBetweenCameraAndNorth - bearingBetweenCameraAndPYM),
+    );
+
+    controller.spawnBatiment(
+      vect,
+      batiment: CartographieConstants.batiment,
+      entreprises: entreprises,
+      distance: distanceBetweenCameraAndPYM,
+    );
   }
 }
 
@@ -92,6 +175,7 @@ extension on UnityWidgetController {
   void spawnBatiment(
     Vector3 vect, {
     @required Batiment batiment,
+    @required List<Entreprise> entreprises,
     @required num distance,
   }) {
     final Map<String, dynamic> data = <String, dynamic>{
@@ -105,88 +189,35 @@ extension on UnityWidgetController {
         'g': Colors.white.green,
         'b': Colors.white.blue,
       },
-      'data': <String, dynamic>{
+      'batiment': <String, dynamic>{
         'id': batiment.id,
-        'text': batiment.nom,
+        'nom': batiment.nom ?? "",
+        'nbEtage': batiment.nbEtage ?? 0,
+        'description': batiment.description ?? "",
+        'accesHandicape': batiment.accesHandicape ?? false,
+        'url': batiment.url ?? "",
+        'adresse': batiment.adresse ?? "",
+        'latitude': batiment.latitude ?? 0.0,
+        'longitude': batiment.longitude ?? 0.0,
+        'isVisibleAR': batiment.isVisibleAR ?? true,
+        'entreprises': entreprises.map((entreprise) {
+          return {
+            'id': entreprise.id,
+            'nom': entreprise.nom ?? "",
+            'site_internet': entreprise.site_internet ?? "",
+            'nb_salaries': entreprise.nb_salaries ?? 0,
+            'telephone': entreprise.telephone ?? "",
+            'mail': entreprise.mail ?? "",
+            'logo': entreprise.logo ?? "",
+            'idBatiment': entreprise.idBatiment ?? 0,
+          };
+        }).toList(),
       },
       'distance': distance,
     };
 
     this.postMessage(
       'BatimentSpawner',
-      'FlutterSpawn',
-      json.encode(data),
-    );
-  }
-
-  void spawnCompass(
-    num bearingBetweenCameraAndNorth,
-  ) {
-    this._spawnCompassUnit(
-      Vector3(
-        -math.sin(bearingBetweenCameraAndNorth),
-        0,
-        -math.cos(bearingBetweenCameraAndNorth),
-      ),
-      color: Colors.red,
-      text: "N",
-    );
-
-    this._spawnCompassUnit(
-      Vector3(
-        -math.sin(bearingBetweenCameraAndNorth + math.pi / 2),
-        0,
-        -math.cos(bearingBetweenCameraAndNorth + math.pi / 2),
-      ),
-      color: Colors.green[100],
-      text: "W",
-    );
-
-    this._spawnCompassUnit(
-      Vector3(
-        -math.sin(bearingBetweenCameraAndNorth + math.pi),
-        0,
-        -math.cos(bearingBetweenCameraAndNorth + math.pi),
-      ),
-      color: Colors.blue,
-      text: "S",
-    );
-
-    this._spawnCompassUnit(
-      Vector3(
-        -math.sin(bearingBetweenCameraAndNorth + math.pi * 3 / 2),
-        0,
-        -math.cos(bearingBetweenCameraAndNorth + math.pi * 3 / 2),
-      ),
-      color: Colors.green[100],
-      text: "E",
-    );
-  }
-
-  void _spawnCompassUnit(
-    Vector3 vect, {
-    @required Color color,
-    @required String text,
-  }) {
-    final Map<String, dynamic> data = <String, dynamic>{
-      'position': <String, double>{
-        'x': vect.x,
-        'y': vect.y,
-        'z': -vect.z, // Only for Unity axis
-      },
-      'color': <String, int>{
-        'r': color.red,
-        'g': color.green,
-        'b': color.blue,
-      },
-      'data': <String, dynamic>{
-        'id': 0,
-        'text': text,
-      }
-    };
-
-    this.postMessage(
-      'CompassSpawner',
       'FlutterSpawn',
       json.encode(data),
     );

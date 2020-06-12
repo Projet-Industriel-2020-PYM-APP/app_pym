@@ -11,6 +11,7 @@ abstract class Booking with _$Booking {
     @required DateTime start_date,
     @required DateTime end_date,
     @required String title,
+    @required bool superpose,
   }) = _Booking;
 }
 
@@ -22,6 +23,7 @@ extension BookingX on Booking {
       start_date: this.start_date.toUtc(),
       end_date: this.end_date.toUtc(),
       title: this.title,
+      superpose: this.superpose,
     );
   }
 }

@@ -10,6 +10,7 @@ void main() {
     service_id: 0,
     start_date: tDate.toUtc(),
     end_date: tDate.toUtc(),
+    superpose: true,
   );
   final Booking entity = Booking(
     id: 0,
@@ -17,6 +18,7 @@ void main() {
     service_id: 0,
     start_date: tDate.toLocal(),
     end_date: tDate.toLocal(),
+    superpose: true,
   );
   group('toEntity', () {
     test(
