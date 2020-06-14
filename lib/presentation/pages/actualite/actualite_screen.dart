@@ -61,19 +61,28 @@ class _ActualiteScreenState extends State<ActualiteScreen> {
   Widget _buildSearchBar(BuildContext context) {
     return AppBar(
       leading: Center(
-        child: IconButton(
-          icon: Icon(
-            Icons.account_circle,
-            color: context.bloc<AuthenticationBloc>().state is Authenticated
-                ? Colors.green
-                : Theme.of(context).iconTheme.color,
-          ),
-          onPressed: () {
-            if (context.bloc<AuthenticationBloc>().state is! Authenticated) {
-              Navigator.of(context)
-                  .pushNamed(RoutePaths.login)
-                  .then<void>((value) => setState(() {}));
-            }
+        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+          builder: (context, state) {
+            return IconButton(
+              icon: Icon(
+                Icons.account_circle,
+                color: state is Authenticated
+                    ? Colors.green
+                    : Theme.of(context).iconTheme.color,
+              ),
+              onPressed: () {
+                if (state is! Authenticated) {
+                  Navigator.of(context).pushNamed(RoutePaths.login).then(
+                      (value) => context
+                          .bloc<AuthenticationBloc>()
+                          .add(const AuthenticationEvent.refresh()));
+                } else {
+                  context
+                      .bloc<AuthenticationBloc>()
+                      .add(const AuthenticationEvent.refresh());
+                }
+              },
+            );
           },
         ),
       ),
