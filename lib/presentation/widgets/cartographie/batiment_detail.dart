@@ -28,7 +28,8 @@ class BatimentDetailDisplay extends StatelessWidget {
           const Divider(),
           ListTile(title: Text(batiment.description ?? "")),
           ListTile(title: Text("Adresse: ${batiment.adresse ?? ""}")),
-          ListTile(title: Text("Nombre d'étages: ${batiment.nbEtage ?? 0}")),
+          if ((batiment.nbEtage ?? 0) != 0)
+            ListTile(title: Text("Nombre d'étages: ${batiment.nbEtage}")),
           ListTile(
               title: Text(
                   "Accès handicapés: ${(batiment.accesHandicape ?? false) ? "oui" : "non"}")),
