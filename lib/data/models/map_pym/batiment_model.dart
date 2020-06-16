@@ -22,6 +22,7 @@ abstract class BatimentModel with _$BatimentModel {
     @nullable @required @HiveField(7) double latitude,
     @nullable @required @HiveField(8) double longitude,
     @nullable @required @HiveField(9) bool isVisibleAR,
+    @nullable @required @HiveField(10) String img_url,
   }) = _BatimentModel;
 
   factory BatimentModel.fromJson(Map<String, dynamic> json) =>
@@ -43,6 +44,7 @@ extension BatimentModelX on BatimentModel {
       latitude: this.latitude,
       longitude: this.longitude,
       isVisibleAR: this.isVisibleAR,
+      img_url: this.img_url,
     );
   }
 }

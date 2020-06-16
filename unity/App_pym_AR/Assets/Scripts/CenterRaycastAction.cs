@@ -37,19 +37,19 @@ public class CenterRaycastAction : MonoBehaviour
 
     private void SwitchVisibility(Transform selection, bool isVisible)
     {
-        var selectedSpriteRenderer = selection.gameObject.GetComponentInChildren<SpriteRenderer>();
+        var selectedSpriteRenderers = selection.gameObject.GetComponentsInChildren<SpriteRenderer>();
+        var selectedMeshRenderers = selection.gameObject.GetComponentsInChildren<MeshRenderer>();
 
-        var titleGameObject = selection.Find("Title");
-        var distanceGameObject = selection.Find("Distance");
-        if (titleGameObject != null && distanceGameObject != null)
+
+        if (selectedSpriteRenderers != null && selectedMeshRenderers != null)
         {
-            var titleMeshRenderer = titleGameObject.GetComponentInChildren<MeshRenderer>();
-            var distanceMeshRenderer = distanceGameObject.GetComponentInChildren<MeshRenderer>();
-            if (selectedSpriteRenderer != null && titleMeshRenderer != null && distanceMeshRenderer != null)
+            foreach (var selectedSpriteRenderer in selectedSpriteRenderers)
             {
                 selectedSpriteRenderer.enabled = isVisible;
-                titleMeshRenderer.enabled = isVisible;
-                distanceMeshRenderer.enabled = isVisible;
+            }
+            foreach (var selectedMeshRenderer in selectedMeshRenderers)
+            {
+                selectedMeshRenderer.enabled = isVisible;
             }
         }
     }

@@ -25,7 +25,8 @@ class _$BatimentModelTearOff {
       @required @nullable @HiveField(6) String adresse,
       @required @nullable @HiveField(7) double latitude,
       @required @nullable @HiveField(8) double longitude,
-      @required @nullable @HiveField(9) bool isVisibleAR}) {
+      @required @nullable @HiveField(9) bool isVisibleAR,
+      @required @nullable @HiveField(10) String img_url}) {
     return _BatimentModel(
       id: id,
       nom: nom,
@@ -37,6 +38,7 @@ class _$BatimentModelTearOff {
       latitude: latitude,
       longitude: longitude,
       isVisibleAR: isVisibleAR,
+      img_url: img_url,
     );
   }
 }
@@ -74,6 +76,9 @@ mixin _$BatimentModel {
   @nullable
   @HiveField(9)
   bool get isVisibleAR;
+  @nullable
+  @HiveField(10)
+  String get img_url;
 
   Map<String, dynamic> toJson();
   $BatimentModelCopyWith<BatimentModel> get copyWith;
@@ -93,7 +98,8 @@ abstract class $BatimentModelCopyWith<$Res> {
       @nullable @HiveField(6) String adresse,
       @nullable @HiveField(7) double latitude,
       @nullable @HiveField(8) double longitude,
-      @nullable @HiveField(9) bool isVisibleAR});
+      @nullable @HiveField(9) bool isVisibleAR,
+      @nullable @HiveField(10) String img_url});
 }
 
 class _$BatimentModelCopyWithImpl<$Res>
@@ -116,6 +122,7 @@ class _$BatimentModelCopyWithImpl<$Res>
     Object latitude = freezed,
     Object longitude = freezed,
     Object isVisibleAR = freezed,
+    Object img_url = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as int,
@@ -132,6 +139,7 @@ class _$BatimentModelCopyWithImpl<$Res>
       longitude: longitude == freezed ? _value.longitude : longitude as double,
       isVisibleAR:
           isVisibleAR == freezed ? _value.isVisibleAR : isVisibleAR as bool,
+      img_url: img_url == freezed ? _value.img_url : img_url as String,
     ));
   }
 }
@@ -152,7 +160,8 @@ abstract class _$BatimentModelCopyWith<$Res>
       @nullable @HiveField(6) String adresse,
       @nullable @HiveField(7) double latitude,
       @nullable @HiveField(8) double longitude,
-      @nullable @HiveField(9) bool isVisibleAR});
+      @nullable @HiveField(9) bool isVisibleAR,
+      @nullable @HiveField(10) String img_url});
 }
 
 class __$BatimentModelCopyWithImpl<$Res>
@@ -177,6 +186,7 @@ class __$BatimentModelCopyWithImpl<$Res>
     Object latitude = freezed,
     Object longitude = freezed,
     Object isVisibleAR = freezed,
+    Object img_url = freezed,
   }) {
     return _then(_BatimentModel(
       id: id == freezed ? _value.id : id as int,
@@ -193,6 +203,7 @@ class __$BatimentModelCopyWithImpl<$Res>
       longitude: longitude == freezed ? _value.longitude : longitude as double,
       isVisibleAR:
           isVisibleAR == freezed ? _value.isVisibleAR : isVisibleAR as bool,
+      img_url: img_url == freezed ? _value.img_url : img_url as String,
     ));
   }
 }
@@ -210,7 +221,8 @@ class _$_BatimentModel with DiagnosticableTreeMixin implements _BatimentModel {
       @required @nullable @HiveField(6) this.adresse,
       @required @nullable @HiveField(7) this.latitude,
       @required @nullable @HiveField(8) this.longitude,
-      @required @nullable @HiveField(9) this.isVisibleAR})
+      @required @nullable @HiveField(9) this.isVisibleAR,
+      @required @nullable @HiveField(10) this.img_url})
       : assert(id != null);
 
   factory _$_BatimentModel.fromJson(Map<String, dynamic> json) =>
@@ -255,10 +267,14 @@ class _$_BatimentModel with DiagnosticableTreeMixin implements _BatimentModel {
   @nullable
   @HiveField(9)
   final bool isVisibleAR;
+  @override
+  @nullable
+  @HiveField(10)
+  final String img_url;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'BatimentModel(id: $id, nom: $nom, nbEtage: $nbEtage, description: $description, accesHandicape: $accesHandicape, url: $url, adresse: $adresse, latitude: $latitude, longitude: $longitude, isVisibleAR: $isVisibleAR)';
+    return 'BatimentModel(id: $id, nom: $nom, nbEtage: $nbEtage, description: $description, accesHandicape: $accesHandicape, url: $url, adresse: $adresse, latitude: $latitude, longitude: $longitude, isVisibleAR: $isVisibleAR, img_url: $img_url)';
   }
 
   @override
@@ -275,7 +291,8 @@ class _$_BatimentModel with DiagnosticableTreeMixin implements _BatimentModel {
       ..add(DiagnosticsProperty('adresse', adresse))
       ..add(DiagnosticsProperty('latitude', latitude))
       ..add(DiagnosticsProperty('longitude', longitude))
-      ..add(DiagnosticsProperty('isVisibleAR', isVisibleAR));
+      ..add(DiagnosticsProperty('isVisibleAR', isVisibleAR))
+      ..add(DiagnosticsProperty('img_url', img_url));
   }
 
   @override
@@ -308,7 +325,9 @@ class _$_BatimentModel with DiagnosticableTreeMixin implements _BatimentModel {
                     .equals(other.longitude, longitude)) &&
             (identical(other.isVisibleAR, isVisibleAR) ||
                 const DeepCollectionEquality()
-                    .equals(other.isVisibleAR, isVisibleAR)));
+                    .equals(other.isVisibleAR, isVisibleAR)) &&
+            (identical(other.img_url, img_url) ||
+                const DeepCollectionEquality().equals(other.img_url, img_url)));
   }
 
   @override
@@ -323,7 +342,8 @@ class _$_BatimentModel with DiagnosticableTreeMixin implements _BatimentModel {
       const DeepCollectionEquality().hash(adresse) ^
       const DeepCollectionEquality().hash(latitude) ^
       const DeepCollectionEquality().hash(longitude) ^
-      const DeepCollectionEquality().hash(isVisibleAR);
+      const DeepCollectionEquality().hash(isVisibleAR) ^
+      const DeepCollectionEquality().hash(img_url);
 
   @override
   _$BatimentModelCopyWith<_BatimentModel> get copyWith =>
@@ -346,7 +366,8 @@ abstract class _BatimentModel implements BatimentModel {
       @required @nullable @HiveField(6) String adresse,
       @required @nullable @HiveField(7) double latitude,
       @required @nullable @HiveField(8) double longitude,
-      @required @nullable @HiveField(9) bool isVisibleAR}) = _$_BatimentModel;
+      @required @nullable @HiveField(9) bool isVisibleAR,
+      @required @nullable @HiveField(10) String img_url}) = _$_BatimentModel;
 
   factory _BatimentModel.fromJson(Map<String, dynamic> json) =
       _$_BatimentModel.fromJson;
@@ -390,6 +411,10 @@ abstract class _BatimentModel implements BatimentModel {
   @nullable
   @HiveField(9)
   bool get isVisibleAR;
+  @override
+  @nullable
+  @HiveField(10)
+  String get img_url;
   @override
   _$BatimentModelCopyWith<_BatimentModel> get copyWith;
 }

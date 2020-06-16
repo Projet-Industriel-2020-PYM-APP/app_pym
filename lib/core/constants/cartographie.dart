@@ -16,5 +16,7 @@ class CartographieConstants {
     latitude: latitudePYM,
     longitude: longitudePYM,
     isVisibleAR: true,
+    img_url:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Puits_Morandat.jpg/1280px-Puits_Morandat.jpg",
   );
 }

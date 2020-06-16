@@ -62,7 +62,8 @@ class PostPage extends StatelessWidget {
         child: IconButton(
           icon: const Icon(Icons.share),
           onPressed: () {
-            Share.share(_parseHtmlString(post.content), subject: post.subtitle);
+            Share.share(post.content.parseHtmlString().appendSignature(),
+                subject: post.subtitle);
           },
         ),
       ),
@@ -70,8 +71,19 @@ class PostPage extends StatelessWidget {
   }
 }
 
-String _parseHtmlString(String htmlString) {
-  final document = parse(htmlString);
-  final String parsedString = parse(document.body.text).documentElement.text;
-  return parsedString;
+extension on String {
+  String parseHtmlString() {
+    final document = parse(this);
+    final String parsedString = parse(document.body.text).documentElement.text;
+    return parsedString;
+  }
+
+  String appendSignature() {
+    final newString = this +
+        """
+Essayez l'application sur Android : https://play.google.com/store/apps/details?id=com.semag.app_pym
+Ou essayez l'application sur iOS : https://apps.apple.com/app/idNOMBRE
+"""; // TODO: Better link
+    return newString;
+  }
 }

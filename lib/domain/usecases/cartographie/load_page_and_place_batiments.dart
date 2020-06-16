@@ -93,8 +93,10 @@ class LoadPageAndPlaceBatiments
   ) async {
     final Future<List<Batiment>> batiments = batimentRepository.fetchAll();
 
-    for (final batiment
-        in (await batiments).where((batiment) => batiment.isVisibleAR)) {
+    for (final batiment in (await batiments)
+        .where((batiment) => batiment.isVisibleAR)
+        .where((batiment) =>
+            batiment.latitude != null && batiment.longitude != null)) {
       final entreprisesOfBatiment = entreprises
           .where((entreprise) => entreprise.idBatiment == batiment.id)
           .toList();
@@ -200,6 +202,7 @@ extension on UnityWidgetController {
         'latitude': batiment.latitude ?? 0.0,
         'longitude': batiment.longitude ?? 0.0,
         'isVisibleAR': batiment.isVisibleAR ?? true,
+        'img_url': batiment.img_url ?? "",
         'entreprises': entreprises.map((entreprise) {
           return {
             'id': entreprise.id,

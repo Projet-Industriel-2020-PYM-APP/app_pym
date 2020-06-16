@@ -48,7 +48,7 @@ public class BatimentSpawner : MonoBehaviour
     }
 
     private void Colorize(Color color) {
-        SpawnedObject.GetComponentInChildren<SpriteRenderer>().color = color;
+        SpawnedObject.GetComponent<SpriteRenderer>().color = color;
     }
 
     /// <summary>
@@ -85,6 +85,11 @@ public class BatimentSpawner : MonoBehaviour
         batimentComponent.batiment = batiment;
     }
 
+    private void AddImageLoaderComponent()
+    {
+        SpawnedObject.AddComponent<LoadImageFromUrl>();
+    }
+
     /// <summary>
     /// Spawn an object using Flutter postMessage.
     /// </summary>
@@ -99,6 +104,10 @@ public class BatimentSpawner : MonoBehaviour
         Colorize(color);
         AddBatimentComponent(parsed.batiment);
         var batimentComponent = SpawnedObject.GetComponent<BatimentDataHolder>();
+        if (!string.IsNullOrEmpty(batimentComponent.batiment.img_url))
+        {
+            AddImageLoaderComponent();
+        }
         ChangeText(batimentComponent.batiment.nom, parsed.distance);
     }
 }

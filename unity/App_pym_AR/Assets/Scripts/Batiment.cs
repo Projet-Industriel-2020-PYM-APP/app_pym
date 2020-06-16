@@ -14,5 +14,6 @@ public class Batiment
     public float latitude;
     public float longitude;
     public bool isVisibleAR;
+    public string img_url;
     public List<Entreprise> entreprises;
 }

@@ -16,5 +16,6 @@ abstract class Batiment with _$Batiment {
     @nullable @required double latitude,
     @nullable @required double longitude,
     @nullable @required bool isVisibleAR,
+    @nullable @required String img_url,
   }) = _Batiment;
 }

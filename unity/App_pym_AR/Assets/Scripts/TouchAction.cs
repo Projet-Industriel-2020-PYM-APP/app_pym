@@ -59,7 +59,7 @@ public class TouchAction : MonoBehaviour
 
     private void Colorize(Transform selection, Color color)
     {
-        var selectedRenderer = selection.gameObject.GetComponentInChildren<SpriteRenderer>();
+        var selectedRenderer = selection.gameObject.GetComponent<SpriteRenderer>();
         if (selectedRenderer != null)
         {
             _savedColor = selectedRenderer.color;

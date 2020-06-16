@@ -64,7 +64,7 @@ class DetailsBottomSheet extends StatelessWidget {
                           child: InkWell(
                             onTap: () => UrlLauncherUtils.launch(isBus
                                 ? "https://www.lepilote.com/fr/horaires-des-lignes/6/LineTimeTable/183-8-mai-1945-gare-routiere-sncf/1598/gare-routiere-sncf/1"
-                                : "https://www.ter.sncf.com/sud-provence-alpes-cote-d-azur/depliant/recherche"),
+                                : "https://www.ter.sncf.com/sud-provence-alpes-cote-d-azur/gares/87751420/Gardanne/pratique"),
                             child: const Padding(
                               padding: EdgeInsets.all(10.0),
                               child: Text("Horaires complets",

@@ -14,6 +14,7 @@ void main() {
     latitude: 1.0,
     longitude: 2.0,
     isVisibleAR: true,
+    img_url: "https://via.placeholder.com/300/09f/fff.png",
   );
 
   const entity = Batiment(
@@ -27,6 +28,7 @@ void main() {
     latitude: 1.0,
     longitude: 2.0,
     isVisibleAR: true,
+    img_url: "https://via.placeholder.com/300/09f/fff.png",
   );
 
   group('toEntity', () {

@@ -77,6 +77,7 @@ class MapPymRemoteDataSourceDevImpl implements MapPymRemoteDataSource {
       latitude: 43.445993,
       longitude: 5.480570,
       isVisibleAR: true,
+      img_url: "https://via.placeholder.com/300/09f/fff.png",
     ),
     const BatimentModel(
       id: 1,
@@ -89,6 +90,7 @@ class MapPymRemoteDataSourceDevImpl implements MapPymRemoteDataSource {
       latitude: 43.446301,
       longitude: 5.480492,
       isVisibleAR: true,
+      img_url: "https://via.placeholder.com/300/09f/fff.png",
     ),
     const BatimentModel(
       id: 2,
@@ -101,6 +103,7 @@ class MapPymRemoteDataSourceDevImpl implements MapPymRemoteDataSource {
       latitude: 43.446546,
       longitude: 5.480766,
       isVisibleAR: true,
+      img_url: "https://via.placeholder.com/300/09f/fff.png",
     ),
     const BatimentModel(
       id: 3,
@@ -113,6 +116,7 @@ class MapPymRemoteDataSourceDevImpl implements MapPymRemoteDataSource {
       latitude: 43.446197,
       longitude: 5.481150,
       isVisibleAR: true,
+      img_url: "https://via.placeholder.com/300/09f/fff.png",
     ),
   ];
   final List<ContactCategorieModel> fakeContactCategorieDB = [

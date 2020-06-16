@@ -27,13 +27,14 @@ class _$_BatimentModelAdapter extends TypeAdapter<_$_BatimentModel> {
       latitude: fields[7] as double,
       longitude: fields[8] as double,
       isVisibleAR: fields[9] as bool,
+      img_url: fields[10] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, _$_BatimentModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -53,7 +54,9 @@ class _$_BatimentModelAdapter extends TypeAdapter<_$_BatimentModel> {
       ..writeByte(8)
       ..write(obj.longitude)
       ..writeByte(9)
-      ..write(obj.isVisibleAR);
+      ..write(obj.isVisibleAR)
+      ..writeByte(10)
+      ..write(obj.img_url);
   }
 }
 
@@ -73,6 +76,7 @@ _$_BatimentModel _$_$_BatimentModelFromJson(Map<String, dynamic> json) {
     latitude: (json['latitude'] as num)?.toDouble(),
     longitude: (json['longitude'] as num)?.toDouble(),
     isVisibleAR: json['isVisibleAR'] as bool,
+    img_url: json['img_url'] as String,
   );
 }
 
@@ -88,4 +92,5 @@ Map<String, dynamic> _$_$_BatimentModelToJson(_$_BatimentModel instance) =>
       'latitude': instance.latitude,
       'longitude': instance.longitude,
       'isVisibleAR': instance.isVisibleAR,
+      'img_url': instance.img_url,
     };
