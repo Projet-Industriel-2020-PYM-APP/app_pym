@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:app_pym/presentation/blocs/firebase_auth/forgot/forgot_bloc.dart';
+import 'package:app_pym/presentation/blocs/authentication/forgot/forgot_bloc.dart';
 import 'package:app_pym/presentation/widgets/firebase_auth/forgot_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ForgotForm extends StatefulWidget {
+  @override
   State<ForgotForm> createState() => _ForgotFormState();
 }
 
@@ -38,8 +39,8 @@ class _ForgotFormState extends State<ForgotForm> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Forgoting...'),
-                    CircularProgressIndicator(),
+                    const Text('Forgoting...'),
+                    const CircularProgressIndicator(),
                   ],
                 ),
               ),
@@ -54,13 +55,7 @@ class _ForgotFormState extends State<ForgotForm> {
             ..hideCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Forgot Failure'),
-                    Icon(Icons.error),
-                  ],
-                ),
+                content: Text(state.error.toString()),
                 backgroundColor: Colors.red,
               ),
             );
@@ -68,29 +63,27 @@ class _ForgotFormState extends State<ForgotForm> {
       },
       child: BlocBuilder<ForgotBloc, ForgotState>(
         builder: (context, state) {
-          return Padding(
-            padding: EdgeInsets.all(30),
-            child: Form(
-              child: ListView(
-                children: <Widget>[
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.email),
-                      labelText: 'Email',
-                    ),
-                    autocorrect: false,
-                    autovalidate: true,
-                    validator: (_) {
-                      return !state.isEmailValid ? 'Invalid Email' : null;
-                    },
+          return Form(
+            child: ListView(
+              padding: const EdgeInsets.all(30),
+              children: <Widget>[
+                TextFormField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.email),
+                    labelText: 'Email',
                   ),
-                  ForgotButton(
-                    onPressed:
-                        isForgotButtonEnabled(state) ? _onFormSubmitted : null,
-                  ),
-                ],
-              ),
+                  autocorrect: false,
+                  autovalidate: true,
+                  validator: (_) {
+                    return !state.isEmailValid ? 'E-mail invalide' : null;
+                  },
+                ),
+                ForgotButton(
+                  onPressed:
+                      isForgotButtonEnabled(state) ? _onFormSubmitted : null,
+                ),
+              ],
             ),
           );
         },
@@ -107,15 +100,11 @@ class _ForgotFormState extends State<ForgotForm> {
 
   void _onEmailChanged() {
     _forgotBloc.add(
-      EmailChanged(email: _emailController.text),
+      ForgotEvent.emailChanged(_emailController.text),
     );
   }
 
   void _onFormSubmitted() {
-    _forgotBloc.add(
-      Submitted(
-        email: _emailController.text,
-      ),
-    );
+    _forgotBloc.add(ForgotEvent.submitted(_emailController.text));
   }
 }

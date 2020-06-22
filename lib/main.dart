@@ -1,38 +1,100 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
-import 'package:flutter/material.dart';
 import 'package:app_pym/core/routes/routes.dart';
+import 'package:app_pym/data/models/app_pym/action_model.dart';
+import 'package:app_pym/data/models/app_pym/booking_model.dart';
+import 'package:app_pym/data/models/app_pym/contact_categorie_model.dart';
+import 'package:app_pym/data/models/app_pym/contact_model.dart';
+import 'package:app_pym/data/models/app_pym/service_categorie_model.dart';
+import 'package:app_pym/data/models/app_pym/service_model.dart';
+import 'package:app_pym/data/models/app_pym/post_model.dart';
+import 'package:app_pym/data/models/map_pym/batiment_model.dart';
+import 'package:app_pym/data/models/map_pym/entreprise_model.dart';
+import 'package:app_pym/injection_container.dart';
 import 'package:app_pym/injection_container.dart' as di;
+import 'package:app_pym/presentation/blocs/authentication/authentication/authentication_bloc.dart';
+import 'package:app_pym/presentation/blocs/notification/notification_bloc.dart';
+import 'package:app_pym/presentation/blocs/theme/theme_bloc.dart';
 import 'package:app_pym/presentation/router.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  await Hive.openBox<String>('prefs');
+  // HiveTypeId: 1
+  Hive.registerAdapter<BatimentModel>(BatimentModelAdapter());
+  // HiveTypeId: 2
+  Hive.registerAdapter<EntrepriseModel>(EntrepriseModelAdapter());
+  // HiveTypeId: 3
+  Hive.registerAdapter<PostModel>(PostModelAdapter());
+  // HiveTypeId: 4
+  Hive.registerAdapter<ActionModel>(ActionModelAdapter());
+  // HiveTypeId: 5
+  Hive.registerAdapter<ContactCategorieModel>(ContactCategorieModelAdapter());
+  // HiveTypeId: 6
+  Hive.registerAdapter<ServiceCategorieModel>(ServiceCategorieModelAdapter());
+  // HiveTypeId: 7
+  Hive.registerAdapter<ContactModel>(ContactModelAdapter());
+  // HiveTypeId: 8
+  Hive.registerAdapter<ServiceModel>(ServiceModelAdapter());
+  // HiveTypeId: 9
+  Hive.registerAdapter<BookingModel>(BookingModelAdapter());
+
+  await Hive.openBox<ServiceCategorieModel>('/service_categories');
+  await Hive.openBox<ServiceModel>('/services');
+  await Hive.openBox<ContactCategorieModel>('/contact_categories');
+  await Hive.openBox<ContactModel>('/contacts');
+  await Hive.openBox<BatimentModel>('/batiments');
+  await Hive.openBox<PostModel>('/posts');
+  await Hive.openBox<EntrepriseModel>('/entreprises');
+  await Hive.openBox<BookingModel>('/bookings');
   await di.init(env: Environment.prod);
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key key}) : super(key: key);
+
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  final FirebaseAnalytics analytics = FirebaseAnalytics();
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Github Releases Watcher',
-      initialRoute: RoutePaths.root,
-      onGenerateRoute: Router.generateRoute,
-      navigatorObservers: [
-        FirebaseAnalyticsObserver(analytics: analytics),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+            create: (_) => sl<AuthenticationBloc>()
+              ..add(const AuthenticationEvent.refresh())),
+        BlocProvider(
+            create: (_) => ThemeBloc(context, prefs: sl<SharedPreferences>())),
+        BlocProvider(
+          create: (_) =>
+              sl<NotificationBloc>()..add(const NotificationEvent.appStarted()),
+        ),
       ],
+      child: BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
+        return MaterialApp(
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [
+            const Locale('fr'),
+          ],
+          title: 'Application Pôle Yvon Morandat',
+          initialRoute: RoutePaths.root,
+          onGenerateRoute: Router.generateRoute,
+          theme: state.themeData,
+          darkTheme: state.darkThemeData,
+        );
+      }),
     );
   }
 

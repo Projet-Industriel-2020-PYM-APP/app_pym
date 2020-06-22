@@ -6,10 +6,8 @@ abstract class NetworkInfo {
   Future<ConnectivityResult> get result;
 }
 
-@RegisterAs(NetworkInfo)
 @prod
-@lazySingleton
-@injectable
+@LazySingleton(as: NetworkInfo)
 class NetworkInfoImpl implements NetworkInfo {
   final Connectivity connectionChecker;
 

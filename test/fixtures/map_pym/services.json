@@ -1,0 +1,42 @@
+[
+  {
+    "id": 0,
+    "title": "title",
+    "categorie_id": 1,
+    "subtitle": "subtitle",
+    "address": "address",
+    "img_url": "img_url",
+    "telephone": "telephone",
+    "website": "website",
+    "actions": [
+      {
+        "name": "name",
+        "html_url": "html_url"
+      },
+      {
+        "name": "name",
+        "html_url": "html_url"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "title": "title",
+    "categorie_id": 1,
+    "subtitle": "subtitle",
+    "address": "address",
+    "img_url": "img_url",
+    "telephone": "telephone",
+    "website": "website",
+    "actions": [
+      {
+        "name": "name",
+        "html_url": "html_url"
+      },
+      {
+        "name": "name",
+        "html_url": "html_url"
+      }
+    ]
+  }
+]

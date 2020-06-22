@@ -1,0 +1,22 @@
+[
+  {
+    "id": 0,
+    "nom": "SEMAG",
+    "site_internet": "http://www.ville-gardanne.fr/La-Semag",
+    "nb_salaries": 15,
+    "telephone": "04 42 65 77 20",
+    "mail": "contact@semag13.com",
+    "logo": "SEMAG.png",
+    "idBatiment": 38
+  },
+  {
+    "id": 1,
+    "nom": "SEMAG",
+    "site_internet": "http://www.ville-gardanne.fr/La-Semag",
+    "nb_salaries": 15,
+    "telephone": "04 42 65 77 20",
+    "mail": "contact@semag13.com",
+    "logo": "SEMAG.png",
+    "idBatiment": 38
+  }
+]

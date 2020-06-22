@@ -1,0 +1,18 @@
+[
+  {
+    "id": 0,
+    "service_id": 0,
+    "start_date": "1990-01-01T02:36:14+0000",
+    "end_date": "2020-01-01T02:36:14+0000",
+    "title": "title",
+    "superpose": true
+  },
+  {
+    "id": 1,
+    "service_id": 0,
+    "start_date": "1990-01-01T02:36:14+0000",
+    "end_date": "2020-01-01T02:36:14+0000",
+    "title": "title",
+    "superpose": true
+  }
+]

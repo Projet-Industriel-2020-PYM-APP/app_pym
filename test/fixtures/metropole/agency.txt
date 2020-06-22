@@ -1,0 +1,3 @@
+﻿agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone,agency_urlFare
+81,"Pays d Aix Mobilite",http://tsi.pilote4.cityway.fr,Europe/Paris,fr,,
+108,"Pays d Aix Mobilite",http://tsi.pilote4.cityway.fr,Europe/Paris,fr,,

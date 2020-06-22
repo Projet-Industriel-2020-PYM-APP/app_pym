@@ -1,8 +1,10 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+part 'main_page_bloc.freezed.dart';
 part 'main_page_event.dart';
 part 'main_page_state.dart';
 
@@ -10,14 +12,12 @@ part 'main_page_state.dart';
 @injectable
 class MainPageBloc extends Bloc<MainPageEvent, MainPageState> {
   @override
-  MainPageState get initialState => MainPageState(0);
+  MainPageState get initialState => const MainPageState(0);
 
   @override
   Stream<MainPageState> mapEventToState(
     MainPageEvent event,
   ) async* {
-    if (event is GoToPageEvent) {
-      yield MainPageState(event.index);
-    }
+    yield MainPageState(event.index);
   }
 }

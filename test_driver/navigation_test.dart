@@ -1,10 +1,11 @@
 // Imports the Flutter Driver API.
 import 'dart:io';
 
+import 'package:app_pym/core/keys/keys.dart';
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 
-import 'constants.dart' as pym;
+import 'constants.dart';
 
 void main() {
   group('PYM Navigation Testing', () {
@@ -13,6 +14,16 @@ void main() {
     // Connect to the Flutter driver before running any tests.
     setUpAll(() async {
       driver = await FlutterDriver.connect();
+
+      var connected = false;
+      while (!connected) {
+        try {
+          await driver.waitUntilFirstFrameRasterized();
+          connected = true;
+        } catch (error) {
+          continue;
+        }
+      }
     });
 
     // Close the connection to the driver after the tests have completed.
@@ -24,25 +35,63 @@ void main() {
       final Health health = await driver.checkHealth();
       print(health.status);
       expect(health.status, equals(HealthStatus.ok));
-    });
+    }, timeout: const Timeout(Duration(minutes: 30)));
 
-    group('Automated screenshot', () {
-      test('Screenshot login', () async {
-        await takeScreenshot(driver, pym.ScreenshotsPaths.login);
+    group('Navigation', () {
+      test('Move to Actualite', () async {
+        await takeScreenshot(driver, ScreenshotsPaths.actualite);
       });
 
-      test('Screenshot apps', () async {
-        await driver.tap(find.byTooltip(pym.Tooltips.drawer));
-        await driver.tap(find.byValueKey(pym.Keys.authentication));
+      test('Move to Mobilite', () async {
+        await driver.tap(find.byValueKey(KeysStringNavigation.mobilite));
+        await takeScreenshot(driver, ScreenshotsPaths.mobilite);
       });
-    });
-  });
+
+      test('Move to Cartographie', () async {
+        await driver.tap(find.byValueKey(KeysStringNavigation.cartographie));
+        await Future<void>.delayed(const Duration(minutes: 1));
+        await takeScreenshot(driver, ScreenshotsPaths.cartographie);
+      }, timeout: const Timeout(Duration(minutes: 5)));
+
+      // Note: AR is unstable. Do not use it for screen shots.
+      // test('Move to AR', () async {
+      //   await driver.tap(find.byValueKey(KeysStringNavigation.ar));
+      //   await takeScreenshot(driver, ScreenshotsPaths.ar);
+      //   await driver
+      //       .tap(find.byValueKey(KeysStringNavigation.goBackAlternative));
+      // });
+
+      test('Move to Services', () async {
+        await driver.tap(find.byValueKey(KeysStringNavigation.services));
+        await takeScreenshot(driver, ScreenshotsPaths.services);
+      });
+
+      test('Move to Parameters', () async {
+        await driver.tap(find.byValueKey(KeysStringNavigation.parameters));
+        await takeScreenshot(driver, ScreenshotsPaths.parameters);
+      });
+
+      test('Move to Contact', () async {
+        await driver.tap(find.byValueKey(KeysStringNavigation.contacts));
+        await takeScreenshot(driver, ScreenshotsPaths.contacts);
+      });
+    }, timeout: const Timeout(Duration(minutes: 15)));
+  }, timeout: const Timeout(Duration(minutes: 15)));
 }
 
 Future<void> takeScreenshot(FlutterDriver driver, String path) async {
-  await driver.waitUntilNoTransientCallbacks();
-  final List<int> pixels = await driver.screenshot();
-  final File file = File(path);
-  await file.writeAsBytes(pixels);
-  print(path);
+  try {
+    await driver
+        .waitUntilNoTransientCallbacks()
+        .timeout(const Duration(seconds: 5), onTimeout: () {
+      print("waitUntilNoTransientCallbacks timed out.");
+    });
+    final List<int> pixels = await driver.screenshot();
+    final File file = File(path);
+    file.createSync(recursive: true);
+    file.writeAsBytesSync(pixels);
+    print(path);
+  } catch (e) {
+    print(e);
+  }
 }

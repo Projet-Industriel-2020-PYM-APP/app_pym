@@ -1,22 +1,22 @@
+import 'package:app_pym/presentation/pages/login/forgot_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:app_pym/presentation/pages/firebase_auth/forgot_screen.dart';
 
 class ForgotPasswordButton extends StatelessWidget {
-  ForgotPasswordButton({Key key}) : super(key: key);
+  const ForgotPasswordButton({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      child: Text(
-        'Forgot Password',
-      ),
       onPressed: () {
-        Navigator.of(context).push(
+        Navigator.of(context).push<void>(
           MaterialPageRoute(builder: (context) {
-            return ForgotScreen();
+            return const ForgotScreen();
           }),
         );
       },
+      child: const Text(
+        "J'ai oublié mon mot de passe",
+      ),
     );
   }
 }

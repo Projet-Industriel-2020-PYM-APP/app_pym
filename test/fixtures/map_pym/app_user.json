@@ -1,0 +1,9 @@
+{
+  "id": 0,
+  "email": "email",
+  "username": "username",
+  "password": "password",
+  "role": "role",
+  "isEmailVerified": true,
+  "token": "token"
+}
