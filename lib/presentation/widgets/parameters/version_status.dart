@@ -7,11 +7,14 @@ class VersionStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const Spacer(),
+      leading: const Padding(padding: EdgeInsets.all(16.0)),
       title: const Text("Version"),
       subtitle: FutureBuilder<PackageInfo>(
         future: PackageInfo.fromPlatform(),
         builder: (BuildContext context, AsyncSnapshot<PackageInfo> snapshot) {
+          if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          }
           if (snapshot.hasData) {
             return Text(
                 "${snapshot.data.version}+${snapshot.data.buildNumber}");
