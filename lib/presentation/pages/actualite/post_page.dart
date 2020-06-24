@@ -20,7 +20,10 @@ class PostPage extends StatelessWidget {
       body: NestedScrollView(
         body: Scrollbar(
           child: SingleChildScrollView(
-            child: Html(data: post.content),
+            child: Card(
+              elevation: 3,
+              child: Html(data: post.content),
+            ),
           ),
         ),
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
