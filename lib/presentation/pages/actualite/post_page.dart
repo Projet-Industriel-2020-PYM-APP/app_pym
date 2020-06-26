@@ -1,4 +1,5 @@
 import 'package:app_pym/domain/entities/app_pym/post.dart';
+import 'package:app_pym/presentation/widgets/animations/marquee.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:html/parser.dart';
 
@@ -16,26 +17,13 @@ class PostPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(
-      //     post.title,
-      //     style: const TextStyle(color: Colors.white),
-      //   ),
-      //   centerTitle: true,
-      //   iconTheme: const IconThemeData(color: Colors.white),
-      //   backgroundColor: Colors.red[900],
-      // ),
       body: NestedScrollView(
-        // body: WebView(
-        //   initialUrl: Uri.dataFromString(
-        //     post.content ?? "",
-        //     mimeType: 'text/html',
-        //     encoding: utf8,
-        //   ).toString(),
-        // ),
         body: Scrollbar(
           child: SingleChildScrollView(
-            child: Html(data: post.content),
+            child: Card(
+              elevation: 3,
+              child: Html(data: post.content),
+            ),
           ),
         ),
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -48,16 +36,26 @@ class PostPage extends StatelessWidget {
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
-                title: Text(
-                  post.subtitle,
-                  style: const TextStyle(color: Colors.white),
+                title: MarqueeWidget(
+                  animationDuration:
+                      Duration(milliseconds: post.subtitle.length * 100),
+                  backDuration:
+                      Duration(milliseconds: post.subtitle.length * 5),
+                  pauseDuration: const Duration(seconds: 2),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      post.subtitle,
+                      style: const TextStyle(color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ),
               ),
             ),
           ];
         },
       ),
-
       bottomNavigationBar: BottomAppBar(
         child: IconButton(
           icon: const Icon(Icons.share),

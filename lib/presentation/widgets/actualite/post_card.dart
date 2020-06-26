@@ -32,6 +32,7 @@ class PostCard extends StatelessWidget {
                 Text(
                   post.title,
                   style: Theme.of(context).textTheme.headline6,
+                  maxLines: 1,
                   textAlign: TextAlign.start,
                 ),
                 if (post.subtitle != null)
@@ -41,6 +42,8 @@ class PostCard extends StatelessWidget {
                         .textTheme
                         .headline5
                         .apply(fontSizeDelta: 4),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.start,
                   ),
                 Text(
